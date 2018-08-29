@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="InheritDoc" Version="1.2.0.1" PrivateAssets="All" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <PackageId>VoidCore.Model</PackageId>
+    <Title>VoidCore.Model</Title>
+    <Authors>Jeff Schreiner and git contributors</Authors>
+    <Description>A base model for buisness applications including actions, interfaces, and validation.</Description>
+    <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
+    <Copyright>Copyright 2018 Jeff Schreiner</Copyright>
+    <PackageTags>business model validation</PackageTags>
+
+    <IncludeSymbols>true</IncludeSymbols>
+    <IncludeSource>true</IncludeSource>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionSuffix>alpha-1</VersionSuffix>
+    <ReleaseNotes>See git commits since last release.</ReleaseNotes>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,70 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "buildAllPkg",
+            "command": "./buildAllPkg.ps1",
+            "options": {
+                "cwd": "./Scripts"
+            },
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "buildAllDebug",
+            "command": "./buildAllDebug.ps1",
+            "options": {
+                "cwd": "./Scripts"
+            },
+            "type": "shell",
+            "group": "test",
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "deployAllPkg",
+            "command": "./deployAllPkg.ps1",
+            "options": {
+                "cwd": "./Scripts"
+            },
+            "type": "shell",
+            "group": "test",
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "testCore",
+            "command": "./testCore.ps1",
+            "options": {
+                "cwd": "./Scripts"
+            },
+            "type": "shell",
+            "group": "test",
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "testCoreWatch",
+            "command": "./testCoreWatch.ps1",
+            "options": {
+                "cwd": "./Scripts"
+            },
+            "type": "shell",
+            "group": "test",
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+    ]
+}
