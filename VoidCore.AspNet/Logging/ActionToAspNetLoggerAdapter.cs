@@ -14,7 +14,7 @@ namespace VoidCore.AspNet.Logging
         /// </summary>
         /// <param name="loggerFactory">AspNet extensions logger factory</param>
         /// <param name="eventLogger">A strategy for logging an event to string</param>
-        public ActionToAspNetLoggerAdapter(ILoggerFactory loggerFactory, IEventLoggerStrategy eventLogger)
+        public ActionToAspNetLoggerAdapter(ILoggerFactory loggerFactory, IEventLoggingStrategy eventLogger)
         {
             _logger = loggerFactory.CreateLogger("Application");
             _eventLogger = eventLogger;
@@ -80,7 +80,7 @@ namespace VoidCore.AspNet.Logging
             _logger.LogWarning(_eventLogger.LogEvent(messages));
         }
 
-        private readonly IEventLoggerStrategy _eventLogger;
+        private readonly IEventLoggingStrategy _eventLogger;
         private readonly ILogger _logger;
     }
 }

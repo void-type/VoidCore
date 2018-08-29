@@ -10,7 +10,7 @@ namespace VoidCore.AspNet.Logging
     /// <summary>
     /// A strategy to log within HTTP Requests.
     /// </summary>
-    public class HttpStringEventLoggerStrategy : IEventLoggerStrategy
+    public class HttpStringEventLoggerStrategy : IEventLoggingStrategy
     {
         /// <summary>
         /// Construct a new strategy.

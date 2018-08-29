@@ -5,7 +5,7 @@ namespace VoidCore.Model.Logging
     /// <summary>
     /// An interface for a strategy to log an event.
     /// </summary>
-    public interface IEventLoggerStrategy
+    public interface IEventLoggingStrategy
     {
         /// <summary>
         /// Transform an array of messages to a string.
