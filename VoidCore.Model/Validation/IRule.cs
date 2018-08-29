@@ -6,15 +6,15 @@
     public interface IRule : IRuleBuilder
     {
         /// <summary>
-        /// When true, the validator will not return this error.
+        /// When true, the validator will not return this error regardless if it is violated.
         /// </summary>
         bool IsSuppressed { get; }
 
         /// <summary>
-        /// When true, the rule has not been violated and no error will be thrown.
+        /// When true, the rule has been violated and the error will be thrown.
         /// </summary>
         /// <value></value>
-        bool IsValid { get; }
+        bool IsViolated { get; }
 
         /// <summary>
         /// The validation error to be thrown if the rule is invalid and not suppressed.

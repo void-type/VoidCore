@@ -17,7 +17,7 @@ namespace VoidCore.Model.Validation
             BuildRules(validatable);
 
             return _rules
-                .Where(rule => !rule.IsValid)
+                .Where(rule => rule.IsViolated)
                 .Where(rule => !rule.IsSuppressed)
                 .Select(rule => rule.ValidationError);
         }
@@ -28,7 +28,7 @@ namespace VoidCore.Model.Validation
         /// <param name="errorMessage">The message to display to the user</param>
         /// <param name="fieldName">The UI field name to tie the error to</param>
         /// <returns></returns>
-        protected IRuleBuilder Invalid(string errorMessage, string fieldName)
+        protected IRuleBuilder CreateRule(string errorMessage, string fieldName)
         {
             var rule = new Rule(errorMessage, fieldName);
             _rules.Add(rule);

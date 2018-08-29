@@ -9,7 +9,7 @@
         public bool IsSuppressed { get; private set; }
 
         /// <inheritdoc/>
-        public bool IsValid { get; private set; } = true;
+        public bool IsViolated { get; private set; } = false;
 
         /// <inheritdoc/>
         public IValidationError ValidationError { get; }
@@ -27,14 +27,14 @@
         /// <inheritdoc/>
         public IRuleBuilder ExceptWhen(bool suppressionCondition)
         {
-            IsSuppressed = !IsSuppressed && suppressionCondition;
+            IsSuppressed = IsSuppressed || suppressionCondition;
             return this;
         }
 
         /// <inheritdoc/>
-        public IRuleBuilder When(bool invalidCondition)
+        public IRuleBuilder ValidWhen(bool validCondition)
         {
-            IsValid = IsValid && !invalidCondition;
+            IsViolated = IsViolated || !validCondition;
             return this;
         }
     }

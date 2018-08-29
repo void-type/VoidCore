@@ -11,9 +11,11 @@ namespace VoidCore.Test.Model.Validation
 
         protected override void BuildRules(bool isValid)
         {
-            Invalid("test is invalid", "test")
-                .When(!isValid)
-                .ExceptWhen(_isSuppressed);
+            CreateRule("test is invalid", "testField")
+                .ValidWhen(isValid)
+                .ValidWhen(true)
+                .ExceptWhen(_isSuppressed)
+                .ExceptWhen(false);
         }
 
         private readonly bool _isSuppressed;
