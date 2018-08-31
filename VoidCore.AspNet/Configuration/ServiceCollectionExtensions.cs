@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using VoidCore.AspNet.Authorization;
 
@@ -31,6 +29,16 @@ namespace VoidCore.AspNet.Configuration
                     .AddPolicy(policy.Key, p => p
                         .RequireRole(policy.Value.Select(role => role.Name).ToArray())))
             );
+        }
+
+        /// <summary>
+        /// Add a global filter for handling uncaught API exceptions.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="environment"></param>
+        public static void AddApiExceptionFilter(this IServiceCollection services, IHostingEnvironment environment)
+        {
+            services.AddMvc(options => { options.Filters.Add(new TypeFilterAttribute(typeof(ApiExplorerSettingsAttribute))); });
         }
 
         /// <summary>

@@ -66,12 +66,14 @@ namespace VoidCore.AspNet.Logging
             }
 
             var exceptionMessages = new List<string> { "Threw Exception:" };
+            var stackTrace = exception.ToString();
 
             while (exception != null)
             {
                 exceptionMessages.Add($"{exception.GetType()}: {exception.Message}");
                 exception = exception.InnerException;
             }
+            exceptionMessages.Add($"Stack Trace: {stackTrace}");
             return exceptionMessages;
         }
     }
