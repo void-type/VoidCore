@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using VoidCore.Model.Action.Railway;
 
 namespace VoidCore.Model.Validation
 {
@@ -9,28 +10,32 @@ namespace VoidCore.Model.Validation
     /// <typeparam name="TValidatableEntity">The type of entities to validate</typeparam>
     public abstract class AbstractValidator<TValidatableEntity> : IValidator<TValidatableEntity>
     {
-        /// <inheritdoc/>
-        public IEnumerable<IFailure> Validate(TValidatableEntity validatable)
+        /// <summary>
+        /// Construct a new validator.
+        /// </summary>
+        public AbstractValidator()
         {
-            _rules = new List<IRule>();
+            BuildRules();
+        }
 
-            BuildRules(validatable);
+        /// <inheritdoc/>
+        public Result Validate(TValidatableEntity validatable)
+        {
+            var ruleResults = _rules
+                .Select(rule => rule.Validate(validatable));
 
-            return _rules
-                .Where(rule => rule.IsViolated)
-                .Where(rule => !rule.IsSuppressed)
-                .Select(rule => rule.ValidationError);
+            return Result.Combine(ruleResults);
         }
 
         /// <summary>
         /// Create a new rule for this entity.
         /// </summary>
         /// <param name="errorMessage">The message to display to the user</param>
-        /// <param name="fieldName">The UI field name to tie the error to</param>
+        /// <param name="uiHandle">The UI field name to tie the error to</param>
         /// <returns></returns>
-        protected IRuleBuilder CreateRule(string errorMessage, string fieldName)
+        protected IRuleBuilder<TValidatableEntity> CreateRule(string errorMessage, string uiHandle)
         {
-            var rule = new Rule(errorMessage, fieldName);
+            var rule = Rule<TValidatableEntity>.Create(errorMessage, uiHandle);
             _rules.Add(rule);
             return rule;
         }
@@ -38,13 +43,12 @@ namespace VoidCore.Model.Validation
         /// <summary>
         /// Override this method to build the validation ruleset.
         /// Eg: Invalid("xValue","Must be true unless null").When(x.value != true).ExceptWhen(x.value == null);
-        /// </summary>
-        /// <param name="validatable">The entity to validate properties of</param>
-        protected abstract void BuildRules(TValidatableEntity validatable);
+        /// /// </summary>
+        protected abstract void BuildRules();
 
         /// <summary>
         /// A temporary variable to hold rules while they are being validated.
         /// </summary>
-        private List<IRule> _rules;
+        private List<IRule<TValidatableEntity>> _rules = new List<IRule<TValidatableEntity>>();
     }
 }

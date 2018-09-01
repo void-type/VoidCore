@@ -1,41 +1,71 @@
-﻿namespace VoidCore.Model.Validation
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using VoidCore.Model.Action.Railway;
+
+namespace VoidCore.Model.Validation
 {
     /// <summary>
     /// A rule for validating an entity.
     /// </summary>
-    public class Rule : IRule
+    public class Rule<TValidatableEntity> : IRule<TValidatableEntity>, IRuleBuilder<TValidatableEntity>
     {
-        /// <inheritdoc/>
-        public bool IsSuppressed { get; private set; }
-
-        /// <inheritdoc/>
-        public bool IsViolated { get; private set; }
-
-        /// <inheritdoc/>
-        public IFailure ValidationError { get; }
+        private readonly Failure _failureToThrowWhenViolated;
+        private List<Func<TValidatableEntity, bool>> _validConditions = new List<Func<TValidatableEntity, bool>>();
+        private List<Func<TValidatableEntity, bool>> _suppressConditions = new List<Func<TValidatableEntity, bool>>();
 
         /// <summary>
         /// Construct a new rule and underlying validation error to throw when violations are detected.
         /// </summary>
         /// <param name="errorMessage"></param>
-        /// <param name="fieldName"></param>
-        public Rule(string errorMessage, string fieldName)
+        /// <param name="uiHandle"></param>
+        private Rule(string errorMessage, string uiHandle)
         {
-            ValidationError = new Failure(errorMessage, fieldName);
+            _failureToThrowWhenViolated = new Failure(errorMessage, uiHandle);
         }
 
-        /// <inheritdoc/>
-        public IRuleBuilder ExceptWhen(bool suppressionCondition)
+        /// <inheritdoc />
+        public Result Validate(TValidatableEntity validatable)
         {
-            IsSuppressed = IsSuppressed || suppressionCondition;
+            var ruleIsSuppressed = _suppressConditions.All(c => c.Invoke(validatable));
+
+            if (_suppressConditions.Any() && ruleIsSuppressed)
+            {
+                return Result.Ok();
+            }
+
+            var ruleIsNotViolated = _validConditions.All(c => c.Invoke(validatable));
+
+            if (ruleIsNotViolated)
+            {
+                return Result.Ok();
+            }
+
+            return Result.Fail(_failureToThrowWhenViolated);
+        }
+        /// <inheritdoc />
+        public IRuleBuilder<TValidatableEntity> ValidWhen(Func<TValidatableEntity, bool> validCondition)
+        {
+            _validConditions.Add(validCondition);
             return this;
         }
 
-        /// <inheritdoc/>
-        public IRuleBuilder ValidWhen(bool validCondition)
+        /// <inheritdoc />
+        public IRuleBuilder<TValidatableEntity> ExceptWhen(Func<TValidatableEntity, bool> suppressCondition)
         {
-            IsViolated = IsViolated || !validCondition;
+            _suppressConditions.Add(suppressCondition);
             return this;
+        }
+
+        /// <summary>
+        /// Static method to create a new rule. This hides the constructor from external assemblies.
+        /// </summary>
+        /// <param name="errorMessage"></param>
+        /// <param name="uiHandle"></param>
+        /// <returns></returns>
+        internal static Rule<TValidatableEntity> Create(string errorMessage, string uiHandle)
+        {
+            return new Rule<TValidatableEntity>(errorMessage, uiHandle);
         }
     }
 }

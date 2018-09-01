@@ -6,19 +6,54 @@ namespace VoidCore.Test.Model.Validation
     public class ValidatorTests
     {
         [Theory]
-        [InlineData(true, true)]
-        [InlineData(true, false)]
-        [InlineData(false, true)]
-        [InlineData(false, false)]
-        public void Validator(bool isValid, bool isSuppressed)
+        [InlineData(false, false, false, true, false)]
+        [InlineData(false, false, true, false, false)]
+        [InlineData(false, false, true, true, true)]
+        [InlineData(false, true, false, false, false)]
+        [InlineData(false, true, false, true, false)]
+        [InlineData(false, true, true, false, false)]
+        [InlineData(false, true, true, true, true)]
+        [InlineData(true, false, false, false, false)]
+        [InlineData(true, false, false, true, false)]
+        [InlineData(true, false, true, false, false)]
+        [InlineData(true, false, true, true, true)]
+        [InlineData(true, true, false, false, true)]
+        [InlineData(true, true, false, true, true)]
+        [InlineData(true, true, true, true, true)]
+
+        public void RuleViolatesAndSuppressesProperly(bool isValid1, bool isValid2, bool isSuppressed1, bool isSuppressed2, bool successExpected)
         {
-            var validator = new TestableValidator(isSuppressed);
+            var result = new RuleLogicTestValidator(isValid2, isSuppressed1, isSuppressed2).Validate(isValid1);
 
-            var errors = validator.Validate(isValid).ToList();
+            Assert.Equal(successExpected, result.IsSuccess);
+            Assert.NotEqual(successExpected, result.IsFailed);
+            Assert.NotEqual(successExpected, result.Failures.Any());
+        }
 
-            var errorExpected = !(isValid || isSuppressed);
+        [Fact]
+        public void ProperFailureIsReturnedOnFailure()
+        {
+            var result = new ValidatorLogicTestValidator().Validate("match");
 
-            Assert.Equal(errorExpected ? 1 : 0, errors.Count());
+            Assert.Equal("violated", result.Failures.Single().ErrorMessage);
+        }
+
+        [Fact]
+        public void ValidationSuccessWhenNoValidConditionAdded()
+        {
+            var result = new NoValidConditionTestValidator().Validate(1);
+
+            Assert.True(result.IsSuccess);
+            Assert.False(result.Failures.Any());
+        }
+
+        [Fact]
+        public void ValidationSuccessWhenNoValidConditionAdded2()
+        {
+            var result = new NoValidConditionTestValidator().Validate(1);
+
+            Assert.True(result.IsSuccess);
+            Assert.False(result.Failures.Any());
         }
     }
 }

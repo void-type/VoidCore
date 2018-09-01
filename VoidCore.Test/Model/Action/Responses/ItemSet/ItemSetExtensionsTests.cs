@@ -1,7 +1,7 @@
 using Moq;
 using System.Collections.Generic;
+using VoidCore.Model.Action.Railway;
 using VoidCore.Model.Action.Responses.ItemSet;
-using VoidCore.Model.Validation;
 using Xunit;
 
 namespace VoidCore.Test.Model.Action.Responses.ItemSet

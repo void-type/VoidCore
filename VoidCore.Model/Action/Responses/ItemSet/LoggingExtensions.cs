@@ -1,5 +1,5 @@
 using System.Linq;
-using VoidCore.Model.Validation;
+using VoidCore.Model.Action.Railway;
 
 namespace VoidCore.Model.Action.Responses.ItemSet
 {

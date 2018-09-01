@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VoidCore.Model.Validation;
 
 namespace VoidCore.Model.Action.Railway
 {
+    /// <summary>
+    /// This class holds the internal logic for the Result abstract class and its inheritors.
+    /// InternalResult should not be directly accessed outside of its Result wrapper.
+    /// </summary>
     internal sealed class InternalResult
     {
         public IEnumerable<IFailure> Failures => _failures;
@@ -25,14 +28,15 @@ namespace VoidCore.Model.Action.Railway
                 {
                     throw new ArgumentException("Failures must be provided for failed result.", nameof(failures));
                 }
+
+                _failures.AddRange(failures);
             }
-            else if (failures.Any())
+            else if (failures != null)
             {
-                throw new ArgumentException("Cannot provide failures for .", nameof(failures));
+                throw new ArgumentException("Cannot provide failures for success result.", nameof(failures));
             }
 
             IsFailed = isFailure;
-            _failures.AddRange(failures);
         }
     }
 }

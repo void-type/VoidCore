@@ -1,14 +1,19 @@
 using System.Collections.Generic;
-using VoidCore.Model.Validation;
 
 namespace VoidCore.Model.Action.Railway
 {
+    /// <summary>
+    /// Base class for Result classes.
+    /// </summary>
     public abstract class AbstractResult : IFallible
     {
+        /// <inheritdoc />
         public IEnumerable<IFailure> Failures => _internalResult.Failures;
 
+        /// <inheritdoc />
         public bool IsSuccess => _internalResult.IsSuccess;
 
+        /// <inheritdoc />
         public bool IsFailed => _internalResult.IsFailed;
 
         private InternalResult _internalResult;

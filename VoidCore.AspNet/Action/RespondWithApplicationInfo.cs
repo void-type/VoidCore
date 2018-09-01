@@ -2,15 +2,15 @@ using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using VoidCore.AspNet.ClientApp;
 using VoidCore.Model.Action.Responder;
-using VoidCore.Model.Action.Steps;
 using VoidCore.Model.Authorization;
 
+// TODO: make RespondWithApoinfo a handler
 namespace VoidCore.AspNet.Action
 {
     /// <summary>
     /// Send initial information like antiforgery tokens and UI strings to start the ClientApp.
     /// </summary>
-    public class RespondWithApplicationInfo : IActionStep
+    public class RespondWithApplicationInfo
     {
         /// <summary>
         /// Construct a new action.

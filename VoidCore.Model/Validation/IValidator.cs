@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using VoidCore.Model.Action.Railway;
 
 namespace VoidCore.Model.Validation
 {
@@ -13,6 +13,6 @@ namespace VoidCore.Model.Validation
         /// </summary>
         /// <param name="validatableEntity"></param>
         /// <returns>Validation errors or an empty array if input is valid.</returns>
-        IEnumerable<IFailure> Validate(TValidatableEntity validatableEntity);
+        Result Validate(TValidatableEntity validatableEntity);
     }
 }
