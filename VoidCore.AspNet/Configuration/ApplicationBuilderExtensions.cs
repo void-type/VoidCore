@@ -52,7 +52,6 @@ namespace VoidCore.AspNet.Configuration
         /// <returns>The ApplicationBuilder</returns>
         public static IApplicationBuilder UseSpaExceptionPage(this IApplicationBuilder app, IHostingEnvironment environment)
         {
-            // TODO: make API exception handler for domain results.
             if (environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
