@@ -9,10 +9,10 @@
         public bool IsSuppressed { get; private set; }
 
         /// <inheritdoc/>
-        public bool IsViolated { get; private set; } = false;
+        public bool IsViolated { get; private set; }
 
         /// <inheritdoc/>
-        public IValidationError ValidationError { get; }
+        public IFailure ValidationError { get; }
 
         /// <summary>
         /// Construct a new rule and underlying validation error to throw when violations are detected.
@@ -21,7 +21,7 @@
         /// <param name="fieldName"></param>
         public Rule(string errorMessage, string fieldName)
         {
-            ValidationError = new ValidationError(errorMessage, fieldName);
+            ValidationError = new Failure(errorMessage, fieldName);
         }
 
         /// <inheritdoc/>

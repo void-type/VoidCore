@@ -44,7 +44,7 @@ namespace VoidCore.Model.Action.Responses.ItemSet
         /// </summary>
         /// <param name="validationErrors"></param>
         /// <returns></returns>
-        public static string[] GetLogText(this IItemSet<IValidationError> validationErrors)
+        public static string[] GetLogText(this IItemSet<IFailure> validationErrors)
         {
             var errorStrings = new []
                 {

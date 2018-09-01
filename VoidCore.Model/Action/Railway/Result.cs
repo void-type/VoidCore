@@ -1,54 +1,89 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using VoidCore.Model.Validation;
 
 namespace VoidCore.Model.Action.Railway
 {
-    public class Result<TSuccess> : IFallible where TSuccess : class
+    public class Result<TValue> : AbstractResult
     {
-        public IEnumerable<IValidationError> Failure => _failures;
-        public bool IsSuccess => !IsFailed;
-        public bool IsFailed => Failure.Any();
-        public TSuccess Success { get; }
-        public bool SuccessHasValue => Success != default(TSuccess);
+        public TValue Value { get; }
 
-        public static Result<TSuccess> Ok(TSuccess success)
+        internal Result(TValue value) : base(false, null)
         {
-            return new Result<TSuccess>(success);
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value),
+                    "Cannot set a result of null. Use non-generic Result for void results.");
+            }
+            Value = value;
         }
 
-        public static Result<TSuccess> Fail(IEnumerable<IValidationError> failures)
+        internal Result(IEnumerable<IFailure> failures) : base(true, failures) { }
+    }
+
+    public class Result : AbstractResult
+    {
+        protected Result() : base(false, null) { }
+
+        private Result(IEnumerable<IFailure> failures) : base(true, failures) { }
+
+        public static Result Ok()
         {
-            return new Result<TSuccess>(failures);
+            return new Result();
         }
 
-        public static Result<TSuccess> Fail(string errorMessage, string uiHandle = null)
+        public static Result<TValue> Ok<TValue>(TValue success)
         {
-            return new Result<TSuccess>(new ValidationError(errorMessage, uiHandle));
+            return new Result<TValue>(success);
         }
 
-        public static Result<TSuccess> CombineFailures(params Result<TSuccess>[] results)
+        public static Result Fail(IEnumerable<IFailure> failures)
         {
-            var failedResults = results.Where(result => result.IsFailed).SelectMany(result => result.Failure);
-
-            return new Result<TSuccess>(failedResults);
+            return new Result(failures);
         }
 
-        private Result(TSuccess success)
+        public static Result<TValue> Fail<TValue>(IEnumerable<IFailure> failures)
         {
-            Success = success;
+            return new Result<TValue>(failures);
         }
 
-        private Result(IEnumerable<IValidationError> failures)
+        public static Result Fail(IFailure failure)
         {
-            _failures.AddRange(failures);
+            return Fail(new [] { failure });
         }
 
-        private Result(IValidationError failure)
+        public static Result<TValue> Fail<TValue>(IFailure failure)
         {
-            _failures.Add(failure);
+            return Fail<TValue>(new [] { failure });
         }
-        private readonly List<IValidationError> _failures = new List<IValidationError>();
 
+        public static Result Fail(string errorMessage, string uiHandle = null)
+        {
+            return Fail(new Failure(errorMessage, uiHandle));
+        }
+
+        public static Result<TValue> Fail<TValue>(string errorMessage, string uiHandle = null)
+        {
+            return Fail<TValue>(new Failure(errorMessage, uiHandle));
+        }
+
+        public static Result CombineFailures<TValue>(IEnumerable<Result> results)
+        {
+            var failedResults = results
+                .Where(result => result.IsFailed)
+                .SelectMany(result => result.Failures);
+
+            return Fail(failedResults);
+        }
+
+        public static Result<TValue> CombineFailures<TValue>(IEnumerable<Result<TValue>> results)
+        {
+            var failedResults = results
+                .Where(result => result.IsFailed)
+                .SelectMany(result => result.Failures);
+
+            return Fail<TValue>(failedResults);
+        }
     }
 }

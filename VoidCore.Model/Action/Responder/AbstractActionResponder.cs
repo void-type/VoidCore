@@ -33,7 +33,7 @@ namespace VoidCore.Model.Action.Responder
         public abstract void WithSuccess(ISimpleFile file, params string[] logMessages);
 
         /// <inheritdoc/>
-        public abstract void WithWarning(IItemSet<IValidationError> validationErrors, params string[] logMessages);
+        public abstract void WithWarning(IItemSet<IFailure> validationErrors, params string[] logMessages);
 
         /// <inheritdoc/>
         public abstract void WithWarning(string warningMessage, params string[] logMessages);

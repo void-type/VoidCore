@@ -10,7 +10,7 @@ namespace VoidCore.Model.Validation
     public abstract class AbstractValidator<TValidatableEntity> : IValidator<TValidatableEntity>
     {
         /// <inheritdoc/>
-        public IEnumerable<IValidationError> Validate(TValidatableEntity validatable)
+        public IEnumerable<IFailure> Validate(TValidatableEntity validatable)
         {
             _rules = new List<IRule>();
 

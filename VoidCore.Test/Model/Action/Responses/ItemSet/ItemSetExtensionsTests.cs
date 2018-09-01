@@ -22,17 +22,17 @@ namespace VoidCore.Test.Model.Action.Responses.ItemSet
         [Fact]
         public void ItemSetOfValidationErrorsGetLogText()
         {
-            var innerErrors = new List<IValidationError>
+            var innerErrors = new List<IFailure>
             {
-                new ValidationError("message 1.", "field 1"),
-                new ValidationError("message 2.", "field 1"),
-                new ValidationError("message 3.", "field 1"),
-                new ValidationError("message 4.", "field 1"),
-                new ValidationError("message 5."),
-                new ValidationError("")
+                new Failure("message 1.", "field 1"),
+                new Failure("message 2.", "field 1"),
+                new Failure("message 3.", "field 1"),
+                new Failure("message 4.", "field 1"),
+                new Failure("message 5."),
+                new Failure("")
             };
 
-            var itemSetMock = new Mock<IItemSet<IValidationError>>();
+            var itemSetMock = new Mock<IItemSet<IFailure>>();
             itemSetMock.SetupGet(set => set.Count).Returns(9);
             itemSetMock.SetupGet(set => set.Items).Returns(innerErrors);
 

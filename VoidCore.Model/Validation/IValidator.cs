@@ -13,6 +13,6 @@ namespace VoidCore.Model.Validation
         /// </summary>
         /// <param name="validatableEntity"></param>
         /// <returns>Validation errors or an empty array if input is valid.</returns>
-        IEnumerable<IValidationError> Validate(TValidatableEntity validatableEntity);
+        IEnumerable<IFailure> Validate(TValidatableEntity validatableEntity);
     }
 }

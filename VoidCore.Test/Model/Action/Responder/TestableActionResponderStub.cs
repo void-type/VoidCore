@@ -34,7 +34,7 @@ namespace VoidCore.Test.Model.Action.Responder
             throw new NotImplementedException();
         }
 
-        public override void WithWarning(IItemSet<IValidationError> validationErrors, params string[] logMessages)
+        public override void WithWarning(IItemSet<IFailure> validationErrors, params string[] logMessages)
         {
             throw new NotImplementedException();
         }

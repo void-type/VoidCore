@@ -14,32 +14,32 @@ namespace VoidCore.Test.Model.Action.Steps
         public void ValidateCalledWhenError()
         {
             var responderMock = new Mock<IActionResponder>();
-            responderMock.Setup(mock => mock.WithWarning(It.IsAny<IItemSet<IValidationError>>(), It.IsAny<string[]>()));
+            responderMock.Setup(mock => mock.WithWarning(It.IsAny<IItemSet<IFailure>>(), It.IsAny<string[]>()));
 
             var validatorMock = new Mock<IValidator<string>>();
             validatorMock.Setup(mock => mock.Validate("item"))
-                .Returns(new List<IValidationError>() { new ValidationError("error", "fieldName") });
+                .Returns(new List<IFailure>() { new Failure("error", "fieldName") });
 
             new Validate<string>(validatorMock.Object, "item", "log").Perform(responderMock.Object);
 
             validatorMock.Verify(mock => mock.Validate("item"), Times.Once());
-            responderMock.Verify(mock => mock.WithWarning(It.IsAny<IItemSet<IValidationError>>(), It.IsAny<string[]>()), Times.Once());
+            responderMock.Verify(mock => mock.WithWarning(It.IsAny<IItemSet<IFailure>>(), It.IsAny<string[]>()), Times.Once());
         }
 
         [Fact]
         public void ValidateNotCalledWhenNoError()
         {
             var responderMock = new Mock<IActionResponder>();
-            responderMock.Setup(mock => mock.WithWarning(It.IsAny<IItemSet<IValidationError>>(), It.IsAny<string[]>()));
+            responderMock.Setup(mock => mock.WithWarning(It.IsAny<IItemSet<IFailure>>(), It.IsAny<string[]>()));
 
             var validatorMock = new Mock<IValidator<string>>();
             validatorMock.Setup(mock => mock.Validate("item"))
-                .Returns(new List<IValidationError>());
+                .Returns(new List<IFailure>());
 
             new Validate<string>(validatorMock.Object, "item", "log").Perform(responderMock.Object);
 
             validatorMock.Verify(mock => mock.Validate("item"), Times.Once());
-            responderMock.Verify(mock => mock.WithWarning(It.IsAny<IItemSet<IValidationError>>(), It.IsAny<string[]>()), Times.Never());
+            responderMock.Verify(mock => mock.WithWarning(It.IsAny<IItemSet<IFailure>>(), It.IsAny<string[]>()), Times.Never());
         }
     }
 }

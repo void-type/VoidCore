@@ -5,7 +5,7 @@ namespace VoidCore.Model.Action.Railway
 {
     public interface IFallible
     {
-        IEnumerable<IValidationError> Failure { get; }
+        IEnumerable<IFailure> Failures { get; }
         bool IsSuccess { get; }
         bool IsFailed { get; }
     }

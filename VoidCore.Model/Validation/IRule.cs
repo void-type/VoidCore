@@ -20,6 +20,6 @@
         /// The validation error to be thrown if the rule is invalid and not suppressed.
         /// </summary>
         /// <value></value>
-        IValidationError ValidationError { get; }
+        IFailure ValidationError { get; }
     }
 }

@@ -51,7 +51,7 @@ namespace VoidCore.Model.Action.Responder
         /// </summary>
         /// <param name="validationErrors">The validation errors</param>
         /// <param name="logMessages">An array of strings to log</param>
-        void WithWarning(IItemSet<IValidationError> validationErrors, params string[] logMessages);
+        void WithWarning(IItemSet<IFailure> validationErrors, params string[] logMessages);
 
         /// <summary>
         /// Warn the user of invalid actions or inputs. The request was not completed successfully.

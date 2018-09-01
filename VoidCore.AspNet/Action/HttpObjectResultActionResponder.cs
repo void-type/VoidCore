@@ -54,7 +54,7 @@ namespace VoidCore.AspNet.Action
         }
 
         /// <inheritdoc/>
-        public override void WithWarning(IItemSet<IValidationError> validationErrors, params string[] logMessages)
+        public override void WithWarning(IItemSet<IFailure> validationErrors, params string[] logMessages)
         {
             _logger.Warn(logMessages);
             Response = new ObjectResult(validationErrors) { StatusCode = 400 };
@@ -63,7 +63,7 @@ namespace VoidCore.AspNet.Action
         /// <inheritdoc/>
         public override void WithWarning(string warningMessage, params string[] logMessages)
         {
-            var validationErrors = new IValidationError[] { new ValidationError(warningMessage) }.ToItemSet();
+            var validationErrors = new IFailure[] { new Failure(warningMessage) }.ToItemSet();
             WithWarning(validationErrors, logMessages);
         }
 

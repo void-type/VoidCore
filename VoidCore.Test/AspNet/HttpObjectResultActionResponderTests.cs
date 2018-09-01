@@ -99,9 +99,9 @@ namespace VoidCore.Test.AspNet
             loggingMock.Verify(logger => logger.Warn(It.IsAny<string[]>()), Times.Once());
             Assert.True(responder.IsResponseCreated);
             Assert.NotNull(objectResult);
-            Assert.IsType<ItemSet<IValidationError>>(objectResult.Value);
+            Assert.IsType<ItemSet<IFailure>>(objectResult.Value);
 
-            var itemSet = objectResult.Value as ItemSet<IValidationError>;
+            var itemSet = objectResult.Value as ItemSet<IFailure>;
 
             Assert.NotNull(objectResult);
             Assert.NotNull(itemSet);
@@ -116,22 +116,22 @@ namespace VoidCore.Test.AspNet
 
             var responder = new HttpObjectResultActionResponder(loggingMock.Object);
 
-            responder.WithWarning(new ItemSet<IValidationError>(new List<IValidationError>
+            responder.WithWarning(new ItemSet<IFailure>(new List<IFailure>
             {
-                new ValidationError("hi", "field"),
-                new ValidationError("hia", "field"),
-                new ValidationError("his", "field"),
-                new ValidationError("hie", "field"),
-                new ValidationError("hif", "field"),
+                new Failure("hi", "field"),
+                new Failure("hia", "field"),
+                new Failure("his", "field"),
+                new Failure("hie", "field"),
+                new Failure("hif", "field"),
             }));
             var objectResult = responder.Response as ObjectResult;
 
             loggingMock.Verify(logger => logger.Warn(It.IsAny<string[]>()), Times.Once());
             Assert.True(responder.IsResponseCreated);
             Assert.NotNull(objectResult);
-            Assert.IsType<ItemSet<IValidationError>>(objectResult.Value);
+            Assert.IsType<ItemSet<IFailure>>(objectResult.Value);
 
-            var itemSet = objectResult.Value as ItemSet<IValidationError>;
+            var itemSet = objectResult.Value as ItemSet<IFailure>;
 
             Assert.NotNull(objectResult);
             Assert.NotNull(itemSet);
