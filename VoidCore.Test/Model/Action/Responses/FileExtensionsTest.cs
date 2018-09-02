@@ -1,7 +1,7 @@
 using VoidCore.Model.Action.Responses.File;
 using Xunit;
 
-namespace VoidCore.Test.Model.Action.Responses.File
+namespace VoidCore.Test.Model.Action.Responses
 {
     public class FileExtensionsTests
     {
@@ -9,7 +9,7 @@ namespace VoidCore.Test.Model.Action.Responses.File
         public void SimpleFileGetLogText()
         {
             var logText = new SimpleFile("file content here", "filename.txt").GetLogText();
-            var expected = new [] { "FileName: filename.txt" };
+            var expected = new[] { "FileName: filename.txt" };
             Assert.Equal(expected, logText);
         }
     }

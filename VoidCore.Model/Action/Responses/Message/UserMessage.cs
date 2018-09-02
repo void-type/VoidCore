@@ -1,9 +1,9 @@
-﻿namespace VoidCore.Model.Action.Responses.UserMessage
+﻿namespace VoidCore.Model.Action.Responses.Message
 {
     /// <summary>
-    /// An abstract implmentation of the message interface.
+    /// A UI-friendly message.
     /// </summary>
-    public class AbstractUserMessage : IUserMessage
+    public class UserMessage : IUserMessage
     {
         /// <inheritdoc/>
         public string Message { get; }
@@ -12,7 +12,7 @@
         /// Create a new message.
         /// </summary>
         /// <param name="message"></param>
-        protected AbstractUserMessage(string message)
+        public UserMessage(string message)
         {
             Message = message;
         }

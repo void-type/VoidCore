@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace VoidCore.Model.Action.Railway
 {
     /// <summary>
@@ -11,7 +9,7 @@ namespace VoidCore.Model.Action.Railway
         /// A collection of failures if the operation was unsuccessful.
         /// </summary>
         /// <value></value>
-        IEnumerable<IFailure> Failures { get; }
+        IFailure[] Failures { get; }
 
         /// <summary>
         /// True if the operation was successful.

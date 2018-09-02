@@ -1,8 +1,7 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using VoidCore.AspNet.Routing;
-using VoidCore.Model.Action.Responses.UserMessage;
+using VoidCore.Model.Action.Responses.Message;
 using VoidCore.Model.Logging;
 
 namespace VoidCore.AspNet.Exceptions
@@ -15,11 +14,9 @@ namespace VoidCore.AspNet.Exceptions
         /// <summary>
         /// Construct a new ApiExceptionFilterAttribute
         /// </summary>
-        /// <param name="httpContextAccessor">Accessor for the current HttpContext</param>
         /// <param name="logger">Logging service</param>
-        public ApiExceptionFilterAttribute(IHttpContextAccessor httpContextAccessor, ILoggingService logger)
+        public ApiExceptionFilterAttribute(ILoggingService logger)
         {
-            _httpContextAccessor = httpContextAccessor;
             _logger = logger;
         }
 
@@ -34,11 +31,10 @@ namespace VoidCore.AspNet.Exceptions
             }
 
             _logger.Error(context.Exception);
-            var errorMessage = new ErrorUserMessage("There was a problem processing your request.");
+            var errorMessage = new UserMessage("There was a problem processing your request.");
             context.Result = new ObjectResult(errorMessage) { StatusCode = 500 };
         }
 
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILoggingService _logger;
     }
 }

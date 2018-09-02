@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace VoidCore.Model.Action.Railway
 {
     /// <summary>
@@ -9,7 +7,7 @@ namespace VoidCore.Model.Action.Railway
     public abstract class ResultAbstract : IFallible
     {
         /// <inheritdoc/>
-        public IEnumerable<IFailure> Failures => _internalResult.Failures;
+        public IFailure[] Failures => _internalResult.Failures;
 
         /// <inheritdoc/>
         public bool IsSuccess => _internalResult.IsSuccess;
@@ -19,12 +17,12 @@ namespace VoidCore.Model.Action.Railway
 
         private ResultInternal _internalResult;
 
-        internal ResultAbstract(bool isFailed, IEnumerable<IFailure> failures)
+        internal ResultAbstract(bool isFailed, IFailure[] failures)
         {
             _internalResult = new ResultInternal(isFailed, failures);
         }
 
-        internal ResultAbstract(IEnumerable<IFailure> failures)
+        internal ResultAbstract(IFailure[] failures)
         {
             _internalResult = new ResultInternal(true, failures);
         }

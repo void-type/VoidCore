@@ -52,7 +52,7 @@ namespace VoidCore.Test.Model.Action.Railway
         [Fact]
         public void ResultIsFailedFailures()
         {
-            var result = Result.Fail(new List<Failure>()
+            var result = Result.Fail(new IFailure[]
             {
                 new Failure("Some error", "someHandle"),
                     new Failure("Some error", "someHandle")
@@ -74,7 +74,7 @@ namespace VoidCore.Test.Model.Action.Railway
             Assert.NotEmpty(result.Failures);
             Assert.Equal("Some error", result.Failures.Single().ErrorMessage);
             Assert.Equal("someHandle", result.Failures.Single().UiHandle);
-            Assert.Equal(null, result.Value);
+            Assert.Null(result.Value);
         }
 
         [Fact]
@@ -86,32 +86,32 @@ namespace VoidCore.Test.Model.Action.Railway
             Assert.NotEmpty(result.Failures);
             Assert.Equal("Some error", result.Failures.Single().ErrorMessage);
             Assert.Equal("someHandle", result.Failures.Single().UiHandle);
-            Assert.Equal(null, result.Value);
+            Assert.Null(result.Value);
         }
 
         [Fact]
         public void TypedResultIsFailedFailures()
         {
-            var result = Result.Fail<string>(new List<Failure>() { new Failure("Some error", "someHandle"), new Failure("Some error", "someHandle") });
+            var result = Result.Fail<string>(new IFailure[] { new Failure("Some error", "someHandle"), new Failure("Some error", "someHandle") });
             Assert.False(result.IsSuccess);
             Assert.True(result.IsFailed);
             Assert.NotEmpty(result.Failures);
             Assert.Equal("Some error", result.Failures.First().ErrorMessage);
             Assert.Equal("someHandle", result.Failures.First().UiHandle);
             Assert.Equal(2, result.Failures.Count());
-            Assert.Equal(null, result.Value);
+            Assert.Null(result.Value);
         }
 
         [Fact]
         public void ResultThrowsErrorWithEmptyFailures()
         {
-            Assert.Throws<ArgumentException>(() => Result.Fail(new List<Failure>()));
+            Assert.Throws<ArgumentException>(() => Result.Fail(new IFailure[0]));
         }
 
         [Fact]
         public void ResultThrowsErrorWithNullFailures()
         {
-            Assert.Throws<ArgumentNullException>(() => Result.Fail((List<Failure>) null));
+            Assert.Throws<ArgumentNullException>(() => Result.Fail((IFailure[]) null));
             Assert.Throws<ArgumentNullException>(() => Result.Fail((Failure) null));
         }
 
@@ -124,20 +124,20 @@ namespace VoidCore.Test.Model.Action.Railway
         [Fact]
         public void TypedResultThrowsErrorWithEmptyFailures()
         {
-            Assert.Throws<ArgumentException>(() => Result.Fail<string>(new List<Failure>()));
+            Assert.Throws<ArgumentException>(() => Result.Fail<string>(new IFailure[0]));
         }
 
         [Fact]
         public void TypedResultThrowsErrorWithNullFailures()
         {
-            Assert.Throws<ArgumentNullException>(() => Result.Fail<string>((List<Failure>) null));
+            Assert.Throws<ArgumentNullException>(() => Result.Fail<string>((IFailure[]) null));
             Assert.Throws<ArgumentNullException>(() => Result.Fail<string>((Failure) null));
         }
 
         [Fact]
         public void CombineWithNoFailuresGivesSuccess()
         {
-            var results = new List<Result>() { Result.Ok(), Result.Ok() };
+            var results = new List<Result>() { Result.Ok(), Result.Ok() }.ToArray();
             var result = Result.Combine(results);
 
             Assert.True(result.IsSuccess);
@@ -148,7 +148,7 @@ namespace VoidCore.Test.Model.Action.Railway
         [Fact]
         public void TypedCombineWithNoFailuresGivesSuccess()
         {
-            var results = new List<Result<string>>() { Result.Ok(""), Result.Ok("") };
+            var results = new List<Result<string>>() { Result.Ok(""), Result.Ok("") }.ToArray();
             var result = Result.Combine(results);
 
             Assert.True(result.IsSuccess);
@@ -159,7 +159,7 @@ namespace VoidCore.Test.Model.Action.Railway
         [Fact]
         public void CombineWithFailuresGivesFailures()
         {
-            var results = new List<Result>() { Result.Ok(), Result.Fail("oops"), Result.Fail("oops"), Result.Ok() };
+            var results = new List<Result>() { Result.Ok(), Result.Fail("oops"), Result.Fail("oops"), Result.Ok() }.ToArray();
             var result = Result.Combine(results);
 
             Assert.False(result.IsSuccess);
@@ -170,7 +170,7 @@ namespace VoidCore.Test.Model.Action.Railway
         [Fact]
         public void TypedCombineWithFailuresGivesFailures()
         {
-            var results = new List<Result<string>>() { Result.Ok(""), Result.Fail<string>(""), Result.Fail<string>(""), Result.Ok("") };
+            var results = new List<Result<string>>() { Result.Ok(""), Result.Fail<string>(""), Result.Fail<string>(""), Result.Ok("") }.ToArray();
             var result = Result.Combine(results);
 
             Assert.False(result.IsSuccess);

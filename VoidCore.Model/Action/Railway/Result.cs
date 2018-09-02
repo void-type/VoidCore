@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace VoidCore.Model.Action.Railway
@@ -28,7 +27,7 @@ namespace VoidCore.Model.Action.Railway
             Value = value;
         }
 
-        internal Result(IEnumerable<IFailure> failures) : base(true, failures) { }
+        internal Result(IFailure[] failures) : base(true, failures) { }
 
         /// <summary>
         /// Implicitly convert a typed Result to an untyped one.
@@ -56,7 +55,7 @@ namespace VoidCore.Model.Action.Railway
     {
         private Result() : base(false, null) { }
 
-        private Result(IEnumerable<IFailure> failures) : base(true, failures) { }
+        private Result(IFailure[] failures) : base(true, failures) { }
 
         /// <summary>
         /// Create a new successful untyped result.
@@ -83,7 +82,7 @@ namespace VoidCore.Model.Action.Railway
         /// </summary>
         /// <param name="failures">A list of failures</param>
         /// <returns>A new result</returns>
-        public static Result Fail(IEnumerable<IFailure> failures)
+        public static Result Fail(IFailure[] failures)
         {
             return new Result(failures);
         }
@@ -93,7 +92,7 @@ namespace VoidCore.Model.Action.Railway
         /// </summary>
         /// <param name="failures">A list of failures</param>
         /// <returns>A new result</returns>
-        public static Result<TValue> Fail<TValue>(IEnumerable<IFailure> failures)
+        public static Result<TValue> Fail<TValue>(IFailure[] failures)
         {
             return new Result<TValue>(failures);
         }
@@ -156,18 +155,14 @@ namespace VoidCore.Model.Action.Railway
         /// </summary>
         /// <param name="results">Results to combine</param>
         /// <returns>A new result</returns>
-        public static Result Combine(IEnumerable<Result> results)
+        public static Result Combine(params Result[] results)
         {
             var failures = results
                 .Where(result => result.IsFailed)
-                .SelectMany(result => result.Failures);
+                .SelectMany(result => result.Failures)
+                .ToArray();
 
-            if (failures.Any())
-            {
-                return Fail(failures);
-            }
-
-            return Ok();
+            return failures.Any() ? Fail(failures) : Ok();
         }
 
         /// <summary>
@@ -177,9 +172,13 @@ namespace VoidCore.Model.Action.Railway
         /// <param name="results">Results to combine</param>
         /// <typeparam name="TValue"></typeparam>
         /// <returns>A new result</returns>
-        public static Result Combine<TValue>(IEnumerable<Result<TValue>> results)
+        public static Result Combine<TValue>(params Result<TValue>[] results)
         {
-            return Combine(results.Select(result =>(Result) result));
+            var untypedResults = results
+                .Select(result =>(Result) result)
+                .ToArray();
+
+            return Combine(untypedResults);
         }
     }
 }

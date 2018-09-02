@@ -4,19 +4,33 @@ using VoidCore.Model.Authorization;
 
 namespace VoidCore.AspNet.ClientApp
 {
-    /// <inheritdoc/>
-    public class ApplicationInfo : IApplicationInfo
+    /// <summary>
+    /// Information to start the client application
+    /// /// </summary>
+    public class ApplicationInfo
     {
-        /// <inheritdoc/>
+        /// <summary>
+        /// The UI-friendly name of the application
+        /// </summary>
+        /// <value></value>
         public string ApplicationName { get; }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// The value of the header antiforgery token
+        /// </summary>
+        /// <value></value>
         public string AntiforgeryToken { get; }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// The header name of the antiforgery token
+        /// </summary>
+        /// <value></value>
         public string AntiforgeryTokenHeaderName { get; }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// The UI-friendly user name
+        /// </summary>
+        /// <value></value>
         public string UserName { get; }
 
         /// <summary>

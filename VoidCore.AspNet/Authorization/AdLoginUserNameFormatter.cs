@@ -1,4 +1,5 @@
 using System.Linq;
+using VoidCore.Model.Authorization;
 
 namespace VoidCore.AspNet.Authorization
 {

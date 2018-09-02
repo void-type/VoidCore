@@ -1,4 +1,4 @@
-namespace VoidCore.AspNet.Authorization
+namespace VoidCore.Model.Authorization
 {
     /// <summary>
     /// Formatter for getting a UI-friendly user name.

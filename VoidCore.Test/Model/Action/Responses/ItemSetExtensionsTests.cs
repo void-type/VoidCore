@@ -4,7 +4,7 @@ using VoidCore.Model.Action.Railway;
 using VoidCore.Model.Action.Responses.ItemSet;
 using Xunit;
 
-namespace VoidCore.Test.Model.Action.Responses.ItemSet
+namespace VoidCore.Test.Model.Action.Responses
 {
     public class ItemSetExtensionsTests
     {
@@ -14,7 +14,7 @@ namespace VoidCore.Test.Model.Action.Responses.ItemSet
             var itemSetMock = new Mock<IItemSet<int>>();
             itemSetMock.SetupGet(set => set.Count).Returns(7);
             var logText = itemSetMock.Object.GetLogText();
-            var expected = new [] { "Count: 7" };
+            var expected = new[] { "Count: 7" };
 
             Assert.Equal(expected, logText);
         }
@@ -38,7 +38,7 @@ namespace VoidCore.Test.Model.Action.Responses.ItemSet
 
             var logText = itemSetMock.Object.GetLogText();
 
-            var expected = new []
+            var expected = new[]
             {
                 "Count: 9",
                 "ValidationErrors:",
@@ -63,7 +63,7 @@ namespace VoidCore.Test.Model.Action.Responses.ItemSet
 
             var logText = itemSetMock.Object.GetLogText();
 
-            var expected = new []
+            var expected = new[]
             {
                 "Count: 7",
                 "Page: 8",

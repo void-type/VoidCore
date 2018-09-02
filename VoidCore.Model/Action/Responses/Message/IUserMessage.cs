@@ -1,7 +1,7 @@
-﻿namespace VoidCore.Model.Action.Responses.UserMessage
+﻿namespace VoidCore.Model.Action.Responses.Message
 {
     /// <summary>
-    /// An interface for sending messages to the client.
+    /// An interface for sending UI messages to the client.
     /// </summary>
     public interface IUserMessage
     {

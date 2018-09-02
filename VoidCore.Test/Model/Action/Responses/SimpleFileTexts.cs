@@ -2,7 +2,7 @@ using System.Text;
 using VoidCore.Model.Action.Responses.File;
 using Xunit;
 
-namespace VoidCore.Test.Model.Action.Responses.File
+namespace VoidCore.Test.Model.Action.Responses
 {
     public class SimpleFileTests
     {
