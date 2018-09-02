@@ -7,6 +7,7 @@ namespace VoidCore.Model.Action.Railway
     /// <summary>
     /// A result that returns a value on success. Generally used with CQRS Queries or non-void fallible operations.
     /// Results are used to return from any operation that could have failed and needs to notify the caller.
+    ///
     /// </summary>
     /// <typeparam name="TValue">The type of value to return on success</typeparam>
     public class Result<TValue> : AbstractResult
@@ -103,6 +104,11 @@ namespace VoidCore.Model.Action.Railway
         /// <returns>A new result</returns>
         public static Result Fail(IFailure failure)
         {
+            if (failure == null)
+            {
+                throw new ArgumentNullException(nameof(failure), "Failure must not be null for a failed result.");
+            }
+
             return Fail(new [] { failure });
         }
 
@@ -113,6 +119,11 @@ namespace VoidCore.Model.Action.Railway
         /// <returns>A new result</returns>
         public static Result<TValue> Fail<TValue>(IFailure failure)
         {
+            if (failure == null)
+            {
+                throw new ArgumentNullException(nameof(failure), "Failure must not be null for a failed result.");
+            }
+
             return Fail<TValue>(new [] { failure });
         }
 
@@ -167,7 +178,7 @@ namespace VoidCore.Model.Action.Railway
         /// <returns>A new result</returns>
         public static Result Combine<TValue>(IEnumerable<Result<TValue>> results)
         {
-            return Combine(results);
+            return Combine(results.Select(result => (Result)result));
         }
     }
 }
