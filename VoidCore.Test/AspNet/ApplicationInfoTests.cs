@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using Moq;
-using VoidCore.AspNet.Action;
 using VoidCore.AspNet.ClientApp;
-using VoidCore.Model.Action.Responder;
 using VoidCore.Model.Authorization;
 using Xunit;
 
@@ -14,16 +12,6 @@ namespace VoidCore.Test.AspNet
         [Fact]
         public void RespondWithAppInfo()
         {
-            IApplicationInfo appInfo = null;
-
-            var responderMock = new Mock<IActionResponder>();
-            responderMock
-                .Setup(mock => mock.WithSuccess(It.IsAny<IApplicationInfo>(), It.IsAny<string[]>()))
-                .Callback((object info, string[] log) =>
-                {
-                    appInfo = (IApplicationInfo) info;
-                });
-
             var appSettings = new ApplicationSettings { Name = "AppName" };
 
             var currentUser = new Mock<ICurrentUser>();
@@ -42,10 +30,7 @@ namespace VoidCore.Test.AspNet
                 .Setup(mock => mock.GetAndStoreTokens(It.IsAny<HttpContext>()))
                 .Returns(new AntiforgeryTokenSet("request-token", "cookie-token", "formFieldName", "header-name"));
 
-            new RespondWithApplicationInfo(appSettings, mockContextAccessor.Object, mockAntiforgery.Object, currentUser.Object)
-                .Perform(responderMock.Object);
-
-            responderMock.Verify(mock => mock.WithSuccess(It.IsAny<ApplicationInfo>(), It.IsAny<string[]>()), Times.Once());
+            var appInfo = new ApplicationInfo(appSettings, mockContextAccessor.Object, mockAntiforgery.Object, currentUser.Object);
 
             Assert.Equal("AppName", appInfo.ApplicationName);
             Assert.Equal("UserName", appInfo.UserName);

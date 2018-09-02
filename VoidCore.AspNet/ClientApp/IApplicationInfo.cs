@@ -8,21 +8,21 @@ namespace VoidCore.AspNet.ClientApp
         /// <summary>
         /// UI-friendly application name to be displayed.
         /// </summary>
-        string ApplicationName { get; set; }
+        string ApplicationName { get; }
 
         /// <summary>
         /// The antiforgery token to be sent with every POST request.
         /// </summary>
-        string AntiforgeryToken { get; set; }
+        string AntiforgeryToken { get; }
 
         /// <summary>
         /// The header name of the antiforgery token to be sent with every POST request.
         /// </summary>
-        string AntiforgeryTokenHeaderName { get; set; }
+        string AntiforgeryTokenHeaderName { get; }
 
         /// <summary>
         /// The UI-friendly user name to be displayed.
         /// </summary>
-        string UserName { get; set; }
+        string UserName { get; }
     }
 }

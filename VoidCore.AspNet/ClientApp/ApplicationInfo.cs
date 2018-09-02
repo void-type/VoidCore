@@ -1,18 +1,37 @@
+using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Http;
+using VoidCore.Model.Authorization;
+
 namespace VoidCore.AspNet.ClientApp
 {
     /// <inheritdoc/>
     public class ApplicationInfo : IApplicationInfo
     {
         /// <inheritdoc/>
-        public string ApplicationName { get; set; }
+        public string ApplicationName { get; }
 
         /// <inheritdoc/>
-        public string AntiforgeryToken { get; set; }
+        public string AntiforgeryToken { get; }
 
         /// <inheritdoc/>
-        public string AntiforgeryTokenHeaderName { get; set; }
+        public string AntiforgeryTokenHeaderName { get; }
 
         /// <inheritdoc/>
-        public string UserName { get; set; }
+        public string UserName { get; }
+
+        /// <summary>
+        /// Construct a new ApplicaitonInfo object.
+        /// </summary>
+        /// <param name="applicationSettings">General application settings</param>
+        /// <param name="httpContextAccessor">The HttpContext</param>
+        /// <param name="antiforgery">The ASPNET antiforgery object</param>
+        /// <param name="currentUser">UI-friendly user name</param>
+        public ApplicationInfo(ApplicationSettings applicationSettings, IHttpContextAccessor httpContextAccessor, IAntiforgery antiforgery, ICurrentUser currentUser)
+        {
+            ApplicationName = applicationSettings.Name ?? "Application";
+            UserName = currentUser.Name;
+            AntiforgeryToken = antiforgery.GetAndStoreTokens(httpContextAccessor.HttpContext).RequestToken;
+            AntiforgeryTokenHeaderName = antiforgery.GetAndStoreTokens(httpContextAccessor.HttpContext).HeaderName;
+        }
     }
 }

@@ -43,7 +43,7 @@ namespace VoidCore.Model.Validation
         /// <summary>
         /// Override this method to build the validation ruleset.
         /// Eg: Invalid("xValue","Must be true unless null").When(x.value != true).ExceptWhen(x.value == null);
-        /// /// </summary>
+        /// </summary>
         protected abstract void BuildRules();
 
         /// <summary>

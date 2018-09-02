@@ -7,8 +7,9 @@ namespace VoidCore.Model.Action.Railway
     /// <summary>
     /// This class holds the internal logic for the Result abstract class and its inheritors.
     /// InternalResult should not be directly accessed outside of its Result wrapper.
+    /// Inspired by https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
-    internal sealed class InternalResult
+    internal sealed class ResultInternal
     {
         public IEnumerable<IFailure> Failures => _failures;
         public bool IsSuccess => !IsFailed;
@@ -16,7 +17,7 @@ namespace VoidCore.Model.Action.Railway
 
         private readonly List<IFailure> _failures = new List<IFailure>();
 
-        public InternalResult(bool isFailure, IEnumerable<IFailure> failures)
+        public ResultInternal(bool isFailure, IEnumerable<IFailure> failures)
         {
             if (isFailure)
             {

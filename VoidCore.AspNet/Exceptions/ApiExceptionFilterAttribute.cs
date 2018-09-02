@@ -23,7 +23,7 @@ namespace VoidCore.AspNet.Exceptions
             _logger = logger;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void OnException(ExceptionContext context)
         {
             var requestPath = context.HttpContext.Request.Path.ToString();

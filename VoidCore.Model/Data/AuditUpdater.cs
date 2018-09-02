@@ -3,7 +3,7 @@ using VoidCore.Model.Time;
 
 namespace VoidCore.Model.Data
 {
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public class AuditUpdater : IAuditUpdater
     {
         /// <summary>
@@ -17,7 +17,7 @@ namespace VoidCore.Model.Data
             _currentUser = currentUser;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void Create(IAuditable auditableEntity)
         {
             auditableEntity.CreatedOn = _now.Moment;
@@ -25,7 +25,7 @@ namespace VoidCore.Model.Data
             Update(auditableEntity);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void Update(IAuditable auditableEntity)
         {
             auditableEntity.ModifiedOn = _now.Moment;

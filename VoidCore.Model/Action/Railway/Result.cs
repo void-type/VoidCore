@@ -5,12 +5,12 @@ using System.Linq;
 namespace VoidCore.Model.Action.Railway
 {
     /// <summary>
-    /// A result that returns a value on success. Generally used with CQRS Queries or non-void fallible operations.
-    /// Results are used to return from any operation that could have failed and needs to notify the caller.
-    ///
+    /// The result of a faillible operation that returns a value on success.
+    /// Generally used with CQRS Queries or other non-void fallible operations.
+    /// Inspired by https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
     /// <typeparam name="TValue">The type of value to return on success</typeparam>
-    public class Result<TValue> : AbstractResult
+    public class Result<TValue> : ResultAbstract
     {
         /// <summary>
         /// The success value
@@ -48,10 +48,11 @@ namespace VoidCore.Model.Action.Railway
     }
 
     /// <summary>
-    /// A result that does not return anything on success. Generally used for CQRS Commands or void fallible operations.
-    /// Results are used to return from any operation that could have failed and needs to notify the caller.
+    /// The result of a faillible operation that does not return a value on success.
+    /// Generally used with CQRS Commands or other void fallible operations.
+    /// Inspired by https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
-    public class Result : AbstractResult
+    public class Result : ResultAbstract
     {
         private Result() : base(false, null) { }
 
@@ -151,7 +152,7 @@ namespace VoidCore.Model.Action.Railway
 
         /// <summary>
         /// Combine several untyped results. If any have failed, this will return a new aggregate failed result.
-        /// If none have failed, this will return an untyped successful result.
+        /// If none have failed, this will return a successful result.
         /// </summary>
         /// <param name="results">Results to combine</param>
         /// <returns>A new result</returns>
@@ -178,7 +179,7 @@ namespace VoidCore.Model.Action.Railway
         /// <returns>A new result</returns>
         public static Result Combine<TValue>(IEnumerable<Result<TValue>> results)
         {
-            return Combine(results.Select(result => (Result)result));
+            return Combine(results.Select(result =>(Result) result));
         }
     }
 }

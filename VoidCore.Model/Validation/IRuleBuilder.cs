@@ -19,7 +19,7 @@ namespace VoidCore.Model.Validation
         /// <summary>
         /// Provide a function that returns true when a rule should be suppressed. All suppression conditions
         /// must be true for the rule to be suppressed.
-        /// /// </summary>
+        /// </summary>
         /// <param name="suppressCondition"></param>
         /// <returns>A rule builder to chain rule creation operations.</returns>
         IRuleBuilder<TValidatableEntity> ExceptWhen(Func<TValidatableEntity, bool> suppressCondition);

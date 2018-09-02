@@ -10,7 +10,7 @@ namespace VoidCore.Model.Validation
     /// </summary>
     public class Rule<TValidatableEntity> : IRule<TValidatableEntity>, IRuleBuilder<TValidatableEntity>
     {
-        private readonly Failure _failureToThrowWhenViolated;
+        private readonly IFailure _failureToThrowWhenViolated;
         private List<Func<TValidatableEntity, bool>> _validConditions = new List<Func<TValidatableEntity, bool>>();
         private List<Func<TValidatableEntity, bool>> _suppressConditions = new List<Func<TValidatableEntity, bool>>();
 
@@ -24,7 +24,7 @@ namespace VoidCore.Model.Validation
             _failureToThrowWhenViolated = new Failure(errorMessage, uiHandle);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public Result Validate(TValidatableEntity validatable)
         {
             var ruleIsSuppressed = _suppressConditions.All(c => c.Invoke(validatable));
@@ -43,14 +43,14 @@ namespace VoidCore.Model.Validation
 
             return Result.Fail(_failureToThrowWhenViolated);
         }
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public IRuleBuilder<TValidatableEntity> ValidWhen(Func<TValidatableEntity, bool> validCondition)
         {
             _validConditions.Add(validCondition);
             return this;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public IRuleBuilder<TValidatableEntity> ExceptWhen(Func<TValidatableEntity, bool> suppressCondition)
         {
             _suppressConditions.Add(suppressCondition);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace VoidCore.Model.Action.Railway
 {
     /// <summary>
-    /// Interface for results that can fail or succeed.
+    /// Common interface for results of operations that can fail or succeed.
     /// </summary>
     public interface IFallible
     {
