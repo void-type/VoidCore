@@ -11,7 +11,7 @@ namespace VoidCore.Test.AspNet
     public class HttpResponderTests
     {
         [Fact]
-        public void RespondWithEmptySuccess()
+        public void RespondWithSuccess()
         {
             var result = Result.Ok();
             var responder = new HttpResponder();
@@ -21,9 +21,29 @@ namespace VoidCore.Test.AspNet
         }
 
         [Fact]
-        public void RespondWithDataFailure()
+        public void RespondWithFailure()
         {
             var result = Result.Fail(new Failure("some fail", "some fail"));
+            var responder = new HttpResponder();
+            var response = responder.Respond(result);
+            Assert.Equal(400, ((ObjectResult) response).StatusCode);
+            Assert.Equal(1, ((ItemSet<IFailure>) ((ObjectResult) response).Value).Count);
+        }
+
+        [Fact]
+        public void RespondWithTypedSuccess()
+        {
+            var result = Result.Ok("Success Object");
+            var responder = new HttpResponder();
+            var response = responder.Respond(result);
+            Assert.Equal(200, ((ObjectResult) response).StatusCode);
+            Assert.Equal("Success Object", ((ObjectResult) response).Value);
+        }
+
+        [Fact]
+        public void RespondWithTypedFailure()
+        {
+            var result = Result.Fail<string>(new Failure("some fail", "some fail"));
             var responder = new HttpResponder();
             var response = responder.Respond(result);
             Assert.Equal(400, ((ObjectResult) response).StatusCode);
