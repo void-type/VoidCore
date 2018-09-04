@@ -1,4 +1,4 @@
-using VoidCore.Model.Authorization;
+using VoidCore.Model.ClientApp;
 using VoidCore.Model.Time;
 
 namespace VoidCore.Model.Data

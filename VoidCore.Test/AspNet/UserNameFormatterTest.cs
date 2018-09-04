@@ -1,4 +1,4 @@
-using VoidCore.AspNet.Authorization;
+using VoidCore.AspNet.ClientApp;
 using Xunit;
 
 namespace VoidCore.Test.AspNet

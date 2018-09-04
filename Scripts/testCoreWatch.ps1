@@ -1,3 +1,3 @@
 Push-Location -Path "../VoidCore.Test"
-dotnet watch test -p:CollectCoverage=true
+dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=opencover /p:CoverletOutput="./coverage.opencover.xml"
 Pop-Location

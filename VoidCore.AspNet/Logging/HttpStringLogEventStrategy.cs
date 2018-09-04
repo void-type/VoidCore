@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VoidCore.Model.Authorization;
+using VoidCore.Model.ClientApp;
 using VoidCore.Model.Logging;
 
 namespace VoidCore.AspNet.Logging

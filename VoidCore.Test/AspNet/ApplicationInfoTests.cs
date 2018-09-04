@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using VoidCore.AspNet.ClientApp;
-using VoidCore.Model.Authorization;
+using VoidCore.Model.ClientApp;
 using Xunit;
 
 namespace VoidCore.Test.AspNet

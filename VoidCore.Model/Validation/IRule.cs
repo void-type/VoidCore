@@ -1,4 +1,4 @@
-﻿using VoidCore.Model.Action.Railway;
+﻿using VoidCore.Model.Railway;
 
 namespace VoidCore.Model.Validation
 {

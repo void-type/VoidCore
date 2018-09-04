@@ -1,6 +1,6 @@
 using Moq;
 using System;
-using VoidCore.Model.Authorization;
+using VoidCore.Model.ClientApp;
 using VoidCore.Model.Data;
 using VoidCore.Model.Time;
 using Xunit;

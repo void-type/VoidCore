@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Moq;
 using System;
 using VoidCore.AspNet.Logging;
-using VoidCore.Model.Authorization;
+using VoidCore.Model.ClientApp;
 using Xunit;
 
 namespace VoidCore.Test.AspNet

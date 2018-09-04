@@ -1,17 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
-using VoidCore.Model.Action.Railway;
-using VoidCore.Model.Action.Responses.File;
-using VoidCore.Model.Action.Responses.ItemSet;
+using VoidCore.Model.ClientApp;
+using VoidCore.Model.Railway;
+using VoidCore.Model.Railway.File;
+using VoidCore.Model.Railway.ItemSet;
 
 namespace VoidCore.AspNet.ClientApp
 {
     /// <summary>
     /// Create ActionResults from Results.
     /// </summary>
-    public class HttpResponder
+    public class HttpResponder : IResultResponder<IActionResult>
     {
         /// <summary>
-        /// Create an ObjectResult.
+        /// Create a ObjectResult based on pass or fail of the result. Returns the success value on success.
         /// </summary>
         /// <param name="result">The result to send</param>
         /// <typeparam name="TSuccessValue">The type of success value in the result</typeparam>
@@ -20,7 +21,7 @@ namespace VoidCore.AspNet.ClientApp
         {
             if (result.IsSuccess)
             {
-                return new ObjectResult(result.Value) { StatusCode = 200 };
+                return Ok(result.Value);
             }
             else
             {
@@ -29,7 +30,7 @@ namespace VoidCore.AspNet.ClientApp
         }
 
         /// <summary>
-        /// Create an ObjectResult.
+        /// Create an ObjectResult based on pass or fail of the result.
         /// </summary>
         /// <param name="result">The result to send</param>
         /// <returns></returns>
@@ -37,12 +38,22 @@ namespace VoidCore.AspNet.ClientApp
         {
             if (result.IsSuccess)
             {
-                return new ObjectResult(null) { StatusCode = 200 };
+                return Ok(null);
             }
             else
             {
                 return Failure(result);
             }
+        }
+
+        /// <summary>
+        /// Respond with an object.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public IActionResult Respond(object obj)
+        {
+            return Ok(obj);
         }
 
         /// <summary>
@@ -66,6 +77,11 @@ namespace VoidCore.AspNet.ClientApp
         private IActionResult Failure(Result result)
         {
             return new ObjectResult(result.Failures.ToItemSet()) { StatusCode = 400 };
+        }
+
+        private IActionResult Ok(object result)
+        {
+            return new ObjectResult(result) { StatusCode = 200 };
         }
     }
 }

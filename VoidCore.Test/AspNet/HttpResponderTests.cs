@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using VoidCore.AspNet.ClientApp;
-using VoidCore.Model.Action.Railway;
-using VoidCore.Model.Action.Responses.File;
+using VoidCore.Model.Railway;
+using VoidCore.Model.Railway.File;
+using VoidCore.Model.Railway.ItemSet;
+using VoidCore.Model.Railway.Message;
 using Xunit;
 
 namespace VoidCore.Test.AspNet
@@ -9,12 +11,13 @@ namespace VoidCore.Test.AspNet
     public class HttpResponderTests
     {
         [Fact]
-        public void RespondWithDataSuccess()
+        public void RespondWithEmptySuccess()
         {
             var result = Result.Ok();
             var responder = new HttpResponder();
             var response = responder.Respond(result);
             Assert.Equal(200, ((ObjectResult) response).StatusCode);
+            Assert.Null(((ObjectResult) response).Value);
         }
 
         [Fact]
@@ -24,6 +27,7 @@ namespace VoidCore.Test.AspNet
             var responder = new HttpResponder();
             var response = responder.Respond(result);
             Assert.Equal(400, ((ObjectResult) response).StatusCode);
+            Assert.Equal(1, ((ItemSet<IFailure>) ((ObjectResult) response).Value).Count);
         }
 
         [Fact]
@@ -41,10 +45,21 @@ namespace VoidCore.Test.AspNet
         [Fact]
         public void RespondWithFileFailure()
         {
-            var result = Result.Fail<SimpleFile>(new Failure("some fail", "some fail"));
+            var result = Result.Fail<SimpleFile>(new IFailure[] { new Failure("some fail", "some fail"), new Failure("some fail", "some fail") });
             var responder = new HttpResponder();
             var response = responder.RespondWithFile(result);
             Assert.Equal(400, ((ObjectResult) response).StatusCode);
+            Assert.Equal(2, ((ItemSet<IFailure>) ((ObjectResult) response).Value).Count);
+        }
+
+        [Fact]
+        public void RespondWithData()
+        {
+            var responder = new HttpResponder();
+            var response = responder.Respond(PostSuccessUserMessage.Create("success", 2));
+            Assert.Equal(200, ((ObjectResult) response).StatusCode);
+            Assert.Equal("success", ((PostSuccessUserMessage<int>)((ObjectResult) response).Value).Message);
+            Assert.Equal(2, ((PostSuccessUserMessage<int>)((ObjectResult) response).Value).Id);
         }
     }
 }

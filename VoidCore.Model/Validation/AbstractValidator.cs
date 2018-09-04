@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using VoidCore.Model.Action.Railway;
+using VoidCore.Model.Railway;
 
 namespace VoidCore.Model.Validation
 {

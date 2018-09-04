@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
-using VoidCore.AspNet.Authorization;
+using VoidCore.AspNet.ClientApp;
 
 namespace VoidCore.AspNet.Configuration
 {
@@ -34,8 +34,8 @@ namespace VoidCore.AspNet.Configuration
         /// <summary>
         /// Add a global filter for handling uncaught API exceptions.
         /// </summary>
-        /// <param name="services"></param>
-        /// <param name="environment"></param>
+        /// <param name="services">The services collection</param>
+        /// <param name="environment">The hosting environment</param>
         public static void AddApiExceptionFilter(this IServiceCollection services, IHostingEnvironment environment)
         {
             services.AddMvc(options => { options.Filters.Add(new TypeFilterAttribute(typeof(ApiExplorerSettingsAttribute))); });
@@ -70,6 +70,7 @@ namespace VoidCore.AspNet.Configuration
         /// <param name="services">This service collection</param>
         /// <param name="configuration">The application configuration</param>
         /// <typeparam name="TSettings">The settings object type to pull from configuration</typeparam>
+        /// <returns>The settings object to use during startup.null</returns>
         public static TSettings AddSettingsSingleton<TSettings>(this IServiceCollection services, IConfiguration configuration) where TSettings : class, new()
         {
             var settings = new TSettings();
