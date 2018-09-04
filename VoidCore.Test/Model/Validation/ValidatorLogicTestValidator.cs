@@ -2,7 +2,7 @@ using VoidCore.Model.Validation;
 
 namespace VoidCore.Test.Model.Validation
 {
-    internal class ValidatorLogicTestValidator : AbstractValidator<string>
+    internal class ValidatorLogicTestValidator : ValidatorAbstract<string>
     {
         protected override void BuildRules()
         {

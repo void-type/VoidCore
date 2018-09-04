@@ -9,7 +9,7 @@ namespace VoidCore.AspNet.Data
     /// </summary>
     /// <typeparam name="TDbEntity">The type of entities in the repository</typeparam>
     /// <typeparam name="TDbContext">The concrete type of DbContext to pull the DbQuery from</typeparam>
-    public abstract class EfAbstractQueryRepository<TDbEntity, TDbContext> : EfReadOnlyRepository<TDbEntity> where TDbEntity : class, new() where TDbContext : DbContext
+    public abstract class EfQueryRepositoryAbstract<TDbEntity, TDbContext> : EfReadOnlyRepository<TDbEntity> where TDbEntity : class, new() where TDbContext : DbContext
 
     {
         /// <summary>
@@ -22,6 +22,6 @@ namespace VoidCore.AspNet.Data
         /// Construct a new repository.
         /// </summary>
         /// <param name="context">The inner DbContext</param>
-        public EfAbstractQueryRepository(TDbContext context) : base(context) { }
+        protected EfQueryRepositoryAbstract(TDbContext context) : base(context) { }
     }
 }

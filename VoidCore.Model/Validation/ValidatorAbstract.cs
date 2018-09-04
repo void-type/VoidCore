@@ -8,7 +8,7 @@ namespace VoidCore.Model.Validation
     /// The base for a custom entity validator.
     /// </summary>
     /// <typeparam name="TValidatableEntity">The type of entities to validate</typeparam>
-    public abstract class AbstractValidator<TValidatableEntity> : IValidator<TValidatableEntity>
+    public abstract class ValidatorAbstract<TValidatableEntity> : IValidator<TValidatableEntity>
     {
         /// <inheritdoc/>
         public Result Validate(TValidatableEntity validatable)
@@ -23,7 +23,7 @@ namespace VoidCore.Model.Validation
         /// <summary>
         /// Construct a new validator.
         /// </summary>
-        protected AbstractValidator()
+        protected ValidatorAbstract()
         {
             CallBuildRules();
         }

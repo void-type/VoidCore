@@ -35,14 +35,7 @@ namespace VoidCore.Model.Railway
         /// <param name="result"></param>
         public static implicit operator Result(Result<TValue> result)
         {
-            if (result.IsSuccess)
-            {
-                return Result.Ok();
-            }
-            else
-            {
-                return Result.Fail(result.Failures);
-            }
+            return result.IsSuccess ? Result.Ok() : Result.Fail(result.Failures);
         }
     }
 

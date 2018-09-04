@@ -7,7 +7,7 @@ namespace VoidCore.Model.ClientApp
     /// Respond out of the domain model with results.
     /// </summary>
     /// <typeparam name="TResponse">They type of response that leaves the model.</typeparam>
-    public interface IResultResponder<TResponse>
+    public interface IResultResponder<out TResponse>
     {
         /// <summary>
         /// Respond with typed Result.

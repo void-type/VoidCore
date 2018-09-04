@@ -5,7 +5,7 @@ namespace VoidCore.Model.Data
     /// <summary>
     /// A persistent repository that can be modified.
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TEntity">The type of entity stored</typeparam>
     public interface IWritableRepository<TEntity> : IReadOnlyRepository<TEntity> where TEntity : class
     {
         /// <summary>

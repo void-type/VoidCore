@@ -2,7 +2,7 @@ using VoidCore.Model.Validation;
 
 namespace VoidCore.Test.Model.Validation
 {
-    internal class NoValidConditionTestValidator : AbstractValidator<int>
+    internal class NoValidConditionTestValidator : ValidatorAbstract<int>
     {
         protected override void BuildRules()
         {

@@ -6,7 +6,7 @@ namespace VoidCore.Model.Validation
     /// Interface for building new validator rules.
     /// </summary>
     /// <typeparam name="TValidatableEntity"></typeparam>
-    public interface IRuleBuilder<TValidatableEntity>
+    public interface IRuleBuilder<out TValidatableEntity>
     {
         /// <summary>
         /// Provide a function that returns true when the entity is valid. All valid conditions

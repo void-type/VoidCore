@@ -5,7 +5,7 @@ using System.Linq;
 namespace VoidCore.Model.Railway.ItemSet
 {
     /// <inheritdoc/>
-    public class ItemSet<TEntity> : AbstractItemSetBase<TEntity>
+    public class ItemSet<TEntity> : ItemSetBaseAbstract<TEntity>
     {
         /// <summary>
         /// Create a new ItemSet. Note that this will finalize deferred queries.

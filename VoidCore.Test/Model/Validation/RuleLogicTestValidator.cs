@@ -2,7 +2,7 @@ using VoidCore.Model.Validation;
 
 namespace VoidCore.Test.Model.Validation
 {
-    internal class RuleLogicTestValidator : AbstractValidator<bool>
+    internal class RuleLogicTestValidator : ValidatorAbstract<bool>
     {
         public RuleLogicTestValidator(bool isValid2, bool isSuppressed1, bool isSuppressed2)
         {

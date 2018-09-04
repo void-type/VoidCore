@@ -55,5 +55,14 @@ namespace VoidCore.Test.Model.Validation
             Assert.True(result.IsSuccess);
             Assert.False(result.Failures.Any());
         }
+
+        [Fact]
+        public void ValidatiorWorksOnDerivedTypes()
+        {
+            var result = new InheritedValidator().Validate(new DerivedEntity() { SomeProperty = "valid" });
+
+            Assert.True(result.IsSuccess);
+            Assert.False(result.Failures.Any());
+        }
     }
 }

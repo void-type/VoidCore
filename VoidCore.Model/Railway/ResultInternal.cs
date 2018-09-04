@@ -9,7 +9,8 @@ namespace VoidCore.Model.Railway
     /// </summary>
     internal sealed class ResultInternal
     {
-        public IFailure[] Failures => _failures;
+        public IFailure[] Failures { get; } = new IFailure[0];
+
         public bool IsFailed { get; }
         public bool IsSuccess => !IsFailed;
 
@@ -27,7 +28,7 @@ namespace VoidCore.Model.Railway
                     throw new ArgumentException("Failures must be provided for failed result.", nameof(failures));
                 }
 
-                _failures = failures;
+                Failures = failures;
             }
             else if (failures != null)
             {
@@ -36,7 +37,5 @@ namespace VoidCore.Model.Railway
 
             IsFailed = isFailure;
         }
-
-        private readonly IFailure[] _failures = new IFailure[0];
     }
 }

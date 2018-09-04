@@ -8,7 +8,7 @@ namespace VoidCore.Model.Railway.ItemSet
     /// A page of a full set of items. Used for data pagination.
     /// </summary>
     /// <typeparam name="TEntity">The entity type of the set</typeparam>
-    public class ItemSetPage<TEntity> : AbstractItemSetBase<TEntity>, IItemSetPage<TEntity>
+    public class ItemSetPage<TEntity> : ItemSetBaseAbstract<TEntity>, IItemSetPage<TEntity>
     {
         /// <inheritdoc/>
         public int Page { get; }
@@ -33,10 +33,9 @@ namespace VoidCore.Model.Railway.ItemSet
                 throw new ArgumentNullException(nameof(items), "Cannot make an ItemSetPage of null items.");
             }
 
-            // ReSharper disable once PossibleMultipleEnumeration
-            Items = SafePaginate(items, page, take).ToList();
-            // ReSharper disable once PossibleMultipleEnumeration
-            TotalCount = items.Count();
+            var itemsArray = items.ToArray();
+            Items = SafePaginate(itemsArray, page, take);
+            TotalCount = itemsArray.Count();
             Page = page;
             Take = take;
         }
@@ -45,12 +44,12 @@ namespace VoidCore.Model.Railway.ItemSet
 
         private const int TakeFloor = 0;
 
-        private int RangeFloor(int number, int lowerLimit)
+        private static int RangeFloor(int number, int lowerLimit)
         {
             return number < lowerLimit ? lowerLimit : number;
         }
 
-        private IEnumerable<TEntity> SafePaginate(IEnumerable<TEntity> items, int page, int take)
+        private static IEnumerable<TEntity> SafePaginate(IEnumerable<TEntity> items, int page, int take)
         {
             var safePage = RangeFloor(page, PageFloor);
             var safeTake = RangeFloor(take, TakeFloor);

@@ -15,7 +15,7 @@ namespace VoidCore.Model.Railway
         /// <inheritdoc/>
         public bool IsFailed => _internalResult.IsFailed;
 
-        private ResultInternal _internalResult;
+        private readonly ResultInternal _internalResult;
 
         internal ResultAbstract(bool isFailed, IFailure[] failures)
         {

@@ -39,6 +39,5 @@
         {
             return new PostSuccessUserMessage<TId>(message, id);
         }
-
     }
 }
