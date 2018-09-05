@@ -25,11 +25,11 @@ namespace VoidCore.AspNet.Configuration
         /// <param name="authorizationSettings">Authorization settings from configuration</param>
         public static void AddAuthorizationPoliciesFromSettings(this IServiceCollection services, AuthorizationSettings authorizationSettings)
         {
-            services.AddAuthorization(options => authorizationSettings.Policies.ToList()
-                .ForEach(policy => options
-                    .AddPolicy(policy.Key, p => p
-                        .RequireRole(policy.Value.Select(role => role.Name).ToArray())))
-            );
+            services.AddAuthorization(options => authorizationSettings.Roles
+                .ToList()
+                .ForEach(role => options
+                    .AddPolicy(role.Key, p => p
+                        .RequireRole(role.Value))));
         }
 
         /// <summary>
