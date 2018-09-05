@@ -43,6 +43,16 @@ namespace VoidCore.AspNet.Configuration
         }
 
         /// <summary>
+        /// Add filter to every endpoint for authorization.
+        /// </summary>
+        /// <param name="services">This service collection</param>
+        /// <param name="policy">The policy name</param>
+        public static void AddGlobalAuthorizeFilter(this IServiceCollection services, string policy)
+        {
+            services.AddMvc(o => o.Filters.Add(new AuthorizeFilter(policy)));
+        }
+
+        /// <summary>
         /// Setup Antiforgery token and filters, also sets HTTPS redirection to port 443 by default.
         /// Disables authentication in development.
         /// </summary>
