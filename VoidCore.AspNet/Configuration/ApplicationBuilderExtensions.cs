@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Threading.Tasks;
 using VoidCore.AspNet.ClientApp;
 
@@ -38,7 +40,9 @@ namespace VoidCore.AspNet.Configuration
             {
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
+            
             return app;
         }
 
@@ -64,9 +68,13 @@ namespace VoidCore.AspNet.Configuration
             app.UseStatusCodePages(context =>
             {
                 var response = context.HttpContext.Response;
-                var requestPath = context.HttpContext.Request.Path.ToString();
 
-                if (response.StatusCode == 403 && !requestPath.StartsWith(ApiRoute.BasePath))
+                var isForbidden = response.StatusCode == StatusCodes.Status403Forbidden;
+
+                var isApiRequest = context.HttpContext.Request.Path
+                    .StartsWithSegments(ApiRoute.BasePath, StringComparison.OrdinalIgnoreCase);
+
+                if (isForbidden && !isApiRequest)
                 {
                     response.Redirect("/forbidden");
                 }

@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using VoidCore.AspNet.ClientApp;
@@ -23,16 +24,17 @@ namespace VoidCore.AspNet.Exceptions
         /// <inheritdoc/>
         public override void OnException(ExceptionContext context)
         {
-            var requestPath = context.HttpContext.Request.Path.ToString();
+            var isApiRequest = context.HttpContext.Request.Path
+                .StartsWithSegments(ApiRoute.BasePath, StringComparison.OrdinalIgnoreCase);
 
-            if (!requestPath.StartsWith(ApiRoute.BasePath))
+            if (!isApiRequest)
             {
                 return;
             }
 
-            _logger.Error(context.Exception);
-            var errorMessage = new UserMessage("There was a problem processing your request.");
-            context.Result = new ObjectResult(errorMessage) { StatusCode = 500 };
+            var message = "There was a problem processing your request.";
+            _logger.Error(context.Exception, message);
+            context.Result = new ObjectResult(new UserMessage(message)) { StatusCode = 500 };
         }
 
         private readonly ILoggingService _logger;
