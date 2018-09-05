@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using VoidCore.AspNet.ClientApp;
+using VoidCore.AspNet.Exceptions;
 
 namespace VoidCore.AspNet.Configuration
 {
@@ -38,7 +39,7 @@ namespace VoidCore.AspNet.Configuration
         /// <param name="environment">The hosting environment</param>
         public static void AddApiExceptionFilter(this IServiceCollection services, IHostingEnvironment environment)
         {
-            services.AddMvc(options => { options.Filters.Add(new TypeFilterAttribute(typeof(ApiExplorerSettingsAttribute))); });
+            services.AddMvc(options => options.Filters.Add(new TypeFilterAttribute(typeof(ApiExceptionFilterAttribute))));
         }
 
         /// <summary>
