@@ -9,7 +9,7 @@
         /// The UI-friendly error message to be displayed to the user.
         /// </summary>
         /// <value>The message</value>
-        string ErrorMessage { get; }
+        string Message { get; }
 
         /// <summary>
         /// The name of the UI field corresponding to the invalid user input.
@@ -22,7 +22,7 @@
     public class Failure : IFailure
     {
         /// <inheritdoc/>
-        public string ErrorMessage { get; }
+        public string Message { get; }
 
         /// <inheritdoc/>
         public string UiHandle { get; }
@@ -34,7 +34,7 @@
         /// <param name="uiHandle">The entity property name that is in error. Can be mapped to a field on the view</param>
         public Failure(string errorMessage = null, string uiHandle = null)
         {
-            ErrorMessage = errorMessage;
+            Message = errorMessage;
             UiHandle = uiHandle;
         }
     }

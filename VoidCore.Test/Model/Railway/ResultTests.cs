@@ -34,7 +34,7 @@ namespace VoidCore.Test.Model.Railway
             Assert.False(result.IsSuccess);
             Assert.True(result.IsFailed);
             Assert.NotEmpty(result.Failures);
-            Assert.Equal("Some error", result.Failures.Single().ErrorMessage);
+            Assert.Equal("Some error", result.Failures.Single().Message);
             Assert.Equal("someHandle", result.Failures.Single().UiHandle);
         }
 
@@ -45,7 +45,7 @@ namespace VoidCore.Test.Model.Railway
             Assert.False(result.IsSuccess);
             Assert.True(result.IsFailed);
             Assert.NotEmpty(result.Failures);
-            Assert.Equal("Some error", result.Failures.Single().ErrorMessage);
+            Assert.Equal("Some error", result.Failures.Single().Message);
             Assert.Equal("someHandle", result.Failures.Single().UiHandle);
         }
 
@@ -60,7 +60,7 @@ namespace VoidCore.Test.Model.Railway
             Assert.False(result.IsSuccess);
             Assert.True(result.IsFailed);
             Assert.NotEmpty(result.Failures);
-            Assert.Equal("Some error", result.Failures.First().ErrorMessage);
+            Assert.Equal("Some error", result.Failures.First().Message);
             Assert.Equal("someHandle", result.Failures.First().UiHandle);
             Assert.Equal(2, result.Failures.Count());
         }
@@ -72,7 +72,7 @@ namespace VoidCore.Test.Model.Railway
             Assert.False(result.IsSuccess);
             Assert.True(result.IsFailed);
             Assert.NotEmpty(result.Failures);
-            Assert.Equal("Some error", result.Failures.Single().ErrorMessage);
+            Assert.Equal("Some error", result.Failures.Single().Message);
             Assert.Equal("someHandle", result.Failures.Single().UiHandle);
             Assert.Null(result.Value);
         }
@@ -84,7 +84,7 @@ namespace VoidCore.Test.Model.Railway
             Assert.False(result.IsSuccess);
             Assert.True(result.IsFailed);
             Assert.NotEmpty(result.Failures);
-            Assert.Equal("Some error", result.Failures.Single().ErrorMessage);
+            Assert.Equal("Some error", result.Failures.Single().Message);
             Assert.Equal("someHandle", result.Failures.Single().UiHandle);
             Assert.Null(result.Value);
         }
@@ -96,7 +96,7 @@ namespace VoidCore.Test.Model.Railway
             Assert.False(result.IsSuccess);
             Assert.True(result.IsFailed);
             Assert.NotEmpty(result.Failures);
-            Assert.Equal("Some error", result.Failures.First().ErrorMessage);
+            Assert.Equal("Some error", result.Failures.First().Message);
             Assert.Equal("someHandle", result.Failures.First().UiHandle);
             Assert.Equal(2, result.Failures.Count());
             Assert.Null(result.Value);
@@ -112,7 +112,7 @@ namespace VoidCore.Test.Model.Railway
         public void ResultThrowsErrorWithNullFailures()
         {
             Assert.Throws<ArgumentNullException>(() => Result.Fail((IFailure[]) null));
-            Assert.Throws<ArgumentNullException>(() => Result.Fail((Failure) null));
+            Assert.Throws<ArgumentNullException>(() => Result.Fail((IFailure) null));
         }
 
         [Fact]
@@ -131,7 +131,7 @@ namespace VoidCore.Test.Model.Railway
         public void TypedResultThrowsErrorWithNullFailures()
         {
             Assert.Throws<ArgumentNullException>(() => Result.Fail<string>((IFailure[]) null));
-            Assert.Throws<ArgumentNullException>(() => Result.Fail<string>((Failure) null));
+            Assert.Throws<ArgumentNullException>(() => Result.Fail<string>((IFailure) null));
         }
 
         [Fact]

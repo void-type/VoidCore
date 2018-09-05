@@ -35,7 +35,7 @@ namespace VoidCore.Test.Model.Validation
         {
             var result = new ValidatorLogicTestValidator().Validate("match");
 
-            Assert.Equal("violated", result.Failures.Single().ErrorMessage);
+            Assert.Equal("violated", result.Failures.Single().Message);
         }
 
         [Fact]

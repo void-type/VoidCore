@@ -50,7 +50,7 @@ namespace VoidCore.Model.Railway.ItemSet
                     $"Count: {validationErrors.Count}",
                     "ValidationErrors:"
                 }
-                .Concat(validationErrors.Items.Select(error => error.ErrorMessage))
+                .Concat(validationErrors.Items.Select(error => error.Message))
                 .ToArray();
             return errorStrings;
         }
