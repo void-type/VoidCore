@@ -14,10 +14,10 @@ namespace VoidCore.AspNet.Configuration
         /// <summary>
         /// Build a web host using serilog and log all exceptions. Use this in Program.Main().
         /// </summary>
-        /// <typeparam name="TStartup"></typeparam>
+        /// <typeparam name="TStartup">The type containing startup methods for the application.</typeparam>
         public static int BuildAndRun<TStartup>(string[] args) where TStartup : class
         {
-            Log.Logger = SerilogFileLoggerFactory.Create<TStartup>();
+            Log.Logger = SerilogFileLoggerFactory.Create<TStartup>(false);
 
             try
             {
@@ -42,6 +42,5 @@ namespace VoidCore.AspNet.Configuration
                 Log.CloseAndFlush();
             }
         }
-
     }
 }

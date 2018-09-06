@@ -42,7 +42,7 @@ namespace VoidCore.AspNet.Configuration
             }
 
             app.UseHttpsRedirection();
-            
+
             return app;
         }
 

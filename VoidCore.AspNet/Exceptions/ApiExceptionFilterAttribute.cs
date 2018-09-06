@@ -33,7 +33,7 @@ namespace VoidCore.AspNet.Exceptions
             }
 
             var message = "There was a problem processing your request.";
-            _logger.Error(context.Exception, message);
+            _logger.Fatal(context.Exception, message);
             context.Result = new ObjectResult(new UserMessage(message)) { StatusCode = 500 };
         }
 
