@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using VoidCore.Model.ClientApp;
 using VoidCore.Model.Railway;
-using VoidCore.Model.Railway.File;
-using VoidCore.Model.Railway.ItemSet;
+using VoidCore.Model.Responses.File;
+using VoidCore.Model.Responses.ItemSet;
 
 namespace VoidCore.AspNet.ClientApp
 {
@@ -47,7 +47,7 @@ namespace VoidCore.AspNet.ClientApp
         /// </summary>
         /// <param name="result">The result to send</param>
         /// <returns></returns>
-        public IActionResult RespondWithFile(Result<SimpleFile> result)
+        public IActionResult RespondWithFile(Result<ISimpleFile> result)
         {
             if (result.IsSuccess)
             {

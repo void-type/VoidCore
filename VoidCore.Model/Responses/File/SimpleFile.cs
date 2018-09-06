@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace VoidCore.Model.Railway.File
+namespace VoidCore.Model.Responses.File
 {
     /// <inheritdoc/>
     public class SimpleFile : ISimpleFile

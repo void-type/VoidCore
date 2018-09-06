@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace VoidCore.Model.Railway.ItemSet
+namespace VoidCore.Model.Responses.ItemSet
 {
     /// <inheritdoc/>
     public class ItemSet<TEntity> : ItemSetBaseAbstract<TEntity>

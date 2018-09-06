@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace VoidCore.Model.Railway.ItemSet
+namespace VoidCore.Model.Responses.ItemSet
 {
     /// <summary>
     /// A DTO for sending a collection to the UI. Predictably brings items into memory from the database and counts them before sending them to the UI.

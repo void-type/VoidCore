@@ -1,5 +1,5 @@
 using System;
-using VoidCore.Model.Railway.Message;
+using VoidCore.Model.Responses.Message;
 using Xunit;
 
 namespace VoidCore.Test.Model.Railway.Responses

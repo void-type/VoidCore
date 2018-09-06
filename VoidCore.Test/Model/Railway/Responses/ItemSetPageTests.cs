@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using VoidCore.Model.Railway.ItemSet;
+using VoidCore.Model.Responses.ItemSet;
 using Xunit;
 
 namespace VoidCore.Test.Model.Railway.Responses

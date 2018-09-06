@@ -1,6 +1,7 @@
 using System.Linq;
+using VoidCore.Model.Railway;
 
-namespace VoidCore.Model.Railway.ItemSet
+namespace VoidCore.Model.Responses.ItemSet
 {
     /// <summary>
     /// Helpers for pulling logging text from the default responses.

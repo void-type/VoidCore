@@ -1,4 +1,4 @@
-﻿namespace VoidCore.Model.Railway.ItemSet
+﻿namespace VoidCore.Model.Responses.ItemSet
 {
     /// <summary>
     /// A page for paginating a set of results.

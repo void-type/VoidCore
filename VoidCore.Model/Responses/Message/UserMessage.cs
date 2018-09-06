@@ -1,4 +1,4 @@
-﻿namespace VoidCore.Model.Railway.Message
+﻿namespace VoidCore.Model.Responses.Message
 {
     /// <summary>
     /// A UI-friendly message.

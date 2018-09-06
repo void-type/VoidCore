@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace VoidCore.Model.Railway.ItemSet
+namespace VoidCore.Model.Responses.ItemSet
 {
     /// <summary>
     /// A page of a full set of items. Used for data pagination.

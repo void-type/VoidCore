@@ -1,4 +1,4 @@
-namespace VoidCore.Model.Railway.File
+namespace VoidCore.Model.Responses.File
 {
     /// <summary>
     /// Helpers for pulling logging text from the default responses.

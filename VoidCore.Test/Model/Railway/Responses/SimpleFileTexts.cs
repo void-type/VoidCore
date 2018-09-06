@@ -1,5 +1,5 @@
 using System.Text;
-using VoidCore.Model.Railway.File;
+using VoidCore.Model.Responses.File;
 using Xunit;
 
 namespace VoidCore.Test.Model.Railway.Responses

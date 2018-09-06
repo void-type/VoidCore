@@ -1,5 +1,5 @@
 using VoidCore.Model.Railway;
-using VoidCore.Model.Railway.File;
+using VoidCore.Model.Responses.File;
 
 namespace VoidCore.Model.ClientApp
 {
@@ -36,6 +36,6 @@ namespace VoidCore.Model.ClientApp
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        TResponse RespondWithFile(Result<SimpleFile> result);
+        TResponse RespondWithFile(Result<ISimpleFile> result);
     }
 }

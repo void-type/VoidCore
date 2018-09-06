@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using VoidCore.AspNet.ClientApp;
 using VoidCore.Model.Railway;
-using VoidCore.Model.Railway.File;
-using VoidCore.Model.Railway.ItemSet;
-using VoidCore.Model.Railway.Message;
+using VoidCore.Model.Responses.File;
+using VoidCore.Model.Responses.ItemSet;
+using VoidCore.Model.Responses.Message;
 using Xunit;
 
 namespace VoidCore.Test.AspNet
@@ -53,7 +53,7 @@ namespace VoidCore.Test.AspNet
         [Fact]
         public void RespondWithFileSuccess()
         {
-            var file = new SimpleFile("fileContent", "fileName");
+            var file = new SimpleFile("fileContent", "fileName") as ISimpleFile;
             var result = Result.Ok(file);
             var responder = new HttpResponder();
             var response = responder.RespondWithFile(result);
@@ -65,7 +65,7 @@ namespace VoidCore.Test.AspNet
         [Fact]
         public void RespondWithFileFailure()
         {
-            var result = Result.Fail<SimpleFile>(new IFailure[] { new Failure("some fail", "some fail"), new Failure("some fail", "some fail") });
+            var result = Result.Fail<ISimpleFile>(new IFailure[] { new Failure("some fail", "some fail"), new Failure("some fail", "some fail") });
             var responder = new HttpResponder();
             var response = responder.RespondWithFile(result);
             Assert.Equal(400, ((ObjectResult) response).StatusCode);
@@ -78,8 +78,8 @@ namespace VoidCore.Test.AspNet
             var responder = new HttpResponder();
             var response = responder.Respond(PostSuccessUserMessage.Create("success", 2));
             Assert.Equal(200, ((ObjectResult) response).StatusCode);
-            Assert.Equal("success", ((PostSuccessUserMessage<int>)((ObjectResult) response).Value).Message);
-            Assert.Equal(2, ((PostSuccessUserMessage<int>)((ObjectResult) response).Value).Id);
+            Assert.Equal("success", ((PostSuccessUserMessage<int>) ((ObjectResult) response).Value).Message);
+            Assert.Equal(2, ((PostSuccessUserMessage<int>) ((ObjectResult) response).Value).Id);
         }
     }
 }

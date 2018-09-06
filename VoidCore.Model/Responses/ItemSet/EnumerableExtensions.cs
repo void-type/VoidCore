@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace VoidCore.Model.Railway.ItemSet
+namespace VoidCore.Model.Responses.ItemSet
 {
     /// <summary>
     /// Helpers for finalizing queries and transforming them into view DTOs.

@@ -1,9 +1,9 @@
-using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System;
 using VoidCore.AspNet.ClientApp;
 using VoidCore.Model.Logging;
-using VoidCore.Model.Railway.Message;
+using VoidCore.Model.Responses.Message;
 
 namespace VoidCore.AspNet.Exceptions
 {

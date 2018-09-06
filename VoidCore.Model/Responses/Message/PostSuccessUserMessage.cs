@@ -1,4 +1,4 @@
-﻿namespace VoidCore.Model.Railway.Message
+﻿namespace VoidCore.Model.Responses.Message
 {
     /// <summary>
     /// Store a UI-friendly success message and the Id of the entity that was altered during the command.
