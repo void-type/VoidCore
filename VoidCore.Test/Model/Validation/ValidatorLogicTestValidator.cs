@@ -7,10 +7,10 @@ namespace VoidCore.Test.Model.Validation
         protected override void BuildRules()
         {
             CreateRule("violated", "violated field name")
-                .ValidWhen(stg => stg == "not match");
+                .InvalidWhen(stg => stg != "not match");
 
             CreateRule("valid", "validField")
-                .ValidWhen(stg => stg == "match");
+                .InvalidWhen(stg => stg != "match");
         }
     }
 }

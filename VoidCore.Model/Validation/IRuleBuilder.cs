@@ -9,12 +9,12 @@ namespace VoidCore.Model.Validation
     public interface IRuleBuilder<out TValidatableEntity>
     {
         /// <summary>
-        /// Provide a function that returns true when the entity is valid. All valid conditions
-        /// must be true for the entity to be validated.
+        /// Provide a function that returns true when the entity is invalid. All invalid conditions
+        /// must be true for the entity to be invalid.
         /// </summary>
-        /// <param name="validCondition">A function to validate a part of the entity.</param>
+        /// <param name="invalidCondition">A function that returns true if the entity is invalid.</param>
         /// <returns>A rule builder to chain rule creation operations.</returns>
-        IRuleBuilder<TValidatableEntity> ValidWhen(Func<TValidatableEntity, bool> validCondition);
+        IRuleBuilder<TValidatableEntity> InvalidWhen(Func<TValidatableEntity, bool> invalidCondition);
 
         /// <summary>
         /// Provide a function that returns true when a rule should be suppressed. All suppression conditions

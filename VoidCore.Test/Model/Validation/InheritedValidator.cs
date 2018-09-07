@@ -7,7 +7,7 @@ namespace VoidCore.Test.Model.Validation
         protected override void BuildRules()
         {
             CreateRule("invalid", "someProperty")
-                .ValidWhen(v => !string.IsNullOrWhiteSpace(v.SomeProperty));
+                .InvalidWhen(v => string.IsNullOrWhiteSpace(v.SomeProperty));
         }
     }
 

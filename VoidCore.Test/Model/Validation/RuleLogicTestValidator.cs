@@ -14,8 +14,8 @@ namespace VoidCore.Test.Model.Validation
         protected override void BuildRules()
         {
             CreateRule("test is invalid", "testField")
-                .ValidWhen(isValid1 => isValid1)
-                .ValidWhen(isValid1 => _isValid2)
+                .InvalidWhen(isValid1 => isValid1)
+                .InvalidWhen(isValid1 => _isValid2)
                 .ExceptWhen(isValid1 => _isSuppressed1)
                 .ExceptWhen(isValid1 => _isSuppressed2);
         }

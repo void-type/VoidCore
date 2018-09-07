@@ -11,7 +11,7 @@ namespace VoidCore.Model.Validation
     public class Rule<TValidatableEntity> : IRule<TValidatableEntity>, IRuleBuilder<TValidatableEntity>
     {
         private readonly IFailure _failureToThrowWhenViolated;
-        private readonly List<Func<TValidatableEntity, bool>> _validConditions = new List<Func<TValidatableEntity, bool>>();
+        private readonly List<Func<TValidatableEntity, bool>> _invalidConditions = new List<Func<TValidatableEntity, bool>>();
         private readonly List<Func<TValidatableEntity, bool>> _suppressConditions = new List<Func<TValidatableEntity, bool>>();
 
         /// <summary>
@@ -27,21 +27,23 @@ namespace VoidCore.Model.Validation
         /// <inheritdoc/>
         public Result Validate(TValidatableEntity validatable)
         {
-            var ruleIsSuppressed = _suppressConditions.All(c => c.Invoke(validatable));
-
-            if (_suppressConditions.Any() && ruleIsSuppressed)
+            if (_suppressConditions.Any() && _suppressConditions.All(c => c.Invoke(validatable)))
             {
                 return Result.Ok();
             }
 
-            var ruleIsNotViolated = _validConditions.All(c => c.Invoke(validatable));
+            if (_invalidConditions.Any() && _invalidConditions.All(c => c.Invoke(validatable)))
+            {
+                return Result.Fail(_failureToThrowWhenViolated);
+            }
 
-            return ruleIsNotViolated ? Result.Ok() : Result.Fail(_failureToThrowWhenViolated);
+            return Result.Ok();
         }
+
         /// <inheritdoc/>
-        public IRuleBuilder<TValidatableEntity> ValidWhen(Func<TValidatableEntity, bool> validCondition)
+        public IRuleBuilder<TValidatableEntity> InvalidWhen(Func<TValidatableEntity, bool> invalidCondition)
         {
-            _validConditions.Add(validCondition);
+            _invalidConditions.Add(invalidCondition);
             return this;
         }
 

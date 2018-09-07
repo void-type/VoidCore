@@ -31,18 +31,6 @@
             ]
         },
         {
-            "label": "deployAllPkg",
-            "command": "./deployAllPkg.ps1",
-            "options": {
-                "cwd": "./Scripts"
-            },
-            "type": "shell",
-            "group": "test",
-            "problemMatcher": [
-                "$msCompile"
-            ]
-        },
-        {
             "label": "testCore",
             "command": "./testCore.ps1",
             "options": {
