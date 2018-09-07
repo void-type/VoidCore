@@ -21,7 +21,7 @@ namespace VoidCore.MediatR
 
             if (result.IsFailed)
             {
-                _logger.Warn("Logged Failures: " + string.Join(" ", result.Failures.Select(x => x.Message)));
+                _logger.Warn("Failures: " + string.Join(" ", result.Failures.Select(x => x.Message)));
             }
 
             return result;
