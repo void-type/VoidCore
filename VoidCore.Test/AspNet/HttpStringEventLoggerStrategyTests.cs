@@ -34,8 +34,8 @@ namespace VoidCore.Test.AspNet
 
             var logText = strategy.LogEvent(exception, "added12", "added23");
 
-            var expectedPrefix = "identifier:userName:GET:/path/to/here";
-            var expectedPayload = "added12 added23 Threw Exception: System.Exception: 1 System.Exception: 2 System.Exception: 3";
+            const string expectedPrefix = "identifier:userName:GET:/path/to/here";
+            const string expectedPayload = "added12 added23 Threw Exception: System.Exception: 1 System.Exception: 2 System.Exception: 3";
 
             Assert.Contains(expectedPrefix, logText);
             Assert.Contains(expectedPayload, logText);
@@ -62,8 +62,8 @@ namespace VoidCore.Test.AspNet
 
             var logText = strategy.LogEvent((Exception)null, "added12", "added23");
 
-            var expectedPrefix = "identifier:userName:GET:/path/to/here";
-            var expectedPayload = "added12 added23";
+            const string expectedPrefix = "identifier:userName:GET:/path/to/here";
+            const string expectedPayload = "added12 added23";
 
             Assert.Contains(expectedPrefix, logText);
             Assert.Contains(expectedPayload, logText);

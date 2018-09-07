@@ -1,5 +1,10 @@
 namespace VoidCore.Model.Railway
 {
+    public interface IFallible<out TValue>
+    {
+        TValue Value { get; }
+    }
+
     /// <summary>
     /// Common interface for results of operations that can fail or succeed.
     /// </summary>
