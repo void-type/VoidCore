@@ -4,8 +4,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>VoidCore.Model</PackageId>
-    <Title>VoidCore.Model</Title>
+    <PackageId>VoidCore.MediatR</PackageId>
+    <Title>VoidCore.MediatR</Title>
     <Authors>Jeff Schreiner and git contributors</Authors>
     <Description>A base model for buisness applications including actions, interfaces, and validation.</Description>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
@@ -20,4 +20,12 @@
     <VersionSuffix>alpha-6</VersionSuffix>
     <ReleaseNotes>See git commits since last release.</ReleaseNotes>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VoidCore.Model\VoidCore.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="5.1.0" />
+  </ItemGroup>
 </Project>

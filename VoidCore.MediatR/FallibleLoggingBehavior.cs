@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using VoidCore.Model.Logging;
 using VoidCore.Model.Railway;
 
-namespace MediatrRailwayExample.Models.CoreModel
+namespace VoidCore.MediatR
 {
     public class FallibleLoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TResponse : IFallible
     {
