@@ -48,9 +48,9 @@ namespace VoidCore.Model.DomainEvents
         /// Override this method to provide domain logic to handle the validated request and return an appropriate result of the response.
         /// Cross-cutting concerns or non-domain elements should be put into post processors.
         /// </summary>
-        /// <param name="validRequest">The validated request</param>
+        /// <param name="request">The validated request</param>
         /// <returns>A result of TResponse</returns>
-        protected abstract Task<Result<TResponse>> HandleInternal(TRequest validRequest);
+        protected abstract Task<Result<TResponse>> HandleInternal(TRequest request);
 
         private readonly List<IValidator<TRequest>> _validators = new List<IValidator<TRequest>>();
         private readonly List<IPostProcessor<TRequest, TResponse>> _postProcessors = new List<IPostProcessor<TRequest, TResponse>>();

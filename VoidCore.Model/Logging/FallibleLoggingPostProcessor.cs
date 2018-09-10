@@ -16,7 +16,7 @@ namespace VoidCore.Model.Logging
         /// <param name="logger">The ILoggingService to log to</param>
         public FallibleLoggingPostProcessor(ILoggingService logger)
         {
-            _logger = logger;
+            Logger = logger;
         }
 
         /// <summary>
@@ -27,10 +27,13 @@ namespace VoidCore.Model.Logging
         /// <param name="result">The result of the event, this contains the response if successful</param>
         public override void OnFailure(TRequest request, IFallible result)
         {
-            _logger.Warn("Failures: " + string.Join(" ", result.Failures.Select(x => x.Message)));
+            Logger.Warn("Failures: " + string.Join(" ", result.Failures.Select(x => x.Message)));
             base.OnFailure(request, result);
         }
 
-        private readonly ILoggingService _logger;
+        /// <summary>
+        /// Instance of a logging service.
+        /// </summary>
+        protected readonly ILoggingService Logger;
     }
 }
