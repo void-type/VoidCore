@@ -114,7 +114,7 @@ namespace VoidCore.Test.Model.DomainEvents
             var domainEvent = new TestEventOk();
             domainEvent.AddPostProcessor(processorMock.Object);
 
-            var result = await domainEvent.Handle(new TestRequest());
+            await domainEvent.Handle(new TestRequest());
 
             processorMock.Verify(p => p.OnBoth(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()), Times.Once());
             processorMock.Verify(p => p.OnFailure(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()), Times.Never());
@@ -132,7 +132,7 @@ namespace VoidCore.Test.Model.DomainEvents
             var domainEvent = new TestEventFail();
             domainEvent.AddPostProcessor(processorMock.Object);
 
-            var result = await domainEvent.Handle(new TestRequest());
+            await domainEvent.Handle(new TestRequest());
 
             processorMock.Verify(p => p.OnBoth(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()), Times.Once());
             processorMock.Verify(p => p.OnFailure(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()), Times.Once());
