@@ -20,7 +20,7 @@ namespace VoidCore.Model.Logging
         }
 
         /// <summary>
-        /// Log failures of the IFallible. If other you are overriding this method, be sure to call base(request, result) to
+        /// Log failures of the IFallible. If other you are overriding this method, be sure to call base() to
         /// invoke this default behavior.
         /// </summary>
         /// <param name="request">The domain event request</param>
@@ -28,6 +28,7 @@ namespace VoidCore.Model.Logging
         public override void OnFailure(TRequest request, IFallible result)
         {
             _logger.Warn("Failures: " + string.Join(" ", result.Failures.Select(x => x.Message)));
+            base.OnFailure(request, result);
         }
 
         private readonly ILoggingService _logger;

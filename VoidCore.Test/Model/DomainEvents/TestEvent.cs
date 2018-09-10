@@ -6,7 +6,7 @@ namespace VoidCore.Test.Model.DomainEvents
 {
     public class TestEventOk : DomainEventAbstract<TestRequest, TestResponse>
     {
-        protected async override Task<Result<TestResponse>> HandleInternal(TestRequest validRequest)
+        protected override async Task<Result<TestResponse>> HandleInternal(TestRequest validRequest)
         {
             return await Task.FromResult(
                 Result.Ok(
@@ -16,7 +16,7 @@ namespace VoidCore.Test.Model.DomainEvents
 
     public class TestEventFail : DomainEventAbstract<TestRequest, TestResponse>
     {
-        protected async override Task<Result<TestResponse>> HandleInternal(TestRequest validRequest)
+        protected override async Task<Result<TestResponse>> HandleInternal(TestRequest validRequest)
         {
             return await Task.FromResult(
                 Result.Fail<TestResponse>(
@@ -24,10 +24,7 @@ namespace VoidCore.Test.Model.DomainEvents
         }
     }
 
-    public class TestRequest
-    {
-        public int Id { get; set; } = 1;
-    }
+    public class TestRequest { }
 
     public class TestResponse
     {
