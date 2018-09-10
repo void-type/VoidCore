@@ -102,5 +102,43 @@ namespace VoidCore.Test.Model.DomainEvents
             Assert.Equal("event failed", result.Failures.Single().Message);
             processorMock.Verify(p => p.Process(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()), Times.Once());
         }
+
+        [Fact]
+        public async void PostProcessorAbstractCallsOnBothAndOnSuccessWhenResultOk()
+        {
+            var processorMock = new Mock<PostProcessorAbstract<TestRequest, TestResponse>>();
+            processorMock.Setup(p => p.OnBoth(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
+            processorMock.Setup(p => p.OnFailure(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
+            processorMock.Setup(p => p.OnSuccess(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
+
+            var domainEvent = new TestEventOk();
+            domainEvent.AddPostProcessor(processorMock.Object);
+
+            var result = await domainEvent.Handle(new TestRequest());
+
+            Assert.Equal("success", result.Value.Name);
+            processorMock.Verify(p => p.OnBoth(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()), Times.Once());
+            processorMock.Verify(p => p.OnFailure(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()), Times.Never());
+            processorMock.Verify(p => p.OnSuccess(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()), Times.Once());
+        }
+
+        [Fact]
+        public async void PostProcessorAbstractCallsOnFailureWhenResultFail()
+        {
+            var processorMock = new Mock<PostProcessorAbstract<TestRequest, TestResponse>>();
+            processorMock.Setup(p => p.OnBoth(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
+            processorMock.Setup(p => p.OnFailure(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
+            processorMock.Setup(p => p.OnSuccess(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
+
+            var domainEvent = new TestEventOk();
+            domainEvent.AddPostProcessor(processorMock.Object);
+
+            var result = await domainEvent.Handle(new TestRequest());
+
+            Assert.Equal("success", result.Value.Name);
+            processorMock.Verify(p => p.OnBoth(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()), Times.Once());
+            processorMock.Verify(p => p.OnFailure(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()), Times.Never());
+            processorMock.Verify(p => p.OnSuccess(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()), Times.Once());
+        }
     }
 }
