@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace VoidCore.Model.Railway
+namespace VoidCore.Model.DomainEvents
 {
     /// <summary>
     /// The result of a faillible operation that returns a value on success.

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VoidCore.Model.Railway;
+using VoidCore.Model.DomainEvents;
 using Xunit;
 
-namespace VoidCore.Test.Model.Railway
+namespace VoidCore.Test.Model.DomainEvents
 {
     public class ResultTests
     {

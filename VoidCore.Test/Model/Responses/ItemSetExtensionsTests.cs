@@ -1,10 +1,10 @@
 using Moq;
 using System.Collections.Generic;
-using VoidCore.Model.Railway;
+using VoidCore.Model.DomainEvents;
 using VoidCore.Model.Responses.ItemSet;
 using Xunit;
 
-namespace VoidCore.Test.Model.Railway.Responses
+namespace VoidCore.Test.Model.Responses
 {
     public class ItemSetExtensionsTests
     {

@@ -1,4 +1,4 @@
-using VoidCore.Model.Railway;
+using VoidCore.Model.DomainEvents;
 using VoidCore.Model.Responses.File;
 
 namespace VoidCore.Model.ClientApp

@@ -1,4 +1,4 @@
-﻿using VoidCore.Model.Railway;
+﻿using VoidCore.Model.DomainEvents;
 
 namespace VoidCore.Model.Validation
 {

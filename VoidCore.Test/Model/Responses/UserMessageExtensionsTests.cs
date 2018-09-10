@@ -1,7 +1,7 @@
 using VoidCore.Model.Responses.Message;
 using Xunit;
 
-namespace VoidCore.Test.Model.Railway.Responses
+namespace VoidCore.Test.Model.Responses
 {
     public class UserMessageExtensionsTests
     {

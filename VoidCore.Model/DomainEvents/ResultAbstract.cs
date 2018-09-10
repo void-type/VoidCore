@@ -1,4 +1,4 @@
-namespace VoidCore.Model.Railway
+namespace VoidCore.Model.DomainEvents
 {
     /// <summary>
     /// Base class for Result classes.

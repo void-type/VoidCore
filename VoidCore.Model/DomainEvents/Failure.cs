@@ -1,4 +1,4 @@
-﻿namespace VoidCore.Model.Railway
+﻿namespace VoidCore.Model.DomainEvents
 {
     /// <inheritdoc/>
     public class Failure : IFailure

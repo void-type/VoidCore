@@ -3,7 +3,7 @@ using System.Linq;
 using VoidCore.Model.Responses.ItemSet;
 using Xunit;
 
-namespace VoidCore.Test.Model.Railway.Responses
+namespace VoidCore.Test.Model.Responses
 {
     public class EnumerableExtensionsTests
     {

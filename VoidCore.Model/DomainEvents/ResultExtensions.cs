@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace VoidCore.Model.Railway
+namespace VoidCore.Model.DomainEvents
 {
     /// <summary>
     /// Extensions for the Result class

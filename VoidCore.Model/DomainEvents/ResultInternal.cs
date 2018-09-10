@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace VoidCore.Model.Railway
+namespace VoidCore.Model.DomainEvents
 {
     /// <summary>
     /// This class holds the internal logic for the Result abstract class and its inheritors. InternalResult should not be directly accessed outside of
@@ -13,7 +13,6 @@ namespace VoidCore.Model.Railway
 
         public bool IsFailed { get; }
         public bool IsSuccess => !IsFailed;
-
         internal ResultInternal(bool isFailure, IFailure[] failures)
         {
             if (isFailure)
