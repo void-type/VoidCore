@@ -14,6 +14,6 @@ namespace VoidCore.Model.DomainEvents
         /// </summary>
         /// <param name="request">The domain event request</param>
         /// <param name="result">The result of the event, this contains the response if successful</param>
-        void Process(TRequest request, Result<TResponse> result);
+        void Process(TRequest request, IFallible<TResponse> result);
     }
 }
