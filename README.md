@@ -50,6 +50,9 @@ if (result.IsSuccess)
 }
 ```
 
+## Framework for simplifying domain events to pull logic out of the controller.
+See the VoidCore branch of my [MediatrRailwayExample](https://github.com/void-type/MediatrRailwayExample/tree/VoidCore) project. Particularly the EndpointDepsController and GetLoanee files.
+
 ## Search object properties for text
 ```csharp
 IQueryable<Entity> entities = GetEntities();
@@ -64,7 +67,7 @@ var matchedEntities = entities.SearchStringProperties(
 ```
 
 ## Standard responses
-Downloadable files, user messages, data arrays and pagination.
+Downloadable files, user messages, data arrays and pagination that make the API predictable for SPA clients.
 
 ## Standard Asp.Net Configuration
 There are many helpers to build an application with...
