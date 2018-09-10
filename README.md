@@ -10,14 +10,16 @@ class EntityValidator : ValidatorAbstract<Entity>
     protected override void BuildRules()
     {
         CreateRule("Name is required.", "name")
-            .ValidWhen(entity => !string.IsNullOrWhitespace(entity.Name));
+            .InvalidWhen(entity => string.IsNullOrWhitespace(entity.Name));
 
         CreateRule("Phone is required for employees.", "phone")
-            .ValidWhen(entity => !string.IsNullOrWhitespace(entity.Phone))
-            // ValidWhens and ExceptWhens are AND'd together.
-            .ValidWhen(entity => PhoneIsValidFormat(entity.Phone))
+            .InvalidWhen(entity => string.IsNullOrWhitespace(entity.Phone))
+            // ValidWhens are OR'd. Any of the invalid conditions can invalidate the entity.
+            .InvalidWhen(entity => !PhoneIsValidFormat(entity.Phone))
             // ExceptWhen supresses any violations
             .ExceptWhen(entity => !entity.IsEmployee)
+            // ExceptWhens are AND'd. All suppression expressions have to be true to suppress
+            .ExceptWhen(entity => entity.DoesNotHavePhone)
     }
 }
 ```
@@ -31,7 +33,7 @@ Result<User> GetUserById(int id)
 
     if (user == null)
     {
-        Result.Fail(new Failure("User is not found."));
+        Result.Fail("User is not found.", "userField"));
     }
 
     Result.Ok(user);

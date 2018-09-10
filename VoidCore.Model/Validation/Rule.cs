@@ -32,7 +32,7 @@ namespace VoidCore.Model.Validation
                 return Result.Ok();
             }
 
-            if (_invalidConditions.Any() && _invalidConditions.All(c => c.Invoke(validatable)))
+            if (_invalidConditions.Any() && _invalidConditions.Any(c => c.Invoke(validatable)))
             {
                 return Result.Fail(_failureToThrowWhenViolated);
             }
