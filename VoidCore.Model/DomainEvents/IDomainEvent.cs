@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace VoidCore.Model.DomainEvents
+﻿namespace VoidCore.Model.DomainEvents
 {
     /// <summary>
     /// An event in the domain that takes a request to return a response.
@@ -17,6 +15,6 @@ namespace VoidCore.Model.DomainEvents
         /// </summary>
         /// <param name="request">The request contains all the parameters to handle the event.</param>
         /// <returns>A result of the response.</returns>
-        Task<Result<TResponse>> Handle(TRequest request);
+        Result<TResponse> Handle(TRequest request);
     }
 }

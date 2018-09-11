@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using VoidCore.Model.Validation;
 
 namespace VoidCore.Model.DomainEvents
@@ -9,12 +8,12 @@ namespace VoidCore.Model.DomainEvents
     public abstract class DomainEventAbstract<TRequest, TResponse> : IDomainEvent<TRequest, TResponse>
     {
         /// <inheritdoc/>
-        public async Task<Result<TResponse>> Handle(TRequest request)
+        public Result<TResponse> Handle(TRequest request)
         {
             var validation = _validators.Select(v => v.Validate(request)).Combine();
 
             var result = validation.IsSuccess ?
-                await HandleInternal(request) :
+                HandleInternal(request) :
                 Result.Fail<TResponse>(validation.Failures);
 
             _postProcessors.ForEach(p => p.Process(request, result));
@@ -50,7 +49,7 @@ namespace VoidCore.Model.DomainEvents
         /// </summary>
         /// <param name="request">The validated request</param>
         /// <returns>A result of TResponse</returns>
-        protected abstract Task<Result<TResponse>> HandleInternal(TRequest request);
+        protected abstract Result<TResponse> HandleInternal(TRequest request);
 
         private readonly List<IValidator<TRequest>> _validators = new List<IValidator<TRequest>>();
         private readonly List<IPostProcessor<TRequest, TResponse>> _postProcessors = new List<IPostProcessor<TRequest, TResponse>>();
