@@ -177,5 +177,17 @@ namespace VoidCore.Test.Model.DomainEvents
             Assert.True(result.IsFailed);
             Assert.Equal(2, result.Failures.Count());
         }
+
+        [Fact]
+        public void ImplicitConversionFromTypedToUntypedProvidesCorrectVariant()
+        {
+            var source = Result.Ok("good");
+            Result result = source;
+            Assert.True(result.IsSuccess);
+
+            source = Result.Fail<string>("oops");
+            result = source;
+            Assert.True(result.IsFailed);
+        }
     }
 }
