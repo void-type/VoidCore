@@ -60,7 +60,7 @@ namespace VoidCore.AspNet.ClientApp
             }
         }
 
-        private static IActionResult Failure(IFallible result)
+        private static IActionResult Failure(IResult result)
         {
             return new ObjectResult(result.Failures.ToItemSet()) { StatusCode = 400 };
         }

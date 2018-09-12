@@ -4,7 +4,7 @@ namespace VoidCore.Model.DomainEvents
     /// Base class for Result classes.
     /// Inspired by https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
-    public abstract class ResultAbstract : IFallible
+    public abstract class ResultAbstract : IResult
     {
         /// <inheritdoc/>
         public IFailure[] Failures => _internalResult.Failures;

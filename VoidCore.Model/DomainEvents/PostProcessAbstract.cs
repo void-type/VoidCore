@@ -4,7 +4,7 @@ namespace VoidCore.Model.DomainEvents
     public abstract class PostProcessorAbstract<TRequest, TResponse> : IPostProcessor<TRequest, TResponse>
     {
         /// <inheritdoc/>
-        public void Process(TRequest request, IFallible<TResponse> result)
+        public void Process(TRequest request, IResult<TResponse> result)
         {
             OnBoth(request, result);
 
@@ -23,20 +23,20 @@ namespace VoidCore.Model.DomainEvents
         /// </summary>
         /// <param name="request">The domain event request</param>
         /// <param name="result">The result of the event, this contains the response if successful</param>
-        public virtual void OnBoth(TRequest request, IFallible<TResponse> result) { }
+        public virtual void OnBoth(TRequest request, IResult<TResponse> result) { }
 
         /// <summary>
         /// Override this method to process after a validation or event failure.
         /// </summary>
         /// <param name="request">The domain event request</param>
         /// <param name="failedResult">The failed result of the event</param>
-        public virtual void OnFailure(TRequest request, IFallible failedResult) { }
+        public virtual void OnFailure(TRequest request, IResult failedResult) { }
 
         /// <summary>
         /// Override this method to process on success of the event.
         /// </summary>
         /// <param name="request">The domain event request</param>
         /// <param name="successfulResult">The result of the event, this contains the response if successful</param>
-        public virtual void OnSuccess(TRequest request, IFallible<TResponse> successfulResult) { }
+        public virtual void OnSuccess(TRequest request, IResult<TResponse> successfulResult) { }
     }
 }

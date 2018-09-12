@@ -25,7 +25,7 @@ namespace VoidCore.Model.Logging
         /// </summary>
         /// <param name="request">The domain event request</param>
         /// <param name="result">The result of the event, this contains the response if successful</param>
-        public override void OnFailure(TRequest request, IFallible result)
+        public override void OnFailure(TRequest request, IResult result)
         {
             Logger.Warn("Failures: " + string.Join(" ", result.Failures.Select(x => x.Message)));
             base.OnFailure(request, result);

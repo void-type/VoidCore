@@ -23,7 +23,7 @@ namespace VoidCore.Model.Logging
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="successfulResult">The successful result</param>
-        public override void OnSuccess(TRequest request, IFallible<IItemSetPage<TResponse>> successfulResult)
+        public override void OnSuccess(TRequest request, IResult<IItemSetPage<TResponse>> successfulResult)
         {
             Logger.Info(successfulResult.Value.GetLogText());
             base.OnSuccess(request, successfulResult);

@@ -9,7 +9,7 @@ namespace VoidCore.Model.DomainEvents
     /// Inspired by https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
     /// <typeparam name="TValue">The type of value to return on success</typeparam>
-    public class Result<TValue> : ResultAbstract, IFallible<TValue>
+    public class Result<TValue> : ResultAbstract, IResult<TValue>
     {
         /// <summary>
         /// The success value

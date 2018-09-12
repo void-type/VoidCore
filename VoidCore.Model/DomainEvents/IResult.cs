@@ -3,7 +3,7 @@ namespace VoidCore.Model.DomainEvents
     /// <summary>
     /// Common interface for results of operations that can fail or succeed with a value.
     /// </summary>
-    public interface IFallible<out TValue> : IFallible
+    public interface IResult<out TValue> : IResult
     {
         /// <summary>
         /// The value returned when successful.
@@ -15,7 +15,7 @@ namespace VoidCore.Model.DomainEvents
     /// <summary>
     /// Common interface for results of operations that can fail or succeed.
     /// </summary>
-    public interface IFallible
+    public interface IResult
     {
         /// <summary>
         /// A collection of failures if the operation was unsuccessful.
