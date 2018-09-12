@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using VoidCore.Model.Validation;
 
 namespace VoidCore.Model.DomainEvents
@@ -34,8 +32,5 @@ namespace VoidCore.Model.DomainEvents
         /// <param name="request">The validated request</param>
         /// <returns>A result of TResponse</returns>
         protected abstract Result<TResponse> HandleInternal(TRequest request);
-
-        private readonly List<IValidator<TRequest>> _validators = new List<IValidator<TRequest>>();
-        private readonly List<IPostProcessor<TRequest, TResponse>> _postProcessors = new List<IPostProcessor<TRequest, TResponse>>();
     }
 }

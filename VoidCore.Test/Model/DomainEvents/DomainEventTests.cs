@@ -106,7 +106,7 @@ namespace VoidCore.Test.Model.DomainEvents
             processorMock.Setup(p => p.OnFailure(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
             processorMock.Setup(p => p.OnSuccess(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
 
-            var result = new TestEventOk()
+            new TestEventOk()
                 .AddPostProcessor(processorMock.Object)
                 .Handle(new TestRequest());
 
@@ -123,7 +123,7 @@ namespace VoidCore.Test.Model.DomainEvents
             processorMock.Setup(p => p.OnFailure(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
             processorMock.Setup(p => p.OnSuccess(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
 
-            var domainEvent = new TestEventFail()
+            new TestEventFail()
                 .AddPostProcessor(processorMock.Object)
                 .Handle(new TestRequest());
 
