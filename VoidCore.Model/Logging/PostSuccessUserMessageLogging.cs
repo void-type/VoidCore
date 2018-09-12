@@ -1,29 +1,29 @@
 using VoidCore.Model.DomainEvents;
-using VoidCore.Model.Responses.ItemSet;
+using VoidCore.Model.Responses.Message;
 
 namespace VoidCore.Model.Logging
 {
     /// <inheritdoc/>
     /// <summary>
-    /// Log meta information about the item set.
+    /// Log meta information about the item set page.
     /// </summary>
     /// <typeparam name="TRequest">The request type</typeparam>
-    /// <typeparam name="TResponse">The type of items in the item set</typeparam>
-    public class ItemSetLoggingPostProcessor<TRequest, TResponse> : FallibleLoggingPostProcessor<TRequest, IItemSet<TResponse>>
+    /// <typeparam name="TId">The type of items in the item set</typeparam>
+    public class PostSuccessUserMessageLogging<TRequest, TId> : FallibleLogging<TRequest, PostSuccessUserMessage<TId>>
     {
         /// <summary>
-        /// Construct a new IItemSet logger.
+        /// Construct a new IItemSetPage logger.
         /// </summary>
         /// <param name="logger"></param>
         /// <returns></returns>
-        public ItemSetLoggingPostProcessor(ILoggingService logger) : base(logger) { }
+        public PostSuccessUserMessageLogging(ILoggingService logger) : base(logger) { }
 
         /// <summary>
-        /// Log meta information about the item set.
+        /// Log meta information about the item set page.
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="successfulResult">The successful result</param>
-        public override void OnSuccess(TRequest request, IFallible<IItemSet<TResponse>> successfulResult)
+        public override void OnSuccess(TRequest request, IFallible<PostSuccessUserMessage<TId>> successfulResult)
         {
             Logger.Info(successfulResult.Value.GetLogText());
             base.OnSuccess(request, successfulResult);

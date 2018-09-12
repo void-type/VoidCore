@@ -4,13 +4,34 @@ using VoidCore.Model.Validation;
 
 namespace VoidCore.Model.DomainEvents
 {
-    /// <inheritdoc/>
-    public abstract class DomainEventAbstract<TRequest, TResponse> : IDomainEvent<TRequest, TResponse>
+    /// <summary>
+    /// A wrapper that adds validators and post processors to a domain event.
+    /// </summary>
+    /// <typeparam name="TRequest">The type of the event request</typeparam>
+    /// <typeparam name="TResponse">The type of the event response</typeparam>
+    public class DecoratedDomainEvent<TRequest, TResponse> : IDomainEvent<TRequest, TResponse>
     {
+        /// <summary>
+        /// Create a new Decorated Domain Event
+        /// </summary>
+        /// <param name="innerEvent"></param>
+        public DecoratedDomainEvent(DomainEventAbstract<TRequest, TResponse> innerEvent)
+        {
+            _innerEvent = innerEvent;
+        }
+
         /// <inheritdoc/>
         public Result<TResponse> Handle(TRequest request)
         {
-            return HandleInternal(request);
+            var validation = _validators.Select(v => v.Validate(request)).Combine();
+
+            var result = validation.IsSuccess ?
+                _innerEvent.Handle(request) :
+                Result.Fail<TResponse>(validation.Failures);
+
+            _postProcessors.ForEach(p => p.Process(request, result));
+
+            return result;
         }
 
         /// <summary>
@@ -20,8 +41,8 @@ namespace VoidCore.Model.DomainEvents
         /// <returns>The event for chaining setup commands</returns>
         public DecoratedDomainEvent<TRequest, TResponse> AddRequestValidator(IValidator<TRequest> validator)
         {
-            return new DecoratedDomainEvent<TRequest, TResponse>(this)
-                .AddRequestValidator(validator);
+            _validators.Add(validator);
+            return this;
         }
 
         /// <summary>
@@ -31,18 +52,11 @@ namespace VoidCore.Model.DomainEvents
         /// <returns>The event for chaining setup commands</returns>
         public DecoratedDomainEvent<TRequest, TResponse> AddPostProcessor(IPostProcessor<TRequest, TResponse> processor)
         {
-            return new DecoratedDomainEvent<TRequest, TResponse>(this)
-                .AddPostProcessor(processor);
+            _postProcessors.Add(processor);
+            return this;
         }
 
-        /// <summary>
-        /// Override this method to provide domain logic to handle the validated request and return an appropriate result of the response.
-        /// Cross-cutting concerns or non-domain elements should be put into post processors.
-        /// </summary>
-        /// <param name="request">The validated request</param>
-        /// <returns>A result of TResponse</returns>
-        protected abstract Result<TResponse> HandleInternal(TRequest request);
-
+        private DomainEventAbstract<TRequest, TResponse> _innerEvent;
         private readonly List<IValidator<TRequest>> _validators = new List<IValidator<TRequest>>();
         private readonly List<IPostProcessor<TRequest, TResponse>> _postProcessors = new List<IPostProcessor<TRequest, TResponse>>();
     }

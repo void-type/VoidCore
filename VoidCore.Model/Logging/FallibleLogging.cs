@@ -8,13 +8,13 @@ namespace VoidCore.Model.Logging
     /// </summary>
     /// <typeparam name="TRequest">The request type of the event.</typeparam>
     /// <typeparam name="TResponse">The response type of the event.</typeparam>
-    public class FallibleLoggingPostProcessor<TRequest, TResponse> : PostProcessorAbstract<TRequest, TResponse>
+    public class FallibleLogging<TRequest, TResponse> : PostProcessorAbstract<TRequest, TResponse>
     {
         /// <summary>
         /// Construct a new post processor
         /// </summary>
         /// <param name="logger">The ILoggingService to log to</param>
-        public FallibleLoggingPostProcessor(ILoggingService logger)
+        public FallibleLogging(ILoggingService logger)
         {
             Logger = logger;
         }

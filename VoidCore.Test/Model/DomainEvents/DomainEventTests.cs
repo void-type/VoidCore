@@ -24,10 +24,9 @@ namespace VoidCore.Test.Model.DomainEvents
             var processorMock = new Mock<IPostProcessor<TestRequest, TestResponse>>();
             processorMock.Setup(p => p.Process(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
 
-            var domainEvent = new TestEventOk();
-            domainEvent.AddPostProcessor(processorMock.Object);
-
-            var result = domainEvent.Handle(new TestRequest());
+            var result = new TestEventOk()
+                .AddPostProcessor(processorMock.Object)
+                .Handle(new TestRequest());
 
             Assert.Equal("success", result.Value.Name);
             processorMock.Verify(p => p.Process(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()), Times.Once());
@@ -39,10 +38,9 @@ namespace VoidCore.Test.Model.DomainEvents
             var validatorMock = new Mock<IValidator<TestRequest>>();
             validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>())).Returns(Result.Ok());
 
-            var domainEvent = new TestEventOk();
-            domainEvent.AddRequestValidator(validatorMock.Object);
-
-            var result = domainEvent.Handle(new TestRequest());
+            var result = new TestEventOk()
+                .AddRequestValidator(validatorMock.Object)
+                .Handle(new TestRequest());
 
             Assert.Equal("success", result.Value.Name);
         }
@@ -56,12 +54,11 @@ namespace VoidCore.Test.Model.DomainEvents
             var processorMock = new Mock<IPostProcessor<TestRequest, TestResponse>>();
             processorMock.Setup(p => p.Process(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
 
-            var domainEvent = new TestEventOk();
-            domainEvent.AddRequestValidator(validatorMock.Object);
-            domainEvent.AddPostProcessor(processorMock.Object);
-            domainEvent.AddPostProcessor(processorMock.Object);
-
-            var result = domainEvent.Handle(new TestRequest());
+            var result = new TestEventOk()
+                .AddRequestValidator(validatorMock.Object)
+                .AddPostProcessor(processorMock.Object)
+                .AddPostProcessor(processorMock.Object)
+                .Handle(new TestRequest());
 
             Assert.Equal("success", result.Value.Name);
             processorMock.Verify(p => p.Process(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()), Times.Exactly(2));
@@ -76,11 +73,10 @@ namespace VoidCore.Test.Model.DomainEvents
             var processorMock = new Mock<IPostProcessor<TestRequest, TestResponse>>();
             processorMock.Setup(p => p.Process(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
 
-            var domainEvent = new TestEventOk();
-            domainEvent.AddRequestValidator(validatorMock.Object);
-            domainEvent.AddPostProcessor(processorMock.Object);
-
-            var result = domainEvent.Handle(new TestRequest());
+            var result = new TestEventOk()
+                .AddRequestValidator(validatorMock.Object)
+                .AddPostProcessor(processorMock.Object)
+                .Handle(new TestRequest());
 
             Assert.True(result.IsFailed);
             Assert.Equal("request invalid", result.Failures.Single().Message);
@@ -93,10 +89,9 @@ namespace VoidCore.Test.Model.DomainEvents
             var processorMock = new Mock<IPostProcessor<TestRequest, TestResponse>>();
             processorMock.Setup(p => p.Process(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
 
-            var domainEvent = new TestEventFail();
-            domainEvent.AddPostProcessor(processorMock.Object);
-
-            var result = domainEvent.Handle(new TestRequest());
+            var result = new TestEventFail()
+                .AddPostProcessor(processorMock.Object)
+                .Handle(new TestRequest());
 
             Assert.True(result.IsFailed);
             Assert.Equal("event failed", result.Failures.Single().Message);
@@ -111,10 +106,9 @@ namespace VoidCore.Test.Model.DomainEvents
             processorMock.Setup(p => p.OnFailure(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
             processorMock.Setup(p => p.OnSuccess(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
 
-            var domainEvent = new TestEventOk();
-            domainEvent.AddPostProcessor(processorMock.Object);
-
-            domainEvent.Handle(new TestRequest());
+            var result = new TestEventOk()
+                .AddPostProcessor(processorMock.Object)
+                .Handle(new TestRequest());
 
             processorMock.Verify(p => p.OnBoth(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()), Times.Once());
             processorMock.Verify(p => p.OnFailure(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()), Times.Never());
@@ -129,10 +123,9 @@ namespace VoidCore.Test.Model.DomainEvents
             processorMock.Setup(p => p.OnFailure(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
             processorMock.Setup(p => p.OnSuccess(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
 
-            var domainEvent = new TestEventFail();
-            domainEvent.AddPostProcessor(processorMock.Object);
-
-            domainEvent.Handle(new TestRequest());
+            var domainEvent = new TestEventFail()
+                .AddPostProcessor(processorMock.Object)
+                .Handle(new TestRequest());
 
             processorMock.Verify(p => p.OnBoth(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()), Times.Once());
             processorMock.Verify(p => p.OnFailure(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()), Times.Once());
