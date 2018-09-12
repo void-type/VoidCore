@@ -1,4 +1,6 @@
-﻿namespace VoidCore.Model.DomainEvents
+﻿using VoidCore.Model.Validation;
+
+namespace VoidCore.Model.DomainEvents
 {
     /// <summary>
     /// An event in the domain that takes a request to return a response.
@@ -8,7 +10,7 @@
     /// </summary>
     /// <typeparam name="TRequest">The type of the event request</typeparam>
     /// <typeparam name="TResponse">The type of the event response</typeparam>
-    public interface IDomainEvent<in TRequest, TResponse>
+    public interface IDomainEvent<TRequest, TResponse>
     {
         /// <summary>
         /// Handle the domain event. This includes validating the request, handling the event, and running any post processors.
@@ -16,5 +18,19 @@
         /// <param name="request">The request contains all the parameters to handle the event.</param>
         /// <returns>A result of the response.</returns>
         Result<TResponse> Handle(TRequest request);
+
+        /// <summary>
+        /// Add a validator to validate the request. All validators are run before checking results.
+        /// </summary>
+        /// <param name="validator">The IValidator</param>
+        /// <returns>The event for chaining setup commands</returns>
+        DecoratedDomainEvent<TRequest, TResponse> AddRequestValidator(IValidator<TRequest> validator);
+
+        /// <summary>
+        /// Add a post processor to run after the event has been handled.
+        /// </summary>
+        /// <param name="processor">The IPostProcessor</param>
+        /// <returns>The event for chaining setup commands</returns>
+        DecoratedDomainEvent<TRequest, TResponse> AddPostProcessor(IPostProcessor<TRequest, TResponse> processor);
     }
 }

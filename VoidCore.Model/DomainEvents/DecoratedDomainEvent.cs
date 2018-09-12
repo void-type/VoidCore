@@ -5,7 +5,7 @@ using VoidCore.Model.Validation;
 namespace VoidCore.Model.DomainEvents
 {
     /// <summary>
-    /// A wrapper that adds validators and post processors to a domain event.
+    /// A wrapper that decorates a domain event with validators and post processors.
     /// </summary>
     /// <typeparam name="TRequest">The type of the event request</typeparam>
     /// <typeparam name="TResponse">The type of the event response</typeparam>
@@ -34,22 +34,14 @@ namespace VoidCore.Model.DomainEvents
             return result;
         }
 
-        /// <summary>
-        /// Add a validator to validate the request. All validators are run before checking results.
-        /// </summary>
-        /// <param name="validator">The IValidator</param>
-        /// <returns>The event for chaining setup commands</returns>
+        /// <inheritdoc/>
         public DecoratedDomainEvent<TRequest, TResponse> AddRequestValidator(IValidator<TRequest> validator)
         {
             _validators.Add(validator);
             return this;
         }
 
-        /// <summary>
-        /// Add a post processor to run after the event has been handled.
-        /// </summary>
-        /// <param name="processor">The IPostProcessor</param>
-        /// <returns>The event for chaining setup commands</returns>
+        /// <inheritdoc/>
         public DecoratedDomainEvent<TRequest, TResponse> AddPostProcessor(IPostProcessor<TRequest, TResponse> processor)
         {
             _postProcessors.Add(processor);

@@ -13,7 +13,7 @@ namespace VoidCore.Model.DomainEvents
         /// </summary>
         /// <param name="results">The results to combine</param>
         /// <returns>A combined result</returns>
-        public static Result Combine(this IEnumerable<Result> results)
+        public static IResult Combine(this IEnumerable<IResult> results)
         {
             return Result.Combine(results.ToArray());
         }
@@ -24,7 +24,7 @@ namespace VoidCore.Model.DomainEvents
         /// <param name="results">The results to combine</param>
         /// <typeparam name="TValue">The type of value in the results</typeparam>
         /// <returns>A combined result</returns>
-        public static Result Combine<TValue>(this IEnumerable<Result<TValue>> results)
+        public static IResult Combine<TValue>(this IEnumerable<IResult<TValue>> results)
         {
             return Result.Combine(results.ToArray());
         }

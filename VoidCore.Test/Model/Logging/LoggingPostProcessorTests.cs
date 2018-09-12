@@ -2,6 +2,7 @@ using Moq;
 using System.Collections.Generic;
 using VoidCore.Model.DomainEvents;
 using VoidCore.Model.Logging;
+using VoidCore.Model.Responses.File;
 using VoidCore.Model.Responses.ItemSet;
 using VoidCore.Model.Responses.Message;
 using Xunit;
@@ -76,6 +77,40 @@ namespace VoidCore.Test.Model.Logging
             processor.Process(request, result);
 
             loggerMock.Verify(l => l.Info("Message: good", "EntityId: 1"), Times.Once());
+        }
+
+        [Fact]
+        public void LogUserMessage()
+        {
+            var result = Result.Ok(new UserMessage("good"));
+
+            var request = "";
+
+            var loggerMock = new Mock<ILoggingService>();
+            loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
+
+            var processor = new UserMessageLogging<string>(loggerMock.Object);
+
+            processor.Process(request, result);
+
+            loggerMock.Verify(l => l.Info("Message: good"), Times.Once());
+        }
+
+        [Fact]
+        public void LogSimpleFile()
+        {
+            var result = Result.Ok(new SimpleFile("stuff inside", "good"));
+
+            var request = "";
+
+            var loggerMock = new Mock<ILoggingService>();
+            loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
+
+            var processor = new SimpleFileLogging<string>(loggerMock.Object);
+
+            processor.Process(request, result);
+
+            loggerMock.Verify(l => l.Info("FileName: good"), Times.Once());
         }
     }
 }

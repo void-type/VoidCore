@@ -148,7 +148,7 @@ namespace VoidCore.Model.DomainEvents
         /// </summary>
         /// <param name="results">Results to combine</param>
         /// <returns>A new result</returns>
-        public static Result Combine(params Result[] results)
+        public static Result Combine(params IResult[] results)
         {
             var failures = results
                 .Where(result => result.IsFailed)
@@ -165,10 +165,10 @@ namespace VoidCore.Model.DomainEvents
         /// <param name="results">Results to combine</param>
         /// <typeparam name="TValue"></typeparam>
         /// <returns>A new result</returns>
-        public static Result Combine<TValue>(params Result<TValue>[] results)
+        public static Result Combine<TValue>(params IResult<TValue>[] results)
         {
             var untypedResults = results
-                .Select(result =>(Result) result)
+                .Select(result =>(IResult) result)
                 .ToArray();
 
             return Combine(untypedResults);
