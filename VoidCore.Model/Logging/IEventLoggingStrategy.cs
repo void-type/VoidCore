@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace VoidCore.Model.Logging
 {
@@ -12,7 +13,7 @@ namespace VoidCore.Model.Logging
         /// </summary>
         /// <param name="messages"></param>
         /// <returns></returns>
-        string LogEvent(params string[] messages);
+        string LogEvent(IEnumerable<string> messages);
 
         /// <summary>
         /// Transform an array of messages and exception to a string.
@@ -20,7 +21,7 @@ namespace VoidCore.Model.Logging
         /// <param name="ex"></param>
         /// <param name="messages"></param>
         /// <returns></returns>
-        string LogEvent(Exception ex, params string[] messages);
+        string LogEvent(Exception ex, IEnumerable<string> messages);
 
     }
 }

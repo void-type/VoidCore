@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace VoidCore.Model.DomainEvents
 {
     /// <summary>
@@ -21,7 +23,7 @@ namespace VoidCore.Model.DomainEvents
         /// A collection of failures if the operation was unsuccessful.
         /// </summary>
         /// <value></value>
-        IFailure[] Failures { get; }
+        IEnumerable<IFailure> Failures { get; }
 
         /// <summary>
         /// True if the operation was successful.

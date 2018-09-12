@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace VoidCore.Model.DomainEvents
@@ -27,7 +28,7 @@ namespace VoidCore.Model.DomainEvents
             Value = value;
         }
 
-        internal Result(IFailure[] failures) : base(true, failures) { }
+        internal Result(IEnumerable<IFailure> failures) : base(true, failures) { }
 
         /// <summary>
         /// Implicitly convert a typed Result to an untyped one.
@@ -48,7 +49,7 @@ namespace VoidCore.Model.DomainEvents
     {
         private Result() : base(false, null) { }
 
-        private Result(IFailure[] failures) : base(true, failures) { }
+        private Result(IEnumerable<IFailure> failures) : base(true, failures) { }
 
         /// <summary>
         /// Create a new successful untyped result.
@@ -75,7 +76,7 @@ namespace VoidCore.Model.DomainEvents
         /// </summary>
         /// <param name="failures">A list of failures</param>
         /// <returns>A new result</returns>
-        public static Result Fail(IFailure[] failures)
+        public static Result Fail(IEnumerable<IFailure> failures)
         {
             return new Result(failures);
         }
@@ -85,7 +86,7 @@ namespace VoidCore.Model.DomainEvents
         /// </summary>
         /// <param name="failures">A list of failures</param>
         /// <returns>A new result</returns>
-        public static Result<TValue> Fail<TValue>(IFailure[] failures)
+        public static Result<TValue> Fail<TValue>(IEnumerable<IFailure> failures)
         {
             return new Result<TValue>(failures);
         }
@@ -156,22 +157,6 @@ namespace VoidCore.Model.DomainEvents
                 .ToArray();
 
             return failures.Any() ? Fail(failures) : Ok();
-        }
-
-        /// <summary>
-        /// Combine several typed results into an untyped one. If any have failed, this will return
-        /// a new aggregate failed result. If none have failed, this will return an untyped successful result.
-        /// </summary>
-        /// <param name="results">Results to combine</param>
-        /// <typeparam name="TValue"></typeparam>
-        /// <returns>A new result</returns>
-        public static Result Combine<TValue>(params IResult<TValue>[] results)
-        {
-            var untypedResults = results
-                .Select(result =>(IResult) result)
-                .ToArray();
-
-            return Combine(untypedResults);
         }
     }
 }

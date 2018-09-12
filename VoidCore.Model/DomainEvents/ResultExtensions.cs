@@ -26,7 +26,7 @@ namespace VoidCore.Model.DomainEvents
         /// <returns>A combined result</returns>
         public static IResult Combine<TValue>(this IEnumerable<IResult<TValue>> results)
         {
-            return Result.Combine(results.ToArray());
+            return results.Select(result => (IResult)result).Combine();
         }
     }
 }

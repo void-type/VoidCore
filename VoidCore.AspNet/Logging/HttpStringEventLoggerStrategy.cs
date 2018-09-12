@@ -28,7 +28,7 @@ namespace VoidCore.AspNet.Logging
         /// </summary>
         /// <param name="messages">Array of messages to log</param>
         /// <returns></returns>
-        public string LogEvent(params string[] messages)
+        public string LogEvent(IEnumerable<string> messages)
         {
             var request = _httpContext.Request;
             var traceId = _httpContext.TraceIdentifier;
@@ -46,11 +46,11 @@ namespace VoidCore.AspNet.Logging
         /// <param name="ex">The exception to log</param>
         /// <param name="messages">Array of messages to log</param>
         /// <returns></returns>
-        public string LogEvent(Exception ex, params string[] messages)
+        public string LogEvent(Exception ex, IEnumerable<string> messages)
         {
             var eventArray = messages
-                .Concat(FlattenExceptionMessages(ex))
-                .ToArray();
+                .Concat(FlattenExceptionMessages(ex));
+                
             return LogEvent(eventArray);
         }
 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace VoidCore.Model.DomainEvents
@@ -9,11 +10,11 @@ namespace VoidCore.Model.DomainEvents
     /// </summary>
     internal sealed class ResultInternal
     {
-        public IFailure[] Failures { get; } = new IFailure[0];
+        public IEnumerable<IFailure> Failures { get; } = new IFailure[0];
 
         public bool IsFailed { get; }
         public bool IsSuccess => !IsFailed;
-        internal ResultInternal(bool isFailure, IFailure[] failures)
+        internal ResultInternal(bool isFailure, IEnumerable<IFailure> failures)
         {
             if (isFailure)
             {
@@ -22,12 +23,13 @@ namespace VoidCore.Model.DomainEvents
                     throw new ArgumentNullException(nameof(failures), "Failures must not be null for a failed result.");
                 }
 
-                if (!failures.Any())
+                var failuresArray = failures as IFailure[] ?? failures.ToArray();
+                if (!failuresArray.Any())
                 {
                     throw new ArgumentException("Failures must be provided for failed result.", nameof(failures));
                 }
 
-                Failures = failures;
+                Failures = failuresArray;
             }
             else if (failures != null)
             {

@@ -11,13 +11,11 @@ namespace VoidCore.Model.Validation
     public abstract class ValidatorAbstract<TValidatableEntity> : IValidator<TValidatableEntity>
     {
         /// <inheritdoc/>
-        public Result Validate(TValidatableEntity validatable)
+        public IResult Validate(TValidatableEntity validatable)
         {
-            var ruleResults = _rules
+            return _rules
                 .Select(rule => rule.Validate(validatable))
-                .ToArray();
-
-            return Result.Combine(ruleResults);
+                .Combine();
         }
 
         /// <summary>

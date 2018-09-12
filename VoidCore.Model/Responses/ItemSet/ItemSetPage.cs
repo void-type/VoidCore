@@ -33,7 +33,7 @@ namespace VoidCore.Model.Responses.ItemSet
                 throw new ArgumentNullException(nameof(items), "Cannot make an ItemSetPage of null items.");
             }
 
-            var itemsArray = items.ToArray();
+            var itemsArray = items.ToList();
             Items = SafePaginate(itemsArray, page, take);
             TotalCount = itemsArray.Count();
             Page = page;

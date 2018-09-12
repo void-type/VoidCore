@@ -137,8 +137,8 @@ namespace VoidCore.Test.Model.DomainEvents
         [Fact]
         public void CombineWithNoFailuresGivesSuccess()
         {
-            var results = new List<Result>() { Result.Ok(), Result.Ok() }.ToArray();
-            var result = Result.Combine(results);
+            var result = new List<Result>() { Result.Ok(), Result.Ok() }
+                .Combine();
 
             Assert.True(result.IsSuccess);
             Assert.False(result.IsFailed);
@@ -148,8 +148,8 @@ namespace VoidCore.Test.Model.DomainEvents
         [Fact]
         public void TypedCombineWithNoFailuresGivesSuccess()
         {
-            var results = new List<Result<string>>() { Result.Ok(""), Result.Ok("") }.ToArray();
-            var result = Result.Combine(results);
+            var result = new List<Result<string>>() { Result.Ok(""), Result.Ok("") }
+                .Combine();
 
             Assert.True(result.IsSuccess);
             Assert.False(result.IsFailed);
@@ -159,8 +159,8 @@ namespace VoidCore.Test.Model.DomainEvents
         [Fact]
         public void CombineWithFailuresGivesFailures()
         {
-            var results = new List<Result>() { Result.Ok(), Result.Fail("oops"), Result.Fail("oops"), Result.Ok() }.ToArray();
-            var result = Result.Combine(results);
+            var result = new List<Result>() { Result.Ok(), Result.Fail("oops"), Result.Fail("oops"), Result.Ok() }
+                .Combine();
 
             Assert.False(result.IsSuccess);
             Assert.True(result.IsFailed);
@@ -170,8 +170,8 @@ namespace VoidCore.Test.Model.DomainEvents
         [Fact]
         public void TypedCombineWithFailuresGivesFailures()
         {
-            var results = new List<Result<string>>() { Result.Ok(""), Result.Fail<string>(""), Result.Fail<string>(""), Result.Ok("") }.ToArray();
-            var result = Result.Combine(results);
+            var result = new List<Result<string>>() { Result.Ok(""), Result.Fail<string>(""), Result.Fail<string>(""), Result.Ok("") }
+                .Combine();
 
             Assert.False(result.IsSuccess);
             Assert.True(result.IsFailed);

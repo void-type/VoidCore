@@ -25,7 +25,7 @@ namespace VoidCore.Model.Validation
         }
 
         /// <inheritdoc/>
-        public Result Validate(TValidatableEntity validatable)
+        public IResult Validate(TValidatableEntity validatable)
         {
             if (_suppressConditions.Any() && _suppressConditions.All(c => c.Invoke(validatable)))
             {

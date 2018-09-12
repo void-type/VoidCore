@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace VoidCore.Model.DomainEvents
 {
     /// <summary>
@@ -7,7 +9,7 @@ namespace VoidCore.Model.DomainEvents
     public abstract class ResultAbstract : IResult
     {
         /// <inheritdoc/>
-        public IFailure[] Failures => _internalResult.Failures;
+        public IEnumerable<IFailure> Failures => _internalResult.Failures;
 
         /// <inheritdoc/>
         public bool IsSuccess => _internalResult.IsSuccess;
@@ -17,7 +19,7 @@ namespace VoidCore.Model.DomainEvents
 
         private readonly ResultInternal _internalResult;
 
-        internal ResultAbstract(bool isFailed, IFailure[] failures)
+        internal ResultAbstract(bool isFailed, IEnumerable<IFailure> failures)
         {
             _internalResult = new ResultInternal(isFailed, failures);
         }

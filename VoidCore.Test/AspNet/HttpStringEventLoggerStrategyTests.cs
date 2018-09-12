@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Moq;
 using System;
+using System.Collections.Generic;
 using VoidCore.AspNet.Logging;
 using VoidCore.Model.ClientApp;
 using Xunit;
@@ -31,8 +32,9 @@ namespace VoidCore.Test.AspNet
             currentUser.Setup(fmt => fmt.Name).Returns("userName");
 
             var strategy = new HttpStringEventLoggerStrategy(httpContextAccessorMock.Object, currentUser.Object);
+            var messages = new List<string>() { "added12", "added23" };
 
-            var logText = strategy.LogEvent(exception, "added12", "added23");
+            var logText = strategy.LogEvent(exception, messages);
 
             const string expectedPrefix = "identifier:userName:GET:/path/to/here";
             const string expectedPayload = "added12 added23 Threw Exception: System.Exception: 1 System.Exception: 2 System.Exception: 3";
@@ -59,8 +61,9 @@ namespace VoidCore.Test.AspNet
             currentUser.Setup(fmt => fmt.Name).Returns("userName");
 
             var strategy = new HttpStringEventLoggerStrategy(httpContextAccessorMock.Object, currentUser.Object);
+            var messages = new List<string>() { "added12", "added23" };
 
-            var logText = strategy.LogEvent((Exception)null, "added12", "added23");
+            var logText = strategy.LogEvent(null, messages);
 
             const string expectedPrefix = "identifier:userName:GET:/path/to/here";
             const string expectedPayload = "added12 added23";

@@ -12,6 +12,6 @@ namespace VoidCore.Model.Validation
         /// </summary>
         /// <param name="validatable"></param>
         /// <returns></returns>
-        Result Validate(TValidatableEntity validatable);
+        IResult Validate(TValidatableEntity validatable);
     }
 }
