@@ -1,16 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <PackageId>VoidCore.Model</PackageId>
     <Title>VoidCore.Model</Title>
     <Authors>Jeff Schreiner and git contributors</Authors>
     <Description>A base model for buisness applications including actions, interfaces, and validation.</Description>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
     <Copyright>Copyright 2018 Jeff Schreiner</Copyright>
-    <PackageTags>business model validation</PackageTags>
+    <PackageTags>business domain model validation</PackageTags>
+
+    <TargetFramework>netstandard2.0</TargetFramework>
 
     <IncludeSymbols>true</IncludeSymbols>
     <IncludeSource>true</IncludeSource>
