@@ -9,17 +9,16 @@ Extract logic from your controller and separate cross-cutting concerns like logg
 Events, validators and post processors can be injected since events are immutable and stateless. Validators and post processors are added through a decorator.
 
 ```csharp
-public class LoaneesController : Controller
+public class PersonsController : Controller
 {
-    // Inject domain event parts into ctor and set as private readonly fields.
-
-    public IActionResult GetWithDependencyInjection(string name)
+    // For extra credit, inject GetPerson event parts on construction
+    public IActionResult Get(string name)
     {
-        var request = new GetLoanee.Request(name);
+        var request = new GetPerson.Request(name);
 
-        var result = _getLoaneeHandler
-            .AddRequestValidator(_getLoaneeRequestValidator)
-            .AddPostProcessor(_getLoaneeLogging)
+        var result = new GetPerson.Handler(_data, _mapper)
+            .AddRequestValidator(new GetPerson.RequestValidator())
+            .AddPostProcessor(new GetPerson.Logging(_logger))
             .Handle(request);
 
         return _responder.Respond(result);
@@ -30,74 +29,48 @@ public class LoaneesController : Controller
 <!-- markdownlint-disable MD033 -->
 <details>
     <summary>
-        Show Event Code
+        Show a full real-world event example
     </summary>
 <!-- markdownlint-disable MD033 -->
 
 ```csharp
-public class LoaneesController : Controller
-{
-    public IActionResult Get(string name)
-    {
-        var request = new GetLoanee.Request(name);
-
-        var result = new GetLoanee.Handler(_data, _mapper)
-            .AddRequestValidator(new GetLoanee.RequestValidator())
-            .AddPostProcessor(new GetLoanee.Logging(_logger))
-            .Handle(request);
-
-        return _responder.Respond(result);
-    }
-}
-
-
-public class GetLoanee
+public class GetPerson
 {
     public class Handler : DomainEventAbstract<Request, Response>
     {
-        public Handler(LoaneeData data, IMapper mapper)
+        public Handler(PersonData data, IMapper mapper)
         {
             _data = data;
             _mapper = mapper;
         }
 
-        protected override async Task<Result<Response>> HandleInternal(Request request)
+        protected override Result<Response> HandleInternal(Request request)
         {
-            var loanee = await Task.FromResult(_data.Loanees
-                .Where(l => l.Name == request.Name)
-                .FirstOrDefault());
+            var person = _data.Persons
+                .ProjectTo<Response>(_mapper)
+                .FirstOrDefault(l => l.Id == request.Id));
 
-            if (request.Name == "throw")
-            {
-                throw new Exception("blow up");
-            }
-
-            if (loanee == null)
-            {
-                return Result.Fail<Response>("Loanee not found.");
-            }
-
-            var loaneeDto = _mapper.Map<Loanee, Response>(loanee);
-
-            return Result.Ok(loaneeDto);
+            return (person != null) ?
+                Result.Ok(personDto) :
+                Result.Fail<Response>("Person not found.");
         }
 
-        private readonly LoaneeData _data;
+        private readonly PersonData _data;
         private readonly IMapper _mapper;
     }
 
     // Immutable request
     public class Request
     {
-        public Request(string name)
+        public Request(int id)
         {
-            Name = name;
+            Id = id;
         }
 
-        public string Name { get; }
+        public string Id { get; }
     }
 
-    // Immutable response using ctor param conventions
+    // Immutable response
     public class Response
     {
         public Response(string name, string email)
@@ -115,28 +88,30 @@ public class GetLoanee
     {
         protected override void BuildRules()
         {
-            CreateRule("Name is required.", "name")
-                .InvalidWhen(request => string.IsNullOrWhiteSpace(request.Name));
-
-            CreateRule("Double trouble about name.", "name")
-                .InvalidWhen(request => string.IsNullOrWhiteSpace(request.Name));
+            CreateRule("Id is required.", "id")
+                .InvalidWhen(request => string.IsNullOrWhiteSpace(request.Id));
         }
     }
 
     // Log it.
-    public class Logging : FallibleLoggingPostProcessor<Request, Response>
+    public class Logging : FallibleLogging<Request, Response>
     {
         public Logging(ILoggingService logger) : base(logger) { }
 
+        // Always log the incoming request
         public override void OnBoth(Request request, IFallible<Response> result)
         {
             _logger.Info($"RequestName: {request.Name}");
         }
 
+        // Log the email of the person on success
         public override void OnSuccess(Request request, IFallible<Response> result)
         {
             _logger.Info($"Found: {result.Value.Email}");
         }
+
+        // Logging : FallibleLogging which means that failures will be automatically logged.
+        // There is also PostProcessorAbstract for a clean slate of all 3 channels, and IPostProcessor for a single channel (Process).
 
         private readonly ILoggingService _logger;
     }
@@ -148,7 +123,7 @@ public class GetLoanee
 ## Validation
 
 ```csharp
-class EntityValidator : ValidatorAbstract<Entity>
+class CreatePersonValidator : ValidatorAbstract<Entity>
 {
     protected override void BuildRules()
     {
@@ -156,14 +131,15 @@ class EntityValidator : ValidatorAbstract<Entity>
             .InvalidWhen(entity => string.IsNullOrWhitespace(entity.Name));
 
         CreateRule("Phone is required for employees.", "phone")
-            .InvalidWhen(entity => string.IsNullOrWhitespace(entity.Phone))
             // ValidWhens are OR'd.
             // Any of the invalid conditions can invalidate the entity.
+            .InvalidWhen(entity => string.IsNullOrWhitespace(entity.Phone))
             .InvalidWhen(entity => !PhoneIsValidFormat(entity.Phone))
+
             // ExceptWhen supresses any violations
-            .ExceptWhen(entity => !entity.IsEmployee)
             // ExceptWhens are AND'd.
             // All suppression expressions have to be true to suppress
+            .ExceptWhen(entity => !entity.IsEmployee)
             .ExceptWhen(entity => entity.DoesNotHavePhone)
     }
 }
@@ -175,20 +151,20 @@ Adapted from [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFun
 
 ```csharp
 // A fallible method
-public Result<User> GetUserById(int id)
+public Result<Person> GetPersonById(int id)
 {
-    var user = _data.Users.Find(id);
+    var person = _data.Persons.Find(id);
 
-    if (user == null)
+    if (person == null)
     {
-        Result.Fail("User is not found.", "userField"));
+        Result.Fail("Person is not found.", "personIdField"));
     }
 
-    Result.Ok(user);
+    Result.Ok(person);
 }
 
 // Call your method and handle the result.
-var result = GetUserById(id);
+var result = GetPersonById(id);
 
 if (result.IsFailed)
 {
@@ -197,13 +173,24 @@ if (result.IsFailed)
 
 if (result.IsSuccess)
 {
-  var user = result.Value;
+  var person = result.Value;
 }
+
+// Combine multiple results to check for failures
+IEnumerable<Result> results = CheckLotsOfThings();
+
+var singleResult = results.Combine();
+
+if (result.IsSuccess)
+{
+    return "Hooray!"
+}
+
 ```
 
 ## Text Search on Object Properties
 
-In the future this should work on the database with EF Core.
+Check many properties of an object for text. It will split any string on whitespace, or it can take an explicit array of terms.
 
 ```csharp
 IQueryable<Entity> entities = GetEntities();
@@ -222,7 +209,7 @@ var matchedEntities = entities
 
 Make predictable APIs with...
 
-* User messages
+* Useer messages
 * Validation failures with message and field name
 * Data sets
 * Pagination
