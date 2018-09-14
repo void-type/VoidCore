@@ -46,7 +46,7 @@ namespace VoidCore.AspNet.Logging
             var logPath = (isWindows ? Path.GetPathRoot(Environment.CurrentDirectory) : "/") + "webAppLogs";
             var assemblyName = typeof(TClass).Assembly.GetName().Name;
             var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var logFilePath = $"{logPath}/{assemblyName}-{environmentName}_.log";
+            var logFilePath = $"{logPath}/{assemblyName}/{assemblyName}-{environmentName}_.log";
 
             return Create(logFilePath, suppressExternalWarnings);
         }
