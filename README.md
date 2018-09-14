@@ -11,7 +11,7 @@ Events, validators and post processors can be injected since events are immutabl
 ```csharp
 public class PersonsController : Controller
 {
-    // For extra credit, inject GetPerson event parts on construction
+    // For extra credit, inject GetPerson event parts on construction and let DI handle dependencies
     public IActionResult Get(string name)
     {
         var request = new GetPerson.Request(name);
