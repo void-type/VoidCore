@@ -31,6 +31,15 @@
             ]
         },
         {
+            "label": "installAndUpdateTools",
+            "command": "./installAndUpdateTools.ps1",
+            "options": {
+                "cwd": "./Scripts"
+            },
+            "type": "shell",
+            "group": "test"
+        },
+        {
             "label": "testCore",
             "command": "./testCore.ps1",
             "options": {
