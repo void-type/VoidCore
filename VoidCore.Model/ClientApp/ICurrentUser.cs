@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace VoidCore.Model.ClientApp
 {
     /// <summary>
@@ -10,5 +12,11 @@ namespace VoidCore.Model.ClientApp
         /// </summary>
         /// <value></value>
         string Name { get; }
+
+        /// <summary>
+        /// Authorization policies that the user fulfills.
+        /// </summary>
+        /// <value></value>
+        IEnumerable<string> Policies { get; }
     }
 }

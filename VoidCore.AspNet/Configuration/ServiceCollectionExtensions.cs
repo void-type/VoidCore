@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -20,16 +19,17 @@ namespace VoidCore.AspNet.Configuration
         /// <summary>
         /// Setup an authorization policy for a set of roles. These are used via AuthorizeAttributes.
         /// A user with any one of the allowed roles will be authorized for the policy.
+        /// For example, a role can be an AD group name. Having any role within the policy will grant access.
         /// </summary>
         /// <param name="services">The service collection</param>
         /// <param name="authorizationSettings">Authorization settings from configuration</param>
         public static void AddAuthorizationPoliciesFromSettings(this IServiceCollection services, AuthorizationSettings authorizationSettings)
         {
-            services.AddAuthorization(options => authorizationSettings.Roles
+            services.AddAuthorization(options => authorizationSettings.Policies
                 .ToList()
-                .ForEach(role => options
-                    .AddPolicy(role.Key, p => p
-                        .RequireRole(role.Value))));
+                .ForEach(policy => options
+                    .AddPolicy(policy.Key, p => p
+                        .RequireRole(policy.Value))));
         }
 
         /// <summary>
@@ -53,24 +53,12 @@ namespace VoidCore.AspNet.Configuration
         }
 
         /// <summary>
-        /// Setup Antiforgery token and filters, also sets HTTPS redirection to port 443 by default.
-        /// Disables authentication in development.
+        /// Setup Antiforgery token and filters for all non-GET requests.
         /// </summary>
         /// <param name="services">This service collection</param>
         /// <param name="environment">The hosting environment</param>
-        /// <param name="httpsPort">Override the default https redirect port of 443.</param>
-        public static void AddSecureFilters(this IServiceCollection services, IHostingEnvironment environment, int httpsPort = 443)
+        public static void AddAntiforgery(this IServiceCollection services, IHostingEnvironment environment)
         {
-            if (!environment.IsDevelopment())
-            {
-                services.AddHttpsRedirection(options => options.HttpsPort = 443);
-            }
-
-            // Get the newest MVC behavior.
-            // TODO: for aspnet versions newer than 2.1, update or remove this.
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            // Antiforgery on all non-GET requests
             services.AddMvc(options => { options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); });
             services.AddAntiforgery(options => { options.HeaderName = "X-Csrf-Token"; });
         }
@@ -102,7 +90,9 @@ namespace VoidCore.AspNet.Configuration
         }
 
         /// <summary>
-        /// Add Windows Authentication. Used in Microsoft Enterprise environments with Active Directory authentication.
+        /// Add Windows Authentication. Used in Microsoft enterprise environments with Active Directory authentication.
+        /// Adds an AllowAnonymousFilter when in Development for Kestrel which essentially disables all auth.
+        /// Use Staging to test authorization.
         /// </summary>
         /// <param name="services">This service collection</param>
         /// <param name="environment">The hosting environment</param>

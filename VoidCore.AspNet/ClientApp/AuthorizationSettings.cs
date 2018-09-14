@@ -16,6 +16,6 @@ namespace VoidCore.AspNet.ClientApp
         /// Policies represented as a key of policyName and names of allowed roles.
         /// </summary>
         /// <value></value>
-        public Dictionary<string, List<string>> Roles { get; set; }
+        public Dictionary<string, List<string>> Policies { get; set; }
     }
 }

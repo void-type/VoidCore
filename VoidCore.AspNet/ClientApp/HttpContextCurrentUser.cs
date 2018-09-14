@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.Linq;
 using VoidCore.Model.ClientApp;
 
 namespace VoidCore.AspNet.ClientApp
@@ -9,20 +12,25 @@ namespace VoidCore.AspNet.ClientApp
     public class HttpContextCurrentUser : ICurrentUser
     {
         /// <inheritdoc/>
-        public string Name => _userNameFormatter.Format(_httpContext.User.Identity.Name);
+        public string Name { get; }
+
+        /// <inheritdoc/>
+        public IEnumerable<string> Policies { get; }
 
         /// <summary>
         /// Create a new current user accessor
         /// </summary>
         /// <param name="httpContextAccessor">Accessor for the current httpcontext</param>
         /// <param name="userNameFormatter">A formatter for the user names</param>
-        public HttpContextCurrentUser(IHttpContextAccessor httpContextAccessor, IUserNameFormatter userNameFormatter)
+        /// <param name="authorizationService">Policy checker for users</param>
+        /// /// <param name="authorizationSettings">The application's authorization settings</param>
+        public HttpContextCurrentUser(IHttpContextAccessor httpContextAccessor, IUserNameFormatter userNameFormatter, IAuthorizationService authorizationService, AuthorizationSettings authorizationSettings)
         {
-            _httpContext = httpContextAccessor.HttpContext;
-            _userNameFormatter = userNameFormatter;
+            var user = httpContextAccessor.HttpContext.User;
+            Name = userNameFormatter.Format(user.Identity.Name);
+            Policies = authorizationSettings.Policies
+                .Where(policy => authorizationService.AuthorizeAsync(user, policy.Key).Result.Succeeded)
+                .Select(policy => policy.Key);
         }
-
-        private readonly HttpContext _httpContext;
-        private readonly IUserNameFormatter _userNameFormatter;
     }
 }
