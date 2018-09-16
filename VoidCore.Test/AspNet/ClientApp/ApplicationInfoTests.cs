@@ -5,7 +5,7 @@ using VoidCore.AspNet.ClientApp;
 using VoidCore.Model.ClientApp;
 using Xunit;
 
-namespace VoidCore.Test.AspNet
+namespace VoidCore.Test.AspNet.ClientApp
 {
     public class RespondWithApplicationInfoTests
     {
@@ -18,6 +18,9 @@ namespace VoidCore.Test.AspNet
             currentUser
                 .Setup(mock => mock.Name)
                 .Returns("UserName");
+            currentUser
+                .Setup(mock => mock.Policies)
+                .Returns(new string[] {"policy1", "policy2"});
 
             var mockContext = new Mock<HttpContext>();
 
@@ -34,6 +37,7 @@ namespace VoidCore.Test.AspNet
 
             Assert.Equal("AppName", appInfo.ApplicationName);
             Assert.Equal("UserName", appInfo.UserName);
+            Assert.Equal(new string[] {"policy1", "policy2"}, appInfo.UserPolicies);
             Assert.Equal("header-name", appInfo.AntiforgeryTokenHeaderName);
             Assert.Equal("request-token", appInfo.AntiforgeryToken);
         }

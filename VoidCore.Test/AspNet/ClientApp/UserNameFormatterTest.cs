@@ -1,7 +1,7 @@
 using VoidCore.AspNet.ClientApp;
 using Xunit;
 
-namespace VoidCore.Test.AspNet
+namespace VoidCore.Test.AspNet.ClientApp
 {
     public class UserNameFormatterTests
     {

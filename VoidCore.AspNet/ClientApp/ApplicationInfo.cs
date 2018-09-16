@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using VoidCore.Model.ClientApp;
 
 namespace VoidCore.AspNet.ClientApp
@@ -32,7 +32,7 @@ namespace VoidCore.AspNet.ClientApp
         /// <param name="currentUser">UI-friendly user name</param>
         public ApplicationInfo(ApplicationSettings applicationSettings, IHttpContextAccessor httpContextAccessor, IAntiforgery antiforgery, ICurrentUser currentUser)
         {
-            ApplicationName = applicationSettings.Name ?? "Application";
+            ApplicationName = applicationSettings.Name;
             AntiforgeryToken = antiforgery.GetAndStoreTokens(httpContextAccessor.HttpContext).RequestToken;
             AntiforgeryTokenHeaderName = antiforgery.GetAndStoreTokens(httpContextAccessor.HttpContext).HeaderName;
             UserName = currentUser.Name;

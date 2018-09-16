@@ -6,7 +6,7 @@ using VoidCore.AspNet.Logging;
 using VoidCore.Model.ClientApp;
 using Xunit;
 
-namespace VoidCore.Test.AspNet
+namespace VoidCore.Test.AspNet.ClientApp
 {
     public class HttpStringEventLoggerStrategyTests
     {

@@ -6,7 +6,7 @@ using VoidCore.Model.Responses.ItemSet;
 using VoidCore.Model.Responses.Message;
 using Xunit;
 
-namespace VoidCore.Test.AspNet
+namespace VoidCore.Test.AspNet.ClientApp
 {
     public class HttpResponderTests
     {
