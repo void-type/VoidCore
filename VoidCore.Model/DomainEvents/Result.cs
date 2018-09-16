@@ -10,7 +10,7 @@ namespace VoidCore.Model.DomainEvents
     /// Inspired by https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
     /// <typeparam name="TValue">The type of value to return on success</typeparam>
-    public class Result<TValue> : ResultAbstract, IResult<TValue>
+    public sealed class Result<TValue> : ResultAbstract, IResult<TValue>
     {
         /// <summary>
         /// The success value
@@ -45,7 +45,7 @@ namespace VoidCore.Model.DomainEvents
     /// Generally used with CQRS Commands or other void fallible operations.
     /// Inspired by https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
-    public class Result : ResultAbstract
+    public sealed class Result : ResultAbstract
     {
         private Result() : base(false, null) { }
 

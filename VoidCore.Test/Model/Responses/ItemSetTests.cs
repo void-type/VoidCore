@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using VoidCore.Model.Responses.ItemSet;
@@ -20,6 +21,12 @@ namespace VoidCore.Test.Model.Responses
             var items = new List<string>() { "", "", "" }.AsEnumerable();
             var set = new ItemSet<string>(items);
             Assert.Equal(3, set.Count);
+        }
+
+        [Fact]
+        public void NullItemsThrowsExceptions()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null));
         }
     }
 }

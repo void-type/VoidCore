@@ -106,6 +106,7 @@ namespace VoidCore.Test.Model.DomainEvents
         public void ResultThrowsErrorWithEmptyFailures()
         {
             Assert.Throws<ArgumentException>(() => Result.Fail(new IFailure[0]));
+            Assert.Throws<ArgumentException>(() => Result.Fail(new List<IFailure>()));
         }
 
         [Fact]

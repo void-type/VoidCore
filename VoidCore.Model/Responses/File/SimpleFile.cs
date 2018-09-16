@@ -18,6 +18,7 @@ namespace VoidCore.Model.Responses.File
 
         /// <summary>
         /// Create a new file from string content. Useful for human-readable text files.
+        /// Uses UTF8 encoding.
         /// </summary>
         /// <param name="fileContent"></param>
         /// <param name="fileName"></param>
@@ -32,5 +33,8 @@ namespace VoidCore.Model.Responses.File
 
         /// <inheritdoc/>
         public string Name { get; }
+
+        /// <inheritdoc/>
+        public string ContentAsString => Encoding.UTF8.GetString(Content);
     }
 }

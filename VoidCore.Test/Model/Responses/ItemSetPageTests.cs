@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using VoidCore.Model.Responses.ItemSet;
@@ -12,6 +13,12 @@ namespace VoidCore.Test.Model.Responses
         {
             var set = new ItemSetPage<string>(new List<string>().AsEnumerable(), 2, 2);
             Assert.Equal(0, set.Count);
+        }
+
+        [Fact]
+        public void NullItemsThrowsExceptions()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ItemSetPage<string>(null, 1, 1));
         }
 
         [Theory]
