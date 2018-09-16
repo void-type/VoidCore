@@ -1,5 +1,5 @@
 dotnet tool install --global dotnet-outdated
-# Waiting on stable version
+# TODO: Waiting on stable version
 dotnet tool install --global dotnet-reportgenerator-globaltool --version "4.0.0-rc4"
 dotnet tool install --global InheritDocTool
 dotnet tool install --global coverlet.console
