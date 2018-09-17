@@ -15,7 +15,7 @@ namespace VoidCore.AspNet.ClientApp
         public string Name { get; }
 
         /// <inheritdoc/>
-        public IEnumerable<string> Policies { get; }
+        public IEnumerable<string> AuthorizedAs { get; }
 
         /// <summary>
         /// Create a new current user accessor
@@ -23,12 +23,12 @@ namespace VoidCore.AspNet.ClientApp
         /// <param name="httpContextAccessor">Accessor for the current httpcontext</param>
         /// <param name="userNameFormatter">A formatter for the user names</param>
         /// <param name="authorizationService">Policy checker for users</param>
-        /// /// <param name="authorizationSettings">The application's authorization settings</param>
-        public HttpContextCurrentUser(IHttpContextAccessor httpContextAccessor, IUserNameFormatter userNameFormatter, IAuthorizationService authorizationService, AuthorizationSettings authorizationSettings)
+        /// /// <param name="applicationSettings">The application's authorization settings</param>
+        public HttpContextCurrentUser(IHttpContextAccessor httpContextAccessor, IUserNameFormatter userNameFormatter, IAuthorizationService authorizationService, IApplicationSettings applicationSettings)
         {
             var user = httpContextAccessor.HttpContext.User;
             Name = userNameFormatter.Format(user.Identity.Name);
-            Policies = authorizationSettings.Policies
+            AuthorizedAs = applicationSettings.AuthorizationPolicies
                 .Where(policy => authorizationService.AuthorizeAsync(user, policy.Key).Result.Succeeded)
                 .Select(policy => policy.Key);
         }

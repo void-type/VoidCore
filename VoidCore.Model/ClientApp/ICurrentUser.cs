@@ -17,6 +17,6 @@ namespace VoidCore.Model.ClientApp
         /// Authorization policies that the user fulfills.
         /// </summary>
         /// <value></value>
-        IEnumerable<string> Policies { get; }
+        IEnumerable<string> AuthorizedAs { get; }
     }
 }

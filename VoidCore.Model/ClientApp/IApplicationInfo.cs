@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace VoidCore.Model.ClientApp
 {
     /// <summary>
@@ -29,12 +27,6 @@ namespace VoidCore.Model.ClientApp
         /// The UI-friendly user name
         /// </summary>
         /// <value></value>
-        string UserName { get; }
-
-        /// <summary>
-        /// A list of authorization policies that the user fulfills.
-        /// </summary>
-        /// <value></value>
-        IEnumerable<string> UserPolicies { get; }
+        ICurrentUser User { get; }
     }
 }

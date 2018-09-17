@@ -5,9 +5,10 @@ using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Linq;
-using VoidCore.AspNet.ClientApp;
 using VoidCore.AspNet.Exceptions;
+using VoidCore.Model.ClientApp;
 
 namespace VoidCore.AspNet.Configuration
 {
@@ -19,13 +20,18 @@ namespace VoidCore.AspNet.Configuration
         /// <summary>
         /// Setup an authorization policy for a set of roles. These are used via AuthorizeAttributes.
         /// A user with any one of the allowed roles will be authorized for the policy.
-        /// For example, a role can be an AD group name. Having any role within the policy will grant access.
+        /// /// For example, a role can be an AD group name. Having any role within the policy will grant access.
         /// </summary>
         /// <param name="services">The service collection</param>
-        /// <param name="authorizationSettings">Authorization settings from configuration</param>
-        public static void AddAuthorizationPoliciesFromSettings(this IServiceCollection services, AuthorizationSettings authorizationSettings)
+        /// <param name="applicationSettings">Authorization settings from configuration</param>
+        public static void AddAuthorizationPoliciesFromSettings(this IServiceCollection services, IApplicationSettings applicationSettings)
         {
-            services.AddAuthorization(options => authorizationSettings.Policies
+            if (applicationSettings?.AuthorizationPolicies == null || !applicationSettings.AuthorizationPolicies.Any())
+            {
+                throw new ArgumentNullException(nameof(applicationSettings), "Application is not properly configured. AuthorizationPolicies is either empty or not found.");
+            }
+
+            services.AddAuthorization(options => applicationSettings.AuthorizationPolicies
                 .ToList()
                 .ForEach(policy => options
                     .AddPolicy(policy.Key, p => p
@@ -70,11 +76,33 @@ namespace VoidCore.AspNet.Configuration
         /// <param name="configuration">The application configuration</param>
         /// <typeparam name="TSettings">The settings object type to pull from configuration</typeparam>
         /// <returns>The settings object to use during startup.null</returns>
-        public static TSettings AddSettingsSingleton<TSettings>(this IServiceCollection services, IConfiguration configuration) where TSettings : class, new()
+        public static TSettings AddSettingsSingleton<TSettings>(this IServiceCollection services, IConfiguration configuration)
+        where TSettings : class, new()
         {
-            var settings = new TSettings();
-            configuration.Bind(settings);
+            var settings = configuration
+                .Get<TSettings>(options => options.BindNonPublicProperties = true);
+
             services.AddSingleton(settings);
+            return settings;
+        }
+
+        /// <summary>
+        /// Pulls a settings object from configuration and adds it as a singleton to the DI container.
+        /// </summary>
+        /// <param name="services">This service collection</param>
+        /// <param name="configuration">The application configuration</param>
+        /// <typeparam name="TService">An interface or higher-level service to access the settings from</typeparam>
+        /// <typeparam name="TSettings">The settings object type to pull from configuration</typeparam>
+        /// <returns>The settings object to use during startup.null</returns>
+        public static TSettings AddSettingsSingleton<TService, TSettings>(this IServiceCollection services, IConfiguration configuration)
+        where TSettings : class, TService, new()
+        where TService : class
+        {
+            var settings = configuration
+                .Get<TSettings>(options => options.BindNonPublicProperties = true);
+
+            services.AddSingleton<TService>(x => settings);
+
             return settings;
         }
 
@@ -84,8 +112,14 @@ namespace VoidCore.AspNet.Configuration
         /// <param name="services">The service collection</param>
         /// <param name="connectionString">The connection string to send to the dbcontext</param>
         /// <typeparam name="TDbContext">The concrete type of DbContext to add to the DI container</typeparam>
-        public static void AddSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString) where TDbContext : DbContext
+        public static void AddSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString)
+        where TDbContext : DbContext
         {
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new ArgumentNullException(nameof(connectionString), "Application is not properly configured. Connection string is either empty or not found.");
+            }
+            
             services.AddDbContext<TDbContext>(options => options.UseSqlServer(connectionString));
         }
 

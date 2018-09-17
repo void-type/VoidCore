@@ -12,15 +12,16 @@ namespace VoidCore.Test.AspNet.ClientApp
         [Fact]
         public void RespondWithAppInfo()
         {
-            var appSettings = new ApplicationSettings { Name = "AppName" };
+            var appSettingsMock = new Mock<IApplicationSettings>();
+            appSettingsMock.Setup(a => a.Name).Returns("AppName");
 
             var currentUser = new Mock<ICurrentUser>();
             currentUser
                 .Setup(mock => mock.Name)
                 .Returns("UserName");
             currentUser
-                .Setup(mock => mock.Policies)
-                .Returns(new[] {"policy1", "policy2"});
+                .Setup(mock => mock.AuthorizedAs)
+                .Returns(new [] { "policy1", "policy2" });
 
             var mockContext = new Mock<HttpContext>();
 
@@ -33,11 +34,11 @@ namespace VoidCore.Test.AspNet.ClientApp
                 .Setup(mock => mock.GetAndStoreTokens(It.IsAny<HttpContext>()))
                 .Returns(new AntiforgeryTokenSet("request-token", "cookie-token", "formFieldName", "header-name"));
 
-            var appInfo = new ApplicationInfo(appSettings, mockContextAccessor.Object, mockAntiforgery.Object, currentUser.Object);
+            var appInfo = new ApplicationInfo(appSettingsMock.Object, mockContextAccessor.Object, mockAntiforgery.Object, currentUser.Object);
 
             Assert.Equal("AppName", appInfo.ApplicationName);
-            Assert.Equal("UserName", appInfo.UserName);
-            Assert.Equal(new[] {"policy1", "policy2"}, appInfo.UserPolicies);
+            Assert.Equal("UserName", appInfo.User.Name);
+            Assert.Equal(new [] { "policy1", "policy2" }, appInfo.User.AuthorizedAs);
             Assert.Equal("header-name", appInfo.AntiforgeryTokenHeaderName);
             Assert.Equal("request-token", appInfo.AntiforgeryToken);
         }

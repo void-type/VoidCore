@@ -1,13 +1,15 @@
+using System.Collections.Generic;
+using VoidCore.Model.ClientApp;
+
 namespace VoidCore.AspNet.ClientApp
 {
-    /// <summary>
-    /// General application settings that are pulled from configuration.
-    /// </summary>
-    public class ApplicationSettings
+    /// <inheritdoc/>
+    public class ApplicationSettings : IApplicationSettings
     {
-        /// <summary>
-        /// The name of the application.
-        /// </summary>
-        public string Name { get; set; }
+        /// <inheritdoc/>
+    public string Name { get; private set; }
+
+        /// <inheritdoc/>
+        public Dictionary<string, List<string>> AuthorizationPolicies { get; private set; }
     }
 }
