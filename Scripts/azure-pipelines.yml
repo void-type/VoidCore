@@ -8,5 +8,5 @@ pool:
 
 steps:
 - powershell: |
-    cd ./Scripts; ./buildAllPkg.ps1
+    cd ./Scripts; .installAndUpdateTools.ps1; ./buildAllPkg.ps1
   displayName: 'Test, Build and Pack'
