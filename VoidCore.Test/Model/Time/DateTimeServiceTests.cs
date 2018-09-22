@@ -31,5 +31,16 @@ namespace VoidCore.Test.Model.Time
             Assert.InRange(actual, expectedStart, expectedEnd);
             Assert.Equal(DateTimeKind.Utc, actual.Kind);
         }
+
+        [Fact]
+        public void DiscreteDateTimeServiceTest()
+        {
+            var service = new DiscreteDateTimeService(new DateTime(2000, 4, 2));
+
+            var actual = service.Moment;
+
+            Assert.Equal(new DateTime(2000, 4, 2), actual);
+            Assert.Equal(DateTimeKind.Unspecified, actual.Kind);
+        }
     }
 }
