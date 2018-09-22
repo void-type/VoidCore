@@ -6,9 +6,7 @@
 pool:
   vmImage: 'vs2017-win2016'
 
-variables:
-  buildConfiguration: 'Release'
-
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+- powershell: |
+    ./Scripts/buildAllPkg.ps1
+  displayName: 'Test, Build and Pack'
