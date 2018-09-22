@@ -6,7 +6,7 @@ function Stop-OnError {
 }
 
 # Tests
-./$PSScriptRoot/testCore.ps1
+./"$PSScriptRoot/testCore.ps1"
 Stop-OnError
 
 # Build VoidCore.Model
