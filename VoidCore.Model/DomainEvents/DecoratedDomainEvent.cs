@@ -48,7 +48,7 @@ namespace VoidCore.Model.DomainEvents
             return this;
         }
 
-        private DomainEventAbstract<TRequest, TResponse> _innerEvent;
+        private readonly DomainEventAbstract<TRequest, TResponse> _innerEvent;
         private readonly List<IValidator<TRequest>> _validators = new List<IValidator<TRequest>>();
         private readonly List<IPostProcessor<TRequest, TResponse>> _postProcessors = new List<IPostProcessor<TRequest, TResponse>>();
     }
