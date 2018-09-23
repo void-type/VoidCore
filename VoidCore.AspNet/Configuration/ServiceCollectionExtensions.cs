@@ -20,7 +20,7 @@ namespace VoidCore.AspNet.Configuration
         /// <summary>
         /// Setup an authorization policy for a set of roles. These are used via AuthorizeAttributes.
         /// A user with any one of the allowed roles will be authorized for the policy.
-        /// /// For example, a role can be an AD group name. Having any role within the policy will grant access.
+        /// For example, a role can be an AD group name. Having any role within the policy will grant access.
         /// </summary>
         /// <param name="services">The service collection</param>
         /// <param name="applicationSettings">Authorization settings from configuration</param>
@@ -119,7 +119,7 @@ namespace VoidCore.AspNet.Configuration
             {
                 throw new ArgumentNullException(nameof(connectionString), "Application is not properly configured. Connection string is either empty or not found.");
             }
-            
+
             services.AddDbContext<TDbContext>(options => options.UseSqlServer(connectionString));
         }
 

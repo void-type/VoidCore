@@ -23,7 +23,7 @@ namespace VoidCore.AspNet.ClientApp
         /// <param name="httpContextAccessor">Accessor for the current httpcontext</param>
         /// <param name="userNameFormatter">A formatter for the user names</param>
         /// <param name="authorizationService">Policy checker for users</param>
-        /// /// <param name="applicationSettings">The application's authorization settings</param>
+        /// <param name="applicationSettings">The application's authorization settings</param>
         public HttpContextCurrentUser(IHttpContextAccessor httpContextAccessor, IUserNameFormatter userNameFormatter, IAuthorizationService authorizationService, IApplicationSettings applicationSettings)
         {
             var user = httpContextAccessor.HttpContext.User;

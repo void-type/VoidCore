@@ -9,7 +9,7 @@ namespace VoidCore.Model.Time
     {
         /// <summary>
         /// Make a new discrete date time service.
-        /// /// </summary>
+        /// </summary>
         /// <param name="when"></param>
         public DiscreteDateTimeService(DateTime when)
         {

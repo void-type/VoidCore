@@ -21,7 +21,7 @@ namespace VoidCore.AspNet.ClientApp
 
         /// <summary>
         /// Construct a new ApplicaitonInfo object.
-        /// /// </summary>
+        /// </summary>
         /// <param name="applicationSettings">General application settings</param>
         /// <param name="httpContextAccessor">The HttpContext</param>
         /// <param name="antiforgery">The ASPNET antiforgery object</param>
