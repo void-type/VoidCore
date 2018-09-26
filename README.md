@@ -235,12 +235,20 @@ There are many helpers to build an application with...
 
 You will find everything you need to build and test this project in the Scripts folder.
 
+There is a script to install and update global tools used to develop this project.
+
+You will also need [nuget.exe](https://dist.nuget.org/win-x86-commandline/latest/nuget.exe) in your PATH to deploy packages locally.
+
 There are also VSCode tasks for each script.
 
-This project is not currently released, but feel free to use it as is. You can reference it via local ProjectReference or deploy it to a local Nuget store via
+This project is not currently released, but feel free to use it as is. To use it you can:
+
+1. You can reference it via local ProjectReference in your csproj. It will be built with your dependent project.
+2. Or deploy it to a local Nuget store via [nuget.exe](https://dist.nuget.org/win-x86-commandline/latest/nuget.exe):
 
 ```powershell
 cd Scripts/
 ./buildAllPkg.ps1
-nuget init "out" "/path/to/your/nuget/repo/"
+nuget add "VoidCore.Model/out" "/path/to/your/nuget/repo/"
+nuget init "VoidCore.AspNet/out" "/path/to/your/nuget/repo/"
 ```
