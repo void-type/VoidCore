@@ -249,6 +249,6 @@ This project is not currently released, but feel free to use it as is. To use it
 ```powershell
 cd Scripts/
 ./buildAllPkg.ps1
-nuget add "VoidCore.Model/out" "/path/to/your/nuget/repo/"
+nuget init "VoidCore.Model/out" "/path/to/your/nuget/repo/"
 nuget init "VoidCore.AspNet/out" "/path/to/your/nuget/repo/"
 ```
