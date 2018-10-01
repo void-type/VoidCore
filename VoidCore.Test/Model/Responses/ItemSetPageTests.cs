@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VoidCore.Model.Responses.ItemSet;
+using VoidCore.Model.Responses.Collections;
 using Xunit;
 
 namespace VoidCore.Test.Model.Responses

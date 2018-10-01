@@ -1,7 +1,5 @@
 using Moq;
-using System.Collections.Generic;
-using VoidCore.Model.DomainEvents;
-using VoidCore.Model.Responses.ItemSet;
+using VoidCore.Model.Responses.Collections;
 using Xunit;
 
 namespace VoidCore.Test.Model.Responses
@@ -16,39 +14,6 @@ namespace VoidCore.Test.Model.Responses
             var logText = itemSetMock.Object.GetLogText();
             var expected = new [] { "Count: 7" };
 
-            Assert.Equal(expected, logText);
-        }
-
-        [Fact]
-        public void ItemSetOfValidationErrorsGetLogText()
-        {
-            var innerErrors = new List<IFailure>
-            {
-                new Failure("message 1.", "field 1"),
-                new Failure("message 2.", "field 1"),
-                new Failure("message 3.", "field 1"),
-                new Failure("message 4.", "field 1"),
-                new Failure("message 5."),
-                new Failure("")
-            };
-
-            var itemSetMock = new Mock<IItemSet<IFailure>>();
-            itemSetMock.SetupGet(set => set.Count).Returns(9);
-            itemSetMock.SetupGet(set => set.Items).Returns(innerErrors);
-
-            var logText = itemSetMock.Object.GetLogText();
-
-            var expected = new []
-            {
-                "Count: 9",
-                "ValidationErrors:",
-                "message 1.",
-                "message 2.",
-                "message 3.",
-                "message 4.",
-                "message 5.",
-                ""
-            };
             Assert.Equal(expected, logText);
         }
 

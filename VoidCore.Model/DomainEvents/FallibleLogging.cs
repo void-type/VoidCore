@@ -1,7 +1,7 @@
 using System.Linq;
-using VoidCore.Model.DomainEvents;
+using VoidCore.Model.Logging;
 
-namespace VoidCore.Model.Logging
+namespace VoidCore.Model.DomainEvents
 {
     /// <summary>
     /// A base post processor that logs IFallible failures to a string logger.
@@ -27,7 +27,9 @@ namespace VoidCore.Model.Logging
         /// <param name="result">The result of the event, this contains the response if successful</param>
         public override void OnFailure(TRequest request, IResult result)
         {
-            Logger.Warn("Failures: " + string.Join(" ", result.Failures.Select(x => x.Message)));
+            Logger.Warn(
+                $"Count: {result.Failures.Count()}",
+                $"Failures: {string.Join(" ", result.Failures.Select(x => x.Message))}");
             base.OnFailure(request, result);
         }
 

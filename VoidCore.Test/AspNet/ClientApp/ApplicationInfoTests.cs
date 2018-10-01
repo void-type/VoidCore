@@ -10,7 +10,7 @@ namespace VoidCore.Test.AspNet.ClientApp
     public class RespondWithApplicationInfoTests
     {
         [Fact]
-        public void RespondWithAppInfo()
+        public void ApplicationInfoContainsProperInfo()
         {
             var appSettingsMock = new Mock<IApplicationSettings>();
             appSettingsMock.Setup(a => a.Name).Returns("AppName");

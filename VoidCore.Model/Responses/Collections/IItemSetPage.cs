@@ -1,4 +1,4 @@
-﻿namespace VoidCore.Model.Responses.ItemSet
+﻿namespace VoidCore.Model.Responses.Collections
 {
     /// <summary>
     /// A page for paginating a set of results.

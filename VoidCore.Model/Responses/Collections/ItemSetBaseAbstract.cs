@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace VoidCore.Model.Responses.ItemSet
+namespace VoidCore.Model.Responses.Collections
 {
     /// <inheritdoc/>
     public abstract class ItemSetBaseAbstract<TEntity> : IItemSet<TEntity>

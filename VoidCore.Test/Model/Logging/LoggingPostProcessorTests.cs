@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using VoidCore.Model.DomainEvents;
 using VoidCore.Model.Logging;
 using VoidCore.Model.Responses.File;
-using VoidCore.Model.Responses.ItemSet;
+using VoidCore.Model.Responses.Collections;
 using VoidCore.Model.Responses.Message;
 using Xunit;
 
@@ -25,7 +25,7 @@ namespace VoidCore.Test.Model.Logging
 
             processor.Process(request, result);
 
-            loggerMock.Verify(l => l.Warn("Failures: oops"), Times.Once());
+            loggerMock.Verify(l => l.Warn(new[] {"Count: 1", "Failures: oops"}), Times.Once());
         }
 
         [Fact]

@@ -5,7 +5,7 @@ using VoidCore.Model.ClientApp;
 namespace VoidCore.AspNet.ClientApp
 {
     /// <inheritdoc/>
-    public class ApplicationInfo : IApplicationInfo
+    public class ApplicationInfo : GetApplicationInfo.IApplicationInfo
     {
         /// <inheritdoc/>
         public string ApplicationName { get; }
