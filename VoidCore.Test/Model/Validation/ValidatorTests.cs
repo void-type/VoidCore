@@ -48,7 +48,7 @@ namespace VoidCore.Test.Model.Validation
         }
 
         [Fact]
-        public void ValidatiorWorksOnDerivedTypes()
+        public void ValidatorWorksOnDerivedTypes()
         {
             var result = new InheritedEntityValidator().Validate(new DerivedEntity() { SomeProperty = "valid" });
 

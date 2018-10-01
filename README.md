@@ -136,7 +136,7 @@ class CreatePersonValidator : ValidatorAbstract<Entity>
             .InvalidWhen(entity => string.IsNullOrWhitespace(entity.Phone))
             .InvalidWhen(entity => !PhoneIsValidFormat(entity.Phone))
 
-            // ExceptWhen supresses any violations
+            // ExceptWhen suppresses any violations
             // ExceptWhens are AND'd.
             // All suppression expressions have to be true to suppress
             .ExceptWhen(entity => !entity.IsEmployee)
@@ -209,7 +209,7 @@ var matchedEntities = entities
 
 Make predictable APIs with...
 
-* Useer messages
+* User messages
 * Validation failures with message and field name
 * Data sets
 * Pagination
@@ -221,7 +221,7 @@ Includes a responder for IActionResult Web API that can be ported to any API pip
 
 There are many helpers to build an application with...
 
-* Serilog multiplatform file logging.
+* Serilog multi-platform file logging.
 * Active Directory group authorization.
 * HTTPS with redirection and HSTS headers.
 * Antiforgery for SPAs.

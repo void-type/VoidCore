@@ -75,7 +75,7 @@ namespace VoidCore.AspNet.Configuration
         /// <param name="services">This service collection</param>
         /// <param name="configuration">The application configuration</param>
         /// <typeparam name="TSettings">The settings object type to pull from configuration</typeparam>
-        /// <returns>The settings object to use during startup.null</returns>
+        /// <returns>The settings object to use during startup.</returns>
         public static TSettings AddSettingsSingleton<TSettings>(this IServiceCollection services, IConfiguration configuration)
         where TSettings : class, new()
         {
@@ -93,7 +93,7 @@ namespace VoidCore.AspNet.Configuration
         /// <param name="configuration">The application configuration</param>
         /// <typeparam name="TService">An interface or higher-level service to access the settings from</typeparam>
         /// <typeparam name="TSettings">The settings object type to pull from configuration</typeparam>
-        /// <returns>The settings object to use during startup.null</returns>
+        /// <returns>The settings object to use during startup.</returns>
         public static TSettings AddSettingsSingleton<TService, TSettings>(this IServiceCollection services, IConfiguration configuration)
         where TSettings : class, TService, new()
         where TService : class
@@ -110,7 +110,7 @@ namespace VoidCore.AspNet.Configuration
         /// Add a DbContext to the DI container using SQL server settings.
         /// </summary>
         /// <param name="services">The service collection</param>
-        /// <param name="connectionString">The connection string to send to the dbcontext</param>
+        /// <param name="connectionString">The connection string to send to the DbContext</param>
         /// <typeparam name="TDbContext">The concrete type of DbContext to add to the DI container</typeparam>
         public static void AddSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString)
         where TDbContext : DbContext
@@ -126,7 +126,7 @@ namespace VoidCore.AspNet.Configuration
         /// <summary>
         /// Add Windows Authentication. Used in Microsoft enterprise environments with Active Directory authentication.
         /// Adds an AllowAnonymousFilter when in Development for Kestrel which essentially disables all auth.
-        /// Use Staging to test authorization.
+        /// Use Staging environment to test authorization.
         /// </summary>
         /// <param name="services">This service collection</param>
         /// <param name="environment">The hosting environment</param>

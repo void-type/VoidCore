@@ -19,7 +19,7 @@ namespace VoidCore.Model.DomainEvents
         }
 
         /// <summary>
-        /// Overridee this method to process regardless of success or failure.
+        /// Override this method to process regardless of success or failure.
         /// </summary>
         /// <param name="request">The domain event request</param>
         /// <param name="result">The result of the event, this contains the response if successful</param>

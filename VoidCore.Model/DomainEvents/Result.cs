@@ -5,7 +5,7 @@ using System.Linq;
 namespace VoidCore.Model.DomainEvents
 {
     /// <summary>
-    /// The result of a faillible operation that returns a value on success.
+    /// The result of a fallible operation that returns a value on success.
     /// Generally used with CQRS Queries or other non-void fallible operations.
     /// Inspired by https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
@@ -41,7 +41,7 @@ namespace VoidCore.Model.DomainEvents
     }
 
     /// <summary>
-    /// The result of a faillible operation that does not return a value on success.
+    /// The result of a fallible operation that does not return a value on success.
     /// Generally used with CQRS Commands or other void fallible operations.
     /// Inspired by https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>

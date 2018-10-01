@@ -31,7 +31,7 @@
         /// <summary>
         /// Create a new PostSuccessUserMessage
         /// </summary>
-        /// <param name="id">The id of the entity affectd in the command</param>
+        /// <param name="id">The id of the entity affected in the command</param>
         /// <param name="message">A UI-friendly success message</param>
         /// <typeparam name="TId">The type of the Id</typeparam>
         /// <returns></returns>
