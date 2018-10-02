@@ -12,16 +12,16 @@ namespace VoidCore.Model.DomainEvents
         }
 
         /// <inheritdoc/>
-        public DecoratedEventHandler<TRequest, TResponse> AddRequestValidator(IValidator<TRequest> validator)
+        public EventHandlerDecorator<TRequest, TResponse> AddRequestValidator(IValidator<TRequest> validator)
         {
-            return new DecoratedEventHandler<TRequest, TResponse>(this)
+            return new EventHandlerDecorator<TRequest, TResponse>(this)
                 .AddRequestValidator(validator);
         }
 
         /// <inheritdoc/>
-        public DecoratedEventHandler<TRequest, TResponse> AddPostProcessor(IPostProcessor<TRequest, TResponse> processor)
+        public EventHandlerDecorator<TRequest, TResponse> AddPostProcessor(IPostProcessor<TRequest, TResponse> processor)
         {
-            return new DecoratedEventHandler<TRequest, TResponse>(this)
+            return new EventHandlerDecorator<TRequest, TResponse>(this)
                 .AddPostProcessor(processor);
         }
 

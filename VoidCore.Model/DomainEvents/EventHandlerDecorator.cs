@@ -9,13 +9,13 @@ namespace VoidCore.Model.DomainEvents
     /// </summary>
     /// <typeparam name="TRequest">The type of the event request</typeparam>
     /// <typeparam name="TResponse">The type of the event response</typeparam>
-    public class DecoratedEventHandler<TRequest, TResponse> : IEventHandler<TRequest, TResponse>
+    public class EventHandlerDecorator<TRequest, TResponse> : IEventHandler<TRequest, TResponse>
     {
         /// <summary>
         /// Create a new Decorated Domain Event
         /// </summary>
         /// <param name="innerEvent"></param>
-        public DecoratedEventHandler(EventHandlerAbstract<TRequest, TResponse> innerEvent)
+        public EventHandlerDecorator(EventHandlerAbstract<TRequest, TResponse> innerEvent)
         {
             _innerEvent = innerEvent;
         }
@@ -23,26 +23,31 @@ namespace VoidCore.Model.DomainEvents
         /// <inheritdoc/>
         public Result<TResponse> Handle(TRequest request)
         {
-            var validation = _validators.Select(v => v.Validate(request)).Combine();
+            var validation = _validators
+                .Select(validator => validator.Validate(request))
+                .Combine();
 
             var result = validation.IsSuccess ?
                 _innerEvent.Handle(request) :
                 Result.Fail<TResponse>(validation.Failures);
 
-            _postProcessors.ForEach(p => p.Process(request, result));
+            foreach (var postProcessor in _postProcessors)
+            {
+                postProcessor.Process(request, result);
+            }
 
             return result;
         }
 
         /// <inheritdoc/>
-        public DecoratedEventHandler<TRequest, TResponse> AddRequestValidator(IValidator<TRequest> validator)
+        public EventHandlerDecorator<TRequest, TResponse> AddRequestValidator(IValidator<TRequest> validator)
         {
             _validators.Add(validator);
             return this;
         }
 
         /// <inheritdoc/>
-        public DecoratedEventHandler<TRequest, TResponse> AddPostProcessor(IPostProcessor<TRequest, TResponse> processor)
+        public EventHandlerDecorator<TRequest, TResponse> AddPostProcessor(IPostProcessor<TRequest, TResponse> processor)
         {
             _postProcessors.Add(processor);
             return this;

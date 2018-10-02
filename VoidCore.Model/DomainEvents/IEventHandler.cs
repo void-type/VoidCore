@@ -24,13 +24,13 @@ namespace VoidCore.Model.DomainEvents
         /// </summary>
         /// <param name="validator">The IValidator</param>
         /// <returns>The event for chaining setup commands</returns>
-        DecoratedEventHandler<TRequest, TResponse> AddRequestValidator(IValidator<TRequest> validator);
+        EventHandlerDecorator<TRequest, TResponse> AddRequestValidator(IValidator<TRequest> validator);
 
         /// <summary>
         /// Add a post processor to run after the event has been handled.
         /// </summary>
         /// <param name="processor">The IPostProcessor</param>
         /// <returns>The event for chaining setup commands</returns>
-        DecoratedEventHandler<TRequest, TResponse> AddPostProcessor(IPostProcessor<TRequest, TResponse> processor);
+        EventHandlerDecorator<TRequest, TResponse> AddPostProcessor(IPostProcessor<TRequest, TResponse> processor);
     }
 }

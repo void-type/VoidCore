@@ -29,7 +29,7 @@ namespace VoidCore.Model.DomainEvents
         {
             Logger.Warn(
                 $"Count: {result.Failures.Count()}",
-                $"Failures: {string.Join(" ", result.Failures.Select(x => x.Message))}");
+                $"Failures: {string.Join(" ", result.Failures.Select(failure => failure.Message))}");
             base.OnFailure(request, result);
         }
 
