@@ -5,20 +5,21 @@ namespace VoidCore.Model.Responses.Messages
 {
     /// <inheritdoc/>
     /// <summary>
-    /// Log meta information about the usermessage.
+    /// Log meta information about the postsuccessusermessage.
     /// </summary>
     /// <typeparam name="TRequest">The request type</typeparam>
-    public class UserMessageLogging<TRequest> : FallibleLogging<TRequest, UserMessage>
+    /// <typeparam name="TId">The type of the entity id</typeparam>
+    public class PostSuccessUserMessageEventLogger<TRequest, TId> : FallibleEventLogger<TRequest, PostSuccessUserMessage<TId>>
     {
         /// <summary>
         /// Construct a new logger.
         /// </summary>
         /// <param name="logger"></param>
         /// <returns></returns>
-        public UserMessageLogging(ILoggingService logger) : base(logger) { }
+        public PostSuccessUserMessageEventLogger(ILoggingService logger) : base(logger) { }
 
         /// <inheritdoc/>
-        public override void OnSuccess(TRequest request, IResult<UserMessage> successfulResult)
+        public override void OnSuccess(TRequest request, IResult<PostSuccessUserMessage<TId>> successfulResult)
         {
             Logger.Info(successfulResult.Value.GetLogText());
             base.OnSuccess(request, successfulResult);

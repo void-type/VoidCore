@@ -1,25 +1,25 @@
 using VoidCore.Model.DomainEvents;
 using VoidCore.Model.Logging;
 
-namespace VoidCore.Model.Responses.Messages
+namespace VoidCore.Model.Responses.Collections
 {
     /// <inheritdoc/>
     /// <summary>
-    /// Log meta information about the postsuccessusermessage.
+    /// Log meta information about the item set page.
     /// </summary>
     /// <typeparam name="TRequest">The request type</typeparam>
-    /// <typeparam name="TId">The type of the entity id</typeparam>
-    public class PostSuccessUserMessageLogging<TRequest, TId> : FallibleLogging<TRequest, PostSuccessUserMessage<TId>>
+    /// <typeparam name="TEntity">The type of items in the item set</typeparam>
+    public class ItemSetPageEventLogger<TRequest, TEntity> : FallibleEventLogger<TRequest, IItemSetPage<TEntity>>
     {
         /// <summary>
         /// Construct a new logger.
         /// </summary>
         /// <param name="logger"></param>
         /// <returns></returns>
-        public PostSuccessUserMessageLogging(ILoggingService logger) : base(logger) { }
+        public ItemSetPageEventLogger(ILoggingService logger) : base(logger) { }
 
         /// <inheritdoc/>
-        public override void OnSuccess(TRequest request, IResult<PostSuccessUserMessage<TId>> successfulResult)
+        public override void OnSuccess(TRequest request, IResult<IItemSetPage<TEntity>> successfulResult)
         {
             Logger.Info(successfulResult.Value.GetLogText());
             base.OnSuccess(request, successfulResult);

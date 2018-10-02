@@ -8,14 +8,14 @@ namespace VoidCore.Model.Responses.Files
     /// Log meta information about the item set.
     /// </summary>
     /// <typeparam name="TRequest">The request type</typeparam>
-    public class SimpleFileLogging<TRequest> : FallibleLogging<TRequest, ISimpleFile>
+    public class SimpleFileEventLogger<TRequest> : FallibleEventLogger<TRequest, ISimpleFile>
     {
         /// <summary>
         /// Construct a new IItemSet logger.
         /// </summary>
         /// <param name="logger"></param>
         /// <returns></returns>
-        public SimpleFileLogging(ILoggingService logger) : base(logger) { }
+        public SimpleFileEventLogger(ILoggingService logger) : base(logger) { }
 
         /// <inheritdoc/>
         public override void OnSuccess(TRequest request, IResult<ISimpleFile> successfulResult)

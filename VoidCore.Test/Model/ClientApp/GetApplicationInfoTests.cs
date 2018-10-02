@@ -35,7 +35,7 @@ namespace VoidCore.Test.Model.ClientApp
             var loggingServiceMock = new Mock<ILoggingService>();
             loggingServiceMock.Setup(l => l.Info(It.IsAny<string[]>()));
 
-            new GetApplicationInfo.Logging(loggingServiceMock.Object).Process(new GetApplicationInfo.Request(), result);
+            new GetApplicationInfo.Logger(loggingServiceMock.Object).Process(new GetApplicationInfo.Request(), result);
 
             loggingServiceMock.Verify(l => l.Info(new []
             {
@@ -44,6 +44,5 @@ namespace VoidCore.Test.Model.ClientApp
                 "UserAuthorizedAs: policy1, policy2"
             }), Times.Once());
         }
-
     }
 }

@@ -55,10 +55,10 @@ namespace VoidCore.Model.ClientApp
         /// <summary>
         /// Log the GetApplicationInfo result.
         /// </summary>
-        public class Logging : FallibleLogging<Request, IApplicationInfo>
+        public class Logger : FallibleEventLogger<Request, IApplicationInfo>
         {
             /// <inheritdoc/>
-            public Logging(ILoggingService logger) : base(logger) { }
+            public Logger(ILoggingService logger) : base(logger) { }
 
             /// <summary>
             /// Override the base OnSuccess to log some information about the resultant IApplicationInfo.

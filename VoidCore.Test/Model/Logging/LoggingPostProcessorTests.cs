@@ -21,7 +21,7 @@ namespace VoidCore.Test.Model.Logging
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Warn(It.IsAny<string[]>()));
 
-            var processor = new FallibleLogging<string, string>(loggerMock.Object);
+            var processor = new FallibleEventLogger<string, string>(loggerMock.Object);
 
             processor.Process(request, result);
 
@@ -38,7 +38,7 @@ namespace VoidCore.Test.Model.Logging
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
 
-            var processor = new ItemSetLogging<string, string>(loggerMock.Object);
+            var processor = new ItemSetEventLogger<string, string>(loggerMock.Object);
 
             processor.Process(request, result);
 
@@ -55,7 +55,7 @@ namespace VoidCore.Test.Model.Logging
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
 
-            var processor = new ItemSetPageLogging<string, string>(loggerMock.Object);
+            var processor = new ItemSetPageEventLogger<string, string>(loggerMock.Object);
 
             processor.Process(request, result);
 
@@ -72,7 +72,7 @@ namespace VoidCore.Test.Model.Logging
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
 
-            var processor = new PostSuccessUserMessageLogging<string, string>(loggerMock.Object);
+            var processor = new PostSuccessUserMessageEventLogger<string, string>(loggerMock.Object);
 
             processor.Process(request, result);
 
@@ -106,7 +106,7 @@ namespace VoidCore.Test.Model.Logging
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
 
-            var processor = new SimpleFileLogging<string>(loggerMock.Object);
+            var processor = new SimpleFileEventLogger<string>(loggerMock.Object);
 
             processor.Process(request, result);
 
