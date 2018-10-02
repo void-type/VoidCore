@@ -7,7 +7,6 @@ namespace VoidCore.Model.Logging
     /// </summary>
     public interface ILoggingService
     {
-
         /// <summary>
         /// Make a debug log message.
         /// </summary>
