@@ -9,7 +9,7 @@ namespace VoidCore.AspNet.ClientApp
     /// <summary>
     /// Create ActionResults from Results.
     /// </summary>
-    public class HttpResponder : IResultResponder<IActionResult>
+    public class HttpResponder
     {
         /// <summary>
         /// Create a ObjectResult based on pass or fail of the result. Returns the success value on success.
