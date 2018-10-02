@@ -3,7 +3,7 @@ using VoidCore.Model.Validation;
 namespace VoidCore.Model.DomainEvents
 {
     /// <inheritdoc/>
-    public abstract class DomainEventAbstract<TRequest, TResponse> : IDomainEvent<TRequest, TResponse>
+    public abstract class EventHandlerAbstract<TRequest, TResponse> : IEventHandler<TRequest, TResponse>
     {
         /// <inheritdoc/>
         public Result<TResponse> Handle(TRequest request)
@@ -12,16 +12,16 @@ namespace VoidCore.Model.DomainEvents
         }
 
         /// <inheritdoc/>
-        public DecoratedDomainEvent<TRequest, TResponse> AddRequestValidator(IValidator<TRequest> validator)
+        public DecoratedEventHandler<TRequest, TResponse> AddRequestValidator(IValidator<TRequest> validator)
         {
-            return new DecoratedDomainEvent<TRequest, TResponse>(this)
+            return new DecoratedEventHandler<TRequest, TResponse>(this)
                 .AddRequestValidator(validator);
         }
 
         /// <inheritdoc/>
-        public DecoratedDomainEvent<TRequest, TResponse> AddPostProcessor(IPostProcessor<TRequest, TResponse> processor)
+        public DecoratedEventHandler<TRequest, TResponse> AddPostProcessor(IPostProcessor<TRequest, TResponse> processor)
         {
-            return new DecoratedDomainEvent<TRequest, TResponse>(this)
+            return new DecoratedEventHandler<TRequest, TResponse>(this)
                 .AddPostProcessor(processor);
         }
 

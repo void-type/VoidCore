@@ -5,15 +5,21 @@ using VoidCore.Model.ClientApp;
 namespace VoidCore.AspNet.ClientApp
 {
     /// <inheritdoc/>
-    public class ApplicationInfo : GetApplicationInfo.IApplicationInfo
+    public class WebApplicationInfo : GetApplicationInfo.IApplicationInfo
     {
         /// <inheritdoc/>
         public string ApplicationName { get; }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// The value of the header antiforgery token
+        /// </summary>
+        /// <value></value>
         public string AntiforgeryToken { get; }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// The header name of the antiforgery token
+        /// </summary>
+        /// <value></value>
         public string AntiforgeryTokenHeaderName { get; }
 
         /// <inheritdoc/>
@@ -26,7 +32,7 @@ namespace VoidCore.AspNet.ClientApp
         /// <param name="httpContextAccessor">Accessor for the current httpcontext</param>
         /// <param name="antiforgery">The ASP.NET antiforgery object</param>
         /// <param name="currentUser">UI-friendly user name</param>
-        public ApplicationInfo(IApplicationSettings applicationSettings, IHttpContextAccessor httpContextAccessor, IAntiforgery antiforgery, ICurrentUser currentUser)
+        public WebApplicationInfo(IApplicationSettings applicationSettings, IHttpContextAccessor httpContextAccessor, IAntiforgery antiforgery, ICurrentUser currentUser)
         {
             ApplicationName = applicationSettings.Name;
             AntiforgeryToken = antiforgery.GetAndStoreTokens(httpContextAccessor.HttpContext).RequestToken;

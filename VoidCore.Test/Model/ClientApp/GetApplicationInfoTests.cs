@@ -41,7 +41,7 @@ namespace VoidCore.Test.Model.ClientApp
             {
                 "AppName: appName",
                 "UserName: userName",
-                "UserPolicies: policy1, policy2"
+                "UserAuthorizedAs: policy1, policy2"
             }), Times.Once());
         }
 

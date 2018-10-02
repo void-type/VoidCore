@@ -9,7 +9,7 @@ namespace VoidCore.Model.ClientApp
     public class GetApplicationInfo
     {
         /// <inheritdoc/>
-        public class Handler : DomainEventAbstract<Request, IApplicationInfo>
+        public class Handler : EventHandlerAbstract<Request, IApplicationInfo>
         {
             /// <summary>
             /// Construct a new handler for GetApplicationInfo
@@ -46,18 +46,6 @@ namespace VoidCore.Model.ClientApp
             string ApplicationName { get; }
 
             /// <summary>
-            /// The value of the header antiforgery token
-            /// </summary>
-            /// <value></value>
-            string AntiforgeryToken { get; }
-
-            /// <summary>
-            /// The header name of the antiforgery token
-            /// </summary>
-            /// <value></value>
-            string AntiforgeryTokenHeaderName { get; }
-
-            /// <summary>
             /// The UI-friendly user name
             /// </summary>
             /// <value></value>
@@ -82,7 +70,7 @@ namespace VoidCore.Model.ClientApp
                 Logger.Info(
                     $"AppName: {successfulResult.Value.ApplicationName}",
                     $"UserName: {successfulResult.Value.User.Name}",
-                    $"UserPolicies: {string.Join(", ", successfulResult.Value.User.AuthorizedAs)}");
+                    $"UserAuthorizedAs: {string.Join(", ", successfulResult.Value.User.AuthorizedAs)}");
                 base.OnSuccess(request, successfulResult);
             }
         }

@@ -9,13 +9,13 @@ namespace VoidCore.Model.DomainEvents
     /// </summary>
     /// <typeparam name="TRequest">The type of the event request</typeparam>
     /// <typeparam name="TResponse">The type of the event response</typeparam>
-    public class DecoratedDomainEvent<TRequest, TResponse> : IDomainEvent<TRequest, TResponse>
+    public class DecoratedEventHandler<TRequest, TResponse> : IEventHandler<TRequest, TResponse>
     {
         /// <summary>
         /// Create a new Decorated Domain Event
         /// </summary>
         /// <param name="innerEvent"></param>
-        public DecoratedDomainEvent(DomainEventAbstract<TRequest, TResponse> innerEvent)
+        public DecoratedEventHandler(EventHandlerAbstract<TRequest, TResponse> innerEvent)
         {
             _innerEvent = innerEvent;
         }
@@ -35,20 +35,20 @@ namespace VoidCore.Model.DomainEvents
         }
 
         /// <inheritdoc/>
-        public DecoratedDomainEvent<TRequest, TResponse> AddRequestValidator(IValidator<TRequest> validator)
+        public DecoratedEventHandler<TRequest, TResponse> AddRequestValidator(IValidator<TRequest> validator)
         {
             _validators.Add(validator);
             return this;
         }
 
         /// <inheritdoc/>
-        public DecoratedDomainEvent<TRequest, TResponse> AddPostProcessor(IPostProcessor<TRequest, TResponse> processor)
+        public DecoratedEventHandler<TRequest, TResponse> AddPostProcessor(IPostProcessor<TRequest, TResponse> processor)
         {
             _postProcessors.Add(processor);
             return this;
         }
 
-        private readonly DomainEventAbstract<TRequest, TResponse> _innerEvent;
+        private readonly EventHandlerAbstract<TRequest, TResponse> _innerEvent;
         private readonly List<IValidator<TRequest>> _validators = new List<IValidator<TRequest>>();
         private readonly List<IPostProcessor<TRequest, TResponse>> _postProcessors = new List<IPostProcessor<TRequest, TResponse>>();
     }

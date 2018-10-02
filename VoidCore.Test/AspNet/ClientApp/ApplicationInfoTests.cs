@@ -34,7 +34,7 @@ namespace VoidCore.Test.AspNet.ClientApp
                 .Setup(mock => mock.GetAndStoreTokens(It.IsAny<HttpContext>()))
                 .Returns(new AntiforgeryTokenSet("request-token", "cookie-token", "formFieldName", "header-name"));
 
-            var appInfo = new ApplicationInfo(appSettingsMock.Object, mockContextAccessor.Object, mockAntiforgery.Object, currentUser.Object);
+            var appInfo = new WebApplicationInfo(appSettingsMock.Object, mockContextAccessor.Object, mockAntiforgery.Object, currentUser.Object);
 
             Assert.Equal("AppName", appInfo.ApplicationName);
             Assert.Equal("UserName", appInfo.User.Name);

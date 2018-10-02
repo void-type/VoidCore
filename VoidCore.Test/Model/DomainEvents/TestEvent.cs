@@ -2,7 +2,7 @@ using VoidCore.Model.DomainEvents;
 
 namespace VoidCore.Test.Model.DomainEvents
 {
-    public class TestEventOk : DomainEventAbstract<TestRequest, TestResponse>
+    public class TestEventOk : EventHandlerAbstract<TestRequest, TestResponse>
     {
         protected override Result<TestResponse> HandleInternal(TestRequest validRequest)
         {
@@ -10,7 +10,7 @@ namespace VoidCore.Test.Model.DomainEvents
         }
     }
 
-    public class TestEventFail : DomainEventAbstract<TestRequest, TestResponse>
+    public class TestEventFail : EventHandlerAbstract<TestRequest, TestResponse>
     {
         protected override Result<TestResponse> HandleInternal(TestRequest validRequest)
         {

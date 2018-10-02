@@ -36,7 +36,7 @@ public class PersonsController : Controller
 ```csharp
 public class GetPerson
 {
-    public class Handler : DomainEventAbstract<Request, Response>
+    public class Handler : EventHandlerAbstract<Request, Response>
     {
         public Handler(PersonData data, IMapper mapper)
         {
