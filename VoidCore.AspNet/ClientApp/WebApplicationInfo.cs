@@ -4,7 +4,9 @@ using VoidCore.Model.ClientApp;
 
 namespace VoidCore.AspNet.ClientApp
 {
-    /// <inheritdoc/>
+    /// <summary>
+    /// Information for bootstrapping a web client.
+    /// </summary>
     public class WebApplicationInfo : GetApplicationInfo.IApplicationInfo
     {
         /// <inheritdoc/>
