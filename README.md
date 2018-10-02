@@ -18,7 +18,7 @@ public class PersonsController : Controller
 
         var result = new GetPerson.Handler(_data, _mapper)
             .AddRequestValidator(new GetPerson.RequestValidator())
-            .AddPostProcessor(new GetPerson.Logging(_logger))
+            .AddPostProcessor(new GetPerson.Logger(_logger))
             .Handle(request);
 
         return _responder.Respond(result);
@@ -94,7 +94,7 @@ public class GetPerson
     }
 
     // Log it.
-    public class Logging : FallibleLogging<Request, Response>
+    public class Logger : FallibleEventLogger<Request, Response>
     {
         public Logging(ILoggingService logger) : base(logger) { }
 
@@ -110,8 +110,8 @@ public class GetPerson
             _logger.Info($"Found: {result.Value.Email}");
         }
 
-        // Logging : FallibleLogging which means that failures will be automatically logged.
-        // There is also PostProcessorAbstract for a clean slate of all 3 channels, and IPostProcessor for a single channel (Process).
+        // Logging extends FallibleEventLogger which means that failures will be automatically logged.
+        // There is also PostProcessorAbstract for a clean slate of all 3 channels (both, success, fail), and IPostProcessor for a single channel (just called Process).
 
         private readonly ILoggingService _logger;
     }
