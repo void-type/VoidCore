@@ -1,4 +1,4 @@
-﻿namespace VoidCore.Model.Responses.Message
+﻿namespace VoidCore.Model.Responses.Messages
 {
     /// <summary>
     /// An interface for sending UI messages to the client.

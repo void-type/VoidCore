@@ -7,7 +7,7 @@ namespace VoidCore.AspNet.ClientApp
     public class ApplicationSettings : IApplicationSettings
     {
         /// <inheritdoc/>
-    public string Name { get; private set; }
+        public string Name { get; private set; }
 
         /// <inheritdoc/>
         public Dictionary<string, List<string>> AuthorizationPolicies { get; private set; }

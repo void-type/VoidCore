@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using VoidCore.AspNet.ClientApp;
 using VoidCore.Model.DomainEvents;
-using VoidCore.Model.Responses.File;
 using VoidCore.Model.Responses.Collections;
-using VoidCore.Model.Responses.Message;
+using VoidCore.Model.Responses.Files;
+using VoidCore.Model.Responses.Messages;
 using Xunit;
 
 namespace VoidCore.Test.AspNet.ClientApp

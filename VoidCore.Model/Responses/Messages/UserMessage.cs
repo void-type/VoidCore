@@ -1,4 +1,4 @@
-﻿namespace VoidCore.Model.Responses.Message
+﻿namespace VoidCore.Model.Responses.Messages
 {
     /// <summary>
     /// A UI-friendly message.

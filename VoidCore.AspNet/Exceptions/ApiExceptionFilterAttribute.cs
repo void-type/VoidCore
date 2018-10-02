@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using VoidCore.AspNet.ClientApp;
 using VoidCore.Model.Logging;
-using VoidCore.Model.Responses.Message;
+using VoidCore.Model.Responses.Messages;
 
 namespace VoidCore.AspNet.Exceptions
 {

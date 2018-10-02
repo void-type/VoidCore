@@ -1,4 +1,4 @@
-using VoidCore.Model.Responses.File;
+using VoidCore.Model.Responses.Files;
 using Xunit;
 
 namespace VoidCore.Test.Model.Responses

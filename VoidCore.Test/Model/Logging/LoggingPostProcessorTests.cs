@@ -2,9 +2,9 @@ using Moq;
 using System.Collections.Generic;
 using VoidCore.Model.DomainEvents;
 using VoidCore.Model.Logging;
-using VoidCore.Model.Responses.File;
 using VoidCore.Model.Responses.Collections;
-using VoidCore.Model.Responses.Message;
+using VoidCore.Model.Responses.Files;
+using VoidCore.Model.Responses.Messages;
 using Xunit;
 
 namespace VoidCore.Test.Model.Logging

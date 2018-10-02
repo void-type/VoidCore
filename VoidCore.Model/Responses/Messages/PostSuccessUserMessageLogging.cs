@@ -1,7 +1,7 @@
 using VoidCore.Model.DomainEvents;
 using VoidCore.Model.Logging;
 
-namespace VoidCore.Model.Responses.Message
+namespace VoidCore.Model.Responses.Messages
 {
     /// <inheritdoc/>
     /// <summary>

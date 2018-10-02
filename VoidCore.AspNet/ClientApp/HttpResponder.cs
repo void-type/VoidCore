@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using VoidCore.Model.ClientApp;
 using VoidCore.Model.DomainEvents;
-using VoidCore.Model.Responses.File;
 using VoidCore.Model.Responses.Collections;
+using VoidCore.Model.Responses.Files;
 
 namespace VoidCore.AspNet.ClientApp
 {

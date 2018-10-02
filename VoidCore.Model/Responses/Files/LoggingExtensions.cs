@@ -1,4 +1,4 @@
-namespace VoidCore.Model.Responses.File
+namespace VoidCore.Model.Responses.Files
 {
     /// <summary>
     /// Helpers for pulling logging text from the default responses.

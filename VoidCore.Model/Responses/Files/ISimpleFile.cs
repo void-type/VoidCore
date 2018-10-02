@@ -1,4 +1,4 @@
-﻿namespace VoidCore.Model.Responses.File
+﻿namespace VoidCore.Model.Responses.Files
 {
     /// <summary>
     /// A view model for sending a file to be downloaded by the client.
