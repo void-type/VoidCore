@@ -1,4 +1,5 @@
 using System.Linq;
+using VoidCore.Model.DomainEvents;
 using Xunit;
 
 namespace VoidCore.Test.Model.Validation
@@ -48,12 +49,32 @@ namespace VoidCore.Test.Model.Validation
         }
 
         [Fact]
-        public void ValidatorWorksOnDerivedTypes()
+        public void ValidatorWorksOnDerivedTypesSuccess()
         {
             var result = new InheritedEntityValidator().Validate(new DerivedEntity() { SomeProperty = "valid" });
 
             Assert.True(result.IsSuccess);
             Assert.False(result.Failures.Any());
+        }
+
+        [Fact]
+        public void ValidatorWorksOnDerivedTypesFailure()
+        {
+            var result = new InheritedEntityValidator().Validate(new DerivedEntity() { SomeProperty = "" });
+
+            Assert.True(result.IsFailed);
+            Assert.True(result.Failures.Any());
+        }
+
+        [Fact]
+        public void FailuresAreBuiltProperly()
+        {
+            var result = new FailureBuilderValidator().Validate(new Failure("message", "uiHandle"));
+
+            Assert.Equal(2, result.Failures.Select(f => f.Message).Where(m => m == "message").Count());
+            Assert.Equal(2, result.Failures.Select(f => f.Message).Where(m => m == "hardCodedMessage").Count());
+            Assert.Equal(2, result.Failures.Select(f => f.UiHandle).Where(m => m == "uiHandle").Count());
+            Assert.Equal(2, result.Failures.Select(f => f.UiHandle).Where(m => m == "hardCodedUiHandle").Count());
         }
     }
 }

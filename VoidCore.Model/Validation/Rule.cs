@@ -10,18 +10,17 @@ namespace VoidCore.Model.Validation
     /// </summary>
     public class Rule<TValidatableEntity> : IRule<TValidatableEntity>, IRuleBuilder<TValidatableEntity>
     {
-        private readonly IFailure _failureToThrowWhenViolated;
+        private readonly Func<TValidatableEntity, IFailure> _failureBuilder;
         private readonly List<Func<TValidatableEntity, bool>> _invalidConditions = new List<Func<TValidatableEntity, bool>>();
         private readonly List<Func<TValidatableEntity, bool>> _suppressConditions = new List<Func<TValidatableEntity, bool>>();
 
         /// <summary>
         /// Construct a new rule and underlying validation error to throw when violations are detected.
         /// </summary>
-        /// <param name="errorMessage"></param>
-        /// <param name="uiHandle"></param>
-        private Rule(string errorMessage, string uiHandle)
+        /// <param name="failureBuilder"></param>
+        internal Rule(Func<TValidatableEntity, IFailure> failureBuilder)
         {
-            _failureToThrowWhenViolated = new Failure(errorMessage, uiHandle);
+            _failureBuilder = failureBuilder;
         }
 
         /// <inheritdoc/>
@@ -34,7 +33,7 @@ namespace VoidCore.Model.Validation
 
             if (_invalidConditions.Any() && _invalidConditions.Any(c => c.Invoke(validatable)))
             {
-                return Result.Fail(_failureToThrowWhenViolated);
+                return Result.Fail(_failureBuilder.Invoke(validatable));
             }
 
             return Result.Ok();
@@ -52,17 +51,6 @@ namespace VoidCore.Model.Validation
         {
             _suppressConditions.Add(suppressCondition);
             return this;
-        }
-
-        /// <summary>
-        /// Static method to create a new rule. This hides the constructor from external assemblies.
-        /// </summary>
-        /// <param name="errorMessage"></param>
-        /// <param name="uiHandle"></param>
-        /// <returns></returns>
-        internal static Rule<TValidatableEntity> Create(string errorMessage, string uiHandle)
-        {
-            return new Rule<TValidatableEntity>(errorMessage, uiHandle);
         }
     }
 }
