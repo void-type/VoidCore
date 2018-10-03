@@ -19,9 +19,20 @@ namespace VoidCore.Model.DomainEvents
 
         private readonly ResultInternal _internalResult;
 
-        internal ResultAbstract(bool isFailed, IEnumerable<IFailure> failures)
+        /// <summary>
+        /// Construct a failed result
+        /// </summary>
+        internal ResultAbstract(IEnumerable<IFailure> failures)
         {
-            _internalResult = new ResultInternal(isFailed, failures);
+            _internalResult = new ResultInternal(failures);
+        }
+
+        /// <summary>
+        /// Construct a successful result
+        /// </summary>
+        internal ResultAbstract()
+        {
+            _internalResult = new ResultInternal();
         }
     }
 }

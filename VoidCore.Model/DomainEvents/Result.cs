@@ -18,7 +18,7 @@ namespace VoidCore.Model.DomainEvents
         /// <value></value>
         public TValue Value { get; }
 
-        internal Result(TValue value) : base(false, null)
+        internal Result(TValue value)
         {
             if (value == null)
             {
@@ -28,7 +28,7 @@ namespace VoidCore.Model.DomainEvents
             Value = value;
         }
 
-        internal Result(IEnumerable<IFailure> failures) : base(true, failures) { }
+        internal Result(IEnumerable<IFailure> failures) : base(failures) { }
 
         /// <summary>
         /// Implicitly convert a typed Result to an untyped one.
@@ -47,9 +47,10 @@ namespace VoidCore.Model.DomainEvents
     /// </summary>
     public sealed class Result : ResultAbstract
     {
-        private Result() : base(false, null) { }
+        private Result()
+        { }
 
-        private Result(IEnumerable<IFailure> failures) : base(true, failures) { }
+        private Result(IEnumerable<IFailure> failures) : base(failures) { }
 
         /// <summary>
         /// Create a new successful untyped result.

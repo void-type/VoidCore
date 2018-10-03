@@ -5,6 +5,7 @@ namespace VoidCore.Model.DomainEvents
 {
     /// <summary>
     /// Extensions for the Result class
+    /// Inspired by https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
     public static class ResultExtensions
     {
