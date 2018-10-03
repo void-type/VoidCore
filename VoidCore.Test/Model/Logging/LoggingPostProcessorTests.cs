@@ -89,7 +89,7 @@ namespace VoidCore.Test.Model.Logging
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
 
-            var processor = new UserMessageLogging<string>(loggerMock.Object);
+            var processor = new UserMessageEventLogger<string>(loggerMock.Object);
 
             processor.Process(request, result);
 

@@ -8,14 +8,14 @@ namespace VoidCore.Model.Responses.Messages
     /// Log meta information about the usermessage.
     /// </summary>
     /// <typeparam name="TRequest">The request type</typeparam>
-    public class UserMessageLogging<TRequest> : FallibleEventLogger<TRequest, UserMessage>
+    public class UserMessageEventLogger<TRequest> : FallibleEventLogger<TRequest, UserMessage>
     {
         /// <summary>
         /// Construct a new logger.
         /// </summary>
         /// <param name="logger"></param>
         /// <returns></returns>
-        public UserMessageLogging(ILoggingService logger) : base(logger) { }
+        public UserMessageEventLogger(ILoggingService logger) : base(logger) { }
 
         /// <inheritdoc/>
         public override void OnSuccess(TRequest request, IResult<UserMessage> successfulResult)
