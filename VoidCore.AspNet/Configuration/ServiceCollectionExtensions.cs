@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -17,58 +18,6 @@ namespace VoidCore.AspNet.Configuration
     /// </summary>
     public static class ServiceCollectionExtensions
     {
-        /// <summary>
-        /// Setup an authorization policy for a set of roles. These are used via AuthorizeAttributes.
-        /// A user with any one of the allowed roles will be authorized for the policy.
-        /// For example, a role can be an AD group name. Having any role within the policy will grant access.
-        /// </summary>
-        /// <param name="services">The service collection</param>
-        /// <param name="applicationSettings">Authorization settings from configuration</param>
-        public static void AddAuthorizationPoliciesFromSettings(this IServiceCollection services, IApplicationSettings applicationSettings)
-        {
-            if (applicationSettings?.AuthorizationPolicies == null || !applicationSettings.AuthorizationPolicies.Any())
-            {
-                throw new ArgumentNullException(nameof(applicationSettings), "Application is not properly configured. AuthorizationPolicies is either empty or not found.");
-            }
-
-            services.AddAuthorization(options => applicationSettings.AuthorizationPolicies
-                .ToList()
-                .ForEach(policy => options
-                    .AddPolicy(policy.Key, p => p
-                        .RequireRole(policy.Value))));
-        }
-
-        /// <summary>
-        /// Add a global filter for handling uncaught API exceptions.
-        /// </summary>
-        /// <param name="services">The services collection</param>
-        /// <param name="environment">The hosting environment</param>
-        public static void AddApiExceptionFilter(this IServiceCollection services, IHostingEnvironment environment)
-        {
-            services.AddMvc(options => options.Filters.Add(new TypeFilterAttribute(typeof(ApiExceptionFilterAttribute))));
-        }
-
-        /// <summary>
-        /// Add filter to every endpoint for authorization.
-        /// </summary>
-        /// <param name="services">This service collection</param>
-        /// <param name="policy">The policy name</param>
-        public static void AddGlobalAuthorizeFilter(this IServiceCollection services, string policy)
-        {
-            services.AddMvc(o => o.Filters.Add(new AuthorizeFilter(policy)));
-        }
-
-        /// <summary>
-        /// Setup Antiforgery token and filters for all non-GET requests.
-        /// </summary>
-        /// <param name="services">This service collection</param>
-        /// <param name="environment">The hosting environment</param>
-        public static void AddAntiforgery(this IServiceCollection services, IHostingEnvironment environment)
-        {
-            services.AddMvc(options => { options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); });
-            services.AddAntiforgery(options => { options.HeaderName = "X-Csrf-Token"; });
-        }
-
         /// <summary>
         /// Pulls a settings object from configuration and adds it as a singleton to the DI container.
         /// </summary>
@@ -140,6 +89,75 @@ namespace VoidCore.AspNet.Configuration
                 // Disable authentication in development to run in Kestrel.
                 services.AddMvc(options => { options.Filters.Add(new AllowAnonymousFilter()); });
             }
+        }
+
+        /// <summary>
+        /// Setup an authorization policy for a set of roles. These are used via AuthorizeAttributes.
+        /// A user with any one of the allowed roles will be authorized for the policy.
+        /// For example, a role can be an AD group name. Having any role within the policy will grant access.
+        /// </summary>
+        /// <param name="services">The service collection</param>
+        /// <param name="applicationSettings">Authorization settings from configuration</param>
+        public static void AddAuthorizationPoliciesFromSettings(this IServiceCollection services, IApplicationSettings applicationSettings)
+        {
+            if (applicationSettings?.AuthorizationPolicies == null || !applicationSettings.AuthorizationPolicies.Any())
+            {
+                throw new ArgumentNullException(nameof(applicationSettings), "Application is not properly configured. AuthorizationPolicies is either empty or not found.");
+            }
+
+            services.AddAuthorization(options => applicationSettings.AuthorizationPolicies
+                .ToList()
+                .ForEach(policy => options
+                    .AddPolicy(policy.Key, p => p
+                        .RequireRole(policy.Value))));
+        }
+
+        /// <summary>
+        /// Add filter to every endpoint for authorization.
+        /// </summary>
+        /// <param name="services">This service collection</param>
+        /// <param name="policy">The policy name</param>
+        public static void AddGlobalAuthorizeFilter(this IServiceCollection services, string policy)
+        {
+            services.AddMvc(o => o.Filters.Add(new AuthorizeFilter(policy)));
+        }
+
+        /// <summary>
+        /// Add a global filter for handling uncaught API exceptions.
+        /// </summary>
+        /// <param name="services">The services collection</param>
+        /// <param name="environment">The hosting environment</param>
+        public static void AddApiExceptionFilter(this IServiceCollection services, IHostingEnvironment environment)
+        {
+            services.AddMvc(options => options.Filters.Add(new TypeFilterAttribute(typeof(ApiExceptionFilterAttribute))));
+        }
+
+        /// <summary>
+        /// Setup Antiforgery token and filters for all non-GET requests.
+        /// </summary>
+        /// <param name="services">This service collection</param>
+        /// <param name="environment">The hosting environment</param>
+        public static void AddAntiforgery(this IServiceCollection services, IHostingEnvironment environment)
+        {
+            services.AddMvc(options => { options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); });
+            services.AddAntiforgery(options => { options.HeaderName = "X-Csrf-Token"; });
+        }
+
+        /// <summary>
+        /// Setup HttpsRedirection with a port if not already set. Port will be detected from the ASPNETCORE_HTTPS_PORT env var,
+        /// sslPort or Https URL in launchSettings.json. If no port is detected, this method will use the override supplied or 443.
+        /// </summary>
+        /// <param name="services">This service collection</param>
+        /// <param name="httpsPortOverride"></param>
+        public static void AddSecureTransport(this IServiceCollection services, int httpsPortOverride = 443)
+        {
+            services.AddHttpsRedirection(options =>
+            {
+                if (options.HttpsPort == null)
+                {
+                    options.HttpsPort = httpsPortOverride;
+                }
+            });
         }
     }
 }
