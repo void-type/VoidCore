@@ -2,6 +2,8 @@
 
 A core library for building domain-driven business apps on Asp.Net Core with Single Page Application support.
 
+WARNING - this project is still in the design phase as a personal project. The API is subject to change and the version numbers may fluctuate. I will remove this warning when the project reaches a stable state.
+
 ## Domain Events
 
 Extract logic from your controller and separate cross-cutting concerns like logging and validation. All logic for an event can be put into a single file.
