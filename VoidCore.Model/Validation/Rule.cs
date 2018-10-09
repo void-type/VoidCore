@@ -10,30 +10,21 @@ namespace VoidCore.Model.Validation
     /// </summary>
     public class Rule<TValidatableEntity> : IRule<TValidatableEntity>, IRuleBuilder<TValidatableEntity>
     {
-        private readonly Func<TValidatableEntity, IFailure> _failureBuilder;
-        private readonly List<Func<TValidatableEntity, bool>> _invalidConditions = new List<Func<TValidatableEntity, bool>>();
-        private readonly List<Func<TValidatableEntity, bool>> _suppressConditions = new List<Func<TValidatableEntity, bool>>();
-
         /// <summary>
         /// Construct a new rule and underlying validation error to throw when violations are detected.
         /// </summary>
-        /// <param name="failureBuilder"></param>
+        /// <param name="failureBuilder">A function that builds a custom IFailure to return if the rule fails.</param>
         internal Rule(Func<TValidatableEntity, IFailure> failureBuilder)
         {
             _failureBuilder = failureBuilder;
         }
 
         /// <inheritdoc/>
-        public IResult Validate(TValidatableEntity validatable)
+        public IResult Run(TValidatableEntity validatableEntity)
         {
-            if (_suppressConditions.Any() && _suppressConditions.All(c => c.Invoke(validatable)))
+            if (!IsSuppressed(validatableEntity) && IsInvalid(validatableEntity))
             {
-                return Result.Ok();
-            }
-
-            if (_invalidConditions.Any() && _invalidConditions.Any(c => c.Invoke(validatable)))
-            {
-                return Result.Fail(_failureBuilder.Invoke(validatable));
+                return Result.Fail(_failureBuilder.Invoke(validatableEntity));
             }
 
             return Result.Ok();
@@ -52,5 +43,19 @@ namespace VoidCore.Model.Validation
             _suppressConditions.Add(suppressCondition);
             return this;
         }
+
+        private bool IsSuppressed(TValidatableEntity validatableEntity)
+        {
+            return _suppressConditions.Any() && _suppressConditions.All(c => c.Invoke(validatableEntity));
+        }
+
+        private bool IsInvalid(TValidatableEntity validatableEntity)
+        {
+            return _invalidConditions.Any() && _invalidConditions.Any(c => c.Invoke(validatableEntity));
+        }
+
+        private readonly Func<TValidatableEntity, IFailure> _failureBuilder;
+        private readonly List<Func<TValidatableEntity, bool>> _invalidConditions = new List<Func<TValidatableEntity, bool>>();
+        private readonly List<Func<TValidatableEntity, bool>> _suppressConditions = new List<Func<TValidatableEntity, bool>>();
     }
 }

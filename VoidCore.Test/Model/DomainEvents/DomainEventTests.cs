@@ -1,7 +1,6 @@
 using Moq;
 using System.Linq;
 using VoidCore.Model.DomainEvents;
-using VoidCore.Model.Validation;
 using Xunit;
 
 namespace VoidCore.Test.Model.DomainEvents
@@ -35,7 +34,7 @@ namespace VoidCore.Test.Model.DomainEvents
         [Fact]
         public void EventHandledNoPostProcessorWhenRequestValid()
         {
-            var validatorMock = new Mock<IValidator<TestRequest>>();
+            var validatorMock = new Mock<IRequestValidator<TestRequest>>();
             validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>())).Returns(Result.Ok());
 
             var result = new TestEventOk()
@@ -48,7 +47,7 @@ namespace VoidCore.Test.Model.DomainEvents
         [Fact]
         public void EventHandledAndPostProcessorsRunWhenRequestValid()
         {
-            var validatorMock = new Mock<IValidator<TestRequest>>();
+            var validatorMock = new Mock<IRequestValidator<TestRequest>>();
             validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>())).Returns(Result.Ok());
 
             var processorMock = new Mock<IPostProcessor<TestRequest, TestResponse>>();
@@ -67,7 +66,7 @@ namespace VoidCore.Test.Model.DomainEvents
         [Fact]
         public void EventNotHandledAndPostProcessorRunsWhenRequestInvalid()
         {
-            var validatorMock = new Mock<IValidator<TestRequest>>();
+            var validatorMock = new Mock<IRequestValidator<TestRequest>>();
             validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>())).Returns(Result.Fail<TestResponse>("request invalid"));
 
             var processorMock = new Mock<IPostProcessor<TestRequest, TestResponse>>();

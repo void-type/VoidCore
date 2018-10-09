@@ -9,13 +9,13 @@ namespace VoidCore.Model.Validation
     /// The base for a custom entity validator.
     /// </summary>
     /// <typeparam name="TValidatableEntity">The type of entities to validate</typeparam>
-    public abstract class ValidatorAbstract<TValidatableEntity> : IValidator<TValidatableEntity>
+    public abstract class ValidatorAbstract<TValidatableEntity> : IRequestValidator<TValidatableEntity>
     {
         /// <inheritdoc/>
         public IResult Validate(TValidatableEntity validatable)
         {
             return _rules
-                .Select(rule => rule.Validate(validatable))
+                .Select(rule => rule.Run(validatable))
                 .Combine();
         }
 
@@ -90,6 +90,9 @@ namespace VoidCore.Model.Validation
         /// </summary>
         private readonly List<IRule<TValidatableEntity>> _rules = new List<IRule<TValidatableEntity>>();
 
+        /// <summary>
+        /// Prevent calling virtual method from constructor.
+        /// </summary>
         private void CallBuildRules()
         {
             BuildRules();

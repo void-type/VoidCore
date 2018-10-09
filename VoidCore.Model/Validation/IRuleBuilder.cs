@@ -5,7 +5,7 @@ namespace VoidCore.Model.Validation
     /// <summary>
     /// Interface for building new validator rules.
     /// </summary>
-    /// <typeparam name="TValidatableEntity"></typeparam>
+    /// <typeparam name="TValidatableEntity">The entity type to validate</typeparam>
     public interface IRuleBuilder<out TValidatableEntity>
     {
         /// <summary>
@@ -20,7 +20,7 @@ namespace VoidCore.Model.Validation
         /// Provide a function that returns true when a rule should be suppressed. All suppression conditions
         /// must be true for the rule to be suppressed.
         /// </summary>
-        /// <param name="suppressCondition"></param>
+        /// <param name="suppressCondition">A function that returns true if the rule should be suppressed.</param>
         /// <returns>A rule builder to chain rule creation operations.</returns>
         IRuleBuilder<TValidatableEntity> ExceptWhen(Func<TValidatableEntity, bool> suppressCondition);
     }

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using VoidCore.Model.Validation;
 
 namespace VoidCore.Model.DomainEvents
 {
@@ -12,9 +11,9 @@ namespace VoidCore.Model.DomainEvents
     public class EventHandlerDecorator<TRequest, TResponse> : IEventHandler<TRequest, TResponse>
     {
         /// <summary>
-        /// Create a new Decorated Domain Event
+        /// Create a new Decorated Domain Event handler
         /// </summary>
-        /// <param name="innerEvent"></param>
+        /// <param name="innerEvent">The inner domain handler</param>
         public EventHandlerDecorator(EventHandlerAbstract<TRequest, TResponse> innerEvent)
         {
             _innerEvent = innerEvent;
@@ -23,7 +22,7 @@ namespace VoidCore.Model.DomainEvents
         /// <inheritdoc/>
         public Result<TResponse> Handle(TRequest request)
         {
-            var validation = _validators
+            var validation = _requestValidators
                 .Select(validator => validator.Validate(request))
                 .Combine();
 
@@ -40,9 +39,9 @@ namespace VoidCore.Model.DomainEvents
         }
 
         /// <inheritdoc/>
-        public EventHandlerDecorator<TRequest, TResponse> AddRequestValidator(IValidator<TRequest> validator)
+        public EventHandlerDecorator<TRequest, TResponse> AddRequestValidator(IRequestValidator<TRequest> validator)
         {
-            _validators.Add(validator);
+            _requestValidators.Add(validator);
             return this;
         }
 
@@ -54,7 +53,7 @@ namespace VoidCore.Model.DomainEvents
         }
 
         private readonly EventHandlerAbstract<TRequest, TResponse> _innerEvent;
-        private readonly List<IValidator<TRequest>> _validators = new List<IValidator<TRequest>>();
+        private readonly List<IRequestValidator<TRequest>> _requestValidators = new List<IRequestValidator<TRequest>>();
         private readonly List<IPostProcessor<TRequest, TResponse>> _postProcessors = new List<IPostProcessor<TRequest, TResponse>>();
     }
 }

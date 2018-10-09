@@ -1,6 +1,4 @@
-﻿using VoidCore.Model.Validation;
-
-namespace VoidCore.Model.DomainEvents
+﻿namespace VoidCore.Model.DomainEvents
 {
     /// <summary>
     /// An event in the domain that takes a request to return a response.
@@ -24,7 +22,7 @@ namespace VoidCore.Model.DomainEvents
         /// </summary>
         /// <param name="validator">The IValidator</param>
         /// <returns>The event for chaining setup commands</returns>
-        EventHandlerDecorator<TRequest, TResponse> AddRequestValidator(IValidator<TRequest> validator);
+        EventHandlerDecorator<TRequest, TResponse> AddRequestValidator(IRequestValidator<TRequest> validator);
 
         /// <summary>
         /// Add a post processor to run after the event has been handled.

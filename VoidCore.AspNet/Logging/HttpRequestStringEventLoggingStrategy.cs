@@ -10,14 +10,14 @@ namespace VoidCore.AspNet.Logging
     /// <summary>
     /// A strategy to log within HTTP Requests.
     /// </summary>
-    public class HttpStringEventLoggerStrategy : IEventLoggingStrategy
+    public class HttpRequestStringEventLoggingStrategy : IEventLoggingStrategy
     {
         /// <summary>
         /// Construct a new strategy.
         /// </summary>
         /// <param name="httpContextAccessor">An accessor for the current HTTP context</param>
         /// <param name="currentUser">An accessor for the current user's properties</param>
-        public HttpStringEventLoggerStrategy(IHttpContextAccessor httpContextAccessor, ICurrentUser currentUser)
+        public HttpRequestStringEventLoggingStrategy(IHttpContextAccessor httpContextAccessor, ICurrentUser currentUser)
         {
             _httpContext = httpContextAccessor.HttpContext;
             _currentUser = currentUser;
@@ -50,7 +50,7 @@ namespace VoidCore.AspNet.Logging
         {
             var eventArray = messages
                 .Concat(FlattenExceptionMessages(ex));
-                
+
             return LogEvent(eventArray);
         }
 

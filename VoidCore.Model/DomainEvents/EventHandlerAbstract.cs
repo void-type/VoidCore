@@ -1,5 +1,3 @@
-using VoidCore.Model.Validation;
-
 namespace VoidCore.Model.DomainEvents
 {
     /// <inheritdoc/>
@@ -12,7 +10,7 @@ namespace VoidCore.Model.DomainEvents
         }
 
         /// <inheritdoc/>
-        public EventHandlerDecorator<TRequest, TResponse> AddRequestValidator(IValidator<TRequest> validator)
+        public EventHandlerDecorator<TRequest, TResponse> AddRequestValidator(IRequestValidator<TRequest> validator)
         {
             return new EventHandlerDecorator<TRequest, TResponse>(this)
                 .AddRequestValidator(validator);

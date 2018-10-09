@@ -31,7 +31,7 @@ namespace VoidCore.Test.AspNet.ClientApp
             var currentUser = new Mock<ICurrentUser>();
             currentUser.Setup(fmt => fmt.Name).Returns("userName");
 
-            var strategy = new HttpStringEventLoggerStrategy(httpContextAccessorMock.Object, currentUser.Object);
+            var strategy = new HttpRequestStringEventLoggingStrategy(httpContextAccessorMock.Object, currentUser.Object);
             var messages = new List<string>() { "added12", "added23" };
 
             var logText = strategy.LogEvent(exception, messages);
@@ -60,7 +60,7 @@ namespace VoidCore.Test.AspNet.ClientApp
             var currentUser = new Mock<ICurrentUser>();
             currentUser.Setup(fmt => fmt.Name).Returns("userName");
 
-            var strategy = new HttpStringEventLoggerStrategy(httpContextAccessorMock.Object, currentUser.Object);
+            var strategy = new HttpRequestStringEventLoggingStrategy(httpContextAccessorMock.Object, currentUser.Object);
             var messages = new List<string>() { "added12", "added23" };
 
             var logText = strategy.LogEvent(null, messages);
