@@ -27,7 +27,9 @@ namespace VoidCore.AspNet.ClientApp
         public HttpContextCurrentUser(IHttpContextAccessor httpContextAccessor, IUserNameFormatter userNameFormatter, IAuthorizationService authorizationService, IApplicationSettings applicationSettings)
         {
             var user = httpContextAccessor.HttpContext.User;
+
             Name = userNameFormatter.Format(user.Identity.Name);
+            
             AuthorizedAs = applicationSettings.AuthorizationPolicies
                 .Where(policy => authorizationService.AuthorizeAsync(user, policy.Key).Result.Succeeded)
                 .Select(policy => policy.Key);

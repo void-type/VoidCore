@@ -28,9 +28,7 @@ namespace VoidCore.AspNet.Configuration
         public static TSettings AddSettingsSingleton<TSettings>(this IServiceCollection services, IConfiguration configuration)
         where TSettings : class, new()
         {
-            var settings = configuration
-                .Get<TSettings>(options => options.BindNonPublicProperties = true);
-
+            var settings = configuration.Get<TSettings>(options => options.BindNonPublicProperties = true);
             services.AddSingleton(settings);
             return settings;
         }
@@ -47,11 +45,8 @@ namespace VoidCore.AspNet.Configuration
         where TSettings : class, TService, new()
         where TService : class
         {
-            var settings = configuration
-                .Get<TSettings>(options => options.BindNonPublicProperties = true);
-
+            var settings = configuration.Get<TSettings>(options => options.BindNonPublicProperties = true);
             services.AddSingleton<TService>(x => settings);
-
             return settings;
         }
 
@@ -105,11 +100,13 @@ namespace VoidCore.AspNet.Configuration
                 throw new ArgumentNullException(nameof(applicationSettings), "Application is not properly configured. AuthorizationPolicies is either empty or not found.");
             }
 
-            services.AddAuthorization(options => applicationSettings.AuthorizationPolicies
-                .ToList()
-                .ForEach(policy => options
-                    .AddPolicy(policy.Key, p => p
-                        .RequireRole(policy.Value))));
+            services.AddAuthorization(options =>
+            {
+                foreach (var policy in applicationSettings.AuthorizationPolicies)
+                {
+                    options.AddPolicy(policy.Key, builder => builder.RequireRole(policy.Value));
+                }
+            });
         }
 
         /// <summary>
@@ -119,7 +116,7 @@ namespace VoidCore.AspNet.Configuration
         /// <param name="policy">The policy name</param>
         public static void AddGlobalAuthorizeFilter(this IServiceCollection services, string policy)
         {
-            services.AddMvc(o => o.Filters.Add(new AuthorizeFilter(policy)));
+            services.AddMvc(opt => opt.Filters.Add(new AuthorizeFilter(policy)));
         }
 
         /// <summary>
@@ -136,10 +133,10 @@ namespace VoidCore.AspNet.Configuration
         /// Setup Antiforgery token and filters for all non-GET requests.
         /// </summary>
         /// <param name="services">This service collection</param>
-        /// <param name="environment">The hosting environment</param>
+        /// /// <param name="environment">The hosting environment</param>
         public static void AddAntiforgery(this IServiceCollection services, IHostingEnvironment environment)
         {
-            services.AddMvc(options => { options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); });
+            services.AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
             services.AddAntiforgery(options => { options.HeaderName = "X-Csrf-Token"; });
         }
 

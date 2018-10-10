@@ -9,7 +9,6 @@ namespace VoidCore.AspNet.Data
     /// </summary>
     /// <typeparam name="TDbEntity">The type of entities in the repository</typeparam>
     public class EfReadOnlyRepository<TDbEntity> : IReadOnlyRepository<TDbEntity> where TDbEntity : class, new()
-
     {
         /// <summary>
         /// A getter for the whole queryable set. By default has AsNoTracking() enabled.

@@ -63,8 +63,10 @@ namespace VoidCore.AspNet.Configuration
                 {
                     response.Redirect("/forbidden");
                 }
+
                 return Task.FromResult(0);
             });
+            
             return app;
         }
 

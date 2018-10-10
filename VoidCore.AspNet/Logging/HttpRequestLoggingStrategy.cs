@@ -10,14 +10,14 @@ namespace VoidCore.AspNet.Logging
     /// <summary>
     /// A strategy to log within HTTP Requests.
     /// </summary>
-    public class HttpRequestStringEventLoggingStrategy : IEventLoggingStrategy
+    public class HttpRequestLoggingStrategy : ILoggingStrategy
     {
         /// <summary>
         /// Construct a new strategy.
         /// </summary>
         /// <param name="httpContextAccessor">An accessor for the current HTTP context</param>
         /// <param name="currentUser">An accessor for the current user's properties</param>
-        public HttpRequestStringEventLoggingStrategy(IHttpContextAccessor httpContextAccessor, ICurrentUser currentUser)
+        public HttpRequestLoggingStrategy(IHttpContextAccessor httpContextAccessor, ICurrentUser currentUser)
         {
             _httpContext = httpContextAccessor.HttpContext;
             _currentUser = currentUser;
@@ -28,7 +28,7 @@ namespace VoidCore.AspNet.Logging
         /// </summary>
         /// <param name="messages">Array of messages to log</param>
         /// <returns></returns>
-        public string LogEvent(IEnumerable<string> messages)
+        public string Log(IEnumerable<string> messages)
         {
             var request = _httpContext.Request;
             var traceId = _httpContext.TraceIdentifier;
@@ -46,12 +46,11 @@ namespace VoidCore.AspNet.Logging
         /// <param name="ex">The exception to log</param>
         /// <param name="messages">Array of messages to log</param>
         /// <returns></returns>
-        public string LogEvent(Exception ex, IEnumerable<string> messages)
+        public string Log(Exception ex, IEnumerable<string> messages)
         {
-            var eventArray = messages
-                .Concat(FlattenExceptionMessages(ex));
+            var eventArray = messages.Concat(FlattenExceptionMessages(ex));
 
-            return LogEvent(eventArray);
+            return Log(eventArray);
         }
 
         private readonly ICurrentUser _currentUser;

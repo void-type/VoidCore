@@ -8,7 +8,7 @@ using Xunit;
 
 namespace VoidCore.Test.AspNet.ClientApp
 {
-    public class HttpStringEventLoggerStrategyTests
+    public class HttpRequestLoggingStrategyTests
     {
         [Fact]
         public void LogEventWithNestedExceptions()
@@ -31,10 +31,10 @@ namespace VoidCore.Test.AspNet.ClientApp
             var currentUser = new Mock<ICurrentUser>();
             currentUser.Setup(fmt => fmt.Name).Returns("userName");
 
-            var strategy = new HttpRequestStringEventLoggingStrategy(httpContextAccessorMock.Object, currentUser.Object);
+            var strategy = new HttpRequestLoggingStrategy(httpContextAccessorMock.Object, currentUser.Object);
             var messages = new List<string>() { "added12", "added23" };
 
-            var logText = strategy.LogEvent(exception, messages);
+            var logText = strategy.Log(exception, messages);
 
             const string expectedPrefix = "identifier:userName:GET:/path/to/here";
             const string expectedPayload = "added12 added23 Threw Exception: System.Exception: 1 System.Exception: 2 System.Exception: 3";
@@ -60,10 +60,10 @@ namespace VoidCore.Test.AspNet.ClientApp
             var currentUser = new Mock<ICurrentUser>();
             currentUser.Setup(fmt => fmt.Name).Returns("userName");
 
-            var strategy = new HttpRequestStringEventLoggingStrategy(httpContextAccessorMock.Object, currentUser.Object);
+            var strategy = new HttpRequestLoggingStrategy(httpContextAccessorMock.Object, currentUser.Object);
             var messages = new List<string>() { "added12", "added23" };
 
-            var logText = strategy.LogEvent(null, messages);
+            var logText = strategy.Log(null, messages);
 
             const string expectedPrefix = "identifier:userName:GET:/path/to/here";
             const string expectedPayload = "added12 added23";
