@@ -152,7 +152,7 @@ class CreatePersonValidator : ValidatorAbstract<Entity>
 Adapted from [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFunctionalExtensions). Any method that might fail can return a Result for explicit fallibility. Results can be typed or untyped to follow the CQRS principle.
 
 ```csharp
-// A fallible method
+// A fallible method returns a Result<> or Result
 public Result<Person> GetPersonById(int id)
 {
     var person = _data.Persons.Find(id);
@@ -175,6 +175,7 @@ if (result.IsFailed)
 
 if (result.IsSuccess)
 {
+  // Generic results like Result<Person> have a Person value on success.
   var person = result.Value;
 }
 
@@ -192,46 +193,46 @@ if (result.IsSuccess)
 
 ## Text Search on Object Properties
 
-Check many properties of an object for text. It will split any string on whitespace, or it can take an explicit array of terms.
+Check many properties of an object for an array of terms. It will split any search string on whitespace, or it can take an explicit array of terms.
 
 ```csharp
-IQueryable<Entity> entities = GetEntities();
-var searchTerms = "find all words in any single property";
+IQueryable<Person> people = GetPeople();
+var searchString = "find all these words in any single property";
 
-var matchedEntities = entities
+var matchedPeople = people
     .SearchStringProperties(
-        searchTerms,
-        obj => obj.StringProperty1,
-        obj => obj.StringProperty2,
-        obj => obj.StringProperty3
+        searchString,
+        obj => obj.FirstName,
+        obj => obj.LastName,
+        obj => obj.Biography
     );
 ```
 
 ## Standardized Responses
 
-Make predictable APIs with...
+Make predictable presentation APIs with...
 
 * User messages
 * Validation failures with message and field name
 * Data sets
-* Pagination
+* Data sets with pagination
 * Downloadable files
 
-Includes a responder for IActionResult Web API that can be ported to any API pipeline.
+VoidCore.AspNet includes HttpResponder to send a Result of the above through IActionResult to a web client.
 
 ## Asp.Net Core Configuration
 
 There are many helpers to build an application with...
 
 * Serilog multi-platform file logging.
-* Active Directory group authorization.
+* Active Directory group authorization via Windows authentication.
 * HTTPS with redirection and HSTS headers.
 * Antiforgery for SPAs.
 * Exception handling (SPA and MVC) with logging.
   * Api endpoints return a JSON {message: ""} object.
   * MVC will redirect to safe error or forbidden pages in non-development.
 * Routing for SPA and Web API.
-* Data layer wrapper with default support for EF Core.
+* Model wrappers for data repositories with default implementation for EF Core.
 
 ## Developers
 
@@ -239,14 +240,14 @@ You will find everything you need to build and test this project in the Scripts 
 
 There is a script to install and update global tools used to develop this project.
 
-You will also need [nuget.exe](https://dist.nuget.org/win-x86-commandline/latest/nuget.exe) in your PATH to deploy packages locally.
-
 There are also VSCode tasks for each script.
 
-This project is not currently released, but feel free to use it as is. To use it you can:
+This project is not currently released, but feel free to use it as is.
 
-1. You can reference it via local ProjectReference in your csproj. It will be built with your dependent project.
-2. Or deploy it to a local Nuget store via [nuget.exe](https://dist.nuget.org/win-x86-commandline/latest/nuget.exe):
+To use it you can:
+
+1. Reference it via local ProjectReference in your csproj. It will be built with your dependent project.
+2. Deploy it to a local Nuget store via [nuget.exe](https://dist.nuget.org/win-x86-commandline/latest/nuget.exe)...
 
 ```powershell
 cd Scripts/
