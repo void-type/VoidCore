@@ -28,6 +28,15 @@ namespace VoidCore.Test.Model.DomainEvents
         }
 
         [Fact]
+        public void AccessingFailedResultValueThrowInvalidOperationException()
+        {
+            Assert.Throws<InvalidOperationException>(() =>
+            {
+                var value = Result.Fail<object>("some error").Value;
+            });
+        }
+
+        [Fact]
         public void ResultIsFailedStrings()
         {
             var result = Result.Fail("Some error", "someHandle");
@@ -74,7 +83,6 @@ namespace VoidCore.Test.Model.DomainEvents
             Assert.NotEmpty(result.Failures);
             Assert.Equal("Some error", result.Failures.Single().Message);
             Assert.Equal("someHandle", result.Failures.Single().UiHandle);
-            Assert.Null(result.Value);
         }
 
         [Fact]
@@ -86,7 +94,6 @@ namespace VoidCore.Test.Model.DomainEvents
             Assert.NotEmpty(result.Failures);
             Assert.Equal("Some error", result.Failures.Single().Message);
             Assert.Equal("someHandle", result.Failures.Single().UiHandle);
-            Assert.Null(result.Value);
         }
 
         [Fact]
@@ -99,7 +106,6 @@ namespace VoidCore.Test.Model.DomainEvents
             Assert.Equal("Some error", result.Failures.First().Message);
             Assert.Equal("someHandle", result.Failures.First().UiHandle);
             Assert.Equal(2, result.Failures.Count());
-            Assert.Null(result.Value);
         }
 
         [Fact]
