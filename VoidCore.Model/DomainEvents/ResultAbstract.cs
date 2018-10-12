@@ -4,7 +4,7 @@ namespace VoidCore.Model.DomainEvents
 {
     /// <summary>
     /// Base class for Result classes.
-    /// Inspired by https://github.com/vkhorikov/CSharpFunctionalExtensions
+    /// Modified from https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
     public abstract class ResultAbstract : IResult
     {

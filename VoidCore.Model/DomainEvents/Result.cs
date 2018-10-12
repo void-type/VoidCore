@@ -7,25 +7,38 @@ namespace VoidCore.Model.DomainEvents
     /// <summary>
     /// The result of a fallible operation that returns a value on success.
     /// Generally used with CQRS Queries or other non-void fallible operations.
-    /// Inspired by https://github.com/vkhorikov/CSharpFunctionalExtensions
+    /// Modified from https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
-    /// <typeparam name="TValue">The type of value to return on success</typeparam>
-    public sealed class Result<TValue> : ResultAbstract, IResult<TValue>
+    /// <typeparam name="T">The type of value to return on success</typeparam>
+    public sealed class Result<T> : ResultAbstract, IResult<T>
     {
         /// <summary>
         /// The success value
         /// </summary>
         /// <value></value>
-        public TValue Value { get; }
+        /// <exception cref="System.InvalidOperationException">Throws an InvalidOperationException if accessed on a failed Result.</exception>
+        public T Value
+        {
+            get
+            {
+                if (IsFailed)
+                {
+                    throw new InvalidOperationException("Do not access the value of Result if it is failed.");
+                }
 
-        internal Result(TValue value)
+                return _value;
+            }
+        }
+
+        internal Result(T value)
         {
             if (value == null)
             {
                 throw new ArgumentNullException(nameof(value),
-                    "Cannot set a result of null. Use non-generic Result for void results.");
+                    "Cannot set a result value of null. Use non-generic Result for void results.");
             }
-            Value = value;
+
+            _value = value;
         }
 
         internal Result(IEnumerable<IFailure> failures) : base(failures) { }
@@ -34,21 +47,22 @@ namespace VoidCore.Model.DomainEvents
         /// Implicitly convert a typed Result to an untyped one.
         /// </summary>
         /// <param name="result"></param>
-        public static implicit operator Result(Result<TValue> result)
+        public static implicit operator Result(Result<T> result)
         {
-            return result.IsSuccess ? Result.Ok() : Result.Fail(result.Failures);
+            return result.IsSuccess ? Result.Ok() : Result.Fail((IEnumerable<IFailure>)result.Failures);
         }
+
+        private T _value;
     }
 
     /// <summary>
     /// The result of a fallible operation that does not return a value on success.
     /// Generally used with CQRS Commands or other void fallible operations.
-    /// Inspired by https://github.com/vkhorikov/CSharpFunctionalExtensions
+    /// Modified from https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
     public sealed class Result : ResultAbstract
     {
-        private Result()
-        { }
+        private Result() { }
 
         private Result(IEnumerable<IFailure> failures) : base(failures) { }
 
@@ -65,11 +79,11 @@ namespace VoidCore.Model.DomainEvents
         /// Create a new successful typed result with a value.
         /// </summary>
         /// <param name="value">The result value</param>
-        /// <typeparam name="TValue">The type of success value</typeparam>
+        /// <typeparam name="T">The type of success value</typeparam>
         /// <returns>A new result</returns>
-        public static Result<TValue> Ok<TValue>(TValue value)
+        public static Result<T> Ok<T>(T value)
         {
-            return new Result<TValue>(value);
+            return new Result<T>(value);
         }
 
         /// <summary>
@@ -87,9 +101,9 @@ namespace VoidCore.Model.DomainEvents
         /// </summary>
         /// <param name="failures">A list of failures</param>
         /// <returns>A new result</returns>
-        public static Result<TValue> Fail<TValue>(IEnumerable<IFailure> failures)
+        public static Result<T> Fail<T>(IEnumerable<IFailure> failures)
         {
-            return new Result<TValue>(failures);
+            return new Result<T>(failures);
         }
 
         /// <summary>
@@ -112,14 +126,14 @@ namespace VoidCore.Model.DomainEvents
         /// </summary>
         /// <param name="failure">The failure</param>
         /// <returns>A new result</returns>
-        public static Result<TValue> Fail<TValue>(IFailure failure)
+        public static Result<T> Fail<T>(IFailure failure)
         {
             if (failure == null)
             {
                 throw new ArgumentNullException(nameof(failure), "Failure must not be null for a failed result.");
             }
 
-            return Fail<TValue>(new [] { failure });
+            return Fail<T>(new [] { failure });
         }
 
         /// <summary>
@@ -139,9 +153,9 @@ namespace VoidCore.Model.DomainEvents
         /// <param name="errorMessage"></param>
         /// <param name="uiHandle"></param>
         /// <returns>A new result</returns>
-        public static Result<TValue> Fail<TValue>(string errorMessage, string uiHandle = null)
+        public static Result<T> Fail<T>(string errorMessage, string uiHandle = null)
         {
-            return Fail<TValue>(new Failure(errorMessage, uiHandle));
+            return Fail<T>(new Failure(errorMessage, uiHandle));
         }
 
         /// <summary>

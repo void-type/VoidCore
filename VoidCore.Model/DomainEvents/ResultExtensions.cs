@@ -5,7 +5,7 @@ namespace VoidCore.Model.DomainEvents
 {
     /// <summary>
     /// Extensions for the Result class
-    /// Inspired by https://github.com/vkhorikov/CSharpFunctionalExtensions
+    /// Modified from https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
     public static class ResultExtensions
     {
@@ -23,9 +23,9 @@ namespace VoidCore.Model.DomainEvents
         /// Combine many typed results to an untyped result.
         /// </summary>
         /// <param name="results">The results to combine</param>
-        /// <typeparam name="TValue">The type of value in the results</typeparam>
+        /// <typeparam name="T">The type of value in the results</typeparam>
         /// <returns>A combined result</returns>
-        public static IResult Combine<TValue>(this IEnumerable<IResult<TValue>> results)
+        public static IResult Combine<T>(this IEnumerable<IResult<T>> results)
         {
             return results.Select(result => (IResult)result).Combine();
         }

@@ -133,7 +133,7 @@ namespace VoidCore.AspNet.Configuration
         /// Setup Antiforgery token and filters for all non-GET requests.
         /// </summary>
         /// <param name="services">This service collection</param>
-        /// /// <param name="environment">The hosting environment</param>
+        /// <param name="environment">The hosting environment</param>
         public static void AddAntiforgery(this IServiceCollection services, IHostingEnvironment environment)
         {
             services.AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));

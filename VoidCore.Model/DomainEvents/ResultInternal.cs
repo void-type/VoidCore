@@ -7,7 +7,7 @@ namespace VoidCore.Model.DomainEvents
     /// <summary>
     /// This class holds the internal logic for the Result abstract class and its inheritors. InternalResult should not be directly accessed outside of
     /// its Result wrapper. This class shares its constructor logic with inheritors.
-    /// Inspired by https://github.com/vkhorikov/CSharpFunctionalExtensions
+    /// Modified from https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
     internal sealed class ResultInternal
     {

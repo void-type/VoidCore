@@ -11,7 +11,6 @@ namespace VoidCore.Model.Data
         /// <summary>
         /// A getter for whole set of entities as a queryable collection.
         /// </summary>
-        /// <value>The whole set of entities as a queryable collection.</value>
         IQueryable<TEntity> Stored { get; }
     }
 }
