@@ -40,8 +40,8 @@ namespace VoidCore.Model.Queries
             return entities.Where(entity =>
                 searchTerms.All(term =>
                     propertySelectors.Any(selector =>
-                        selector.Invoke(entity) != null &&
-                        selector.Invoke(entity).ToLower().Contains(term.ToLower()))));
+                        selector(entity) != null &&
+                        selector(entity).ToLower().Contains(term.ToLower()))));
         }
 
         /// <summary>

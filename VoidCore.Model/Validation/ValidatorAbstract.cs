@@ -54,7 +54,7 @@ namespace VoidCore.Model.Validation
         /// <returns></returns>
         protected IRuleBuilder<TValidatableEntity> CreateRule(Func<TValidatableEntity, string> errorMessageBuilder, Func<TValidatableEntity, string> uiHandleBuilder)
         {
-            var rule = new Rule<TValidatableEntity>(validatable => new Failure(errorMessageBuilder.Invoke(validatable), uiHandleBuilder.Invoke(validatable)));
+            var rule = new Rule<TValidatableEntity>(validatable => new Failure(errorMessageBuilder(validatable), uiHandleBuilder(validatable)));
             _rules.Add(rule);
             return rule;
         }
@@ -67,7 +67,7 @@ namespace VoidCore.Model.Validation
         /// <returns></returns>
         protected IRuleBuilder<TValidatableEntity> CreateRule(Func<TValidatableEntity, string> errorMessageBuilder, string uiHandle)
         {
-            var rule = new Rule<TValidatableEntity>(validatable => new Failure(errorMessageBuilder.Invoke(validatable), uiHandle));
+            var rule = new Rule<TValidatableEntity>(validatable => new Failure(errorMessageBuilder(validatable), uiHandle));
             _rules.Add(rule);
             return rule;
         }
@@ -80,7 +80,7 @@ namespace VoidCore.Model.Validation
         /// <returns></returns>
         protected IRuleBuilder<TValidatableEntity> CreateRule(string errorMessage, Func<TValidatableEntity, string> uiHandleBuilder)
         {
-            var rule = new Rule<TValidatableEntity>(validatable => new Failure(errorMessage, uiHandleBuilder.Invoke(validatable)));
+            var rule = new Rule<TValidatableEntity>(validatable => new Failure(errorMessage, uiHandleBuilder(validatable)));
             _rules.Add(rule);
             return rule;
         }

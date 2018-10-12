@@ -24,7 +24,7 @@ namespace VoidCore.Model.Validation
         {
             if (!IsSuppressed(validatableEntity) && IsInvalid(validatableEntity))
             {
-                return Result.Fail(_failureBuilder.Invoke(validatableEntity));
+                return Result.Fail(_failureBuilder(validatableEntity));
             }
 
             return Result.Ok();
@@ -46,12 +46,12 @@ namespace VoidCore.Model.Validation
 
         private bool IsSuppressed(TValidatableEntity validatableEntity)
         {
-            return _suppressConditions.Any() && _suppressConditions.All(c => c.Invoke(validatableEntity));
+            return _suppressConditions.Any() && _suppressConditions.All(check => check(validatableEntity));
         }
 
         private bool IsInvalid(TValidatableEntity validatableEntity)
         {
-            return _invalidConditions.Any() && _invalidConditions.Any(c => c.Invoke(validatableEntity));
+            return _invalidConditions.Any() && _invalidConditions.Any(check => check(validatableEntity));
         }
 
         private readonly Func<TValidatableEntity, IFailure> _failureBuilder;
