@@ -4,7 +4,9 @@ A core library for building domain-driven business apps on Asp.Net Core with Sin
 
 WARNING - this project is still in the design phase as a personal project. The API is subject to change and the version numbers may fluctuate. I will remove this warning when the project reaches a stable state.
 
-## Domain Events
+## Features
+
+### Domain Events
 
 Extract logic from your controller and separate cross-cutting concerns like logging and validation. All logic for an event can be put into a single file.
 
@@ -48,7 +50,7 @@ public class GetPerson
 
         protected override Result<Response> HandleInternal(Request request)
         {
-            var person = _data.Persons
+            var person = _data.Persons.Stored
                 .ProjectTo<Response>(_mapper)
                 .FirstOrDefault(l => l.Id == request.Id));
 
@@ -112,17 +114,22 @@ public class GetPerson
             _logger.Info($"Found: {result.Value.Email}");
         }
 
-        // Logging extends FallibleEventLogger which means that failures will be automatically logged.
-        // There is also PostProcessorAbstract for a clean slate of all 3 channels (both, success, fail), and IPostProcessor for a single channel (just called Process).
-
         private readonly ILoggingService _logger;
     }
 }
 ```
 
+Logging extends FallibleEventLogger which means that failures will be automatically logged.
+
+There is also PostProcessorAbstract for a clean slate of all 3 channels (success, fail, and both), and IPostProcessor for a single channel (just called Process).
+
 </details>
 
-## Validation
+### Validation
+
+A simple way to validate input models and domain requests. If you want to build your own complex validator, you can inherit from IRequestValidator that will still plug right into the DomainEvent pipeline.
+
+ValidatorAbstract handles the inner logic of simple requests and allows for running the same validator against multiple entities. It is completely stateless.
 
 ```csharp
 class CreatePersonValidator : ValidatorAbstract<Entity>
@@ -130,6 +137,10 @@ class CreatePersonValidator : ValidatorAbstract<Entity>
     protected override void BuildRules()
     {
         CreateRule("Name is required.", "name")
+            .InvalidWhen(entity => string.IsNullOrWhitespace(entity.Name));
+
+        // dynamic messages
+        CreateRule(p => $"Name cannot be {p.Name}.", p => nameof(p.Name).ToLower())
             .InvalidWhen(entity => string.IsNullOrWhitespace(entity.Name));
 
         CreateRule("Phone is required for employees.", "phone")
@@ -147,7 +158,7 @@ class CreatePersonValidator : ValidatorAbstract<Entity>
 }
 ```
 
-## Results for Fallible Operations
+### Results for fallible operations
 
 Adapted from [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFunctionalExtensions). Any method that might fail can return a Result for explicit fallibility. Results can be typed or untyped to follow the CQRS principle.
 
@@ -155,14 +166,14 @@ Adapted from [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFun
 // A fallible method returns a Result<> or Result
 public Result<Person> GetPersonById(int id)
 {
-    var person = _data.Persons.Find(id);
+    var person = _data.Persons.Stored.Find(id);
 
     if (person == null)
     {
-        Result.Fail("Person is not found.", "personIdField"));
+        return Result.Fail("Person is not found.", "personIdField"));
     }
 
-    Result.Ok(person);
+    return Result.Ok(person);
 }
 
 // Call your method and handle the result.
@@ -178,8 +189,11 @@ if (result.IsSuccess)
   // Generic results like Result<Person> have a Person value on success.
   var person = result.Value;
 }
+```
 
-// Combine multiple results to check for failures
+There are extension and static methods to combine results to quickly check for failures.
+
+```csharp
 IEnumerable<Result> results = CheckLotsOfThings();
 
 var singleResult = results.Combine();
@@ -188,10 +202,73 @@ if (result.IsSuccess)
 {
     return "Hooray!"
 }
-
 ```
 
-## Text Search on Object Properties
+### Maybe for explicit nulls
+
+Adapted from [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFunctionalExtensions). The Maybe type can be used to make a null return type explicit.
+
+Maybe also has implicit conversion from the internal type.
+
+```csharp
+// A fallible method returns a Result<> or Result
+public Result<Person> GetPersonById(int id)
+{
+    // Implicit conversion means you don't have to change code or write wrappers.
+    Maybe<Person> maybePerson = _data.Persons.Stored.FirstOrDefault(p => p.Id == id);
+
+    if (maybePerson.HasNoValue)
+    {
+        return Result.Fail("Person is not found.", "personIdField"));
+    }
+
+    return Result.Ok(maybePerson.Value);
+}
+```
+
+There are useful extension methods for common tasks.
+
+```csharp
+// One-line the bulk of the above method.
+return maybePerson.ToResult("Person is not found.", "personIdField");
+
+// Safely unwrap. If there is no value, this will return the default value. We want a null int? to be zero. In the end we have an integer of either 0 or value + 3.
+var safelyAdded = maybeInt.Unwrap(value => value + 3, 0);
+
+// Safe mappings. If there is no value, it will return a Maybe<Person>.None. We get a new Maybe object.
+var safelyKnighted = maybePerson.Select(p => "Sir" + p.Name);
+
+// All empty names will be replaced with Maybe<Person>.None
+var filtered = maybePerson.Where(p => !string.IsNullOrEmpty(p.Name));
+```
+
+### Value Objects to alleviate primitive obsession
+
+Adapted from [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFunctionalExtensions). Make a class that inherits from ValueObject to remove primitive obsession and give types to any logical data groups. Value Objects make it easy to compare the values of objects instead of references.
+
+```csharp
+public class Temperature : ValueObject
+{
+    public double Reading { get; }
+    public TemperatureUnit Unit { get; }
+
+    public Temperature(double reading, string unit)
+    {
+        Reading = reading;
+        Unit = unit;
+    }
+
+    // It's not just a number.
+    // Provide the components that make this temperature unique.
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Math.Round(Reading, 1);
+        yield return Unit;
+    }
+}
+```
+
+### Text Search on object properties
 
 Check many properties of an object for an array of terms. It will split any search string on whitespace, or it can take an explicit array of terms.
 
@@ -208,7 +285,7 @@ var matchedPeople = people
     );
 ```
 
-## Standardized Responses
+### Responses for API standards
 
 Make predictable presentation APIs with...
 
@@ -220,7 +297,7 @@ Make predictable presentation APIs with...
 
 VoidCore.AspNet includes HttpResponder to send a Result of the above through IActionResult to a web client.
 
-## Asp.Net Core Configuration
+### Configuration for Asp.Net Core
 
 There are many helpers to build an application with...
 
