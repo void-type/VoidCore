@@ -33,12 +33,29 @@ namespace VoidCore.Test.Model.DomainEvents
         }
 
         [Fact]
-        public void MaybeFromStringHasValue()
+        public void MaybeFromClassHasValue()
         {
             var maybe = Maybe<string>.From("some value");
             Assert.False(maybe.HasNoValue);
             Assert.True(maybe.HasValue);
             Assert.Equal("some value", maybe.Value);
+        }
+
+        [Fact]
+        public void MaybeFromIntHasValue()
+        {
+            var maybe = Maybe<int>.From(2);
+            Assert.False(maybe.HasNoValue);
+            Assert.True(maybe.HasValue);
+            Assert.Equal(2, maybe.Value);
+        }
+
+        [Fact]
+        public void MaybeFromIntNoneHasNoValue()
+        {
+            var maybe = Maybe<int>.None;
+            Assert.True(maybe.HasNoValue);
+            Assert.False(maybe.HasValue);
         }
 
         [Fact]
