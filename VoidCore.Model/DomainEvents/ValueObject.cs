@@ -16,17 +16,21 @@ namespace VoidCore.Model.DomainEvents
         /// Override this method to provide a list of components to compare equality with.
         /// These components can be raw or transformed properties.
         /// </summary>
-        /// <returns>A list of </returns>
+        /// <returns>A list of components used to check equality of the value object</returns>
         protected abstract IEnumerable<object> GetEqualityComponents();
 
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             if (obj == null)
+            {
                 return false;
+            }
 
             if (GetType() != obj.GetType())
+            {
                 throw new ArgumentException($"Invalid comparison of Value Objects of different types: {GetType()} and {obj.GetType()}");
+            }
 
             var valueObject = (ValueObject) obj;
 
@@ -50,10 +54,14 @@ namespace VoidCore.Model.DomainEvents
         public static bool operator ==(ValueObject a, ValueObject b)
         {
             if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
+            {
                 return true;
+            }
 
             if (ReferenceEquals(a, null) || ReferenceEquals(b, null))
+            {
                 return false;
+            }
 
             return a.Equals(b);
         }

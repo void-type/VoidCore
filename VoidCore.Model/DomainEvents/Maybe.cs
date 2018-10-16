@@ -44,15 +44,6 @@ namespace VoidCore.Model.DomainEvents
         }
 
         /// <summary>
-        /// Construct a Maybe with value.
-        /// </summary>
-        /// <param name="value"></param>
-        private Maybe(T value)
-        {
-            _value = value == null ? null : new MaybeValueWrapper(value);
-        }
-
-        /// <summary>
         /// Construct an empty Maybe
         /// </summary>
         private Maybe()
@@ -61,12 +52,12 @@ namespace VoidCore.Model.DomainEvents
         }
 
         /// <summary>
-        /// Implicitly convert a value to a Maybe of value.
+        /// Construct a Maybe with value.
         /// </summary>
-        /// <param name="value">The value</param>
-        public static implicit operator Maybe<T>(T value)
+        /// <param name="value"></param>
+        private Maybe(T value)
         {
-            return new Maybe<T>(value);
+            _value = value == null ? null : new MaybeValueWrapper(value);
         }
 
         /// <summary>
@@ -80,10 +71,76 @@ namespace VoidCore.Model.DomainEvents
         }
 
         /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (obj is T)
+            {
+                obj = new Maybe<T>((T) obj);
+            }
+
+            if (!(obj is Maybe<T>))
+            {
+                return false;
+            }
+
+            var other = (Maybe<T>) obj;
+            return Equals(other);
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(Maybe<T> other)
+        {
+            if (HasNoValue && other.HasNoValue)
+            {
+                return true;
+            }
+
+            if (HasNoValue || other.HasNoValue)
+            {
+                return false;
+            }
+
+            return _value.Value.Equals(other._value.Value);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            if (HasNoValue)
+            {
+                return 0;
+            }
+
+            return _value.Value.GetHashCode();
+        }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            if (HasNoValue)
+            {
+                return "No value";
+            }
+
+            return Value.ToString();
+        }
+
+        /// <summary>
+        /// Implicitly convert a value to a Maybe of value.
+        /// </summary>
+        /// <param name="value">The value</param>
+        public static implicit operator Maybe<T>(T value)
+        {
+            return new Maybe<T>(value);
+        }
+
+        /// <inheritdoc/>
         public static bool operator ==(Maybe<T> maybe, T value)
         {
             if (maybe.HasNoValue)
+            {
                 return false;
+            }
 
             return maybe.Value.Equals(value);
         }
@@ -104,51 +161,6 @@ namespace VoidCore.Model.DomainEvents
         public static bool operator !=(Maybe<T> first, Maybe<T> second)
         {
             return !(first == second);
-        }
-
-        /// <inheritdoc/>
-        public override bool Equals(object obj)
-        {
-            if (obj is T)
-            {
-                obj = new Maybe<T>((T) obj);
-            }
-
-            if (!(obj is Maybe<T>))
-                return false;
-
-            var other = (Maybe<T>) obj;
-            return Equals(other);
-        }
-
-        /// <inheritdoc/>
-        public bool Equals(Maybe<T> other)
-        {
-            if (HasNoValue && other.HasNoValue)
-                return true;
-
-            if (HasNoValue || other.HasNoValue)
-                return false;
-
-            return _value.Value.Equals(other._value.Value);
-        }
-
-        /// <inheritdoc/>
-        public override int GetHashCode()
-        {
-            if (HasNoValue)
-                return 0;
-
-            return _value.Value.GetHashCode();
-        }
-
-        /// <inheritdoc/>
-        public override string ToString()
-        {
-            if (HasNoValue)
-                return "No value";
-
-            return Value.ToString();
         }
 
         private readonly MaybeValueWrapper _value;

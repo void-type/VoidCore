@@ -46,11 +46,13 @@ namespace VoidCore.Model.DomainEvents
         /// <returns></returns>
         public static TNew Unwrap<T, TNew>(this Maybe<T> maybe, Func<T, TNew> selector, TNew defaultValue = default(TNew))
         {
-            return maybe.HasValue ? selector(maybe.Value) : defaultValue;
+            return maybe.HasValue ?
+                selector(maybe.Value) :
+                defaultValue;
         }
 
         /// <summary>
-        /// Map the inner value to a Maybe of a new type. The new value will be implicitly converted to a Maybe.
+        /// Map the inner value to a Maybe of a new type by specifying the new value. The new value will be implicitly converted to a Maybe.
         /// </summary>
         /// <param name="maybe">The Maybe</param>
         /// <param name="selector">The transforming selector function</param>
@@ -59,14 +61,13 @@ namespace VoidCore.Model.DomainEvents
         /// <returns>A Maybe of the new value</returns>
         public static Maybe<TNew> Select<T, TNew>(this Maybe<T> maybe, Func<T, TNew> selector)
         {
-            if (maybe.HasNoValue)
-                return Maybe<TNew>.None;
-
-            return selector(maybe.Value);
+            return maybe.HasNoValue ?
+                Maybe<TNew>.None :
+                selector(maybe.Value);
         }
 
         /// <summary>
-        /// Map the inner value to a Maybe of a new type.
+        /// Map the inner value to a Maybe of a new type by specifying the new Maybe.
         /// </summary>
         /// <param name="maybe">The Maybe</param>
         /// <param name="selector">The transforming selector function</param>
@@ -75,10 +76,9 @@ namespace VoidCore.Model.DomainEvents
         /// <returns>A Maybe of the new value</returns>
         public static Maybe<TNew> Select<T, TNew>(this Maybe<T> maybe, Func<T, Maybe<TNew>> selector)
         {
-            if (maybe.HasNoValue)
-                return Maybe<TNew>.None;
-
-            return selector(maybe.Value);
+            return maybe.HasNoValue ?
+                Maybe<TNew>.None :
+                selector(maybe.Value);
         }
 
         /// <summary>
