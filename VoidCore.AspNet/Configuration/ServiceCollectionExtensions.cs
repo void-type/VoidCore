@@ -32,7 +32,7 @@ namespace VoidCore.AspNet.Configuration
         {
             if (!root)
             {
-                var sectionName = ConfigHelpers.SectionNameFromSettingsClass<TSettings>();
+                var sectionName = ConfigHelpers.StripEndingFromType(typeof(TSettings), "settings");
                 configuration = configuration.GetSection(sectionName);
             }
 
@@ -57,7 +57,7 @@ namespace VoidCore.AspNet.Configuration
         {
             if (!root)
             {
-                var sectionName = ConfigHelpers.SectionNameFromSettingsClass<TSettings>();
+                var sectionName = ConfigHelpers.StripEndingFromType(typeof(TSettings), "settings");
                 configuration = configuration.GetSection(sectionName);
             }
 

@@ -1,3 +1,5 @@
+using System;
+
 namespace VoidCore.AspNet.Configuration
 {
     /// <summary>
@@ -6,20 +8,29 @@ namespace VoidCore.AspNet.Configuration
     public static class ConfigHelpers
     {
         /// <summary>
-        /// Returns the section name based on the name of the settings class.
-        /// Ex: AuthorizationSettings => "Authorization"
-        /// Ex: Authorization => "Authorization"
+        /// Strips an ending from a class type name. This is useful for convention-based naming to replace hard-coded strings.
+        /// Ex: AuthorizationSettings, "settings" => "Authorization"
+        /// Ex: Authorization, "settings" => "Authorization"
+        /// Ex: AuthorizationSettings, null => "AuthorizationSettings"
         /// </summary>
-        /// <typeparam name="TSettings">The type of settings</typeparam>
-        /// <returns></returns>
-        public static string SectionNameFromSettingsClass<TSettings>()
+        /// <param name="type">The type to get the name from</param>
+        /// <param name="ending">The ending to remove from the class type name</param>
+        /// <returns>Type name with the ending removed</returns>
+        public static string StripEndingFromType(Type type, string ending)
         {
-            var rawName = typeof(TSettings).Name;
-            var nameEnd = rawName.ToLower().LastIndexOf("settings");
-            if (nameEnd < 0)
+            var rawName = type.Name;
+            var nameEnd = rawName.Length;
+
+            if (ending != null)
             {
-                nameEnd = rawName.Length;
+                var lastIndexOfEnding = rawName.ToLower().LastIndexOf(ending);
+
+                if (lastIndexOfEnding > -1)
+                {
+                    nameEnd = lastIndexOfEnding;
+                }
             }
+
             return rawName.Substring(0, nameEnd);
         }
     }
