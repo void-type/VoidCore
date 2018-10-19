@@ -1,9 +1,4 @@
-function Stop-OnError {
-  if ($LASTEXITCODE -ne 0) {
-    Pop-Location
-    Exit $LASTEXITCODE
-  }
-}
+. ./util.ps1
 
 # Built the test assembly
 Push-Location -Path "../VoidCore.Test"

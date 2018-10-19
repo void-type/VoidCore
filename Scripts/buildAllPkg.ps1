@@ -1,9 +1,4 @@
-function Stop-OnError {
-  if ($LASTEXITCODE -ne 0) {
-    Pop-Location
-    Exit $LASTEXITCODE
-  }
-}
+. ./util.ps1
 
 # Tests
 ./testCore.ps1
