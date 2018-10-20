@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace VoidCore.Model.ClientApp
+namespace VoidCore.AspNet.ClientApp
 {
     /// <summary>
     /// General application settings that are pulled from configuration.

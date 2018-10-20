@@ -11,7 +11,7 @@ namespace VoidCore.Test.AspNet.ClientApp
         [InlineData(null, "Unknown")]
         public void FormatNameFromAdLogin(string input, string expected)
         {
-            var formatter = new AdLoginUserNameFormatter();
+            var formatter = new AdLoginUserNameFormatStrategy();
 
             var userName = formatter.Format(input);
 

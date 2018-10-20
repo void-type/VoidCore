@@ -24,12 +24,12 @@ namespace VoidCore.AspNet.ClientApp
         /// <param name="userNameFormatter">A formatter for the user names</param>
         /// <param name="authorizationService">Policy checker for users</param>
         /// <param name="applicationSettings">The application's authorization settings</param>
-        public HttpContextCurrentUser(IHttpContextAccessor httpContextAccessor, IUserNameFormatter userNameFormatter, IAuthorizationService authorizationService, IApplicationSettings applicationSettings)
+        public HttpContextCurrentUser(IHttpContextAccessor httpContextAccessor, IUserNameFormatStrategy userNameFormatter, IAuthorizationService authorizationService, IApplicationSettings applicationSettings)
         {
             var user = httpContextAccessor.HttpContext.User;
 
             Name = userNameFormatter.Format(user.Identity.Name);
-            
+
             AuthorizedAs = applicationSettings.AuthorizationPolicies
                 .Where(policy => authorizationService.AuthorizeAsync(user, policy.Key).Result.Succeeded)
                 .Select(policy => policy.Key);

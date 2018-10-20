@@ -1,7 +1,7 @@
 namespace VoidCore.Model.Data
 {
     /// <summary>
-    /// A stateless helper to update the audit information on a peristed entity.
+    /// A service to update the audit information on a peristed entity.
     /// </summary>
     public interface IAuditUpdater
     {
