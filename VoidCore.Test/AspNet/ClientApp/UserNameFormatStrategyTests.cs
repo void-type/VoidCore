@@ -3,7 +3,7 @@ using Xunit;
 
 namespace VoidCore.Test.AspNet.ClientApp
 {
-    public class UserNameFormatterTests
+    public class UserNameFormatStrategyTests
     {
         [Theory]
         [InlineData("Domain1\\Name", "Name")]

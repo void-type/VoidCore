@@ -8,8 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
+using VoidCore.AspNet.Attributes;
 using VoidCore.AspNet.ClientApp;
-using VoidCore.AspNet.Exceptions;
 
 namespace VoidCore.AspNet.Configuration
 {

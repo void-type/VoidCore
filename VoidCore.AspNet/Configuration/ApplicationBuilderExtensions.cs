@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;
-using VoidCore.AspNet.ClientApp;
+using VoidCore.AspNet.Attributes;
 
 namespace VoidCore.AspNet.Configuration
 {
@@ -57,7 +57,7 @@ namespace VoidCore.AspNet.Configuration
                 var isForbidden = response.StatusCode == StatusCodes.Status403Forbidden;
 
                 var isApiRequest = context.HttpContext.Request.Path
-                    .StartsWithSegments(ApiRoute.BasePath, StringComparison.OrdinalIgnoreCase);
+                    .StartsWithSegments(ApiRouteAttribute.BasePath, StringComparison.OrdinalIgnoreCase);
 
                 if (isForbidden && !isApiRequest)
                 {

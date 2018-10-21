@@ -1,65 +1,36 @@
 using Moq;
-using System.Collections.Generic;
 using VoidCore.Model.DomainEvents;
 using VoidCore.Model.Logging;
-using VoidCore.Model.Responses.Collections;
 using VoidCore.Model.Responses.Files;
 using VoidCore.Model.Responses.Messages;
 using Xunit;
 
-namespace VoidCore.Test.Model.Logging
+namespace VoidCore.Test.Model.Responses
 {
-    public class LoggingPostProcessorTests
+    public class MessagesLoggingExtensionsTests
     {
         [Fact]
-        public void LogFallible()
+        public void PostSuccessUserMessageGetLogTextWithIntId()
         {
-            var result = Result.Fail<string>("oops");
-
-            var request = "";
-
-            var loggerMock = new Mock<ILoggingService>();
-            loggerMock.Setup(l => l.Warn(It.IsAny<string[]>()));
-
-            var processor = new FallibleEventLogger<string, string>(loggerMock.Object);
-
-            processor.Process(request, result);
-
-            loggerMock.Verify(l => l.Warn(new[] {"Count: 1", "Failures: oops"}), Times.Once());
+            var logText = PostSuccessUserMessage.Create("Hi.", 2).GetLogText();
+            var expected = new [] { "Message: Hi.", "EntityId: 2" };
+            Assert.Equal(expected, logText);
         }
 
         [Fact]
-        public void LogItemSet()
+        public void PostSuccessUserMessageGetLogTextWithStringId()
         {
-            var result = Result.Ok(new List<string>() { "one", "two" }.ToItemSet());
-
-            var request = "";
-
-            var loggerMock = new Mock<ILoggingService>();
-            loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
-
-            var processor = new ItemSetEventLogger<string, string>(loggerMock.Object);
-
-            processor.Process(request, result);
-
-            loggerMock.Verify(l => l.Info("Count: 2"), Times.Once());
+            var logText = PostSuccessUserMessage.Create("Hi.", "ekdki23890lsdkalk").GetLogText();
+            var expected = new [] { "Message: Hi.", "EntityId: ekdki23890lsdkalk" };
+            Assert.Equal(expected, logText);
         }
 
         [Fact]
-        public void LogItemSetPage()
+        public void SuccessUserMessageGetLogText()
         {
-            var result = Result.Ok(new List<string>() { "one", "two" }.ToItemSetPage(1, 1));
-
-            var request = "";
-
-            var loggerMock = new Mock<ILoggingService>();
-            loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
-
-            var processor = new ItemSetPageEventLogger<string, string>(loggerMock.Object);
-
-            processor.Process(request, result);
-
-            loggerMock.Verify(l => l.Info("Count: 1", "Page: 1", "Take: 1", "TotalCount: 2"), Times.Once());
+            var logText = new UserMessage("Hi.").GetLogText();
+            var expected = new [] { "Message: Hi." };
+            Assert.Equal(expected, logText);
         }
 
         [Fact]

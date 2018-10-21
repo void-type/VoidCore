@@ -3,7 +3,7 @@ namespace VoidCore.Model.Responses.Collections
     /// <summary>
     /// Helpers for pulling logging text from the default responses.
     /// </summary>
-    public static class LoggingExtensions
+    public static class CollectionsLoggingExtensions
     {
         /// <summary>
         /// Pulls default logging text from this object.

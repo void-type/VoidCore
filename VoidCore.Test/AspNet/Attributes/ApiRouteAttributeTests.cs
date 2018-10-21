@@ -1,20 +1,20 @@
-using VoidCore.AspNet.ClientApp;
+using VoidCore.AspNet.Attributes;
 using Xunit;
 
-namespace VoidCore.Test.AspNet.ClientApp
+namespace VoidCore.Test.AspNet.Attributes
 {
-    public class ApiRouteTests
+    public class ApiRouteAttributeTests
     {
         [Fact]
         public void BaseRouteIsCorrect()
         {
-            Assert.Equal("/api", ApiRoute.BasePath);
+            Assert.Equal("/api", ApiRouteAttribute.BasePath);
         }
 
         [Fact]
         public void RoutePathTemplateIsCorrect()
         {
-            var route = new ApiRoute("controller");
+            var route = new ApiRouteAttribute("controller");
 
             Assert.Equal("/api/controller", route.Template);
         }

@@ -3,7 +3,7 @@ using Xunit;
 
 namespace VoidCore.Test.Model.Responses
 {
-    public class FileExtensionsTests
+    public class FilesLoggingExtensionsTest
     {
         [Fact]
         public void SimpleFileGetLogText()

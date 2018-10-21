@@ -1,11 +1,10 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
-using VoidCore.AspNet.ClientApp;
 using VoidCore.Model.Logging;
 using VoidCore.Model.Responses.Messages;
 
-namespace VoidCore.AspNet.Exceptions
+namespace VoidCore.AspNet.Attributes
 {
     /// <summary>
     /// A filter that handles exceptions for API routes by logging and sending a data message.
@@ -25,14 +24,14 @@ namespace VoidCore.AspNet.Exceptions
         public override void OnException(ExceptionContext context)
         {
             var isApiRequest = context.HttpContext.Request.Path
-                .StartsWithSegments(ApiRoute.BasePath, StringComparison.OrdinalIgnoreCase);
+                .StartsWithSegments(ApiRouteAttribute.BasePath, StringComparison.OrdinalIgnoreCase);
 
             if (!isApiRequest)
             {
                 return;
             }
 
-            var message = "There was a problem processing your request.";
+            const string message = "There was a problem processing your request.";
             _logger.Fatal(context.Exception, message);
             context.Result = new ObjectResult(new UserMessage(message)) { StatusCode = 500 };
         }

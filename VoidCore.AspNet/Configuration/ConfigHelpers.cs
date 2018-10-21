@@ -21,14 +21,16 @@ namespace VoidCore.AspNet.Configuration
             var rawName = type.Name;
             var nameEnd = rawName.Length;
 
-            if (ending != null)
+            if (ending == null)
             {
-                var lastIndexOfEnding = rawName.ToLower().LastIndexOf(ending, StringComparison.Ordinal);
+                return rawName.Substring(0, nameEnd);
+            }
 
-                if (lastIndexOfEnding > -1)
-                {
-                    nameEnd = lastIndexOfEnding;
-                }
+            var lastIndexOfEnding = rawName.ToLower().LastIndexOf(ending, StringComparison.Ordinal);
+
+            if (lastIndexOfEnding > -1)
+            {
+                nameEnd = lastIndexOfEnding;
             }
 
             return rawName.Substring(0, nameEnd);

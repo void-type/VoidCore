@@ -13,12 +13,12 @@ namespace VoidCore.AspNet.Logging
     {
         /// <summary>
         /// Create a new Serilog ILogger using an absolute path. This can be OS sensitive.
-        /// This logger will log to the supplied path with rolling file logs that delete after 15 days.
         /// </summary>
         /// <param name="logFilePath">The full path to the file. Serilog will append the date before the extension</param>
         /// <param name="suppressFrameworkWarnings">Suppress warnings logged by Microsoft and System</param>
+        /// <param name="daysToRetain">How many days to keep logged files</param>
         /// <returns>A Serilog ILogger instance</returns>
-        public static ILogger Create(string logFilePath, bool suppressFrameworkWarnings = false)
+        public static ILogger Create(string logFilePath = null, bool suppressFrameworkWarnings = false, int daysToRetain = 30)
         {
             return new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -27,20 +27,22 @@ namespace VoidCore.AspNet.Logging
                 .Enrich.FromLogContext()
                 .WriteTo.File(logFilePath,
                     rollingInterval : RollingInterval.Day,
-                    retainedFileCountLimit : 30,
+                    retainedFileCountLimit : daysToRetain,
                     fileSizeLimitBytes : 10000000,
                     rollOnFileSizeLimit : true)
                 .CreateLogger();
         }
 
         /// <summary>
-        /// Calls Create(string logFilePath) using the name of the supplied Program's assembly in the default path.
+        /// Creates an ILogger using a default path.
         /// The default path is at the root of the current directory in webAppLogs.
         /// IE: /webAppLogs/ on *nix and C:\webAppLogs or D:\webAppLogs (if IIS is moved) on Windows.
         /// </summary>
+        /// <param name="suppressFrameworkWarnings">Suppress warnings logged by Microsoft and System</param>
+        /// <param name="daysToRetain">How many days to keep logged files</param>
         /// <typeparam name="TClass">The type of a class in the main assembly. Used to determine root directory.</typeparam>
         /// <returns>A Serilog ILogger instance</returns>
-        public static ILogger Create<TClass>(bool suppressExternalWarnings = false) where TClass : class
+        public static ILogger Create<TClass>(bool suppressFrameworkWarnings = false, int daysToRetain = 30) where TClass : class
         {
             var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             var logPath = (isWindows ? Path.GetPathRoot(Environment.CurrentDirectory) : "/") + "webAppLogs";
@@ -48,7 +50,7 @@ namespace VoidCore.AspNet.Logging
             var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var logFilePath = $"{logPath}/{assemblyName}/{assemblyName}-{environmentName}_.log";
 
-            return Create(logFilePath, suppressExternalWarnings);
+            return Create(logFilePath, suppressFrameworkWarnings, daysToRetain);
         }
     }
 }
