@@ -20,10 +20,12 @@ namespace VoidCore.AspNet.Logging
         /// <returns>A Serilog ILogger instance</returns>
         public static ILogger Create(string logFilePath = null, bool suppressFrameworkWarnings = false, int daysToRetain = 30)
         {
+            var frameworkLoggingLevel = suppressFrameworkWarnings ? LogEventLevel.Error : LogEventLevel.Warning;
+
             return new LoggerConfiguration()
                 .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", suppressFrameworkWarnings ? LogEventLevel.Error : LogEventLevel.Warning)
-                .MinimumLevel.Override("System", suppressFrameworkWarnings ? LogEventLevel.Error : LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft", frameworkLoggingLevel)
+                .MinimumLevel.Override("System", frameworkLoggingLevel)
                 .Enrich.FromLogContext()
                 .WriteTo.File(logFilePath,
                     rollingInterval : RollingInterval.Day,
