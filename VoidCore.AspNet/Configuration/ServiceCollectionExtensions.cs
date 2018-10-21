@@ -142,7 +142,7 @@ namespace VoidCore.AspNet.Configuration
         /// <param name="environment">The hosting environment</param>
         public static void AddApiExceptionFilter(this IServiceCollection services, IHostingEnvironment environment)
         {
-            services.AddMvc(options => options.Filters.Add(new TypeFilterAttribute(typeof(ApiExceptionFilterAttribute))));
+            services.AddMvc(options => options.Filters.Add(new TypeFilterAttribute(typeof(ApiRouteExceptionFilterAttribute))));
         }
 
         /// <summary>

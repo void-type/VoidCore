@@ -9,13 +9,13 @@ namespace VoidCore.AspNet.Attributes
     /// <summary>
     /// A filter that handles exceptions for API routes by logging and sending a data message.
     /// </summary>
-    public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
+    public class ApiRouteExceptionFilterAttribute : ExceptionFilterAttribute
     {
         /// <summary>
         /// Construct a new ApiExceptionFilterAttribute
         /// </summary>
         /// <param name="logger">Logging service</param>
-        public ApiExceptionFilterAttribute(ILoggingService logger)
+        public ApiRouteExceptionFilterAttribute(ILoggingService logger)
         {
             _logger = logger;
         }
