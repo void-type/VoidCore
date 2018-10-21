@@ -12,9 +12,9 @@ namespace VoidCore.AspNet.Authorization
         /// <summary>
         /// Construct a new AutoNamingAuthorizeAttribute with a policy set by convention.
         /// </summary>
-        public AutoNamingAuthorizeAttribute() : base()
+        public AutoNamingAuthorizeAttribute()
         {
-            this.Policy = ConfigHelpers.StripEndingFromType(this.GetType(), "only");
+            Policy = ConfigHelpers.StripEndingFromType(GetType(), "only");
         }
     }
 }

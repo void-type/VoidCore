@@ -50,26 +50,36 @@ namespace VoidCore.Model.DomainEvents
                 });
         }
 
-        /// <inheritdoc/>
-        public static bool operator ==(ValueObject a, ValueObject b)
+        /// <summary>
+        /// Compares equality of two ValueObjects
+        /// </summary>
+        /// <param name="first">This valueObject</param>
+        /// <param name="second">The valueObject to compare to</param>
+        /// <returns>The boolean result of equality</returns>
+        public static bool operator ==(ValueObject first, ValueObject second)
         {
-            if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
+            if (ReferenceEquals(first, null) && ReferenceEquals(second, null))
             {
                 return true;
             }
 
-            if (ReferenceEquals(a, null) || ReferenceEquals(b, null))
+            if (ReferenceEquals(first, null) || ReferenceEquals(second, null))
             {
                 return false;
             }
 
-            return a.Equals(b);
+            return first.Equals(second);
         }
 
-        /// <inheritdoc/>
-        public static bool operator !=(ValueObject a, ValueObject b)
+        /// <summary>
+        /// Compares inequality of two ValueObjects
+        /// </summary>
+        /// <param name="first">This valueObject</param>
+        /// <param name="second">The valueObject to compare to</param>
+        /// <returns>The boolean result of inequality</returns>
+        public static bool operator !=(ValueObject first, ValueObject second)
         {
-            return !(a == b);
+            return !(first == second);
         }
     }
 }

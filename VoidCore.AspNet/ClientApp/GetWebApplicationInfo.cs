@@ -57,7 +57,9 @@ namespace VoidCore.AspNet.ClientApp
         /// </summary>
         public class WebApplicationInfo
         {
-            /// <inheritdoc/>
+            /// <summary>
+            /// The UI-friendly application name.
+            /// </summary>
             public string ApplicationName { get; }
 
             /// <summary>
@@ -72,7 +74,7 @@ namespace VoidCore.AspNet.ClientApp
             /// <value></value>
             public string AntiforgeryTokenHeaderName { get; }
 
-            /// <inheritdoc/>
+            /// The current user
             public ICurrentUser User { get; }
 
             internal WebApplicationInfo(string applicationName, string antiforgeryToken, string antiforgeryTokenHeaderName, ICurrentUser user)

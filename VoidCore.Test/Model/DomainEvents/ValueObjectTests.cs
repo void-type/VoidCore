@@ -25,8 +25,8 @@ namespace VoidCore.Test.Model.DomainEvents
             var temp1 = new Temperature(20.1, Temperature.UnitType.C);
 
             Assert.False(temp1.Equals(null));
-            Assert.False(temp1 == (Temperature) null);
-            Assert.False((Temperature) null == temp1);
+            Assert.False(temp1 == null);
+            Assert.False(null == temp1);
         }
 
         [Fact]
@@ -35,7 +35,7 @@ namespace VoidCore.Test.Model.DomainEvents
             var temp1 = new Temperature(20.1, Temperature.UnitType.C);
             var temp2 = new Temperature(20.1, Temperature.UnitType.C);
 
-            Assert.True((Temperature) null == (Temperature) null);
+            Assert.True(null == (Temperature) null);
 
             Assert.True(temp1 == temp2);
             Assert.False(temp1 != temp2);

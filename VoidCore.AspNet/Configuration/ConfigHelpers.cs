@@ -23,7 +23,7 @@ namespace VoidCore.AspNet.Configuration
 
             if (ending != null)
             {
-                var lastIndexOfEnding = rawName.ToLower().LastIndexOf(ending);
+                var lastIndexOfEnding = rawName.ToLower().LastIndexOf(ending, StringComparison.Ordinal);
 
                 if (lastIndexOfEnding > -1)
                 {

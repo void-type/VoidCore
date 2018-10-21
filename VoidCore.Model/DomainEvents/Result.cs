@@ -49,7 +49,7 @@ namespace VoidCore.Model.DomainEvents
         /// <param name="result"></param>
         public static implicit operator Result(Result<T> result)
         {
-            return result.IsSuccess ? Result.Ok() : Result.Fail((IEnumerable<IFailure>)result.Failures);
+            return result.IsSuccess ? Result.Ok() : Result.Fail(result.Failures);
         }
 
         private T _value;

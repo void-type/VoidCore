@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using VoidCore.Model.DomainEvents;
 using Xunit;
@@ -20,7 +19,7 @@ namespace VoidCore.Test.Model.DomainEvents
             var maybe = Maybe<string>.None;
             var result = maybe.ToResult("no value", "uiField");
             Assert.False(result.IsSuccess);
-            var failure = result.Failures.FirstOrDefault();
+            var failure = result.Failures.Single();
             Assert.Equal("no value", failure.Message);
             Assert.Equal("uiField", failure.UiHandle);
         }
@@ -100,25 +99,29 @@ namespace VoidCore.Test.Model.DomainEvents
         }
 
         [Fact]
-        public void WhereWithValue()
+        public void WhereWithValueAndTruePredicateReturnsMaybe()
         {
             Maybe<string> maybe = "some value";
-            var queried = maybe.Where(v => v is string);
+            var queried = maybe.Where(v => true);
+            Assert.True(queried.HasValue);
             Assert.Equal("some value", queried.Value);
-
-            queried = maybe.Where(v => false);
-            Assert.False(queried.HasValue);
         }
 
         [Fact]
-        public void WhereWithoutValueReturnsNone()
+        public void WhereWithFalsePredicateReturnsNone()
         {
-            Maybe<string> maybe = Maybe<string>.None;
-            var queried = maybe.Where(v => v is string);
-            Assert.False(queried.HasValue);
+            Maybe<string> maybe = "some value";
 
-            queried = maybe.Where(v => false);
-            Assert.False(queried.HasValue);
+            var queried = maybe.Where(v => false);
+            Assert.True(queried.HasNoValue);
+        }
+
+        [Fact]
+        public void WhereWithoutValueAndTruePredicateReturnsNone()
+        {
+            var maybe = Maybe<string>.None;
+            var queried = maybe.Where(v => true);
+            Assert.True(queried.HasNoValue);
         }
     }
 }

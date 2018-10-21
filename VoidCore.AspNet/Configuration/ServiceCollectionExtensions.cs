@@ -10,7 +10,6 @@ using System;
 using System.Linq;
 using VoidCore.AspNet.ClientApp;
 using VoidCore.AspNet.Exceptions;
-using VoidCore.Model.ClientApp;
 
 namespace VoidCore.AspNet.Configuration
 {

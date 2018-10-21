@@ -106,12 +106,7 @@ namespace VoidCore.Model.DomainEvents
         /// <inheritdoc/>
         public override int GetHashCode()
         {
-            if (HasNoValue)
-            {
-                return 0;
-            }
-
-            return _value.Value.GetHashCode();
+            return HasNoValue ? 0 : _value.Value.GetHashCode();
         }
 
         /// <inheritdoc/>
@@ -134,30 +129,45 @@ namespace VoidCore.Model.DomainEvents
             return new Maybe<T>(value);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Compares equality of this maybe and a value
+        /// </summary>
+        /// <param name="maybe">This maybe</param>
+        /// <param name="value">The value to be compared</param>
+        /// <returns>A boolean result of equality</returns>
         public static bool operator ==(Maybe<T> maybe, T value)
         {
-            if (maybe.HasNoValue)
-            {
-                return false;
-            }
-
-            return maybe.Value.Equals(value);
+            return !maybe.HasNoValue && maybe.Value.Equals(value);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Compares inequality of this maybe and a value
+        /// </summary>
+        /// <param name="maybe">This maybe</param>
+        /// <param name="value">The value to be compared</param>
+        /// <returns>A boolean result of inequality</returns>
         public static bool operator !=(Maybe<T> maybe, T value)
         {
             return !(maybe == value);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Compares equality of this and another maybe
+        /// </summary>
+        /// <param name="first">This maybe</param>
+        /// <param name="second">Another maybe to be compared</param>
+        /// <returns>A boolean result of equality</returns>
         public static bool operator ==(Maybe<T> first, Maybe<T> second)
         {
             return first.Equals(second);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Compares inequality of this and another maybe
+        /// </summary>
+        /// <param name="first">This maybe</param>
+        /// <param name="second">Another maybe to be compared</param>
+        /// <returns>A boolean result of inequality</returns>
         public static bool operator !=(Maybe<T> first, Maybe<T> second)
         {
             return !(first == second);

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using VoidCore.Model.ClientApp;
 
 namespace VoidCore.AspNet.ClientApp
 {
