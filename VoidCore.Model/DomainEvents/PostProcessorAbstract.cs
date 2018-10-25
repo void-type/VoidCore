@@ -1,6 +1,10 @@
 namespace VoidCore.Model.DomainEvents
 {
-    /// <inheritdoc/>
+    /// <summary>
+    /// A post processor with separate channels for successful events, failed events, and both.
+    /// </summary>
+    /// <typeparam name="TRequest"></typeparam>
+    /// <typeparam name="TResponse"></typeparam>
     public abstract class PostProcessorAbstract<TRequest, TResponse> : IPostProcessor<TRequest, TResponse>
     {
         /// <inheritdoc/>
