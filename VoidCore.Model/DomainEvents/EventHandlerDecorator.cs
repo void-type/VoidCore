@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace VoidCore.Model.DomainEvents
 {
@@ -20,15 +22,16 @@ namespace VoidCore.Model.DomainEvents
         }
 
         /// <inheritdoc/>
-        public Result<TResponse> Handle(TRequest request)
+        public async Task<Result<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default(CancellationToken))
         {
             var validation = _requestValidators
                 .Select(validator => validator.Validate(request))
                 .Combine();
 
-            var result = validation.IsSuccess ?
-                _innerEvent.Handle(request) :
-                Result.Fail<TResponse>(validation.Failures);
+            var result = await (validation.IsSuccess ?
+                    _innerEvent.Handle(request, cancellationToken) :
+                    Task.FromResult(Result.Fail<TResponse>(validation.Failures)))
+                .ConfigureAwait(false);
 
             foreach (var postProcessor in _postProcessors)
             {

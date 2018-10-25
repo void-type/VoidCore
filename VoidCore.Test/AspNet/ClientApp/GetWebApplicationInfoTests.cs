@@ -11,7 +11,7 @@ namespace VoidCore.Test.AspNet.ClientApp
     public class GetWebApplicationInfoTests
     {
         [Fact]
-        public void ApplicationInfoIsCreatedWithAndLogsProperInfo()
+        public async void ApplicationInfoIsCreatedWithAndLogsProperInfo()
         {
             var appSettingsMock = new Mock<IApplicationSettings>();
             appSettingsMock.Setup(a => a.Name).Returns("AppName");
@@ -38,7 +38,7 @@ namespace VoidCore.Test.AspNet.ClientApp
             var loggingServiceMock = new Mock<ILoggingService>();
             loggingServiceMock.Setup(l => l.Info(It.IsAny<string[]>()));
 
-            var result = new GetWebApplicationInfo.Handler(appSettingsMock.Object, mockContextAccessor.Object, mockAntiforgery.Object, currentUser.Object)
+            var result = await new GetWebApplicationInfo.Handler(appSettingsMock.Object, mockContextAccessor.Object, mockAntiforgery.Object, currentUser.Object)
                 .AddPostProcessor(new GetWebApplicationInfo.Logger(loggingServiceMock.Object))
                 .Handle(new GetWebApplicationInfo.Request());
 

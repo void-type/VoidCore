@@ -12,7 +12,7 @@ namespace VoidCore.AspNet.ClientApp
     public class GetWebApplicationInfo
     {
         /// <inheritdoc/>
-        public class Handler : EventHandlerAbstract<Request, WebApplicationInfo>
+        public class Handler : EventHandlerSyncAbstract<Request, WebApplicationInfo>
         {
             /// <summary>
             /// Construct a new handler for GetApplicationInfo
@@ -30,7 +30,7 @@ namespace VoidCore.AspNet.ClientApp
             }
 
             /// <inheritdoc/>
-            protected override Result<WebApplicationInfo> HandleInternal(Request request)
+            protected override Result<WebApplicationInfo> HandleSync(Request request)
             {
                 var applicationInfo = new WebApplicationInfo(
                     _applicationSettings.Name,
