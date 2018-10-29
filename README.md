@@ -90,7 +90,7 @@ public class GetPerson
     }
 
     // A validator for the request
-    public class RequestValidator : ValidatorAbstract<Request>
+    public class RequestValidator : RuleValidatorAbstract<Request>
     {
         protected override void BuildRules()
         {
@@ -131,10 +131,10 @@ There is also PostProcessorAbstract for a clean slate of all 3 channels (success
 
 A simple way to validate input models and domain requests. If you want to build your own complex validator, you can inherit from IRequestValidator that will still plug right into the DomainEvent pipeline.
 
-ValidatorAbstract handles the inner logic of simple requests and allows for running the same validator against multiple entities. It is completely stateless.
+RuleValidatorAbstract handles the inner logic of simple requests and allows for running the same validator against multiple entities. It is completely stateless.
 
 ```csharp
-class CreatePersonValidator : ValidatorAbstract<Entity>
+class CreatePersonValidator : RuleValidatorAbstract<Entity>
 {
     protected override void BuildRules()
     {
