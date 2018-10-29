@@ -26,6 +26,17 @@ namespace VoidCore.Test.Model.Domain
         }
 
         [Fact]
+        public void MaybeFromUsingNonGenericHelper()
+        {
+            var maybe1 = Maybe.From("some value");
+            var maybe2 = Maybe<string>.From("some value");
+            Assert.False(maybe1.HasNoValue);
+            Assert.True(maybe1.HasValue);
+            Assert.Equal("some value", maybe1.Value);
+            Assert.Equal(maybe1, maybe2);
+        }
+
+        [Fact]
         public void MaybeFromIntHasValue()
         {
             var maybe = Maybe<int>.From(2);

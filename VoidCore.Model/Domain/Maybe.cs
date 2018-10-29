@@ -109,7 +109,7 @@ namespace VoidCore.Model.Domain
         {
             if (obj is T)
             {
-                obj = new Maybe<T>((T)obj);
+                obj = new Maybe<T>((T) obj);
             }
 
             if (!(obj is Maybe<T>))
@@ -117,7 +117,7 @@ namespace VoidCore.Model.Domain
                 return false;
             }
 
-            var other = (Maybe<T>)obj;
+            var other = (Maybe<T>) obj;
             return Equals(other);
         }
 
@@ -180,6 +180,22 @@ namespace VoidCore.Model.Domain
             }
 
             internal readonly T Value;
+        }
+    }
+
+    /// <summary>
+    /// Provides non-generic helpers of the generic Maybe class.
+    /// </summary>
+    public static class Maybe
+    {
+        /// <summary>
+        /// Convert an object to a Maybe of obj.
+        /// </summary>
+        /// <param name="obj">The object to convert</param>
+        /// <returns>A new Maybe of T of obj</returns>
+        public static Maybe<T> From<T>(T obj)
+        {
+            return Maybe<T>.From(obj);
         }
     }
 }
