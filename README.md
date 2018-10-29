@@ -8,19 +8,21 @@ WARNING - this project is still in the design phase as a personal project. The A
 
 ### Domain Events
 
-Extract logic from your controller and separate cross-cutting concerns like logging and validation. All logic for an event can be put into a single file.
+Extract logic from your controller and separate cross-cutting concerns like validation and logging. All logic for an event can be put into a single file.
 
-Events, validators and post processors can be injected since events are immutable and stateless. Validators and post processors are added through a decorator.
+Events are asynchronous. However, you can keep your synchronous domain logic clean with EventHandlerSyncAbstract.
+
+Events, validators and post processors can be injected since events are immutable and stateless. Validators and post processors are added to an event through a decorator so different pipelines can be constructed from the same components.
 
 ```csharp
 public class PersonsController : Controller
 {
     // For extra credit, inject GetPerson event parts on construction and let DI handle dependencies
-    public IActionResult Get(string name)
+    public async Task<IActionResult> Get(string name)
     {
         var request = new GetPerson.Request(name);
 
-        var result = new GetPerson.Handler(_data, _mapper)
+        var result = await new GetPerson.Handler(_data, _mapper)
             .AddRequestValidator(new GetPerson.RequestValidator())
             .AddPostProcessor(new GetPerson.Logger(_logger))
             .Handle(request);
@@ -48,11 +50,11 @@ public class GetPerson
             _mapper = mapper;
         }
 
-        protected override Result<Response> HandleInternal(Request request)
+        public override async Task<Result<Response>> HandleInternal(Request request)
         {
-            var person = _data.Persons.Stored
+            var person = await Task.Run(() => _data.Persons.Stored
                 .ProjectTo<Response>(_mapper)
-                .FirstOrDefault(l => l.Id == request.Id));
+                .FirstOrDefault(l => l.Id == request.Id)));
 
             return (person != null) ?
                 Result.Ok(personDto) :
