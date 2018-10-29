@@ -17,7 +17,7 @@ namespace VoidCore.AspNet.Logging
         /// </summary>
         /// <param name="httpContextAccessor">An accessor for the current HTTP context</param>
         /// <param name="currentUser">An accessor for the current user's properties</param>
-        public HttpRequestLoggingStrategy(IHttpContextAccessor httpContextAccessor, ICurrentUser currentUser)
+        public HttpRequestLoggingStrategy(IHttpContextAccessor httpContextAccessor, ICurrentUserAccessor currentUser)
         {
             _httpContext = httpContextAccessor.HttpContext;
             _currentUser = currentUser;
@@ -53,7 +53,7 @@ namespace VoidCore.AspNet.Logging
             return Log(eventArray);
         }
 
-        private readonly ICurrentUser _currentUser;
+        private readonly ICurrentUserAccessor _currentUser;
 
         private readonly HttpContext _httpContext;
 

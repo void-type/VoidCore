@@ -28,7 +28,7 @@ namespace VoidCore.Test.AspNet.ClientApp
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
             httpContextAccessorMock.Setup(accessor => accessor.HttpContext).Returns(httpContextMock.Object);
 
-            var currentUser = new Mock<ICurrentUser>();
+            var currentUser = new Mock<ICurrentUserAccessor>();
             currentUser.Setup(fmt => fmt.Name).Returns("userName");
 
             var strategy = new HttpRequestLoggingStrategy(httpContextAccessorMock.Object, currentUser.Object);
@@ -57,7 +57,7 @@ namespace VoidCore.Test.AspNet.ClientApp
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
             httpContextAccessorMock.Setup(accessor => accessor.HttpContext).Returns(httpContextMock.Object);
 
-            var currentUser = new Mock<ICurrentUser>();
+            var currentUser = new Mock<ICurrentUserAccessor>();
             currentUser.Setup(fmt => fmt.Name).Returns("userName");
 
             var strategy = new HttpRequestLoggingStrategy(httpContextAccessorMock.Object, currentUser.Object);

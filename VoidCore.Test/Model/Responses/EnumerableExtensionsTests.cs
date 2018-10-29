@@ -25,6 +25,8 @@ namespace VoidCore.Test.Model.Responses
 
             var itemSet = queryable.ToItemSetPage(2, 3);
 
+            Assert.Contains("4", itemSet.Items);
+            Assert.Contains("5", itemSet.Items);
             Assert.Equal(2, itemSet.Count);
             Assert.Equal(2, itemSet.Items.Count());
         }
@@ -47,6 +49,8 @@ namespace VoidCore.Test.Model.Responses
 
             var itemSet = list.ToItemSetPage(2, 3);
 
+            Assert.Contains("4", itemSet.Items);
+            Assert.Contains("5", itemSet.Items);
             Assert.Equal(2, itemSet.Count);
             Assert.Equal(2, itemSet.Items.Count());
         }

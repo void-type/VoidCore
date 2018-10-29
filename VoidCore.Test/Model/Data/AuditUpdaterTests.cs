@@ -27,7 +27,7 @@ namespace VoidCore.Test.Model.Data
             var dateTimeServiceMock = new Mock<IDateTimeService>();
             dateTimeServiceMock.Setup(d => d.Moment).Returns(date);
 
-            var currentUserMock = new Mock<ICurrentUser>();
+            var currentUserMock = new Mock<ICurrentUserAccessor>();
             currentUserMock.Setup(c => c.Name).Returns("userName");
 
             var auditUpdater = new AuditUpdater(dateTimeServiceMock.Object, currentUserMock.Object);
@@ -58,7 +58,7 @@ namespace VoidCore.Test.Model.Data
             var dateTimeServiceMock = new Mock<IDateTimeService>();
             dateTimeServiceMock.Setup(d => d.Moment).Returns(date);
 
-            var currentUserMock = new Mock<ICurrentUser>();
+            var currentUserMock = new Mock<ICurrentUserAccessor>();
             currentUserMock.Setup(c => c.Name).Returns("userName");
 
             var auditUpdater = new AuditUpdater(dateTimeServiceMock.Object, currentUserMock.Object);

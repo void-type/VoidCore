@@ -16,7 +16,7 @@ namespace VoidCore.Test.AspNet.ClientApp
             var appSettingsMock = new Mock<IApplicationSettings>();
             appSettingsMock.Setup(a => a.Name).Returns("AppName");
 
-            var currentUser = new Mock<ICurrentUser>();
+            var currentUser = new Mock<ICurrentUserAccessor>();
             currentUser
                 .Setup(mock => mock.Name)
                 .Returns("UserName");

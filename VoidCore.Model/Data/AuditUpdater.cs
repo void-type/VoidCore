@@ -11,7 +11,7 @@ namespace VoidCore.Model.Data
         /// </summary>
         /// <param name="now">A datetime service that provides the time the entity was updated</param>
         /// <param name="currentUser">An accessor for the current user's properties</param>
-        public AuditUpdater(IDateTimeService now, ICurrentUser currentUser)
+        public AuditUpdater(IDateTimeService now, ICurrentUserAccessor currentUser)
         {
             _now = now;
             _currentUser = currentUser;
@@ -32,7 +32,7 @@ namespace VoidCore.Model.Data
             auditableEntity.ModifiedBy = _currentUser.Name;
         }
 
-        private readonly ICurrentUser _currentUser;
+        private readonly ICurrentUserAccessor _currentUser;
         private readonly IDateTimeService _now;
     }
 }

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using VoidCore.Model.ClientApp;
-using VoidCore.Model.DomainEvents;
+using VoidCore.Model.Domain;
 using VoidCore.Model.Logging;
 
 namespace VoidCore.AspNet.ClientApp
@@ -21,7 +21,7 @@ namespace VoidCore.AspNet.ClientApp
             /// <param name="httpContextAccessor">Accessor for the current httpcontext</param>
             /// <param name="antiforgery">The ASP.NET antiforgery object</param>
             /// <param name="currentUser">UI-friendly user name</param>
-            public Handler(IApplicationSettings applicationSettings, IHttpContextAccessor httpContextAccessor, IAntiforgery antiforgery, ICurrentUser currentUser)
+            public Handler(IApplicationSettings applicationSettings, IHttpContextAccessor httpContextAccessor, IAntiforgery antiforgery, ICurrentUserAccessor currentUser)
             {
                 _applicationSettings = applicationSettings;
                 _httpContextAccessor = httpContextAccessor;
@@ -41,49 +41,10 @@ namespace VoidCore.AspNet.ClientApp
                 return Result.Ok(applicationInfo);
             }
 
-            private readonly IApplicationSettings _applicationSettings;
-            private readonly IHttpContextAccessor _httpContextAccessor;
             private readonly IAntiforgery _antiforgery;
-            private readonly ICurrentUser _currentUser;
-        }
-
-        /// <summary>
-        /// Request for GetApplicationInfo handler
-        /// </summary>
-        public class Request { }
-
-        /// <summary>
-        /// Information for bootstrapping a web client.
-        /// </summary>
-        public class WebApplicationInfo
-        {
-            /// <summary>
-            /// The UI-friendly application name.
-            /// </summary>
-            public string ApplicationName { get; }
-
-            /// <summary>
-            /// The value of the header antiforgery token
-            /// </summary>
-            /// <value></value>
-            public string AntiforgeryToken { get; }
-
-            /// <summary>
-            /// The header name of the antiforgery token
-            /// </summary>
-            /// <value></value>
-            public string AntiforgeryTokenHeaderName { get; }
-
-            /// The current user
-            public ICurrentUser User { get; }
-
-            internal WebApplicationInfo(string applicationName, string antiforgeryToken, string antiforgeryTokenHeaderName, ICurrentUser user)
-            {
-                ApplicationName = applicationName;
-                AntiforgeryToken = antiforgeryToken;
-                AntiforgeryTokenHeaderName = antiforgeryTokenHeaderName;
-                User = user;
-            }
+            private readonly IApplicationSettings _applicationSettings;
+            private readonly ICurrentUserAccessor _currentUser;
+            private readonly IHttpContextAccessor _httpContextAccessor;
         }
 
         /// <summary>
@@ -107,6 +68,45 @@ namespace VoidCore.AspNet.ClientApp
                     $"UserAuthorizedAs: {string.Join(", ", successfulResult.Value.User.AuthorizedAs)}");
 
                 base.OnSuccess(request, successfulResult);
+            }
+        }
+
+        /// <summary>
+        /// Request for GetApplicationInfo handler
+        /// </summary>
+        public class Request { }
+
+        /// <summary>
+        /// Information for bootstrapping a web client.
+        /// </summary>
+        public class WebApplicationInfo
+        {
+            /// <summary>
+            /// The value of the header antiforgery token
+            /// </summary>
+            /// <value></value>
+            public string AntiforgeryToken { get; }
+
+            /// <summary>
+            /// The header name of the antiforgery token
+            /// </summary>
+            /// <value></value>
+            public string AntiforgeryTokenHeaderName { get; }
+
+            /// <summary>
+            /// The UI-friendly application name.
+            /// </summary>
+            public string ApplicationName { get; }
+
+            /// The current user
+            public ICurrentUserAccessor User { get; }
+
+            internal WebApplicationInfo(string applicationName, string antiforgeryToken, string antiforgeryTokenHeaderName, ICurrentUserAccessor user)
+            {
+                ApplicationName = applicationName;
+                AntiforgeryToken = antiforgeryToken;
+                AntiforgeryTokenHeaderName = antiforgeryTokenHeaderName;
+                User = user;
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿using VoidCore.Model.DomainEvents;
+﻿using VoidCore.Model.Domain;
 
 namespace VoidCore.Model.Validation
 {
