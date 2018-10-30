@@ -8,7 +8,7 @@
     <Copyright>Copyright 2018 Jeff Schreiner</Copyright>
     <PackageTags>web dotnet .net asp aspnet</PackageTags>
 
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
 
     <IncludeSymbols>true</IncludeSymbols>

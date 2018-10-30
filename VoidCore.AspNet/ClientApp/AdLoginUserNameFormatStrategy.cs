@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 
 namespace VoidCore.AspNet.ClientApp
@@ -15,7 +16,11 @@ namespace VoidCore.AspNet.ClientApp
         /// <returns></returns>
         public string Format(string adLogin)
         {
-            return adLogin?.Split("\\").LastOrDefault() ?? "Unknown";
+            var lastLoginPart = adLogin?
+                .Split(new [] { "\\" }, StringSplitOptions.None)
+                .LastOrDefault();
+
+            return string.IsNullOrWhiteSpace(lastLoginPart) ? "Unknown" : lastLoginPart;
         }
     }
 }
