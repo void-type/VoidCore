@@ -3,7 +3,8 @@ using System;
 namespace VoidCore.Model.Domain
 {
     /// <summary>
-    /// Extensions for the Maybe class. Modified from https://github.com/vkhorikov/CSharpFunctionalExtensions
+    /// Extensions for the Maybe class.
+    /// Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
     public static class MaybeExtensions
     {

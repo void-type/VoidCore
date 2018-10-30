@@ -5,8 +5,9 @@ using System.Linq;
 namespace VoidCore.Model.Domain
 {
     /// <summary>
-    /// Prevent primitive obsession by creating named types for any value. Provides equality comparison via a list of comparable components. These work
-    /// best with immutable properties. Modified from https://github.com/vkhorikov/CSharpFunctionalExtensions
+    /// Prevent primitive obsession by creating named types for any value.
+    /// Provides equality comparison via a list of comparable components. These work best with immutable properties.
+    /// Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
     public abstract class ValueObject
     {
@@ -55,7 +56,7 @@ namespace VoidCore.Model.Domain
                 throw new ArgumentException($"Invalid comparison of Value Objects of different types: {GetType()} and {obj.GetType()}");
             }
 
-            var valueObject = (ValueObject)obj;
+            var valueObject = (ValueObject) obj;
 
             return GetEqualityComponents().SequenceEqual(valueObject.GetEqualityComponents());
         }

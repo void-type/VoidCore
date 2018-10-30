@@ -3,8 +3,10 @@ using System;
 namespace VoidCore.Model.Domain
 {
     /// <summary>
-    /// A class for avoiding null return values from an operation. Provides conversion and equality for the inner type. Modified from https://github.com/vkhorikov/CSharpFunctionalExtensions
+    /// A class for avoiding null return values from an operation. Provides conversion and equality for the inner type.
+    /// Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
+    /// <typeparam name="T">The value of the maybe</typeparam>
     public sealed class Maybe<T> : IEquatable<Maybe<T>>
     {
         /// <summary>

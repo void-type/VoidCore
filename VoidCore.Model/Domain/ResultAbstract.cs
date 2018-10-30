@@ -3,7 +3,8 @@ using System.Collections.Generic;
 namespace VoidCore.Model.Domain
 {
     /// <summary>
-    /// Base class for Result classes. Modified from https://github.com/vkhorikov/CSharpFunctionalExtensions
+    /// Base class for Result classes.
+    /// Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
     public abstract class ResultAbstract : IResult
     {

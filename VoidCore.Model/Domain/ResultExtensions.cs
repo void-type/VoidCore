@@ -4,7 +4,8 @@ using System.Linq;
 namespace VoidCore.Model.Domain
 {
     /// <summary>
-    /// Extensions for the Result class Modified from https://github.com/vkhorikov/CSharpFunctionalExtensions
+    /// Extensions for the Result class.
+    /// Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
     public static class ResultExtensions
     {
@@ -26,7 +27,7 @@ namespace VoidCore.Model.Domain
         /// <returns>A combined result</returns>
         public static IResult Combine<T>(this IEnumerable<IResult<T>> results)
         {
-            return results.Select(result => (IResult)result).Combine();
+            return results.Select(result => (IResult) result).Combine();
         }
     }
 }

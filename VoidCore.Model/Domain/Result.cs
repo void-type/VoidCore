@@ -6,7 +6,7 @@ namespace VoidCore.Model.Domain
 {
     /// <summary>
     /// The result of a fallible operation that returns a value on success. Generally used with CQRS Queries or other non-void fallible operations.
-    /// Modified from https://github.com/vkhorikov/CSharpFunctionalExtensions
+    /// Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
     /// <typeparam name="T">The type of value to return on success</typeparam>
     public sealed class Result<T> : ResultAbstract, IResult<T>
@@ -49,16 +49,15 @@ namespace VoidCore.Model.Domain
             _value = value;
         }
 
-        internal Result(IEnumerable<IFailure> failures) : base(failures)
-        {
-        }
+        internal Result(IEnumerable<IFailure> failures) : base(failures) { }
 
         private T _value;
     }
 
     /// <summary>
-    /// The result of a fallible operation that does not return a value on success. Generally used with CQRS Commands or other void fallible
-    /// operations. Modified from https://github.com/vkhorikov/CSharpFunctionalExtensions
+    /// The result of a fallible operation that does not return a value on success.
+    /// Generally used with CQRS Commands or other void fallible operations.
+    /// Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
     public sealed class Result : ResultAbstract
     {
@@ -110,7 +109,7 @@ namespace VoidCore.Model.Domain
                 throw new ArgumentNullException(nameof(failure), "Failure must not be null for a failed result.");
             }
 
-            return Fail(new[] { failure });
+            return Fail(new [] { failure });
         }
 
         /// <summary>
@@ -125,7 +124,7 @@ namespace VoidCore.Model.Domain
                 throw new ArgumentNullException(nameof(failure), "Failure must not be null for a failed result.");
             }
 
-            return Fail<T>(new[] { failure });
+            return Fail<T>(new [] { failure });
         }
 
         /// <summary>
@@ -170,12 +169,8 @@ namespace VoidCore.Model.Domain
             return new Result<T>(value);
         }
 
-        private Result()
-        {
-        }
+        private Result() { }
 
-        private Result(IEnumerable<IFailure> failures) : base(failures)
-        {
-        }
+        private Result(IEnumerable<IFailure> failures) : base(failures) { }
     }
 }
