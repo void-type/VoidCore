@@ -15,8 +15,8 @@
     <IncludeSource>true</IncludeSource>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
-    <VersionPrefix>0.1.0</VersionPrefix>
-    <VersionSuffix>alpha-23</VersionSuffix>
+    <!-- <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionSuffix>alpha-23</VersionSuffix> -->
     <ReleaseNotes>See git commits since last release.</ReleaseNotes>
   </PropertyGroup>
 
