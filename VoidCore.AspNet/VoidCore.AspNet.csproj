@@ -7,17 +7,12 @@
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
     <Copyright>Copyright 2018 Jeff Schreiner</Copyright>
     <PackageTags>web dotnet .net asp aspnet</PackageTags>
+    <ReleaseNotes>See git commits since last release.</ReleaseNotes>
 
     <TargetFramework>netstandard2.0</TargetFramework>
-    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
-
     <IncludeSymbols>true</IncludeSymbols>
     <IncludeSource>true</IncludeSource>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-
-    <!-- <VersionPrefix>0.1.0</VersionPrefix>
-    <VersionSuffix>alpha-23</VersionSuffix> -->
-    <ReleaseNotes>See git commits since last release.</ReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
