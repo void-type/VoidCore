@@ -66,7 +66,7 @@ namespace VoidCore.AspNet.Configuration
 
                 return Task.FromResult(0);
             });
-            
+
             return app;
         }
 

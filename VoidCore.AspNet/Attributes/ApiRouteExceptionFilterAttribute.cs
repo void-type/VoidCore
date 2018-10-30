@@ -1,6 +1,6 @@
-using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System;
 using VoidCore.Model.Logging;
 using VoidCore.Model.Responses.Messages;
 
