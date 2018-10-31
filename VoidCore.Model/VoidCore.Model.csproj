@@ -3,10 +3,10 @@
     <PackageId>VoidCore.Model</PackageId>
     <Title>VoidCore.Model</Title>
     <Authors>Jeff Schreiner and git contributors</Authors>
-    <Description>A base model for buisness applications including actions, interfaces, and validation.</Description>
+    <Description>A model framework for building domain-driven buisness applications.</Description>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
-    <Copyright>Copyright 2018 Jeff Schreiner</Copyright>
-    <PackageTags>business domain model validation</PackageTags>
+    <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
+    <PackageTags>business logic;domain;ddd;model;validation;search;response</PackageTags>
     <ReleaseNotes>See git commits since last release.</ReleaseNotes>
 
     <TargetFramework>netstandard2.0</TargetFramework>

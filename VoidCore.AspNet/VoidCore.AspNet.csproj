@@ -3,10 +3,10 @@
     <PackageId>VoidCore.AspNet</PackageId>
     <Title>VoidCore.AspNet</Title>
     <Authors>Jeff Schreiner and git contributors</Authors>
-    <Description>Contains common files for building web applications.</Description>
+    <Description>Contains common code for configuring enterprise web/SPA applications on Asp.Net Core.</Description>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
-    <Copyright>Copyright 2018 Jeff Schreiner</Copyright>
-    <PackageTags>web dotnet .net asp aspnet</PackageTags>
+    <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
+    <PackageTags>web;dotnet;asp.net;aspnetcore;spa</PackageTags>
     <ReleaseNotes>See git commits since last release.</ReleaseNotes>
 
     <TargetFramework>netstandard2.0</TargetFramework>
