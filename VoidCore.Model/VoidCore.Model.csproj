@@ -6,12 +6,13 @@
     <Description>A model framework for building domain-driven buisness applications.</Description>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
     <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
+    <PackageLicenseUrl>https://github.com/void-type/VoidCore/blob/master/LICENSE</PackageLicenseUrl>
     <PackageTags>business logic;domain;ddd;model;validation;search;response</PackageTags>
+    <RepositoryUrl>https://github.com/void-type/VoidCore</RepositoryUrl>
     <ReleaseNotes>See git commits since last release.</ReleaseNotes>
 
     <TargetFramework>netstandard2.0</TargetFramework>
-    <IncludeSymbols>true</IncludeSymbols>
-    <IncludeSource>true</IncludeSource>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 </Project>

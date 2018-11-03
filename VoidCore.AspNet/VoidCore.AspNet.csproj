@@ -6,13 +6,14 @@
     <Description>Contains common code for configuring enterprise web/SPA applications on Asp.Net Core.</Description>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
     <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
+    <PackageLicenseUrl>https://github.com/void-type/VoidCore/blob/master/LICENSE</PackageLicenseUrl>
     <PackageTags>web;dotnet;asp.net;aspnetcore;spa</PackageTags>
+    <RepositoryUrl>https://github.com/void-type/VoidCore</RepositoryUrl>
     <ReleaseNotes>See git commits since last release.</ReleaseNotes>
 
     <TargetFramework>netstandard2.0</TargetFramework>
-    <IncludeSymbols>true</IncludeSymbols>
-    <IncludeSource>true</IncludeSource>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
   <ItemGroup>
