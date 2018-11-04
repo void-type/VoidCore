@@ -1,3 +1,3 @@
 Push-Location -Path "../VoidCore.Test"
-dotnet watch test
+dotnet watch test --configuration "Debug"
 Pop-Location

@@ -6,9 +6,6 @@
         {
             "label": "buildAllPkg",
             "command": "./buildAllPkg.ps1",
-            "args": [
-                "-PublicRelease"
-            ],
             "options": {
                 "cwd": "./Scripts"
             },
