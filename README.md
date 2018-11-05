@@ -315,7 +315,7 @@ There are many helpers to build an application with...
 
 ## Developers
 
-You will find everything you need to build and test this project in the Scripts folder.
+You will find everything you need to build and test this project in the build folder.
 
 There is a script to install and update global tools used to develop this project.
 
@@ -329,7 +329,7 @@ To use it you can:
 2. Deploy it to a local Nuget store via [nuget.exe](https://dist.nuget.org/win-x86-commandline/latest/nuget.exe)...
 
 ```powershell
-cd Scripts/
+cd build/
 ./buildAllPkg.ps1
 nuget init "VoidCore.Model/out" "/path/to/your/nuget/repo/"
 nuget init "VoidCore.AspNet/out" "/path/to/your/nuget/repo/"

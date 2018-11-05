@@ -22,6 +22,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Oo]ut/
+[Aa]rtifacts/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -267,5 +268,5 @@ __pycache__/
 app[Ss]ettings.*.json
 
 #Test Coverage files
-*.Test/coverage.*
-*.Test/coveragereport/
+**/*.Test/coverage.*
+**/*.Test/coveragereport/

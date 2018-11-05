@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VoidCore.Model\VoidCore.Model.csproj" />
-    <ProjectReference Include="..\VoidCore.AspNet\VoidCore.AspNet.csproj" />
+    <ProjectReference Include="..\..\src\VoidCore.Model\VoidCore.Model.csproj" />
+    <ProjectReference Include="..\..\src\VoidCore.AspNet\VoidCore.AspNet.csproj" />
   </ItemGroup>
 </Project>

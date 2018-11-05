@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoidCore.Model", "VoidCore.Model\VoidCore.Model.csproj", "{BA8E213E-1C7C-4E04-8161-B4607AE45DFF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoidCore.Model", "src\VoidCore.Model\VoidCore.Model.csproj", "{BA8E213E-1C7C-4E04-8161-B4607AE45DFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoidCore.AspNet", "VoidCore.AspNet\VoidCore.AspNet.csproj", "{3D5E3542-55FA-4981-87E4-23D87E7280CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoidCore.AspNet", "src\VoidCore.AspNet\VoidCore.AspNet.csproj", "{3D5E3542-55FA-4981-87E4-23D87E7280CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoidCore.Test", "VoidCore.Test\VoidCore.Test.csproj", "{A624C3C3-8147-4626-9E1E-457C123D1B1E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoidCore.Test", "tests\VoidCore.Test\VoidCore.Test.csproj", "{A624C3C3-8147-4626-9E1E-457C123D1B1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

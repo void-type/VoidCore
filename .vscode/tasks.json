@@ -7,7 +7,7 @@
             "label": "buildAllPkg",
             "command": "./buildAllPkg.ps1",
             "options": {
-                "cwd": "./Scripts"
+                "cwd": "./build"
             },
             "type": "shell",
             "group": {
@@ -22,7 +22,7 @@
             "label": "buildAllDebug",
             "command": "./buildAllDebug.ps1",
             "options": {
-                "cwd": "./Scripts"
+                "cwd": "./build"
             },
             "type": "shell",
             "group": "test",
@@ -34,7 +34,7 @@
             "label": "installAndUpdateTools",
             "command": "./installAndUpdateTools.ps1",
             "options": {
-                "cwd": "./Scripts"
+                "cwd": "./build"
             },
             "type": "shell",
             "group": "test"
@@ -43,7 +43,7 @@
             "label": "testCore",
             "command": "./testCore.ps1",
             "options": {
-                "cwd": "./Scripts"
+                "cwd": "./build"
             },
             "type": "shell",
             "group": "test",
@@ -55,7 +55,7 @@
             "label": "testCoreWatch",
             "command": "./testCoreWatch.ps1",
             "options": {
-                "cwd": "./Scripts"
+                "cwd": "./build"
             },
             "type": "shell",
             "group": "test",
