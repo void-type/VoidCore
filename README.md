@@ -331,6 +331,5 @@ To use it you can:
 ```powershell
 cd build/
 ./buildAllPkg.ps1
-nuget init "VoidCore.Model/out" "/path/to/your/nuget/repo/"
-nuget init "VoidCore.AspNet/out" "/path/to/your/nuget/repo/"
+nuget init "../artifacts" "/path/to/your/nuget/repo/"
 ```
