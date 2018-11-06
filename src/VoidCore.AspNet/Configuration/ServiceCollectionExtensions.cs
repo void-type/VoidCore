@@ -161,7 +161,7 @@ namespace VoidCore.AspNet.Configuration
         /// sslPort or Https URL in launchSettings.json. If no port is detected, this method will use the override supplied or 443.
         /// </summary>
         /// <param name="services">This service collection</param>
-        /// <param name="httpsPortOverride"></param>
+        /// <param name="httpsPortOverride">The HTTPS port to override anything configured before this point</param>
         public static void AddSecureTransport(this IServiceCollection services, int httpsPortOverride = 443)
         {
             services.AddHttpsRedirection(options =>

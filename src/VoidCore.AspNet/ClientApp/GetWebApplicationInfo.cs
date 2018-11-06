@@ -7,7 +7,7 @@ using VoidCore.Model.Logging;
 namespace VoidCore.AspNet.ClientApp
 {
     /// <summary>
-    /// A domain event group for getting information to boostrap a client application.
+    /// A domain event group for getting information to boostrap a web SPA client.
     /// </summary>
     public class GetWebApplicationInfo
     {
@@ -56,7 +56,7 @@ namespace VoidCore.AspNet.ClientApp
             public Logger(ILoggingService logger) : base(logger) { }
 
             /// <summary>
-            /// Override the base OnSuccess to log some information about the resultant IApplicationInfo.
+            /// Overrides the base OnSuccess to log some information about the resultant application information.
             /// </summary>
             /// <param name="request">The request of the event</param>
             /// <param name="successfulResult">The successful result of the event</param>
@@ -84,13 +84,11 @@ namespace VoidCore.AspNet.ClientApp
             /// <summary>
             /// The value of the header antiforgery token
             /// </summary>
-            /// <value></value>
             public string AntiforgeryToken { get; }
 
             /// <summary>
             /// The header name of the antiforgery token
             /// </summary>
-            /// <value></value>
             public string AntiforgeryTokenHeaderName { get; }
 
             /// <summary>
@@ -98,7 +96,9 @@ namespace VoidCore.AspNet.ClientApp
             /// </summary>
             public string ApplicationName { get; }
 
+            /// <summary>
             /// The current user
+            /// </summary>
             public ICurrentUserAccessor User { get; }
 
             internal WebApplicationInfo(string applicationName, string antiforgeryToken, string antiforgeryTokenHeaderName, ICurrentUserAccessor user)

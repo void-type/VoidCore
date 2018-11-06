@@ -8,7 +8,7 @@ namespace VoidCore.AspNet.Configuration
     public static class ConfigHelpers
     {
         /// <summary>
-        /// Strips an ending from a class type name. This is useful for convention-based naming to replace hard-coded strings.
+        /// Strips an ending from a class type name. This is useful for convention-based naming to replace hardcoded strings.
         /// Ex: AuthorizationSettings, "settings" => "Authorization"
         /// Ex: Authorization, "settings" => "Authorization"
         /// Ex: AuthorizationSettings, null => "AuthorizationSettings"

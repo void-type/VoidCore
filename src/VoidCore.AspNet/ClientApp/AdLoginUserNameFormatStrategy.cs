@@ -12,8 +12,8 @@ namespace VoidCore.AspNet.ClientApp
         /// Get the user name from a fully-qualified AD login.
         /// Eg: DOMAIN1\UserName returns UserName
         /// </summary>
-        /// <param name="adLogin"></param>
-        /// <returns></returns>
+        /// <param name="adLogin">A fully-qualified AD login like DOMAIN1\UserName</param>
+        /// <returns>The user name</returns>
         public string Format(string adLogin)
         {
             var lastLoginPart = adLogin?

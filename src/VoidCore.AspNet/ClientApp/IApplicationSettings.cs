@@ -15,7 +15,6 @@ namespace VoidCore.AspNet.ClientApp
         /// <summary>
         /// Policies represented as a key of policyName and names of allowed roles.
         /// </summary>
-        /// <value></value>
         Dictionary<string, List<string>> AuthorizationPolicies { get; }
     }
 }

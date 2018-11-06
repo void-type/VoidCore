@@ -7,14 +7,14 @@ using VoidCore.Model.Responses.Messages;
 namespace VoidCore.AspNet.Attributes
 {
     /// <summary>
-    /// A filter that handles exceptions for API routes by logging and sending a data message.
+    /// A filter that handles exceptions for API routes by logging and responding with a user message.
     /// </summary>
     public class ApiRouteExceptionFilterAttribute : ExceptionFilterAttribute
     {
         /// <summary>
         /// Construct a new ApiExceptionFilterAttribute
         /// </summary>
-        /// <param name="logger">Logging service</param>
+        /// <param name="logger">A Logging service</param>
         public ApiRouteExceptionFilterAttribute(ILoggingService logger)
         {
             _logger = logger;

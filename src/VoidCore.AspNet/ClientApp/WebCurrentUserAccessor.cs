@@ -8,11 +8,13 @@ using VoidCore.Model.ClientApp;
 namespace VoidCore.AspNet.ClientApp
 {
     /// <summary>
-    /// Access the current user via HttpContext.
+    /// Access the current user via HttpContext. Accessors can be added to DI as a singleton.
     /// </summary>
     public class WebCurrentUserAccessor : ICurrentUserAccessor
     {
-        /// <inheritdoc/>
+        /// <summary>
+        /// Returns the names of policies that the current user is authorized for.
+        /// </summary>
         public IEnumerable<string> AuthorizedAs => _applicationSettings.AuthorizationPolicies
             .Where(policy => _authorizationService.AuthorizeAsync(User, policy.Key).Result.Succeeded)
             .Select(policy => policy.Key);

@@ -9,6 +9,7 @@ namespace VoidCore.AspNet.Logging
 {
     /// <summary>
     /// A strategy to log within HTTP Requests.
+    /// This enriches the entries with information about the request such as current user name and request trace.
     /// </summary>
     public class HttpRequestLoggingStrategy : ILoggingStrategy
     {
@@ -27,7 +28,7 @@ namespace VoidCore.AspNet.Logging
         /// Prepend the HTTP request method and path to concatenated messages. Messages are joined by spaces.
         /// </summary>
         /// <param name="messages">Array of messages to log</param>
-        /// <returns></returns>
+        /// <returns>The enriched log entry</returns>
         public string Log(IEnumerable<string> messages)
         {
             var request = _httpContext.Request;
@@ -45,7 +46,7 @@ namespace VoidCore.AspNet.Logging
         /// </summary>
         /// <param name="ex">The exception to log</param>
         /// <param name="messages">Array of messages to log</param>
-        /// <returns></returns>
+        /// <returns>The enriched log entry</returns>
         public string Log(Exception ex, IEnumerable<string> messages)
         {
             var eventArray = messages.Concat(FlattenExceptionMessages(ex));

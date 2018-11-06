@@ -11,31 +11,31 @@ namespace VoidCore.AspNet.ClientApp
     public class HttpResponder
     {
         /// <summary>
-        /// Create a ObjectResult based on pass or fail of the result. Returns the success value on success.
+        /// Create a ObjectResult based on pass or fail of the domain result. Returns the success value on success.
         /// </summary>
-        /// <param name="result">The result to send</param>
+        /// <param name="result">The domain result</param>
         /// <typeparam name="TSuccessValue">The type of success value in the result</typeparam>
-        /// <returns></returns>
+        /// <returns>An IActionResult</returns>
         public IActionResult Respond<TSuccessValue>(Result<TSuccessValue> result)
         {
             return result.IsSuccess ? Ok(result.Value) : Failure(result);
         }
 
         /// <summary>
-        /// Create an ObjectResult based on pass or fail of the result.
+        /// Create an ObjectResult based on pass or fail of the domain result. Returns an empty 200 on success.
         /// </summary>
-        /// <param name="result">The result to send</param>
-        /// <returns></returns>
+        /// <param name="result">The domain result</param>
+        /// <returns>An IActionResult</returns>
         public IActionResult Respond(Result result)
         {
             return result.IsSuccess ? Ok(null) : Failure(result);
         }
 
         /// <summary>
-        /// Respond with an object.
+        /// Respond with an object in an Object result. Always responds with a successful 200.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <param name="obj">An object</param>
+        /// <returns>An IActionResult</returns>
         public IActionResult Respond(object obj)
         {
             return Ok(obj);
@@ -44,8 +44,8 @@ namespace VoidCore.AspNet.ClientApp
         /// <summary>
         /// Create a downloadable FileContentResult.
         /// </summary>
-        /// <param name="result">The result to send</param>
-        /// <returns></returns>
+        /// <param name="result">The domain result</param>
+        /// <returns>An IActionResult</returns>
         public IActionResult RespondWithFile(Result<ISimpleFile> result)
         {
             if (result.IsSuccess)
