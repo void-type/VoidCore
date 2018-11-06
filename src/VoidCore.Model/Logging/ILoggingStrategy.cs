@@ -11,16 +11,16 @@ namespace VoidCore.Model.Logging
         /// <summary>
         /// Transform an array of messages to a string.
         /// </summary>
-        /// <param name="messages"></param>
-        /// <returns></returns>
+        /// <param name="messages">A collection of messages to log</param>
+        /// <returns>The enriched and/or formatted log entry</returns>
         string Log(IEnumerable<string> messages);
 
         /// <summary>
         /// Transform an array of messages and exception to a string.
         /// </summary>
-        /// <param name="ex"></param>
-        /// <param name="messages"></param>
-        /// <returns></returns>
+        /// <param name="ex">An exception to log</param>
+        /// <param name="messages">A collection of messages to log</param>
+        /// <returns>The enriched and/or formatted log entry</returns>
         string Log(Exception ex, IEnumerable<string> messages);
     }
 }

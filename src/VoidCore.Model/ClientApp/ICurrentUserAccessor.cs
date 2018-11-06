@@ -10,13 +10,11 @@ namespace VoidCore.Model.ClientApp
         /// <summary>
         /// UI-friendly name for the current user
         /// </summary>
-        /// <value></value>
         string Name { get; }
 
         /// <summary>
-        /// Authorization policies that the user fulfills.
+        /// Names of the authorization policies that the user fulfills.
         /// </summary>
-        /// <value></value>
         IEnumerable<string> AuthorizedAs { get; }
     }
 }

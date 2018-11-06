@@ -8,8 +8,8 @@ namespace VoidCore.Model.Responses.Files
         /// <summary>
         /// Create a new file from a byte array. Useful for binary files.
         /// </summary>
-        /// <param name="fileContent"></param>
-        /// <param name="fileName"></param>
+        /// <param name="fileContent">The byte representation of the file contents</param>
+        /// <param name="fileName">The name of the file</param>
         public SimpleFile(byte[] fileContent, string fileName)
         {
             Content = fileContent;
@@ -20,8 +20,8 @@ namespace VoidCore.Model.Responses.Files
         /// Create a new file from string content. Useful for human-readable text files.
         /// Uses UTF8 encoding.
         /// </summary>
-        /// <param name="fileContent"></param>
-        /// <param name="fileName"></param>
+        /// <param name="fileContent">The string representation of the file contents</param>
+        /// <param name="fileName">The name of the file</param>
         public SimpleFile(string fileContent, string fileName)
         {
             Content = Encoding.UTF8.GetBytes(fileContent);

@@ -15,7 +15,6 @@ namespace VoidCore.Model.Domain
         /// </summary>
         /// <param name="request">The validated request</param>
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-        /// <returns></returns>
         public override Task<Result<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default(CancellationToken))
         {
             return Task.FromResult(HandleSync(request));

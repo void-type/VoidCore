@@ -3,8 +3,8 @@ namespace VoidCore.Model.Domain
     /// <summary>
     /// A post processor with separate channels for successful events, failed events, and both.
     /// </summary>
-    /// <typeparam name="TRequest"></typeparam>
-    /// <typeparam name="TResponse"></typeparam>
+    /// <typeparam name="TRequest">The request of the event</typeparam>
+    /// <typeparam name="TResponse">The response of the event</typeparam>
     public abstract class PostProcessorAbstract<TRequest, TResponse> : IPostProcessor<TRequest, TResponse>
     {
         /// <summary>

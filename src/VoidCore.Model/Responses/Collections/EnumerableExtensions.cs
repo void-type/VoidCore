@@ -13,7 +13,7 @@ namespace VoidCore.Model.Responses.Collections
         /// </summary>
         /// <param name="items">Collection of items</param>
         /// <typeparam name="TEntity">Type of entity</typeparam>
-        /// <returns></returns>
+        /// <returns>A new ItemSet of these items</returns>
         public static IItemSet<TEntity> ToItemSet<TEntity>(this IEnumerable<TEntity> items)
         {
             return new ItemSet<TEntity>(items.ToList());
@@ -26,7 +26,7 @@ namespace VoidCore.Model.Responses.Collections
         /// <param name="page">The page number to select of the set</param>
         /// <param name="take">The number of items per page</param>
         /// <typeparam name="TEntity">Type of entity</typeparam>
-        /// <returns></returns>
+        /// <returns>A new ItemSetPage of these items</returns>
         public static IItemSetPage<TEntity> ToItemSetPage<TEntity>(this IEnumerable<TEntity> items, int page, int take)
         {
             return new ItemSetPage<TEntity>(items.ToList(), page, take);

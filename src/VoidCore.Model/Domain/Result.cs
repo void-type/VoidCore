@@ -14,7 +14,6 @@ namespace VoidCore.Model.Domain
         /// <summary>
         /// The success value
         /// </summary>
-        /// <value></value>
         /// <exception cref="System.InvalidOperationException">Throws an InvalidOperationException if accessed on a failed Result.</exception>
         public T Value
         {
@@ -32,7 +31,7 @@ namespace VoidCore.Model.Domain
         /// <summary>
         /// Implicitly convert a typed Result to an untyped one.
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="result">The result to convert</param>
         public static implicit operator Result(Result<T> result)
         {
             return result.IsSuccess ? Result.Ok() : Result.Fail(result.Failures);
@@ -130,8 +129,8 @@ namespace VoidCore.Model.Domain
         /// <summary>
         /// Create a new untyped result with a single failure using strings.
         /// </summary>
-        /// <param name="errorMessage"></param>
-        /// <param name="uiHandle"></param>
+        /// <param name="errorMessage">The error message to put into the failed result</param>
+        /// <param name="uiHandle">The uiHandle to put into the failed result</param>
         /// <returns>A new result</returns>
         public static Result Fail(string errorMessage, string uiHandle = null)
         {
@@ -141,8 +140,8 @@ namespace VoidCore.Model.Domain
         /// <summary>
         /// Create a new typed result with a single failure using strings.
         /// </summary>
-        /// <param name="errorMessage"></param>
-        /// <param name="uiHandle"></param>
+        /// <param name="errorMessage">The error message to put into the failed result</param>
+        /// <param name="uiHandle">The uiHandle to put into the failed result</param>
         /// <returns>A new result</returns>
         public static Result<T> Fail<T>(string errorMessage, string uiHandle = null)
         {

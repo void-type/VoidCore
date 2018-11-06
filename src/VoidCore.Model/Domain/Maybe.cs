@@ -164,7 +164,7 @@ namespace VoidCore.Model.Domain
         /// <summary>
         /// Construct a Maybe with value.
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="value">The value to create the Maybe from</param>
         private Maybe(T value)
         {
             _value = value == null ? null : new MaybeValueWrapper(value);
@@ -194,7 +194,7 @@ namespace VoidCore.Model.Domain
         /// Convert an object to a Maybe of obj.
         /// </summary>
         /// <param name="obj">The object to convert</param>
-        /// <returns>A new Maybe of T of obj</returns>
+        /// <returns>A new Maybe of the type of the object</returns>
         public static Maybe<T> From<T>(T obj)
         {
             return Maybe<T>.From(obj);

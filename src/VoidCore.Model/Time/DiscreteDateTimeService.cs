@@ -10,7 +10,7 @@ namespace VoidCore.Model.Time
         /// <summary>
         /// Make a new discrete date time service.
         /// </summary>
-        /// <param name="when"></param>
+        /// <param name="when">The static moment in time to return</param>
         public DiscreteDateTimeService(DateTime when)
         {
             _when = when;

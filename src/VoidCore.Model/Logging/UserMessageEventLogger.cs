@@ -14,7 +14,6 @@ namespace VoidCore.Model.Logging
         /// Construct a new logger.
         /// </summary>
         /// <param name="logger">A service to log to</param>
-        /// <returns></returns>
         public UserMessageEventLogger(ILoggingService logger) : base(logger) { }
 
         /// <inheritdoc/>

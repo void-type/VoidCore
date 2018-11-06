@@ -14,27 +14,27 @@ namespace VoidCore.Model.Data
         TEntity New { get; }
 
         /// <summary>
-        /// Add a single entity.
+        /// Add a single entity to the repository.
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">An entity</param>
         void Add(TEntity entity);
 
         /// <summary>
-        /// Add multiple entities at once.
+        /// Add multiple entities at once to the repository.
         /// </summary>
-        /// <param name="entities"></param>
+        /// <param name="entities">A collection of entities</param>
         void AddRange(IEnumerable<TEntity> entities);
 
         /// <summary>
-        /// Remove one entity.
+        /// Remove one entity from the repository.
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">An entity</param>
         void Remove(TEntity entity);
 
         /// <summary>
-        /// Remove multiple entities at once.
+        /// Remove multiple entities at once from the repository.
         /// </summary>
-        /// <param name="entities"></param>
+        /// <param name="entities">A collection of entities</param>
         void RemoveRange(IEnumerable<TEntity> entities);
     }
 }

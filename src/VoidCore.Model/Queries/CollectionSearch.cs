@@ -15,7 +15,7 @@ namespace VoidCore.Model.Queries
         /// </summary>
         /// <param name="searchText">The raw search string to parse for terms</param>
         /// <param name="searchSeparator">The separator to split search terms. Default will split on all whitespace characters.</param>
-        /// <returns></returns>
+        /// <returns>A collection of terms that can be searched for</returns>
         public static IEnumerable<string> ParseStringForTerms(string searchText, char[] searchSeparator = null)
         {
             if (searchText == null)
@@ -34,7 +34,7 @@ namespace VoidCore.Model.Queries
         /// <param name="searchTerms">An array of text terms to search by</param>
         /// <param name="propertySelectors">An array of selectors for each property to search of the entity</param>
         /// <typeparam name="TEntity">The type of entity to search</typeparam>
-        /// <returns></returns>
+        /// <returns>Entities that have all search terms in any selected property</returns>
         public static IQueryable<TEntity> SearchStringProperties<TEntity>(this IQueryable<TEntity> entities, IEnumerable<string> searchTerms, params Func<TEntity, string>[] propertySelectors)
         {
             return entities.Where(entity =>
@@ -51,7 +51,7 @@ namespace VoidCore.Model.Queries
         /// <param name="searchString">A string containing whitespace delimited text terms to search by</param>
         /// <param name="propertySelectors">An array of selectors for each property to search of the entity</param>
         /// <typeparam name="TEntity">The type of entity to search</typeparam>
-        /// <returns></returns>
+        /// <returns>Entities that have all search terms in any selected property</returns>
         public static IQueryable<TEntity> SearchStringProperties<TEntity>(this IQueryable<TEntity> entities, string searchString, params Func<TEntity, string>[] propertySelectors)
         {
             var searchTerms = ParseStringForTerms(searchString);

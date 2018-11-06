@@ -3,7 +3,7 @@
 namespace VoidCore.Model.Data
 {
     /// <summary>
-    /// A persistent repository of objects that can be queried.
+    /// A repository of entities that can be queried.
     /// </summary>
     /// <typeparam name="TEntity">The type of entity stored</typeparam>
     public interface IReadOnlyRepository<out TEntity> where TEntity : class

@@ -73,7 +73,7 @@ namespace VoidCore.Model.Domain
         /// <param name="defaultValue">What to return if there isn't a value in the Maybe</param>
         /// <typeparam name="T">The type of the original value</typeparam>
         /// <typeparam name="TNew">The type of the new value</typeparam>
-        /// <returns></returns>
+        /// <returns>The value of the maybe or null if there is no value</returns>
         public static TNew Unwrap<T, TNew>(this Maybe<T> maybe, Func<T, TNew> selector, TNew defaultValue = default(TNew))
         {
             return maybe.HasValue ?

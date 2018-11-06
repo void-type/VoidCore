@@ -8,7 +8,6 @@
         /// <summary>
         /// The UI-friendly message to send to the client.
         /// </summary>
-        /// <value></value>
         string Message { get; }
     }
 }

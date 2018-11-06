@@ -11,7 +11,7 @@
         /// <summary>
         /// Create a new message.
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The user message to display</param>
         public UserMessage(string message)
         {
             Message = message;

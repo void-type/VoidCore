@@ -11,7 +11,7 @@ namespace VoidCore.Model.Validation
         /// Validate the entity and return a result.
         /// </summary>
         /// <param name="validatableEntity">The entity to validate</param>
-        /// <returns></returns>
+        /// <returns>The result of running the rule against the entity</returns>
         IResult Run(TValidatableEntity validatableEntity);
     }
 }

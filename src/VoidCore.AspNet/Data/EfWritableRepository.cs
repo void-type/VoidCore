@@ -21,7 +21,6 @@ namespace VoidCore.AspNet.Data
         /// Construct a new EfWritableRepository.
         /// </summary>
         /// <param name="context">The inner DbContext</param>
-        /// <returns></returns>
         public EfWritableRepository(DbContext context) : base(context) { }
 
         /// <inheritdoc/>

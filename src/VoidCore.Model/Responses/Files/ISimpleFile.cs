@@ -13,13 +13,11 @@
         /// <summary>
         /// The name to save the file as on the client.
         /// </summary>
-        /// <value></value>
         string Name { get; }
 
         /// <summary>
         /// Decodes the content bytes as a UTF8 string.
         /// </summary>
-        /// <value></value>
         string ContentAsString { get; }
     }
 }

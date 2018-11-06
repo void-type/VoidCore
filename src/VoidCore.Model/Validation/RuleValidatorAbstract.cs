@@ -38,7 +38,7 @@ namespace VoidCore.Model.Validation
         /// </summary>
         /// <param name="errorMessage">The message to display to the user</param>
         /// <param name="uiHandle">The UI field name to tie the error to</param>
-        /// <returns></returns>
+        /// <returns>A rule builder to continue building this rule</returns>
         protected IRuleBuilder<TValidatableEntity> CreateRule(string errorMessage, string uiHandle)
         {
             var rule = new Rule<TValidatableEntity>(validatable => new Failure(errorMessage, uiHandle));
@@ -51,7 +51,7 @@ namespace VoidCore.Model.Validation
         /// </summary>
         /// <param name="errorMessageBuilder">The message to display to the user</param>
         /// <param name="uiHandleBuilder">The UI field name to tie the error to</param>
-        /// <returns></returns>
+        /// <returns>A rule builder to continue building this rule</returns>
         protected IRuleBuilder<TValidatableEntity> CreateRule(Func<TValidatableEntity, string> errorMessageBuilder, Func<TValidatableEntity, string> uiHandleBuilder)
         {
             var rule = new Rule<TValidatableEntity>(validatable => new Failure(errorMessageBuilder(validatable), uiHandleBuilder(validatable)));
@@ -64,7 +64,7 @@ namespace VoidCore.Model.Validation
         /// </summary>
         /// <param name="errorMessageBuilder">The message to display to the user</param>
         /// <param name="uiHandle">The UI field name to tie the error to</param>
-        /// <returns></returns>
+        /// <returns>A rule builder to continue building this rule</returns>
         protected IRuleBuilder<TValidatableEntity> CreateRule(Func<TValidatableEntity, string> errorMessageBuilder, string uiHandle)
         {
             var rule = new Rule<TValidatableEntity>(validatable => new Failure(errorMessageBuilder(validatable), uiHandle));
@@ -77,7 +77,7 @@ namespace VoidCore.Model.Validation
         /// </summary>
         /// <param name="errorMessage">The message to display to the user</param>
         /// <param name="uiHandleBuilder">The UI field name to tie the error to</param>
-        /// <returns></returns>
+        /// <returns>A rule builder to continue building this rule</returns>
         protected IRuleBuilder<TValidatableEntity> CreateRule(string errorMessage, Func<TValidatableEntity, string> uiHandleBuilder)
         {
             var rule = new Rule<TValidatableEntity>(validatable => new Failure(errorMessage, uiHandleBuilder(validatable)));
