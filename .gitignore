@@ -268,5 +268,4 @@ __pycache__/
 app[Ss]ettings.*.json
 
 #Test Coverage files
-**/*.Test/coverage.*
-**/*.Test/coveragereport/
+coverage/
