@@ -170,46 +170,46 @@ namespace VoidCore.Test.Model.Domain
             Assert.Equal("event failed", result.Failures.Single().Message);
             processorMock.Verify(p => p.Process(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()), Times.Once());
         }
-    }
 
-    public class TestEventFail : EventHandlerAbstract<TestRequest, TestResponse>
-    {
-        public override async Task<Result<TestResponse>> Handle(TestRequest validRequest, CancellationToken cancellationToken = default(CancellationToken))
+        internal class TestEventFail : EventHandlerAbstract<TestRequest, TestResponse>
         {
-            await Task.Run(() => Thread.Sleep(10));
-            return Result.Fail<TestResponse>("event failed");
+            public override async Task<Result<TestResponse>> Handle(TestRequest validRequest, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                await Task.Run(() => Thread.Sleep(10));
+                return Result.Fail<TestResponse>("event failed");
+            }
         }
-    }
 
-    public class TestEventOk : EventHandlerAbstract<TestRequest, TestResponse>
-    {
-        public override async Task<Result<TestResponse>> Handle(TestRequest validRequest, CancellationToken cancellationToken = default(CancellationToken))
+        internal class TestEventOk : EventHandlerAbstract<TestRequest, TestResponse>
         {
-            await Task.Run(() => Thread.Sleep(10));
-            return Result.Ok(new TestResponse { Name = "success" });
+            public override async Task<Result<TestResponse>> Handle(TestRequest validRequest, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                await Task.Run(() => Thread.Sleep(10));
+                return Result.Ok(new TestResponse { Name = "success" });
+            }
         }
-    }
 
-    public class TestEventSyncFail : EventHandlerSyncAbstract<TestRequest, TestResponse>
-    {
-        protected override Result<TestResponse> HandleSync(TestRequest request)
+        internal class TestEventSyncFail : EventHandlerSyncAbstract<TestRequest, TestResponse>
         {
-            return Result.Fail<TestResponse>("event failed");
+            protected override Result<TestResponse> HandleSync(TestRequest request)
+            {
+                return Result.Fail<TestResponse>("event failed");
+            }
         }
-    }
 
-    public class TestEventSyncOk : EventHandlerSyncAbstract<TestRequest, TestResponse>
-    {
-        protected override Result<TestResponse> HandleSync(TestRequest request)
+        internal class TestEventSyncOk : EventHandlerSyncAbstract<TestRequest, TestResponse>
         {
-            return Result.Ok(new TestResponse { Name = "success" });
+            protected override Result<TestResponse> HandleSync(TestRequest request)
+            {
+                return Result.Ok(new TestResponse { Name = "success" });
+            }
         }
-    }
 
-    public class TestRequest { }
+        public class TestRequest { }
 
-    public class TestResponse
-    {
-        public string Name { get; set; }
+        public class TestResponse
+        {
+            public string Name { get; set; }
+        }
     }
 }
