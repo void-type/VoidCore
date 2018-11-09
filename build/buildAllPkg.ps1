@@ -25,10 +25,11 @@ Stop-OnError
 Pop-Location
 
 # Pack nugets
-"../src/VoidCore.Model",
-"../src/VoidCore.AspNet" |
+Get-ChildItem -Path "../src" |
+  Where-Object { (Test-Path -Path "$($_.FullName)/*.csproj") -eq $true } |
+  Select-Object -ExpandProperty Name |
   ForEach-Object {
-  Push-Location -Path "$_"
+  Push-Location -Path "../src/$_"
   InheritDoc --base "./bin/Release/" --overwrite
   Stop-OnError
   dotnet pack --configuration "Release" --no-build --output "../../artifacts" /p:PublicRelease=true
