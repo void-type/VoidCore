@@ -92,7 +92,7 @@ public class GetPerson
     // A validator for the request
     public class RequestValidator : RuleValidatorAbstract<Request>
     {
-        protected override void BuildRules()
+        public RequestValidator()
         {
             CreateRule("Id is required.", "id")
                 .InvalidWhen(request => string.IsNullOrWhiteSpace(request.Id));
@@ -136,7 +136,7 @@ RuleValidatorAbstract handles the inner logic of simple requests and allows for 
 ```csharp
 class CreatePersonValidator : RuleValidatorAbstract<Entity>
 {
-    protected override void BuildRules()
+    public CreatePersonValidator()
     {
         CreateRule("Name is required.", "name")
             .InvalidWhen(entity => string.IsNullOrWhitespace(entity.Name));

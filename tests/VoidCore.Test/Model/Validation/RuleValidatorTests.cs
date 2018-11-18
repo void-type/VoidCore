@@ -77,9 +77,19 @@ namespace VoidCore.Test.Model.Validation
             Assert.False(result.Failures.Any());
         }
 
+        internal class Entity
+        {
+            public string SomeProperty { get; set; }
+        }
+
+        internal class DerivedEntity : Entity
+        {
+
+        }
+
         internal class ValidatorLogicTestValidator : RuleValidatorAbstract<string>
         {
-            protected override void BuildRules()
+            public ValidatorLogicTestValidator()
             {
                 CreateRule("violated", "violated field name")
                     .InvalidWhen(stg => stg != "not match");
@@ -96,10 +106,7 @@ namespace VoidCore.Test.Model.Validation
                 _isValid2 = isValid2;
                 _isSuppressed1 = isSuppressed1;
                 _isSuppressed2 = isSuppressed2;
-            }
 
-            protected override void BuildRules()
-            {
                 CreateRule("test is invalid", "testField")
                     .InvalidWhen(isValid1 => isValid1)
                     .InvalidWhen(isValid1 => _isValid2)
@@ -114,7 +121,7 @@ namespace VoidCore.Test.Model.Validation
 
         internal class NoValidConditionTestValidator : RuleValidatorAbstract<int>
         {
-            protected override void BuildRules()
+            public NoValidConditionTestValidator()
             {
                 CreateRule("implicit success", "implicit success");
 
@@ -128,26 +135,16 @@ namespace VoidCore.Test.Model.Validation
 
         internal class InheritedEntityValidator : RuleValidatorAbstract<Entity>
         {
-            protected override void BuildRules()
+            public InheritedEntityValidator()
             {
                 CreateRule("invalid", "someProperty")
                     .InvalidWhen(v => string.IsNullOrWhiteSpace(v.SomeProperty));
             }
         }
 
-        internal class Entity
-        {
-            public string SomeProperty { get; set; }
-        }
-
-        internal class DerivedEntity : Entity
-        {
-
-        }
-
         internal class FailureBuilderValidator : RuleValidatorAbstract<Failure>
         {
-            protected override void BuildRules()
+            public FailureBuilderValidator()
             {
                 CreateRule(v => $"{v.Message}", "hardCodedUiHandle")
                     .InvalidWhen(v => true);

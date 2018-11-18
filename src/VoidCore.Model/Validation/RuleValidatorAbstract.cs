@@ -6,7 +6,7 @@ using VoidCore.Model.Domain;
 namespace VoidCore.Model.Validation
 {
     /// <summary>
-    /// The base for a custom entity validator.
+    /// The base for a custom rule-based entity validator.
     /// </summary>
     /// <typeparam name="TValidatableEntity">The type of entities to validate</typeparam>
     public abstract class RuleValidatorAbstract<TValidatableEntity> : IRequestValidator<TValidatableEntity>
@@ -18,20 +18,6 @@ namespace VoidCore.Model.Validation
                 .Select(rule => rule.Run(validatable))
                 .Combine();
         }
-
-        /// <summary>
-        /// Construct a new validator.
-        /// </summary>
-        protected RuleValidatorAbstract()
-        {
-            CallBuildRules();
-        }
-
-        /// <summary>
-        /// Override this method to build the validation ruleset.
-        /// Eg: Invalid("xValue","Must be true unless null").When(x.value != true).ExceptWhen(x.value == null);
-        /// </summary>
-        protected abstract void BuildRules();
 
         /// <summary>
         /// Create a new rule for this entity.
@@ -85,17 +71,6 @@ namespace VoidCore.Model.Validation
             return rule;
         }
 
-        /// <summary>
-        /// A temporary variable to hold rules while they are being validated.
-        /// </summary>
         private readonly List<IRule<TValidatableEntity>> _rules = new List<IRule<TValidatableEntity>>();
-
-        /// <summary>
-        /// Prevent calling virtual method from constructor.
-        /// </summary>
-        private void CallBuildRules()
-        {
-            BuildRules();
-        }
     }
 }
