@@ -9,13 +9,13 @@ namespace VoidCore.Model.Data
         /// <summary>
         /// Update the soft deleted fields to show this entity as deleted.
         /// </summary>
-        /// <param name="softDeletableEntity">The entity to be deleted</param>
-        void Delete(ISoftDeletable softDeletableEntity);
+        /// <param name="entity">The entity to be deleted</param>
+        void Delete(ISoftDeletable entity);
 
         /// <summary>
         /// Update the soft deleted fields to show this entity as not deleted.
         /// </summary>
-        /// <param name="softDeletableEntity">The entity to be un-deleted</param>
-        void UnDelete(ISoftDeletable softDeletableEntity);
+        /// <param name="entity">The entity to be un-deleted</param>
+        void UnDelete(ISoftDeletable entity);
     }
 }

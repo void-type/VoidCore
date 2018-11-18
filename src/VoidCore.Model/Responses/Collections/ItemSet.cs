@@ -11,6 +11,7 @@ namespace VoidCore.Model.Responses.Collections
         /// Create a new ItemSet. Note that this will finalize deferred queries.
         /// </summary>
         /// <param name="items">The items to return in the set</param>
+        /// <exception cref="System.ArgumentNullException">Throws an ArgumentNullException if null is passed for items.</exception>
         public ItemSet(IEnumerable<TEntity> items)
         {
             if (items == null)

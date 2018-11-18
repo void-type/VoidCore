@@ -14,10 +14,7 @@ namespace VoidCore.Model.Domain
         public IEnumerable<IFailure> Failures { get; } = new IFailure[0];
         public bool IsFailed { get; }
         public bool IsSuccess => !IsFailed;
-
-        /// <summary>
-        /// Construct a failed result
-        /// </summary>
+        
         internal ResultInternal(IEnumerable<IFailure> failures)
         {
             if (failures == null)

@@ -8,13 +8,13 @@ namespace VoidCore.Model.Data
         /// <summary>
         /// Update the created and modified information on the entity.
         /// </summary>
-        /// <param name="auditableEntity">The entity to be created</param>
-        void Create(IAuditable auditableEntity);
+        /// <param name="entity">The entity to be created</param>
+        void Create(IAuditable entity);
 
         /// <summary>
         /// Update the modified information on the entity.
         /// </summary>
-        /// <param name="auditableEntity">The entity to be updated</param>
-        void Update(IAuditable auditableEntity);
+        /// <param name="entity">The entity to be updated</param>
+        void Update(IAuditable entity);
     }
 }

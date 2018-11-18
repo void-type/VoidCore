@@ -18,17 +18,17 @@ namespace VoidCore.Model.Data
         }
 
         /// <inheritdoc/>
-        public void Delete(ISoftDeletable softDeletableEntity)
+        public void Delete(ISoftDeletable entity)
         {
-            softDeletableEntity.DeletedOn = _now.Moment;
-            softDeletableEntity.DeletedBy = _currentUser.Name;
+            entity.DeletedOn = _now.Moment;
+            entity.DeletedBy = _currentUser.Name;
         }
 
         /// <inheritdoc/>
-        public void UnDelete(ISoftDeletable softDeletableEntity)
+        public void UnDelete(ISoftDeletable entity)
         {
-            softDeletableEntity.DeletedOn = null;
-            softDeletableEntity.DeletedBy = null;
+            entity.DeletedOn = null;
+            entity.DeletedBy = null;
         }
 
         private readonly IDateTimeService _now;

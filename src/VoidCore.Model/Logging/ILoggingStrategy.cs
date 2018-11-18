@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace VoidCore.Model.Logging
 {
     /// <summary>
-    /// An interface for a strategy to log an event.
+    /// An interface for a strategy to log an event. The strategy can transform and enrich the event.
     /// </summary>
     public interface ILoggingStrategy
     {

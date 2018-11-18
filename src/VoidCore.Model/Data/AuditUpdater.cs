@@ -18,18 +18,18 @@ namespace VoidCore.Model.Data
         }
 
         /// <inheritdoc/>
-        public void Create(IAuditable auditableEntity)
+        public void Create(IAuditable entity)
         {
-            auditableEntity.CreatedOn = _now.Moment;
-            auditableEntity.CreatedBy = _currentUser.Name;
-            Update(auditableEntity);
+            entity.CreatedOn = _now.Moment;
+            entity.CreatedBy = _currentUser.Name;
+            Update(entity);
         }
 
         /// <inheritdoc/>
-        public void Update(IAuditable auditableEntity)
+        public void Update(IAuditable entity)
         {
-            auditableEntity.ModifiedOn = _now.Moment;
-            auditableEntity.ModifiedBy = _currentUser.Name;
+            entity.ModifiedOn = _now.Moment;
+            entity.ModifiedBy = _currentUser.Name;
         }
 
         private readonly ICurrentUserAccessor _currentUser;

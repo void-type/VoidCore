@@ -101,6 +101,7 @@ namespace VoidCore.Model.Domain
         /// </summary>
         /// <param name="failure">The failure</param>
         /// <returns>A new result</returns>
+        /// <exception cref="System.ArgumentNullException">Throws an ArgumentNullException if null is passed for failure.</exception>
         public static Result Fail(IFailure failure)
         {
             if (failure == null)
@@ -116,6 +117,7 @@ namespace VoidCore.Model.Domain
         /// </summary>
         /// <param name="failure">The failure</param>
         /// <returns>A new result</returns>
+        /// <exception cref="System.ArgumentNullException">Throws an ArgumentNullException if null is passed for failure.</exception>
         public static Result<T> Fail<T>(IFailure failure)
         {
             if (failure == null)
@@ -163,6 +165,7 @@ namespace VoidCore.Model.Domain
         /// <param name="value">The result value</param>
         /// <typeparam name="T">The type of success value</typeparam>
         /// <returns>A new result</returns>
+        /// <exception cref="System.ArgumentNullException">Throws an ArgumentNullException if null is passed for value.</exception>
         public static Result<T> Ok<T>(T value)
         {
             return new Result<T>(value);

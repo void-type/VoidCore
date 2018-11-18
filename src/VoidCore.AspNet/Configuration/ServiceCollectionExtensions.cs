@@ -72,6 +72,7 @@ namespace VoidCore.AspNet.Configuration
         /// <param name="services">The service collection</param>
         /// <param name="connectionString">The connection string to send to the DbContext</param>
         /// <typeparam name="TDbContext">The concrete type of DbContext to add to the DI container</typeparam>
+        /// <exception cref="System.ArgumentNullException">Throws an ArgumentNullException if null is passed for connectionString.</exception>
         public static void AddSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString)
         where TDbContext : DbContext
         {
@@ -109,11 +110,18 @@ namespace VoidCore.AspNet.Configuration
         /// </summary>
         /// <param name="services">The service collection</param>
         /// <param name="applicationSettings">Authorization settings from configuration</param>
+        /// <exception cref="System.ArgumentNullException">Throws an ArgumentNullException if applicationSettings are not configured.</exception>
+        /// <exception cref="System.ArgumentException">Throws an ArgumentException if authorizationPolicies are not configured.</exception>
         public static void AddAuthorizationPoliciesFromSettings(this IServiceCollection services, IApplicationSettings applicationSettings)
         {
+            if (applicationSettings == null)
+            {
+                throw new ArgumentNullException(nameof(applicationSettings), "Application is not configured properly. Application Settings not found.");
+            }
+
             if (applicationSettings?.AuthorizationPolicies == null || !applicationSettings.AuthorizationPolicies.Any())
             {
-                throw new ArgumentNullException(nameof(applicationSettings), "Application is not properly configured. AuthorizationPolicies is either empty or not found.");
+                throw new ArgumentException("Application is not properly configured. AuthorizationPolicies is either empty or not found.", nameof(applicationSettings));
             }
 
             services.AddAuthorization(options =>
