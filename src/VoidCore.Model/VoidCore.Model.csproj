@@ -2,17 +2,20 @@
   <PropertyGroup>
     <PackageId>VoidCore.Model</PackageId>
     <Title>VoidCore.Model</Title>
-    <Authors>Jeff Schreiner and git contributors</Authors>
     <Description>A model framework for building domain-driven buisness applications.</Description>
-    <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
+    <PackageTags>business logic;domain;ddd;model;validation;search;request;response</PackageTags>
+    <Authors>Jeff Schreiner and contributors</Authors>
     <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
-    <PackageLicenseUrl>https://github.com/void-type/VoidCore/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageTags>business logic;domain;ddd;model;validation;search;response</PackageTags>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
     <RepositoryUrl>https://github.com/void-type/VoidCore</RepositoryUrl>
-    <ReleaseNotes>See git commits since last release.</ReleaseNotes>
-
+    <ReleaseNotes>See commits since last release.</ReleaseNotes>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
+
+  <ItemGroup>
+      <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)" CopyToPublishDirectory="Always"/>
+  </ItemGroup>
 </Project>
