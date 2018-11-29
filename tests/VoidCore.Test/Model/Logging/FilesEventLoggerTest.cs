@@ -1,5 +1,5 @@
 using Moq;
-using VoidCore.Model.Domain;
+using VoidCore.Domain;
 using VoidCore.Model.Logging;
 using VoidCore.Model.Responses.Files;
 using Xunit;

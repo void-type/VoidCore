@@ -1,4 +1,4 @@
-using VoidCore.Model.Domain;
+using VoidCore.Domain;
 using VoidCore.Model.Responses.Files;
 
 namespace VoidCore.Model.Logging

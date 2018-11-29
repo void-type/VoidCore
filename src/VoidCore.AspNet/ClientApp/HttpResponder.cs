@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using VoidCore.Model.Domain;
+using VoidCore.Domain;
 using VoidCore.Model.Responses.Collections;
 using VoidCore.Model.Responses.Files;
 

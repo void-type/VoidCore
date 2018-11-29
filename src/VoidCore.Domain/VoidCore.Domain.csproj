@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <PackageId>VoidCore.Model</PackageId>
-    <Title>VoidCore.Model</Title>
-    <Description>A set of models to implement VoidCore.Domain in API-based applications.</Description>
-    <PackageTags>business logic;domain;ddd;model;validation;search;request;response</PackageTags>
+    <PackageId>VoidCore.Domain</PackageId>
+    <Title>VoidCore.Domain</Title>
+    <Description>A framework for building domain-driven buisness applications.</Description>
+    <PackageTags>domain driven;ddd;model;validation;request;response;cqrs</PackageTags>
     <Authors>Jeff Schreiner and contributors</Authors>
     <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
@@ -17,9 +17,5 @@
 
   <ItemGroup>
       <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)" CopyToPublishDirectory="Always"/>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\VoidCore.Domain\VoidCore.Domain.csproj" />
   </ItemGroup>
 </Project>

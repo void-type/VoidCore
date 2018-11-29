@@ -129,7 +129,7 @@ There is also PostProcessorAbstract for a clean slate of all 3 channels (success
 
 ### Validation
 
-A simple way to validate input models and domain requests. If you want to build your own complex validator, you can inherit from IRequestValidator that will still plug right into the DomainEvent pipeline.
+A simple way to validate input models and domain requests. If you want to build your own complex validator, you can inherit from IRequestValidator.
 
 RuleValidatorAbstract handles the inner logic of simple requests and allows for running the same validator against multiple entities. It is completely stateless.
 
@@ -260,8 +260,8 @@ public class Temperature : ValueObject
         Unit = unit;
     }
 
-    // It's not just a number.
-    // Provide the components that make this temperature unique.
+    // Temp is not just a number.
+    // You can provide the components that make this temperature unique and comparable.
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Math.Round(Reading, 1);
@@ -315,17 +315,22 @@ There are many helpers to build an application with...
 
 ## Developers
 
-You will find everything you need to build and test this project in the build folder.
-
-There is a script to install and update global tools used to develop this project.
+You will find scripts to do everything you need to build and test this project in the build folder.
 
 There are also VSCode tasks for each script.
+
+To begin, you will need to install some global tools. To do this easily, just run the following.
+
+```powershell
+cd build/
+./installAndUpdateTools.ps1
+```
 
 This project is not currently released, but feel free to use it as is.
 
 To use it you can:
 
-1. Reference it via local ProjectReference in your csproj. It will be built with your dependent project.
+1. Reference it via local ProjectReference in your project's csproj. It will be built with your dependent project.
 2. Deploy it to a local Nuget store via [nuget.exe](https://dist.nuget.org/win-x86-commandline/latest/nuget.exe)...
 
 ```powershell

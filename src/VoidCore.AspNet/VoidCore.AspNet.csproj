@@ -36,5 +36,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VoidCore.Model\VoidCore.Model.csproj" />
+    <ProjectReference Include="..\VoidCore.Domain\VoidCore.Domain.csproj" />
   </ItemGroup>
 </Project>

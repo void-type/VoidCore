@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using VoidCore.AspNet.ClientApp;
-using VoidCore.Model.Domain;
+using VoidCore.Domain;
 using VoidCore.Model.Responses.Collections;
 using VoidCore.Model.Responses.Files;
 using VoidCore.Model.Responses.Messages;
@@ -15,9 +15,9 @@ namespace VoidCore.Test.AspNet.ClientApp
         {
             var responder = new HttpResponder();
             var response = responder.Respond(PostSuccessUserMessage.Create("success", 2));
-            Assert.Equal(200, ((ObjectResult)response).StatusCode);
-            Assert.Equal("success", ((PostSuccessUserMessage<int>)((ObjectResult)response).Value).Message);
-            Assert.Equal(2, ((PostSuccessUserMessage<int>)((ObjectResult)response).Value).Id);
+            Assert.Equal(200, ((ObjectResult) response).StatusCode);
+            Assert.Equal("success", ((PostSuccessUserMessage<int>) ((ObjectResult) response).Value).Message);
+            Assert.Equal(2, ((PostSuccessUserMessage<int>) ((ObjectResult) response).Value).Id);
         }
 
         [Fact]
@@ -26,8 +26,8 @@ namespace VoidCore.Test.AspNet.ClientApp
             var result = Result.Fail(new Failure("some fail", "some fail"));
             var responder = new HttpResponder();
             var response = responder.Respond(result);
-            Assert.Equal(400, ((ObjectResult)response).StatusCode);
-            Assert.Equal(1, ((ItemSet<IFailure>)((ObjectResult)response).Value).Count);
+            Assert.Equal(400, ((ObjectResult) response).StatusCode);
+            Assert.Equal(1, ((ItemSet<IFailure>) ((ObjectResult) response).Value).Count);
         }
 
         [Fact]
@@ -36,8 +36,8 @@ namespace VoidCore.Test.AspNet.ClientApp
             var result = Result.Fail<ISimpleFile>(new IFailure[] { new Failure("some fail", "some fail"), new Failure("some fail", "some fail") });
             var responder = new HttpResponder();
             var response = responder.RespondWithFile(result);
-            Assert.Equal(400, ((ObjectResult)response).StatusCode);
-            Assert.Equal(2, ((ItemSet<IFailure>)((ObjectResult)response).Value).Count);
+            Assert.Equal(400, ((ObjectResult) response).StatusCode);
+            Assert.Equal(2, ((ItemSet<IFailure>) ((ObjectResult) response).Value).Count);
         }
 
         [Fact]
@@ -47,9 +47,9 @@ namespace VoidCore.Test.AspNet.ClientApp
             var result = Result.Ok(file);
             var responder = new HttpResponder();
             var response = responder.RespondWithFile(result);
-            Assert.Equal("application/force-download", ((FileContentResult)response).ContentType);
-            Assert.Equal(file.Name, ((FileContentResult)response).FileDownloadName);
-            Assert.Equal(file.Content, ((FileContentResult)response).FileContents);
+            Assert.Equal("application/force-download", ((FileContentResult) response).ContentType);
+            Assert.Equal(file.Name, ((FileContentResult) response).FileDownloadName);
+            Assert.Equal(file.Content, ((FileContentResult) response).FileContents);
         }
 
         [Fact]
@@ -58,8 +58,8 @@ namespace VoidCore.Test.AspNet.ClientApp
             var result = Result.Ok();
             var responder = new HttpResponder();
             var response = responder.Respond(result);
-            Assert.Equal(200, ((ObjectResult)response).StatusCode);
-            Assert.Null(((ObjectResult)response).Value);
+            Assert.Equal(200, ((ObjectResult) response).StatusCode);
+            Assert.Null(((ObjectResult) response).Value);
         }
 
         [Fact]
@@ -68,8 +68,8 @@ namespace VoidCore.Test.AspNet.ClientApp
             var result = Result.Fail<string>(new Failure("some fail", "some fail"));
             var responder = new HttpResponder();
             var response = responder.Respond(result);
-            Assert.Equal(400, ((ObjectResult)response).StatusCode);
-            Assert.Equal(1, ((ItemSet<IFailure>)((ObjectResult)response).Value).Count);
+            Assert.Equal(400, ((ObjectResult) response).StatusCode);
+            Assert.Equal(1, ((ItemSet<IFailure>) ((ObjectResult) response).Value).Count);
         }
 
         [Fact]
@@ -78,8 +78,8 @@ namespace VoidCore.Test.AspNet.ClientApp
             var result = Result.Ok("Success Object");
             var responder = new HttpResponder();
             var response = responder.Respond(result);
-            Assert.Equal(200, ((ObjectResult)response).StatusCode);
-            Assert.Equal("Success Object", ((ObjectResult)response).Value);
+            Assert.Equal(200, ((ObjectResult) response).StatusCode);
+            Assert.Equal("Success Object", ((ObjectResult) response).Value);
         }
     }
 }

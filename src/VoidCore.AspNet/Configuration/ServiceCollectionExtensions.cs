@@ -119,7 +119,7 @@ namespace VoidCore.AspNet.Configuration
                 throw new ArgumentNullException(nameof(applicationSettings), "Application is not configured properly. Application Settings not found.");
             }
 
-            if (applicationSettings?.AuthorizationPolicies == null || !applicationSettings.AuthorizationPolicies.Any())
+            if (applicationSettings.AuthorizationPolicies == null || !applicationSettings.AuthorizationPolicies.Any())
             {
                 throw new ArgumentException("Application is not properly configured. AuthorizationPolicies is either empty or not found.", nameof(applicationSettings));
             }
