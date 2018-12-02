@@ -1,6 +1,6 @@
 # VoidCore
 
-A core library for building domain-driven business apps on Asp.Net Core with Single Page Application support.
+A set of core libraries for building domain-driven business apps on Asp.Net Core with Single Page Application support.
 
 WARNING - this project is still in the design phase as a personal project. The API is subject to change and the version numbers may fluctuate. I will remove this warning when the project reaches a stable state.
 
@@ -8,11 +8,11 @@ WARNING - this project is still in the design phase as a personal project. The A
 
 ### Domain Events
 
-Extract logic from your controller and separate cross-cutting concerns like validation and logging. All logic for an event can be put into a single file.
+Extract logic from your controllers and separate cross-cutting concerns like validation and logging. All logic for an event can be put into a single file.
 
 Events are asynchronous. However, you can keep your synchronous domain logic clean with EventHandlerSyncAbstract.
 
-Events, validators and post processors can be injected since events are immutable and stateless. Validators and post processors are added to an event through a decorator so different pipelines can be constructed from the same components.
+Validators and post processors are added to an event through a decorator so different pipelines can be constructed from the same components. The base class of each component is stateless and reusable.
 
 ```csharp
 public class PersonsController : Controller
@@ -52,9 +52,9 @@ public class GetPerson
 
         public override async Task<Result<Response>> HandleInternal(Request request)
         {
-            var person = await Task.Run(() => _data.Persons.Stored
+            var person = await _data.Persons.Stored
                 .ProjectTo<Response>(_mapper)
-                .FirstOrDefault(l => l.Id == request.Id)));
+                .FirstOrDefaultAsync(l => l.Id == request.Id);
 
             return (person != null) ?
                 Result.Ok(personDto) :
