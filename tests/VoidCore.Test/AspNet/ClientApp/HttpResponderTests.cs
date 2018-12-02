@@ -14,10 +14,10 @@ namespace VoidCore.Test.AspNet.ClientApp
         public void RespondWithData()
         {
             var responder = new HttpResponder();
-            var response = responder.Respond(PostSuccessUserMessage.Create("success", 2));
+            var response = responder.Respond(UserMessageWithEntityId.Create("success", 2));
             Assert.Equal(200, ((ObjectResult) response).StatusCode);
-            Assert.Equal("success", ((PostSuccessUserMessage<int>) ((ObjectResult) response).Value).Message);
-            Assert.Equal(2, ((PostSuccessUserMessage<int>) ((ObjectResult) response).Value).Id);
+            Assert.Equal("success", ((UserMessageWithEntityId<int>) ((ObjectResult) response).Value).Message);
+            Assert.Equal(2, ((UserMessageWithEntityId<int>) ((ObjectResult) response).Value).Id);
         }
 
         [Fact]

@@ -9,16 +9,16 @@ namespace VoidCore.Test.Model.Logging
     public class MessagesEventLoggerTests
     {
         [Fact]
-        public void LogPostSuccessUserMessageInt()
+        public void LogUserMessageWithEntityIdInteger()
         {
-            var result = Result.Ok(PostSuccessUserMessage.Create("Good stuff happened", 7));
+            var result = Result.Ok(UserMessageWithEntityId.Create("Good stuff happened", 7));
 
             var request = "";
 
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
 
-            var processor = new PostSuccessUserMessageEventLogger<string, int>(loggerMock.Object);
+            var processor = new UserMessageWithEntityIdEventLogger<string, int>(loggerMock.Object);
 
             processor.Process(request, result);
 
@@ -26,16 +26,16 @@ namespace VoidCore.Test.Model.Logging
         }
 
         [Fact]
-        public void LogPostSuccessUserMessageString()
+        public void LogUserMessageWithEntityIdString()
         {
-            var result = Result.Ok(PostSuccessUserMessage.Create("Good stuff happened", "7"));
+            var result = Result.Ok(UserMessageWithEntityId.Create("Good stuff happened", "7"));
 
             var request = "";
 
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
 
-            var processor = new PostSuccessUserMessageEventLogger<string, string>(loggerMock.Object);
+            var processor = new UserMessageWithEntityIdEventLogger<string, string>(loggerMock.Object);
 
             processor.Process(request, result);
 

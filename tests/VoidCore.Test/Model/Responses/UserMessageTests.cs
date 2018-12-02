@@ -14,26 +14,26 @@ namespace VoidCore.Test.Model.Responses
         }
 
         [Fact]
-        public void PostSuccessUserMessageIntegerProperties()
+        public void UserMessageWithEntityIdIntegerProperties()
         {
-            var message = PostSuccessUserMessage.Create("hi", 2);
+            var message = UserMessageWithEntityId.Create("hi", 2);
             Assert.Equal("hi", message.Message);
             Assert.Equal(2, message.Id);
         }
 
         [Fact]
-        public void PostSuccessUserMessageStringProperties()
+        public void UserMessageWithEntityIdStringProperties()
         {
-            var message = PostSuccessUserMessage.Create("hi", "2");
+            var message = UserMessageWithEntityId.Create("hi", "2");
             Assert.Equal("hi", message.Message);
             Assert.Equal("2", message.Id);
         }
 
         [Fact]
-        public void PostSuccessUserMessageGuidProperties()
+        public void UserMessageWithEntityIdGuidProperties()
         {
             var guid = Guid.NewGuid();
-            var message = PostSuccessUserMessage.Create("hi", guid);
+            var message = UserMessageWithEntityId.Create("hi", guid);
             Assert.Equal("hi", message.Message);
             Assert.IsType<Guid>(message.Id);
             Assert.Equal(guid, message.Id);
