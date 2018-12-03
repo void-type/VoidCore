@@ -17,11 +17,11 @@ namespace VoidCore.AspNet.Logging
         /// Construct a new strategy.
         /// </summary>
         /// <param name="httpContextAccessor">An accessor for the current HTTP context</param>
-        /// <param name="currentUser">An accessor for the current user's properties</param>
-        public HttpRequestLoggingStrategy(IHttpContextAccessor httpContextAccessor, ICurrentUserAccessor currentUser)
+        /// <param name="currentUserAccessor">An accessor for the current user's properties</param>
+        public HttpRequestLoggingStrategy(IHttpContextAccessor httpContextAccessor, ICurrentUserAccessor currentUserAccessor)
         {
-            _httpContext = httpContextAccessor.HttpContext;
-            _currentUser = currentUser;
+            _httpContextAccessor = httpContextAccessor;
+            _currentUserAccessor = currentUserAccessor;
         }
 
         /// <summary>
@@ -31,9 +31,9 @@ namespace VoidCore.AspNet.Logging
         /// <returns>The enriched log entry</returns>
         public string Log(IEnumerable<string> messages)
         {
-            var request = _httpContext.Request;
-            var traceId = _httpContext.TraceIdentifier;
-            var userName = _currentUser.Name;
+            var request = _httpContextAccessor.HttpContext.Request;
+            var traceId = _httpContextAccessor.HttpContext.TraceIdentifier;
+            var userName = _currentUserAccessor.Name;
 
             var prefix = $"{traceId}:{userName}:{request.Method}:{request.Path.Value}".PadRight(60);
             var payload = string.Join(" ", messages.Where(message => !string.IsNullOrWhiteSpace(message)));
@@ -54,9 +54,9 @@ namespace VoidCore.AspNet.Logging
             return Log(eventArray);
         }
 
-        private readonly ICurrentUserAccessor _currentUser;
+        private readonly ICurrentUserAccessor _currentUserAccessor;
 
-        private readonly HttpContext _httpContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         private static IEnumerable<string> FlattenExceptionMessages(Exception exception)
         {
