@@ -1,32 +1,36 @@
 # VoidCore
 
-A set of core libraries for building domain-driven business apps on Asp.Net Core with Single Page Application support.
+A set of core libraries for building domain-driven business applications. Includes opinionated support for setting up Asp.Net Core applications.
 
 WARNING - this project is still in the design phase as a personal project. The API is subject to change and the version numbers may fluctuate. I will remove this warning when the project reaches a stable state.
 
-## Features
+## Domain Features
+
+VoidCore.Domain is a basic framework for building domain-driven, event-based applications.
 
 ### Domain Events
 
 Extract logic from your controllers and separate cross-cutting concerns like validation and logging. All logic for an event can be put into a single file.
 
-Events are asynchronous. However, you can keep your synchronous domain logic clean with EventHandlerSyncAbstract.
+Events are tied to explicit request and response objects. Events are handled asynchronously by default. However, you can keep your synchronous domain logic clean of async concerns with EventHandlerSyncAbstract.
 
-Validators and post processors are added to an event through a decorator so different pipelines can be constructed from the same components. The base class of each component is stateless and reusable.
+Event pipelines are created through decorator methods that add Request Validators and Post Processors. Event and their pipeline component base classes are stateless and reusable by default. If your component dependencies allow it, you can register them as singletons and reuse components in different pipelines.
 
 ```csharp
 public class PersonsController : Controller
 {
-    // For extra credit, inject GetPerson event parts on construction and let DI handle dependencies
-    public async Task<IActionResult> Get(string name)
+    // For extra credit, inject GetPerson event parts into your controller and let DI handle dependencies.
+    // The components are constructed here for example clarity.
+    public async Task<IActionResult> Get(string id)
     {
-        var request = new GetPerson.Request(name);
+        var request = new GetPerson.Request(id);
 
         var result = await new GetPerson.Handler(_data, _mapper)
             .AddRequestValidator(new GetPerson.RequestValidator())
             .AddPostProcessor(new GetPerson.Logger(_logger))
             .Handle(request);
 
+        // _responder is an HttpResponder from VoidCore.AspNet
         return _responder.Respond(result);
     }
 }
@@ -89,7 +93,7 @@ public class GetPerson
         public string Email { get; }
     }
 
-    // A validator for the request
+    // A rule-based validator for the request.. See below for more on this.
     public class RequestValidator : RuleValidatorAbstract<Request>
     {
         public RequestValidator()
@@ -99,7 +103,7 @@ public class GetPerson
         }
     }
 
-    // Log it.
+    // Log your event. See below for more on this.
     public class Logger : FallibleEventLogger<Request, Response>
     {
         public Logging(ILoggingService logger) : base(logger) { }
@@ -121,13 +125,9 @@ public class GetPerson
 }
 ```
 
-Logging extends FallibleEventLogger which means that failures will be automatically logged.
-
-There is also PostProcessorAbstract for a clean slate of all 3 channels (success, fail, and both), and IPostProcessor for a single channel (just called Process).
-
 </details>
 
-### Validation
+### Simple Rule Validation
 
 A simple way to validate input models and domain requests. If you want to build your own complex validator, you can inherit from IRequestValidator.
 
@@ -159,6 +159,15 @@ class CreatePersonValidator : RuleValidatorAbstract<Entity>
     }
 }
 ```
+
+### Event Post Processors
+
+Post Processors fire after the handling of an event or after validation failure. Post Processors should not change the response of the event; however, they can fire off commands such as notifications and logging.
+
+* Inherit from PostProcessorAbstract to define different processing for three channels of the Result<Response>: Success, Fail, Both.
+* Inherit from IPostProcessor for a single channel that fires on both types of Result.
+
+There are default logging Post Processor implementations in the VoidCore.Model library. See below for more.
 
 ### Results for fallible operations
 
@@ -270,7 +279,9 @@ public class Temperature : ValueObject
 }
 ```
 
-### Text Search on object properties
+## Model Features
+
+### Text Search on Object Properties
 
 Check many properties of an object for an array of terms. It will split any search string on whitespace, or it can take an explicit array of terms.
 
@@ -287,7 +298,7 @@ var matchedPeople = people
     );
 ```
 
-### Responses for API standards
+### API Responses
 
 Make predictable presentation APIs with...
 
@@ -297,21 +308,39 @@ Make predictable presentation APIs with...
 * Data sets with pagination
 * Downloadable files
 
-VoidCore.AspNet includes HttpResponder to send a Result of the above through IActionResult to a web client.
+### Data Model Opinions
 
-### Configuration for Asp.Net Core
+* Repositories with read/write control.
+* Soft delete.
+* Auditable entities via Created and Modified names/dates.
 
-There are many helpers to build an application with...
+### Logging
+
+* Inherit your custom Post Processors from FallibleEventLogger to automatically log Result failures from the validation or event.
+* There are also Post Processors for all API Response types that include fallible logging.
+* Domain-safe, platform agnostic interfaces for logging.
+
+### Common Service Interfaces
+
+There are a few interfaces for common services that the domain can use.
+
+* Time
+* Current user
+
+## AspNet Features
+
+VoidCore.AspNet includes helpers for configuring an ASP.NET Core web application:
 
 * Serilog multi-platform file logging.
 * Active Directory group authorization via Windows authentication.
 * HTTPS with redirection and HSTS headers.
 * Antiforgery for SPAs.
 * Exception handling (SPA and MVC) with logging.
-  * Api endpoints return a JSON {message: ""} object.
-  * MVC will redirect to safe error or forbidden pages in non-development.
+  * API endpoints return a JSON {message: ""} object.
+  * MVC will redirect to secure error or forbidden pages in non-development.
 * Routing for SPA and Web API.
-* Model wrappers for data repositories with default implementation for EF Core.
+* Data repositories implementation for EF Core.
+* HttpResponder for converting Domain Event Responses to IActionResult.
 
 ## Developers
 
