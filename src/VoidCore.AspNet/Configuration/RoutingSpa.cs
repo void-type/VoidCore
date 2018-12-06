@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 using VoidCore.AspNet.Attributes;
@@ -8,27 +10,18 @@ using VoidCore.AspNet.Attributes;
 namespace VoidCore.AspNet.Configuration
 {
     /// <summary>
-    /// Extensions to the IApplicationBuilder for setting up the web application pipeline.
+    /// Configuration for SPA routing and exception handling.
     /// </summary>
-    public static class ApplicationBuilderExtensions
+    public static class RoutingSpa
     {
         /// <summary>
-        /// Setup secure transport using HTTPS and HSTS.
-        /// HSTS is disabled in development environments or when running on localhost, 127.0.0.1, or [::1].
+        /// Add a global filter for handling uncaught API exceptions.
         /// </summary>
-        /// <param name="app">This IApplicationBuilder</param>
-        /// <param name="env">The hosting environment</param>
-        /// <returns>The ApplicationBuilder for chaining.</returns>
-        public static IApplicationBuilder UseSecureTransport(this IApplicationBuilder app, IHostingEnvironment env)
+        /// <param name="services">The services collection</param>
+        /// <param name="environment">The hosting environment</param>
+        public static void AddApiExceptionFilter(this IServiceCollection services, IHostingEnvironment environment)
         {
-            if (!env.IsDevelopment())
-            {
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-
-            return app;
+            services.AddMvc(options => options.Filters.Add(new TypeFilterAttribute(typeof(ApiRouteExceptionFilterAttribute))));
         }
 
         /// <summary>
@@ -37,11 +30,11 @@ namespace VoidCore.AspNet.Configuration
         /// In development, all exceptions will return a debugging page. For API requests, you can see this page in the browser's developer console.
         /// </summary>
         /// <param name="app">This IApplicationBuilder</param>
-        /// <param name="env">The hosting environment</param>
+        /// <param name="environment">The hosting environment</param>
         /// <returns>The ApplicationBuilder for chaining.</returns>
-        public static IApplicationBuilder UseSpaExceptionPage(this IApplicationBuilder app, IHostingEnvironment env)
+        public static IApplicationBuilder UseSpaExceptionPage(this IApplicationBuilder app, IHostingEnvironment environment)
         {
-            if (env.IsDevelopment())
+            if (environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
