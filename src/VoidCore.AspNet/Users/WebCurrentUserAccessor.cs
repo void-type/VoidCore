@@ -1,11 +1,10 @@
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
+using VoidCore.AspNet.ClientApp;
 using VoidCore.Model.Users;
 
-namespace VoidCore.AspNet.ClientApp
+namespace VoidCore.AspNet.Users
 {
     /// <summary>
     /// Access the current user via HttpContext. Accessors can be added to DI as a singleton.

@@ -1,4 +1,4 @@
-using VoidCore.AspNet.ClientApp;
+using VoidCore.AspNet.Users;
 using Xunit;
 
 namespace VoidCore.Test.AspNet.ClientApp

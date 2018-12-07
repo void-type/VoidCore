@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace VoidCore.AspNet.ClientApp
+namespace VoidCore.AspNet.Users
 {
     /// <summary>
     /// Get the samAccountName from a fully-qualified Active Directory login.

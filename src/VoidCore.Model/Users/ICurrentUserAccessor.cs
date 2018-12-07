@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace VoidCore.Model.Users
 {
     /// <summary>

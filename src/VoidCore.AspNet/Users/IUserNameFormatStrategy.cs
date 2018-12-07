@@ -1,4 +1,4 @@
-namespace VoidCore.AspNet.ClientApp
+namespace VoidCore.AspNet.Users
 {
     /// <summary>
     /// Formatter for getting a UI-friendly user name.
