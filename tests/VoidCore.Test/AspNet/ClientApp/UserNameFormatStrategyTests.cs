@@ -12,9 +12,7 @@ namespace VoidCore.Test.AspNet.ClientApp
         public void FormatNameFromAdLogin(string input, string expected)
         {
             var formatter = new AdLoginUserNameFormatStrategy();
-
             var userName = formatter.Format(input);
-
             Assert.Equal(expected, userName);
         }
     }

@@ -82,10 +82,7 @@ namespace VoidCore.Test.Domain
             public string SomeProperty { get; set; }
         }
 
-        internal class DerivedEntity : Entity
-        {
-
-        }
+        internal class DerivedEntity : Entity { }
 
         internal class ValidatorLogicTestValidator : RuleValidatorAbstract<string>
         {

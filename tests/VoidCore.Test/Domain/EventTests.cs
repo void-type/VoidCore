@@ -1,7 +1,7 @@
+using Moq;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Moq;
 using VoidCore.Domain;
 using VoidCore.Domain.Events;
 using Xunit;
@@ -14,7 +14,8 @@ namespace VoidCore.Test.Domain
         public async void EventHandledAndPostProcessorsRunWhenRequestValid()
         {
             var validatorMock = new Mock<IRequestValidator<TestRequest>>();
-            validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>())).Returns(Result.Ok());
+            validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>()))
+                .Returns(Result.Ok());
 
             var processorMock = new Mock<IPostProcessor<TestRequest, TestResponse>>();
             processorMock.Setup(p => p.Process(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
@@ -33,7 +34,8 @@ namespace VoidCore.Test.Domain
         public async void EventHandledNoPostProcessorWhenRequestValid()
         {
             var validatorMock = new Mock<IRequestValidator<TestRequest>>();
-            validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>())).Returns(Result.Ok());
+            validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>()))
+                .Returns(Result.Ok());
 
             var result = await new TestEventOk()
                 .AddRequestValidator(validatorMock.Object)
@@ -71,7 +73,8 @@ namespace VoidCore.Test.Domain
         public async void EventNotHandledAndPostProcessorRunsWhenRequestInvalid()
         {
             var validatorMock = new Mock<IRequestValidator<TestRequest>>();
-            validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>())).Returns(Result.Fail<TestResponse>("request invalid"));
+            validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>()))
+                .Returns(Result.Fail<TestResponse>("request invalid"));
 
             var processorMock = new Mock<IPostProcessor<TestRequest, TestResponse>>();
             processorMock.Setup(p => p.Process(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
@@ -90,7 +93,8 @@ namespace VoidCore.Test.Domain
         public async void EventSyncHandledAndPostProcessorsRunWhenRequestValid()
         {
             var validatorMock = new Mock<IRequestValidator<TestRequest>>();
-            validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>())).Returns(Result.Ok());
+            validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>()))
+                .Returns(Result.Ok());
 
             var processorMock = new Mock<IPostProcessor<TestRequest, TestResponse>>();
             processorMock.Setup(p => p.Process(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));
@@ -108,7 +112,8 @@ namespace VoidCore.Test.Domain
         public async void EventSyncNotHandledAndPostProcessorRunsWhenRequestInvalid()
         {
             var validatorMock = new Mock<IRequestValidator<TestRequest>>();
-            validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>())).Returns(Result.Fail<TestResponse>("request invalid"));
+            validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>()))
+                .Returns(Result.Fail<TestResponse>("request invalid"));
 
             var processorMock = new Mock<IPostProcessor<TestRequest, TestResponse>>();
             processorMock.Setup(p => p.Process(It.IsAny<TestRequest>(), It.IsAny<Result<TestResponse>>()));

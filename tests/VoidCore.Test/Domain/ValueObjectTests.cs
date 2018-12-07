@@ -45,7 +45,6 @@ namespace VoidCore.Test.Domain
             var temp2 = new Temperature(20.1, Temperature.UnitType.C);
 
             Assert.True(null == (Temperature) null);
-
             Assert.True(temp1 == temp2);
             Assert.False(temp1 != temp2);
             Assert.Equal(temp1, temp2);

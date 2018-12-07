@@ -34,7 +34,7 @@ namespace VoidCore.Test.Model.Queries
         [Fact]
         public void SearchObjectPropertiesInCollectionForOneTerm()
         {
-            var objs = new List<TestObject>
+            var objectCollection = new List<TestObject>
             {
                 new TestObject(null),
                 new TestObject(""),
@@ -48,7 +48,7 @@ namespace VoidCore.Test.Model.Queries
 
             var terms = "text";
 
-            var actual = objs.SearchStringProperties(
+            var actual = objectCollection.SearchStringProperties(
                 terms,
                 obj => obj.StringProperty
             );
@@ -59,7 +59,7 @@ namespace VoidCore.Test.Model.Queries
         [Fact]
         public void SearchObjectPropertiesForManyTerms()
         {
-            var objs = new List<TestObject>
+            var objectCollection = new List<TestObject>
             {
                 new TestObject(null),
                 new TestObject(""),
@@ -73,7 +73,7 @@ namespace VoidCore.Test.Model.Queries
 
             var terms = new [] { "text", "other" };
 
-            var actual = objs.SearchStringProperties(
+            var actual = objectCollection.SearchStringProperties(
                 terms,
                 obj => obj.StringProperty
             );
@@ -84,7 +84,7 @@ namespace VoidCore.Test.Model.Queries
         [Fact]
         public void SearchObjectPropertiesForNoTermsReturnsAll()
         {
-            var objs = new List<TestObject>
+            var objectCollection = new List<TestObject>
             {
                 new TestObject(null),
                 new TestObject(""),
@@ -98,12 +98,12 @@ namespace VoidCore.Test.Model.Queries
 
             var terms = new string[0];
 
-            var actual = objs.SearchStringProperties(
+            var actual = objectCollection.SearchStringProperties(
                 terms,
                 obj => obj.StringProperty
             );
 
-            Assert.Equal(objs.Count(), actual.Count());
+            Assert.Equal(objectCollection.Count(), actual.Count());
         }
 
         private class TestObject

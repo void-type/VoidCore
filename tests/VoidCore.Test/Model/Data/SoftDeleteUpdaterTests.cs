@@ -1,8 +1,8 @@
 using Moq;
 using System;
-using VoidCore.Model.ClientApp;
 using VoidCore.Model.Data;
 using VoidCore.Model.Time;
+using VoidCore.Model.Users;
 using Xunit;
 
 namespace VoidCore.Test.Model.Data
@@ -16,10 +16,11 @@ namespace VoidCore.Test.Model.Data
             var date = new DateTime(2001, 2, 12);
             var dateTimeService = new DiscreteDateTimeService(date);
 
-            var currentUserMock = new Mock<ICurrentUserAccessor>();
-            currentUserMock.Setup(c => c.Name).Returns("userName");
+            var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
+            currentUserAccessorMock.Setup(c => c.User)
+                .Returns(new DomainUser("userName", new string[] { }));
 
-            var auditUpdater = new SoftDeleteUpdater(dateTimeService, currentUserMock.Object);
+            var auditUpdater = new SoftDeleteUpdater(dateTimeService, currentUserAccessorMock.Object);
 
             auditUpdater.Delete(entity);
 

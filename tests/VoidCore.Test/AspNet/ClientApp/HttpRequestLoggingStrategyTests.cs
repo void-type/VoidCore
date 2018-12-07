@@ -3,7 +3,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using VoidCore.AspNet.Logging;
-using VoidCore.Model.ClientApp;
+using VoidCore.Model.Users;
 using Xunit;
 
 namespace VoidCore.Test.AspNet.ClientApp
@@ -18,20 +18,26 @@ namespace VoidCore.Test.AspNet.ClientApp
                     new Exception("3")));
 
             var httpRequestMock = new Mock<HttpRequest>();
-            httpRequestMock.Setup(request => request.Method).Returns("GET");
-            httpRequestMock.Setup(request => request.Path).Returns(new PathString("/path/to/here"));
+            httpRequestMock.Setup(request => request.Method)
+                .Returns("GET");
+            httpRequestMock.Setup(request => request.Path)
+                .Returns(new PathString("/path/to/here"));
 
             var httpContextMock = new Mock<HttpContext>();
-            httpContextMock.Setup(context => context.Request).Returns(httpRequestMock.Object);
-            httpContextMock.Setup(context => context.TraceIdentifier).Returns("identifier");
+            httpContextMock.Setup(context => context.Request)
+                .Returns(httpRequestMock.Object);
+            httpContextMock.Setup(context => context.TraceIdentifier)
+                .Returns("identifier");
 
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
-            httpContextAccessorMock.Setup(accessor => accessor.HttpContext).Returns(httpContextMock.Object);
+            httpContextAccessorMock.Setup(accessor => accessor.HttpContext)
+                .Returns(httpContextMock.Object);
 
-            var currentUser = new Mock<ICurrentUserAccessor>();
-            currentUser.Setup(fmt => fmt.Name).Returns("userName");
+            var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
+            currentUserAccessorMock.Setup(mock => mock.User)
+                .Returns(new DomainUser("userName", new string[] { }));
 
-            var strategy = new HttpRequestLoggingStrategy(httpContextAccessorMock.Object, currentUser.Object);
+            var strategy = new HttpRequestLoggingStrategy(httpContextAccessorMock.Object, currentUserAccessorMock.Object);
             var messages = new List<string>() { "added12", "added23" };
 
             var logText = strategy.Log(exception, messages);
@@ -47,20 +53,26 @@ namespace VoidCore.Test.AspNet.ClientApp
         public void LogEventWithNullExceptions()
         {
             var httpRequestMock = new Mock<HttpRequest>();
-            httpRequestMock.Setup(request => request.Method).Returns("GET");
-            httpRequestMock.Setup(request => request.Path).Returns(new PathString("/path/to/here"));
+            httpRequestMock.Setup(request => request.Method)
+                .Returns("GET");
+            httpRequestMock.Setup(request => request.Path)
+                .Returns(new PathString("/path/to/here"));
 
             var httpContextMock = new Mock<HttpContext>();
-            httpContextMock.Setup(context => context.Request).Returns(httpRequestMock.Object);
-            httpContextMock.Setup(context => context.TraceIdentifier).Returns("identifier");
+            httpContextMock.Setup(context => context.Request)
+                .Returns(httpRequestMock.Object);
+            httpContextMock.Setup(context => context.TraceIdentifier)
+                .Returns("identifier");
 
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
-            httpContextAccessorMock.Setup(accessor => accessor.HttpContext).Returns(httpContextMock.Object);
+            httpContextAccessorMock.Setup(accessor => accessor.HttpContext)
+                .Returns(httpContextMock.Object);
 
-            var currentUser = new Mock<ICurrentUserAccessor>();
-            currentUser.Setup(fmt => fmt.Name).Returns("userName");
+            var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
+            currentUserAccessorMock.Setup(mock => mock.User)
+                .Returns(new DomainUser("userName", new string[] { }));
 
-            var strategy = new HttpRequestLoggingStrategy(httpContextAccessorMock.Object, currentUser.Object);
+            var strategy = new HttpRequestLoggingStrategy(httpContextAccessorMock.Object, currentUserAccessorMock.Object);
             var messages = new List<string>() { "added12", "added23" };
 
             var logText = strategy.Log(null, messages);

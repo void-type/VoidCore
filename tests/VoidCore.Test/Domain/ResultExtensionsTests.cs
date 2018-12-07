@@ -10,7 +10,13 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void CombineWithFailuresGivesFailures()
         {
-            var result = new List<Result>() { Result.Ok(), Result.Fail("oops"), Result.Fail("oops"), Result.Ok() }
+            var result = new List<Result>()
+                {
+                    Result.Ok(),
+                        Result.Fail("oops"),
+                        Result.Fail("oops"),
+                        Result.Ok()
+                }
                 .Combine();
 
             Assert.False(result.IsSuccess);
@@ -32,7 +38,13 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void TypedCombineWithFailuresGivesFailures()
         {
-            var result = new List<Result<string>>() { Result.Ok(""), Result.Fail<string>(""), Result.Fail<string>(""), Result.Ok("") }
+            var result = new List<Result<string>>()
+                {
+                    Result.Ok(""),
+                        Result.Fail<string>(""),
+                        Result.Fail<string>(""),
+                        Result.Ok("")
+                }
                 .Combine();
 
             Assert.False(result.IsSuccess);

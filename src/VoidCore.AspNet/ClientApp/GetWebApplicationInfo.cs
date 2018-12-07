@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using VoidCore.Domain;
 using VoidCore.Domain.Events;
-using VoidCore.Model.ClientApp;
 using VoidCore.Model.Logging;
+using VoidCore.Model.Users;
 
 namespace VoidCore.AspNet.ClientApp
 {
@@ -100,14 +100,14 @@ namespace VoidCore.AspNet.ClientApp
             /// <summary>
             /// The current user
             /// </summary>
-            public ICurrentUserAccessor User { get; }
+            public DomainUser User { get; }
 
-            internal WebApplicationInfo(string applicationName, string antiforgeryToken, string antiforgeryTokenHeaderName, ICurrentUserAccessor user)
+            internal WebApplicationInfo(string applicationName, string antiforgeryToken, string antiforgeryTokenHeaderName, ICurrentUserAccessor currentUserAccessor)
             {
                 ApplicationName = applicationName;
                 AntiforgeryToken = antiforgeryToken;
                 AntiforgeryTokenHeaderName = antiforgeryTokenHeaderName;
-                User = user;
+                User = currentUserAccessor.User;
             }
         }
     }

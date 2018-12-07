@@ -1,5 +1,5 @@
-using VoidCore.Model.ClientApp;
 using VoidCore.Model.Time;
+using VoidCore.Model.Users;
 
 namespace VoidCore.Model.Data
 {
@@ -10,18 +10,18 @@ namespace VoidCore.Model.Data
         /// Construct a new SoftDeleteUpdater.
         /// </summary>
         /// <param name="now">A datetime service that provides the time the entity was updated</param>
-        /// <param name="currentUser">An accessor for the current user's properties</param>
-        public SoftDeleteUpdater(IDateTimeService now, ICurrentUserAccessor currentUser)
+        /// <param name="currentUserAccessor">An accessor for the current user's properties</param>
+        public SoftDeleteUpdater(IDateTimeService now, ICurrentUserAccessor currentUserAccessor)
         {
             _now = now;
-            _currentUser = currentUser;
+            _currentUserAccessor = currentUserAccessor;
         }
 
         /// <inheritdoc/>
         public void Delete(ISoftDeletable entity)
         {
             entity.DeletedOn = _now.Moment;
-            entity.DeletedBy = _currentUser.Name;
+            entity.DeletedBy = _currentUserAccessor.User.Name;
         }
 
         /// <inheritdoc/>
@@ -32,6 +32,6 @@ namespace VoidCore.Model.Data
         }
 
         private readonly IDateTimeService _now;
-        private readonly ICurrentUserAccessor _currentUser;
+        private readonly ICurrentUserAccessor _currentUserAccessor;
     }
 }

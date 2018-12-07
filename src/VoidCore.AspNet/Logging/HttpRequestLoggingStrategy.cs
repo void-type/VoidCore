@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VoidCore.Model.ClientApp;
 using VoidCore.Model.Logging;
+using VoidCore.Model.Users;
 
 namespace VoidCore.AspNet.Logging
 {
@@ -33,7 +33,7 @@ namespace VoidCore.AspNet.Logging
         {
             var request = _httpContextAccessor.HttpContext.Request;
             var traceId = _httpContextAccessor.HttpContext.TraceIdentifier;
-            var userName = _currentUserAccessor.Name;
+            var userName = _currentUserAccessor.User.Name;
 
             var prefix = $"{traceId}:{userName}:{request.Method}:{request.Path.Value}".PadRight(60);
             var payload = string.Join(" ", messages.Where(message => !string.IsNullOrWhiteSpace(message)));

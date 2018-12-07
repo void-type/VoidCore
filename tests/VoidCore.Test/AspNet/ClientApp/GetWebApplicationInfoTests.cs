@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using VoidCore.AspNet.ClientApp;
-using VoidCore.Model.ClientApp;
 using VoidCore.Model.Logging;
+using VoidCore.Model.Users;
 using Xunit;
 
 namespace VoidCore.Test.AspNet.ClientApp
@@ -14,31 +14,32 @@ namespace VoidCore.Test.AspNet.ClientApp
         public async void ApplicationInfoIsCreatedWithAndLogsProperInfo()
         {
             var appSettingsMock = new Mock<IApplicationSettings>();
-            appSettingsMock.Setup(a => a.Name).Returns("AppName");
+            appSettingsMock
+                .Setup(a => a.Name)
+                .Returns("AppName");
 
-            var currentUser = new Mock<ICurrentUserAccessor>();
-            currentUser
-                .Setup(mock => mock.Name)
-                .Returns("UserName");
-            currentUser
-                .Setup(mock => mock.AuthorizedAs)
-                .Returns(new [] { "policy1", "policy2" });
+            var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
+            currentUserAccessorMock
+                .Setup(mock => mock.User)
+                .Returns(new DomainUser("UserName", new [] { "policy1", "policy2" }));
 
-            var mockContext = new Mock<HttpContext>();
+            var contextMock = new Mock<HttpContext>();
 
-            var mockContextAccessor = new Mock<IHttpContextAccessor>();
-            mockContextAccessor
-                .Setup(mock => mock.HttpContext).Returns(mockContext.Object);
+            var contextAccessorMock = new Mock<IHttpContextAccessor>();
+            contextAccessorMock
+                .Setup(mock => mock.HttpContext)
+                .Returns(contextMock.Object);
 
-            var mockAntiforgery = new Mock<IAntiforgery>();
-            mockAntiforgery
+            var antiforgeryMock = new Mock<IAntiforgery>();
+            antiforgeryMock
                 .Setup(mock => mock.GetAndStoreTokens(It.IsAny<HttpContext>()))
                 .Returns(new AntiforgeryTokenSet("request-token", "cookie-token", "formFieldName", "header-name"));
 
             var loggingServiceMock = new Mock<ILoggingService>();
-            loggingServiceMock.Setup(l => l.Info(It.IsAny<string[]>()));
+            loggingServiceMock
+                .Setup(l => l.Info(It.IsAny<string[]>()));
 
-            var result = await new GetWebApplicationInfo.Handler(appSettingsMock.Object, mockContextAccessor.Object, mockAntiforgery.Object, currentUser.Object)
+            var result = await new GetWebApplicationInfo.Handler(appSettingsMock.Object, contextAccessorMock.Object, antiforgeryMock.Object, currentUserAccessorMock.Object)
                 .AddPostProcessor(new GetWebApplicationInfo.Logger(loggingServiceMock.Object))
                 .Handle(new GetWebApplicationInfo.Request());
 

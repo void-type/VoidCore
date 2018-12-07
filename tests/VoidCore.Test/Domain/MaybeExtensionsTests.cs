@@ -77,7 +77,6 @@ namespace VoidCore.Test.Domain
             Maybe<string> maybe = Maybe<string>.None;
             string value = maybe.Unwrap(v => v + " added");
             Assert.Null(value);
-
             value = maybe.Unwrap(v => v + " added", "default value");
             Assert.Equal("default value", value);
         }
@@ -102,7 +101,6 @@ namespace VoidCore.Test.Domain
         public void WhereWithFalsePredicateReturnsNone()
         {
             Maybe<string> maybe = "some value";
-
             var queried = maybe.Where(v => false);
             Assert.True(queried.HasNoValue);
         }

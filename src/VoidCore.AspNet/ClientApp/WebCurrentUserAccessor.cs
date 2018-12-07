@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using VoidCore.Model.ClientApp;
+using VoidCore.Model.Users;
 
 namespace VoidCore.AspNet.ClientApp
 {
@@ -12,16 +12,23 @@ namespace VoidCore.AspNet.ClientApp
     /// </summary>
     public class WebCurrentUserAccessor : ICurrentUserAccessor
     {
-        /// <summary>
-        /// Returns the names of policies that the current user is authorized for.
-        /// </summary>
-        public IEnumerable<string> AuthorizedAs => _applicationSettings.AuthorizationPolicies
-            .Where(policy => _authorizationService.AuthorizeAsync(User, policy.Key).Result.Succeeded)
-            .Select(policy => policy.Key);
+        /// <inherit/>
+        public DomainUser User
+        {
+            get
+            {
+                var currentUser = _httpContextAccessor.HttpContext.User;
 
-        /// <inheritdoc/>
-        public string Name => _userNameFormatter.Format(User.Identity.Name);
+                var authorizedAs = _applicationSettings.AuthorizationPolicies
+                    .Where(policy => _authorizationService.AuthorizeAsync(currentUser, policy.Key).Result.Succeeded)
+                    .Select(policy => policy.Key);
 
+                var name = _userNameFormatter.Format(currentUser.Identity.Name);
+
+                return new DomainUser(name, authorizedAs);
+            }
+        }
+        
         /// <summary>
         /// Create a new current user accessor
         /// </summary>
@@ -41,6 +48,5 @@ namespace VoidCore.AspNet.ClientApp
         private readonly IAuthorizationService _authorizationService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUserNameFormatStrategy _userNameFormatter;
-        private ClaimsPrincipal User => _httpContextAccessor.HttpContext.User;
     }
 }
