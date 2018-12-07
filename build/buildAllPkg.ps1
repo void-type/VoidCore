@@ -8,7 +8,7 @@ Remove-Item -Path "../coverage" -Recurse -ErrorAction SilentlyContinue
 
 # Build solution
 Push-Location -Path "../"
-dotnet build --configuration "Release" /p:PublicRelease=true
+dotnet build --configuration "Release"
 Stop-OnError
 Pop-Location
 
@@ -32,7 +32,7 @@ Get-ChildItem -Path "../src" |
   Push-Location -Path "../src/$_"
   InheritDoc --base "./bin/Release/" --overwrite
   Stop-OnError
-  dotnet pack --configuration "Release" --no-build --output "../../artifacts" /p:PublicRelease=true
+  dotnet pack --configuration "Release" --no-build --output "../../artifacts"
   Stop-OnError
   Pop-Location
 }
