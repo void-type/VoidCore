@@ -4,6 +4,16 @@ A set of core libraries for building domain-driven business applications. Includ
 
 WARNING - this project is still in the design phase as a personal project. The API is subject to change and the version numbers may fluctuate. I will remove this warning when the project reaches a stable state.
 
+## Documentation
+
+Read about the packages available.
+
+[VoidCore.AspNet](docs/aspnet.md) - configure an Asp.Net Core web application.
+
+[VoidCore.Domain](docs/domain.md) - domain-driven and event-based development.
+
+[VoidCore.Model](docs/model.md) - services and interfaces for opinionated business applications.
+
 ## Developers
 
 To begin, you will need to install some global tools. To do this easily, just run the following:
