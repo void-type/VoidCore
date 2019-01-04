@@ -12,7 +12,7 @@ namespace VoidCore.Domain
         /// Map the inner value to a Maybe of a new type by specifying the new value. The new value will be implicitly converted to a Maybe.
         /// </summary>
         /// <param name="maybe">The Maybe</param>
-        /// <param name="selector">The transforming selector function</param>
+        /// <param name="selector">The transforming map function</param>
         /// <typeparam name="T">The type of the original value</typeparam>
         /// <typeparam name="TNew">The type of the new value</typeparam>
         /// <returns>A Maybe of the new value</returns>
@@ -27,7 +27,7 @@ namespace VoidCore.Domain
         /// Map the inner value to a Maybe of a new type by specifying the new Maybe.
         /// </summary>
         /// <param name="maybe">The Maybe</param>
-        /// <param name="selector">The transforming selector function</param>
+        /// <param name="selector">The transforming map function</param>
         /// <typeparam name="T">The type of the original value</typeparam>
         /// <typeparam name="TNew">The type of the new value</typeparam>
         /// <returns>A Maybe of the new value</returns>
@@ -82,7 +82,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Filter the value using a predicate. If the value does not satisfy the predicate, an empty Maybe is returned.
+        /// Filter the value using a predicate. If the value does not satisfy the predicate, a Maybe.None is returned.
         /// </summary>
         /// <param name="maybe">The Maybe</param>
         /// <param name="predicate">The predicate used to filter the value</param>

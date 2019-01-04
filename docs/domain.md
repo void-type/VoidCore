@@ -216,7 +216,7 @@ Adapted from [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFun
 Maybe also has implicit conversion from the internal type.
 
 ```csharp
-// A fallible method returns a Result<> or Result
+// A fallible method returns a Result
 public Result<Person> GetPersonById(int id)
 {
     // Implicit conversion means you don't have to change code or write wrappers.
@@ -234,8 +234,9 @@ public Result<Person> GetPersonById(int id)
 There are useful extension methods for common tasks.
 
 ```csharp
-// One-line the bulk of the above method.
-return maybePerson.ToResult("Person is not found.", "personIdField");
+// One-line the bulk of the above method using the static From and the ToResult extension
+return Maybe.From(_data.Persons.Stored.FirstOrDefault(p => p.Id == id))
+    .ToResult("Person is not found.", "personIdField");
 
 // Safely unwrap. If there is no value, this will return the default value. We want a null int? to be zero. In the end we have an integer of either 0 or value + 3.
 var safelyAdded = maybeInt.Unwrap(value => value + 3, 0);
@@ -243,7 +244,7 @@ var safelyAdded = maybeInt.Unwrap(value => value + 3, 0);
 // Safe mappings. If there is no value, it will return a Maybe<Person>.None. We get a new Maybe object.
 var safelyKnighted = maybePerson.Select(p => "Sir" + p.Name);
 
-// All empty names will be replaced with Maybe<Person>.None
+// All persons without names will be replaced with Maybe<Person>.None
 var filtered = maybePerson.Where(p => !string.IsNullOrEmpty(p.Name));
 ```
 

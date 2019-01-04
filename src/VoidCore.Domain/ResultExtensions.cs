@@ -11,6 +11,8 @@ namespace VoidCore.Domain
     {
         /// <summary>
         /// Combine many untyped results to one untyped result.
+        /// If any have failed, this will return a new aggregate failed result. If none have failed, this will return
+        /// a successful result.
         /// </summary>
         /// <param name="results">The results to combine</param>
         /// <returns>A combined result</returns>
@@ -21,6 +23,8 @@ namespace VoidCore.Domain
 
         /// <summary>
         /// Combine many typed results to an untyped result.
+        /// If any have failed, this will return a new aggregate failed result. If none have failed, this will return
+        /// a successful result.
         /// </summary>
         /// <param name="results">The results to combine</param>
         /// <typeparam name="T">The type of value in the results</typeparam>
