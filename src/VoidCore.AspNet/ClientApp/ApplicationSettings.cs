@@ -10,5 +10,21 @@ namespace VoidCore.AspNet.ClientApp
 
         /// <inheritdoc/>
         public Dictionary<string, List<string>> AuthorizationPolicies { get; private set; }
+
+        /// <summary>
+        /// Constructor used by AspNet to instantiate using private setters.
+        /// </summary>
+        public ApplicationSettings() { }
+
+        /// <summary>
+        /// Construct a new settings.
+        /// </summary>
+        /// <param name="name">The UI-friendly name of the application.</param>
+        /// <param name="authorizationPolicies">The authorization policies of the application.</param>
+        public ApplicationSettings(string name, Dictionary<string, List<string>> authorizationPolicies)
+        {
+            Name = name;
+            AuthorizationPolicies = authorizationPolicies;
+        }
     }
 }
