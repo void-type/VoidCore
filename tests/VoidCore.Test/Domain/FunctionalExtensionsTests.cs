@@ -18,7 +18,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void MapStringArrayReturnsMappedValue()
         {
-            var myStrings = new [] {"H", "ello", " World"};
+            var myStrings = new [] { "H", "ello", " World" };
 
             var actual = myStrings.Map(i => string.Join("", i));
 
@@ -38,9 +38,9 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void TeeStringArrayReturnsSameReferenceAsInput()
         {
-            var myStrings = new [] {"H", "ello", " World"};
+            var myStrings = new [] { "H", "ello", " World" };
 
-            var actual = myStrings.Tee(i => string.Join("", i));
+            var actual = myStrings.Tee(strs => strs[0] = "O");
 
             Assert.Same(myStrings, actual);
         }
