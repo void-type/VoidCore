@@ -22,7 +22,7 @@ namespace VoidCore.AspNet.ClientApp
             /// <param name="httpContextAccessor">Accessor for the current httpcontext</param>
             /// <param name="antiforgery">The ASP.NET antiforgery object</param>
             /// <param name="currentUser">UI-friendly user name</param>
-            public Handler(IApplicationSettings applicationSettings, IHttpContextAccessor httpContextAccessor, IAntiforgery antiforgery, ICurrentUserAccessor currentUser)
+            public Handler(ApplicationSettings applicationSettings, IHttpContextAccessor httpContextAccessor, IAntiforgery antiforgery, ICurrentUserAccessor currentUser)
             {
                 _applicationSettings = applicationSettings;
                 _httpContextAccessor = httpContextAccessor;
@@ -43,7 +43,7 @@ namespace VoidCore.AspNet.ClientApp
             }
 
             private readonly IAntiforgery _antiforgery;
-            private readonly IApplicationSettings _applicationSettings;
+            private readonly ApplicationSettings _applicationSettings;
             private readonly ICurrentUserAccessor _currentUser;
             private readonly IHttpContextAccessor _httpContextAccessor;
         }

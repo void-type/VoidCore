@@ -41,7 +41,7 @@ namespace VoidCore.AspNet.Configuration
         /// <param name="applicationSettings">Authorization settings from configuration</param>
         /// <exception cref="System.ArgumentNullException">Throws an ArgumentNullException if applicationSettings are not configured.</exception>
         /// <exception cref="System.ArgumentException">Throws an ArgumentException if authorizationPolicies are not configured.</exception>
-        public static void AddAuthorizationPoliciesFromSettings(this IServiceCollection services, IApplicationSettings applicationSettings)
+        public static void AddAuthorizationPoliciesFromSettings(this IServiceCollection services, ApplicationSettings applicationSettings)
         {
             if (applicationSettings == null)
             {

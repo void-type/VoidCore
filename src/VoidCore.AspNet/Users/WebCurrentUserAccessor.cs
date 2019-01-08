@@ -27,7 +27,7 @@ namespace VoidCore.AspNet.Users
                 return new DomainUser(name, authorizedAs);
             }
         }
-        
+
         /// <summary>
         /// Create a new current user accessor
         /// </summary>
@@ -35,7 +35,7 @@ namespace VoidCore.AspNet.Users
         /// <param name="userNameFormatter">A formatter for the user names</param>
         /// <param name="authorizationService">Policy checker for users</param>
         /// <param name="applicationSettings">The application's authorization settings</param>
-        public WebCurrentUserAccessor(IHttpContextAccessor httpContextAccessor, IUserNameFormatStrategy userNameFormatter, IAuthorizationService authorizationService, IApplicationSettings applicationSettings)
+        public WebCurrentUserAccessor(IHttpContextAccessor httpContextAccessor, IUserNameFormatStrategy userNameFormatter, IAuthorizationService authorizationService, ApplicationSettings applicationSettings)
         {
             _httpContextAccessor = httpContextAccessor;
             _userNameFormatter = userNameFormatter;
@@ -43,7 +43,7 @@ namespace VoidCore.AspNet.Users
             _applicationSettings = applicationSettings;
         }
 
-        private readonly IApplicationSettings _applicationSettings;
+        private readonly ApplicationSettings _applicationSettings;
         private readonly IAuthorizationService _authorizationService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUserNameFormatStrategy _userNameFormatter;

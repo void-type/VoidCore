@@ -3,13 +3,13 @@ using System.Collections.Generic;
 namespace VoidCore.AspNet.ClientApp
 {
     /// <inheritdoc/>
-    public class ApplicationSettings : IApplicationSettings
+    public class ApplicationSettings
     {
         /// <inheritdoc/>
         public string Name { get; private set; }
 
         /// <inheritdoc/>
-        public Dictionary<string, List<string>> AuthorizationPolicies { get; private set; }
+        public Dictionary<string, List<string>> AuthorizationPolicies { get; private set; } = new Dictionary<string, List<string>>();
 
         /// <summary>
         /// Constructor used by AspNet to instantiate using private setters.

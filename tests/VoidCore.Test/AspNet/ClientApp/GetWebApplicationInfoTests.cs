@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using Moq;
@@ -13,10 +14,7 @@ namespace VoidCore.Test.AspNet.ClientApp
         [Fact]
         public async void ApplicationInfoIsCreatedWithAndLogsProperInfo()
         {
-            var appSettingsMock = new Mock<IApplicationSettings>();
-            appSettingsMock
-                .Setup(a => a.Name)
-                .Returns("AppName");
+            var appSettings = new ApplicationSettings("AppName", new Dictionary<string, List<string>>());
 
             var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
             currentUserAccessorMock
@@ -39,7 +37,7 @@ namespace VoidCore.Test.AspNet.ClientApp
             loggingServiceMock
                 .Setup(l => l.Info(It.IsAny<string[]>()));
 
-            var result = await new GetWebApplicationInfo.Handler(appSettingsMock.Object, contextAccessorMock.Object, antiforgeryMock.Object, currentUserAccessorMock.Object)
+            var result = await new GetWebApplicationInfo.Handler(appSettings, contextAccessorMock.Object, antiforgeryMock.Object, currentUserAccessorMock.Object)
                 .AddPostProcessor(new GetWebApplicationInfo.Logger(loggingServiceMock.Object))
                 .Handle(new GetWebApplicationInfo.Request());
 
