@@ -31,6 +31,6 @@ namespace VoidCore.Domain.Events
         /// <param name="request">The request contains all the parameters to handle the event.</param>
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
         /// <returns>A result of the response.</returns>
-        Task<Result<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default(CancellationToken));
+        Task<IResult<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

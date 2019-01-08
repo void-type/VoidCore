@@ -31,7 +31,7 @@ namespace VoidCore.AspNet.ClientApp
             }
 
             /// <inheritdoc/>
-            protected override Result<WebApplicationInfo> HandleSync(Request request)
+            protected override IResult<WebApplicationInfo> HandleSync(Request request)
             {
                 var applicationInfo = new WebApplicationInfo(
                     _applicationSettings.Name,

@@ -16,7 +16,7 @@ namespace VoidCore.AspNet.ClientApp
         /// <param name="result">The domain result</param>
         /// <typeparam name="TSuccessValue">The type of success value in the result</typeparam>
         /// <returns>An IActionResult</returns>
-        public IActionResult Respond<TSuccessValue>(Result<TSuccessValue> result)
+        public IActionResult Respond<TSuccessValue>(IResult<TSuccessValue> result)
         {
             return result.IsSuccess ? Ok(result.Value) : Failure(result);
         }
@@ -26,7 +26,7 @@ namespace VoidCore.AspNet.ClientApp
         /// </summary>
         /// <param name="result">The domain result</param>
         /// <returns>An IActionResult</returns>
-        public IActionResult Respond(Result result)
+        public IActionResult Respond(IResult result)
         {
             return result.IsSuccess ? Ok(null) : Failure(result);
         }
@@ -46,7 +46,7 @@ namespace VoidCore.AspNet.ClientApp
         /// </summary>
         /// <param name="result">The domain result</param>
         /// <returns>An IActionResult</returns>
-        public IActionResult RespondWithFile(Result<ISimpleFile> result)
+        public IActionResult RespondWithFile(IResult<ISimpleFile> result)
         {
             if (result.IsSuccess)
             {

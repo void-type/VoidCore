@@ -28,15 +28,6 @@ namespace VoidCore.Domain
             }
         }
 
-        /// <summary>
-        /// Implicitly convert a typed Result to an untyped one.
-        /// </summary>
-        /// <param name="result">The result to convert</param>
-        public static implicit operator Result(Result<T> result)
-        {
-            return result.IsSuccess ? Result.Ok() : Result.Fail(result.Failures);
-        }
-
         internal Result(T value)
         {
             if (value == null)
@@ -66,7 +57,7 @@ namespace VoidCore.Domain
         /// </summary>
         /// <param name="results">Results to combine</param>
         /// <returns>A new result</returns>
-        public static Result Combine(params IResult[] results)
+        public static IResult Combine(params IResult[] results)
         {
             var failures = results
                 .Where(result => result.IsFailed)
@@ -81,7 +72,7 @@ namespace VoidCore.Domain
         /// </summary>
         /// <param name="failures">A list of failures</param>
         /// <returns>A new result</returns>
-        public static Result Fail(IEnumerable<IFailure> failures)
+        public static IResult Fail(IEnumerable<IFailure> failures)
         {
             return new Result(failures);
         }
@@ -91,7 +82,7 @@ namespace VoidCore.Domain
         /// </summary>
         /// <param name="failures">A list of failures</param>
         /// <returns>A new result</returns>
-        public static Result<T> Fail<T>(IEnumerable<IFailure> failures)
+        public static IResult<T> Fail<T>(IEnumerable<IFailure> failures)
         {
             return new Result<T>(failures);
         }
@@ -102,7 +93,7 @@ namespace VoidCore.Domain
         /// <param name="failure">The failure</param>
         /// <returns>A new result</returns>
         /// <exception cref="System.ArgumentNullException">Throws an ArgumentNullException if null is passed for failure.</exception>
-        public static Result Fail(IFailure failure)
+        public static IResult Fail(IFailure failure)
         {
             if (failure == null)
             {
@@ -118,7 +109,7 @@ namespace VoidCore.Domain
         /// <param name="failure">The failure</param>
         /// <returns>A new result</returns>
         /// <exception cref="System.ArgumentNullException">Throws an ArgumentNullException if null is passed for failure.</exception>
-        public static Result<T> Fail<T>(IFailure failure)
+        public static IResult<T> Fail<T>(IFailure failure)
         {
             if (failure == null)
             {
@@ -134,7 +125,7 @@ namespace VoidCore.Domain
         /// <param name="errorMessage">The error message to put into the failed result</param>
         /// <param name="uiHandle">The uiHandle to put into the failed result</param>
         /// <returns>A new result</returns>
-        public static Result Fail(string errorMessage, string uiHandle = null)
+        public static IResult Fail(string errorMessage, string uiHandle = null)
         {
             return Fail(new Failure(errorMessage, uiHandle));
         }
@@ -145,7 +136,7 @@ namespace VoidCore.Domain
         /// <param name="errorMessage">The error message to put into the failed result</param>
         /// <param name="uiHandle">The uiHandle to put into the failed result</param>
         /// <returns>A new result</returns>
-        public static Result<T> Fail<T>(string errorMessage, string uiHandle = null)
+        public static IResult<T> Fail<T>(string errorMessage, string uiHandle = null)
         {
             return Fail<T>(new Failure(errorMessage, uiHandle));
         }
@@ -154,7 +145,7 @@ namespace VoidCore.Domain
         /// Create a new successful untyped result.
         /// </summary>
         /// <returns>A new result</returns>
-        public static Result Ok()
+        public static IResult Ok()
         {
             return new Result();
         }
@@ -166,7 +157,7 @@ namespace VoidCore.Domain
         /// <typeparam name="T">The type of success value</typeparam>
         /// <returns>A new result</returns>
         /// <exception cref="System.ArgumentNullException">Throws an ArgumentNullException if null is passed for value.</exception>
-        public static Result<T> Ok<T>(T value)
+        public static IResult<T> Ok<T>(T value)
         {
             return new Result<T>(value);
         }

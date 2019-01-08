@@ -43,7 +43,7 @@ namespace VoidCore.Test.AspNet.ClientApp
         [Fact]
         public void RespondWithFileSuccess()
         {
-            var file = new SimpleFile("fileContent", "fileName") as ISimpleFile;
+            var file = new SimpleFile("fileContent", "fileName");
             var result = Result.Ok(file);
             var responder = new HttpResponder();
             var response = responder.RespondWithFile(result);

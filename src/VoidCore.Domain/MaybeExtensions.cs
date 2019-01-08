@@ -46,7 +46,7 @@ namespace VoidCore.Domain
         /// <param name="uiHandle">The uiHandle of the result failure</param>
         /// <typeparam name="T">The type of Maybe and Result value</typeparam>
         /// <returns>A result of the Maybe having a value</returns>
-        public static Result<T> ToResult<T>(this Maybe<T> maybe, string errorMessage, string uiHandle = null)
+        public static IResult<T> ToResult<T>(this Maybe<T> maybe, string errorMessage, string uiHandle = null)
         {
             return maybe.HasNoValue ?
                 Result.Fail<T>(errorMessage, uiHandle) :

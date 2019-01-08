@@ -12,6 +12,6 @@ namespace VoidCore.Model.Emailing
         /// </summary>
         /// <param name="email">The email to send</param>
         /// <returns>A result describing the success of sending the email</returns>
-        Result SendEmail(Email email);
+        IResult SendEmail(Email email);
     }
 }

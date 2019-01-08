@@ -15,7 +15,7 @@ namespace VoidCore.Domain.Events
         /// </summary>
         /// <param name="request">The validated request</param>
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-        public override Task<Result<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default(CancellationToken))
+        public override Task<IResult<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default(CancellationToken))
         {
             return Task.FromResult(HandleSync(request));
         }
@@ -25,6 +25,6 @@ namespace VoidCore.Domain.Events
         /// </summary>
         /// <param name="request">The validated request</param>
         /// <returns>A result of TResponse</returns>
-        protected abstract Result<TResponse> HandleSync(TRequest request);
+        protected abstract IResult<TResponse> HandleSync(TRequest request);
     }
 }

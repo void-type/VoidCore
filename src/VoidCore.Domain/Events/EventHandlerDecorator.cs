@@ -36,7 +36,7 @@ namespace VoidCore.Domain.Events
         }
 
         /// <inheritdoc/>
-        public async Task<Result<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<IResult<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default(CancellationToken))
         {
             var validation = _requestValidators
                 .Select(validator => validator.Validate(request))

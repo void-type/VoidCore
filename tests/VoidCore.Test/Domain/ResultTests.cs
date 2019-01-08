@@ -20,7 +20,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void CombineWithFailuresGivesFailures()
         {
-            var result = new List<Result>() { Result.Ok(), Result.Fail("oops"), Result.Fail("oops"), Result.Ok() }
+            var result = new List<IResult>() { Result.Ok(), Result.Fail("oops"), Result.Fail("oops"), Result.Ok() }
                 .Combine();
 
             Assert.False(result.IsSuccess);
@@ -31,7 +31,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void CombineWithNoFailuresGivesSuccess()
         {
-            var result = new List<Result>() { Result.Ok(), Result.Ok() }
+            var result = new List<IResult>() { Result.Ok(), Result.Ok() }
                 .Combine();
 
             Assert.True(result.IsSuccess);
@@ -42,13 +42,13 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void ImplicitConversionFromTypedToUntypedProvidesCorrectVariant()
         {
-            var source = Result.Ok("good");
-            Result result = source;
-            Assert.True(result.IsSuccess);
+            IResult<string> source1 = Result.Ok("good");
+            IResult result1 = source1;
+            Assert.True(result1.IsSuccess);
 
-            source = Result.Fail<string>("oops");
-            result = source;
-            Assert.True(result.IsFailed);
+            IResult<string> source2 = Result.Fail<string>("oops");
+            IResult result2 = source2;
+            Assert.True(result2.IsFailed);
         }
 
         [Fact]
@@ -115,7 +115,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void TypedCombineWithFailuresGivesFailures()
         {
-            var result = new List<Result<string>>() { Result.Ok(""), Result.Fail<string>(""), Result.Fail<string>(""), Result.Ok("") }
+            var result = new List<IResult<string>>() { Result.Ok(""), Result.Fail<string>(""), Result.Fail<string>(""), Result.Ok("") }
                 .Combine();
 
             Assert.False(result.IsSuccess);
@@ -126,7 +126,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void TypedCombineWithNoFailuresGivesSuccess()
         {
-            var result = new List<Result<string>>() { Result.Ok(""), Result.Ok("") }
+            var result = new List<IResult<string>>() { Result.Ok(""), Result.Ok("") }
                 .Combine();
 
             Assert.True(result.IsSuccess);
