@@ -33,7 +33,7 @@ namespace VoidCore.Test.AspNet.ClientApp
         [Fact]
         public void RespondWithFileFailure()
         {
-            var result = Result.Fail<ISimpleFile>(new IFailure[] { new Failure("some fail", "some fail"), new Failure("some fail", "some fail") });
+            var result = Result.Fail<SimpleFile>(new IFailure[] { new Failure("some fail", "some fail"), new Failure("some fail", "some fail") });
             var responder = new HttpResponder();
             var response = responder.RespondWithFile(result);
             Assert.Equal(400, ((ObjectResult) response).StatusCode);

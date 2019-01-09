@@ -8,7 +8,7 @@ namespace VoidCore.Model.Logging
     /// Log meta information about the item set.
     /// </summary>
     /// <typeparam name="TRequest">The request type</typeparam>
-    public class SimpleFileEventLogger<TRequest> : FallibleEventLogger<TRequest, ISimpleFile>
+    public class SimpleFileEventLogger<TRequest> : FallibleEventLogger<TRequest, SimpleFile>
     {
         /// <summary>
         /// Construct a new IItemSet logger.
@@ -17,7 +17,7 @@ namespace VoidCore.Model.Logging
         public SimpleFileEventLogger(ILoggingService logger) : base(logger) { }
 
         /// <inheritdoc/>
-        public override void OnSuccess(TRequest request, IResult<ISimpleFile> successfulResult)
+        public override void OnSuccess(TRequest request, IResult<SimpleFile> successfulResult)
         {
             Logger.Info(
                 $"FileName: {successfulResult.Value.Name}"

@@ -2,13 +2,19 @@ using System.Collections.Generic;
 
 namespace VoidCore.AspNet.ClientApp
 {
-    /// <inheritdoc/>
+    /// <summary>
+    /// General application settings that are pulled from configuration.
+    /// </summary>
     public class ApplicationSettings
     {
-        /// <inheritdoc/>
+        /// <summary>
+        /// The name of the application.
+        /// </summary>
         public string Name { get; private set; }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Policies represented as a key of policyName and names of allowed roles.
+        /// </summary>
         public Dictionary<string, List<string>> AuthorizationPolicies { get; private set; } = new Dictionary<string, List<string>>();
 
         /// <summary>

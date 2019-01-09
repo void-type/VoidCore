@@ -9,7 +9,7 @@ namespace VoidCore.Domain.Functional
     public static class FunctionalExtensions
     {
         /// <summary>
-        /// Map the input to an output. Similar to Select in LINQ.
+        /// Map the input to an output.
         /// </summary>
         /// <param name="input">The input</param>
         /// <param name="selector">The map function to transform input to output</param>
@@ -23,7 +23,6 @@ namespace VoidCore.Domain.Functional
 
         /// <summary>
         /// Perform a side-effect action while passing the input through to the next step in the pipeline.
-        /// This is used for managing side-effects and ensuring the last step's output becomes the next step's input.
         /// </summary>
         /// <param name="input">The input to the tee.</param>
         /// <param name="action">The action to perform.</param>

@@ -3,9 +3,11 @@
     /// <summary>
     /// A UI-friendly message.
     /// </summary>
-    public class UserMessage : IUserMessage
+    public class UserMessage
     {
-        /// <inheritdoc/>
+        /// <summary>
+        /// The UI-friendly message.
+        /// </summary>
         public string Message { get; }
 
         /// <summary>

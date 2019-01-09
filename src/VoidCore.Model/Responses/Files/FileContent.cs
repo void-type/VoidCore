@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using VoidCore.Domain;
 
@@ -26,6 +28,11 @@ namespace VoidCore.Model.Responses.Files
         /// <param name="content">The content of the file.</param>
         public FileContent(byte[] content)
         {
+            if (content == null)
+            {
+                throw new ArgumentNullException(nameof(content), "Cannot create a file content with null content.");
+            }
+
             _content = content;
         }
 
@@ -33,15 +40,12 @@ namespace VoidCore.Model.Responses.Files
         /// Create a new file contents using a string. Will be decoded from UTF8 to bytes internally.
         /// </summary>
         /// <param name="content">The content of the file.</param>
-        public FileContent(string content)
-        {
-            _content = Encoding.UTF8.GetBytes(content);
-        }
+        public FileContent(string content) : this(Encoding.UTF8.GetBytes(content)) { }
 
         /// <inheritdoc />
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            yield return _content;
+            yield return string.Join("", _content.Select(b => string.Format("{0:X2}", b)));
         }
 
         private byte[] _content;

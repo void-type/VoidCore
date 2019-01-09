@@ -46,7 +46,7 @@ namespace VoidCore.AspNet.ClientApp
         /// </summary>
         /// <param name="result">The domain result</param>
         /// <returns>An IActionResult</returns>
-        public IActionResult RespondWithFile(IResult<ISimpleFile> result)
+        public IActionResult RespondWithFile(IResult<SimpleFile> result)
         {
             if (result.IsSuccess)
             {
