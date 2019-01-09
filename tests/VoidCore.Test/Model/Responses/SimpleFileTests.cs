@@ -12,9 +12,9 @@ namespace VoidCore.Test.Model.Responses
         public void SimpleFileConstructFromString()
         {
             var file = new SimpleFile(TestString, "filename.txt");
-            var contentString = Encoding.UTF8.GetString(file.Content);
+            var contentString = Encoding.UTF8.GetString(file.Content.AsBytes);
             Assert.Equal(TestString, contentString);
-            Assert.Equal(TestString, file.ContentAsString);
+            Assert.Equal(TestString, file.Content.AsString);
             Assert.Equal("filename.txt", file.Name);
         }
 
@@ -22,9 +22,9 @@ namespace VoidCore.Test.Model.Responses
         public void SimpleFileConstructFromBytes()
         {
             var file = new SimpleFile(Encoding.UTF8.GetBytes(TestString), "filename.txt");
-            var contentString = Encoding.UTF8.GetString(file.Content);
+            var contentString = Encoding.UTF8.GetString(file.Content.AsBytes);
             Assert.Equal(TestString, contentString);
-            Assert.Equal(TestString, file.ContentAsString);
+            Assert.Equal(TestString, file.Content.AsString);
             Assert.Equal("filename.txt", file.Name);
         }
     }

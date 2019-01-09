@@ -6,18 +6,13 @@
     public interface ISimpleFile
     {
         /// <summary>
-        /// The content bytes of the file.
+        /// The contents file.
         /// </summary>
-        byte[] Content { get; }
+        FileContent Content { get; }
 
         /// <summary>
         /// The name to save the file as on the client.
         /// </summary>
         string Name { get; }
-
-        /// <summary>
-        /// Decodes the content bytes as a UTF8 string.
-        /// </summary>
-        string ContentAsString { get; }
     }
 }

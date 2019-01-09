@@ -6,13 +6,25 @@ namespace VoidCore.Model.Responses.Files
     public class SimpleFile : ISimpleFile
     {
         /// <summary>
+        /// The content of the file.
+        /// </summary>
+        /// <value></value>
+        public FileContent Content { get; }
+
+        /// <summary>
+        /// The name of the file.
+        /// </summary>
+        /// <value></value>
+        public string Name { get; }
+
+        /// <summary>
         /// Create a new file from a byte array. Useful for binary files.
         /// </summary>
         /// <param name="fileContent">The byte representation of the file contents</param>
         /// <param name="fileName">The name of the file</param>
-        public SimpleFile(byte[] fileContent, string fileName)
+        public SimpleFile(string fileContent, string fileName)
         {
-            Content = fileContent;
+            Content = new FileContent(fileContent);
             Name = fileName;
         }
 
@@ -22,19 +34,10 @@ namespace VoidCore.Model.Responses.Files
         /// </summary>
         /// <param name="fileContent">The string representation of the file contents</param>
         /// <param name="fileName">The name of the file</param>
-        public SimpleFile(string fileContent, string fileName)
+        public SimpleFile(byte[] fileContent, string fileName)
         {
-            Content = Encoding.UTF8.GetBytes(fileContent);
+            Content = new FileContent(fileContent);
             Name = fileName;
         }
-
-        /// <inheritdoc/>
-        public byte[] Content { get; }
-
-        /// <inheritdoc/>
-        public string Name { get; }
-
-        /// <inheritdoc/>
-        public string ContentAsString => Encoding.UTF8.GetString(Content);
     }
 }

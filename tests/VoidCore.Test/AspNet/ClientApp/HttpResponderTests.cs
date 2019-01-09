@@ -49,7 +49,7 @@ namespace VoidCore.Test.AspNet.ClientApp
             var response = responder.RespondWithFile(result);
             Assert.Equal("application/force-download", ((FileContentResult) response).ContentType);
             Assert.Equal(file.Name, ((FileContentResult) response).FileDownloadName);
-            Assert.Equal(file.Content, ((FileContentResult) response).FileContents);
+            Assert.Equal(file.Content.AsBytes, ((FileContentResult) response).FileContents);
         }
 
         [Fact]
