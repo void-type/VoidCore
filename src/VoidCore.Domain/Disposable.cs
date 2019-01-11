@@ -1,6 +1,6 @@
 using System;
 
-namespace VoidCore.Domain.Functional
+namespace VoidCore.Domain
 {
     /// <summary>
     /// Static helpers to make disposable using blocks more functional.

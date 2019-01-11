@@ -2,6 +2,23 @@
 
 VoidCore.Domain is a basic framework for building domain-driven, event-based applications.
 
+## Functional Extensions
+
+Write more functional code with generic functions that help pipe objects into each other.
+
+```csharp
+// Get output from an IDisposable in a way that can be piped.
+// See the Maybe and Result types to alleviate nulls in your pipeline.
+var employee = Disposable
+    .Using(DbContextFactory.Create, context => context.Persons.Find("Joe"))
+
+// Perform side-effects in your pipe while ensuring the input is passed as output.
+    .Tee(p => Log(p))
+
+// Transform one entity into another. Much like LINQ's Select for single objects rather than collections.
+    .Map(p => new Employee(p.Name, p.Email));
+```
+
 ## Domain Events
 
 Extract logic from your controllers and separate cross-cutting concerns like validation and logging. All logic for an event can be put into a single file.
@@ -196,17 +213,22 @@ if (result.IsSuccess)
 }
 ```
 
-There are extension and static methods to combine results to quickly check for failures.
+There are many extension methods for making a pipeline of results.
 
 ```csharp
+// Combine lots of results into a single result. Note that this returns an untyped result.
 IEnumerable<Result> results = CheckLotsOfThings();
 
 var singleResult = results.Combine();
 
-if (result.IsSuccess)
-{
-    return "Hooray!"
-}
+// Transform your result into a typed one, or transform typed results to other types.
+// If the original result is failed, the selector is not invoked and the failures are copied over.
+var newResult = singleResult.Select(() => "Hooray!");
+
+// Perform side-effect actions depending on result success. The original result is passed down the pipeline.
+newResult
+    .TeeOnSuccess(value => DoSomething(value))
+    .TeeOnFailure(result => Log(result.Failures));
 ```
 
 ## Maybe for explicit nulls
@@ -231,7 +253,7 @@ public Result<Person> GetPersonById(int id)
 }
 ```
 
-There are useful extension methods for common tasks.
+There are useful extension methods for common Maybe tasks.
 
 ```csharp
 // One-line the bulk of the above method using the static From and the ToResult extension

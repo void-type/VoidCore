@@ -1,6 +1,6 @@
 using System;
 
-namespace VoidCore.Domain.Functional
+namespace VoidCore.Domain
 {
     /// <summary>
     /// Extension methods that add common functional features for supporting pipelines.

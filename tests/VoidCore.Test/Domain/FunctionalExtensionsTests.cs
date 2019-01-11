@@ -1,4 +1,4 @@
-using VoidCore.Domain.Functional;
+using VoidCore.Domain;
 using Xunit;
 
 namespace VoidCore.Test.Domain
