@@ -24,7 +24,7 @@
     /// <summary>
     /// Static helpers to create UserMessageWithEntityIds
     /// </summary>
-    public class UserMessageWithEntityId
+    public static class UserMessageWithEntityId
     {
         /// <summary>
         /// Create a new UserMessageWithEntityId
