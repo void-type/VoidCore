@@ -26,6 +26,7 @@ namespace VoidCore.Model.Responses.Files
         /// Create a new file contents using bytes.
         /// </summary>
         /// <param name="content">The content of the file.</param>
+        /// <exception cref="System.ArgumentNullException">Throws an ArgumentNullException if content is null.</exception>
         public FileContent(byte[] content)
         {
             if (content == null)
@@ -40,6 +41,7 @@ namespace VoidCore.Model.Responses.Files
         /// Create a new file contents using a string. Will be decoded from UTF8 to bytes internally.
         /// </summary>
         /// <param name="content">The content of the file.</param>
+        /// <exception cref="System.ArgumentNullException">Throws an ArgumentNullException if content is null.</exception>
         public FileContent(string content) : this(Encoding.UTF8.GetBytes(content)) { }
 
         /// <inheritdoc />
