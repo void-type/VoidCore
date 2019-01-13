@@ -19,7 +19,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void MaybeFromClassHasValue()
         {
-            var maybe = Maybe<string>.From("some value");
+            var maybe = Maybe.From("some value");
             Assert.False(maybe.HasNoValue);
             Assert.True(maybe.HasValue);
             Assert.Equal("some value", maybe.Value);
@@ -29,7 +29,7 @@ namespace VoidCore.Test.Domain
         public void MaybeFromUsingNonGenericHelper()
         {
             var maybe1 = Maybe.From("some value");
-            var maybe2 = Maybe<string>.From("some value");
+            var maybe2 = Maybe.From("some value");
             Assert.False(maybe1.HasNoValue);
             Assert.True(maybe1.HasValue);
             Assert.Equal("some value", maybe1.Value);
@@ -39,7 +39,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void MaybeFromIntHasValue()
         {
-            var maybe = Maybe<int>.From(2);
+            var maybe = Maybe.From(2);
             Assert.False(maybe.HasNoValue);
             Assert.True(maybe.HasValue);
             Assert.Equal(2, maybe.Value);
@@ -56,7 +56,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void MaybeFromNullHasNoValue()
         {
-            var maybe = Maybe<string>.From(null);
+            var maybe = Maybe.From<string>(null);
             Assert.True(maybe.HasNoValue);
             Assert.False(maybe.HasValue);
         }
@@ -65,7 +65,7 @@ namespace VoidCore.Test.Domain
         public void MaybeGetHashCodeReturnsValueHashCodeExceptWhenNone()
         {
             var value = "some value";
-            var maybe = Maybe<string>.From(value);
+            var maybe = Maybe.From(value);
             Assert.Equal(value.GetHashCode(), maybe.GetHashCode());
 
             maybe = Maybe<string>.None;
@@ -75,7 +75,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void MaybeHasImplicitConversionFromValueType()
         {
-            var maybe = Maybe<string>.From("some value");
+            var maybe = Maybe.From("some value");
             Assert.False(maybe.HasNoValue);
             Assert.True(maybe.HasValue);
             Assert.Equal("some value", maybe.Value);
@@ -84,15 +84,15 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void MaybeIsEqualToMaybeAsObject()
         {
-            var maybe1 = Maybe<string>.From("some value");
-            var maybe2 = Maybe<string>.From("some value") as object;
+            var maybe1 = Maybe.From("some value");
+            var maybe2 = Maybe.From("some value") as object;
             Assert.Equal(maybe1, maybe2);
         }
 
         [Fact]
         public void MaybeIsEqualToValueAsObject()
         {
-            var maybe = Maybe<string>.From("some value");
+            var maybe = Maybe.From("some value");
             object other = "some value";
             Assert.Equal(maybe, other);
         }
@@ -100,7 +100,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void MaybeIsEqualWithItsValue()
         {
-            var maybe = Maybe<string>.From("some value");
+            var maybe = Maybe.From("some value");
             Assert.True(maybe == "some value");
             Assert.False(maybe != "some value");
         }
@@ -108,8 +108,8 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void MaybeIsEqualWithSameValuedMaybe()
         {
-            var maybe1 = Maybe<string>.From("some value");
-            var maybe2 = Maybe<string>.From("some value");
+            var maybe1 = Maybe.From("some value");
+            var maybe2 = Maybe.From("some value");
             Assert.True(maybe1 == maybe2);
             Assert.False(maybe1 != maybe2);
         }
@@ -117,7 +117,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void MaybeIsNotEqualToAnotherObject()
         {
-            var maybe = Maybe<string>.From("some value");
+            var maybe = Maybe.From("some value");
             object other = 3;
             Assert.NotEqual(maybe, other);
         }
@@ -125,8 +125,8 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void MaybeIsNotEqualWithDifferentValuedMaybe()
         {
-            var maybe1 = Maybe<string>.From("some value");
-            var maybe2 = Maybe<string>.From("some other value");
+            var maybe1 = Maybe.From("some value");
+            var maybe2 = Maybe.From("some other value");
             Assert.True(maybe1 != maybe2);
             Assert.False(maybe1 == maybe2);
         }
@@ -134,7 +134,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void MaybeIsNotEqualWithNotItsValue()
         {
-            var maybe = Maybe<string>.From("some value");
+            var maybe = Maybe.From("some value");
             Assert.True(maybe != "some other value");
             Assert.False(maybe == "some other value");
         }
@@ -150,7 +150,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void MaybeToString()
         {
-            var maybe = Maybe<string>.From("some value");
+            var maybe = Maybe.From("some value");
             Assert.Equal("some value", maybe.ToString());
 
             maybe = Maybe<string>.None;
@@ -160,8 +160,8 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void NoneMaybeHasInequalityWithMaybe()
         {
-            var maybe1 = Maybe<string>.From("some value");
-            var maybe2 = Maybe<string>.From("some other value");
+            var maybe1 = Maybe.From("some value");
+            var maybe2 = Maybe.From("some other value");
             Assert.True(maybe1 != maybe2);
             Assert.False(maybe1 == maybe2);
         }
@@ -169,7 +169,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void NoneMaybeHasInequalityWithValue()
         {
-            var maybe = Maybe<string>.From("some value");
+            var maybe = Maybe.From("some value");
             Assert.True(maybe != "some other value");
             Assert.False(maybe == "some other value");
         }
@@ -192,7 +192,7 @@ namespace VoidCore.Test.Domain
             Assert.True(maybe != "some value");
             Assert.True(maybe != null);
 
-            var maybe2 = Maybe<string>.From("some value");
+            var maybe2 = Maybe.From("some value");
             Assert.False(maybe == maybe2);
             Assert.True(maybe != maybe2);
             Assert.False(maybe2 == maybe);

@@ -172,7 +172,7 @@ namespace VoidCore.Domain
 
         /// <summary>
         /// This class wraps the inner value to allow Maybe to work with non-nullable value types. We can set a reference to this type to null whereas
-        /// we can't do that with NNVTs.
+        /// we can't do that with non-nullable value types.
         /// </summary>
         private class MaybeValueWrapper
         {
@@ -182,22 +182,6 @@ namespace VoidCore.Domain
             }
 
             internal readonly T Value;
-        }
-    }
-
-    /// <summary>
-    /// Provides non-generic helpers of the generic Maybe class.
-    /// </summary>
-    public static class Maybe
-    {
-        /// <summary>
-        /// Convert an object to a Maybe of obj.
-        /// </summary>
-        /// <param name="obj">The object to convert</param>
-        /// <returns>A new Maybe of the type of the object</returns>
-        public static Maybe<T> From<T>(T obj)
-        {
-            return Maybe<T>.From(obj);
         }
     }
 }

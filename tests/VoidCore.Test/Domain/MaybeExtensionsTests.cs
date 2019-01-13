@@ -10,7 +10,7 @@ namespace VoidCore.Test.Domain
         public void MaybeSelectToMaybeWithoutValue()
         {
             Maybe<string> maybe = Maybe<string>.None;
-            var value = maybe.Select(v => Maybe<int>.From(2));
+            var value = maybe.Select(v => Maybe.From(2));
             Assert.IsType<Maybe<int>>(value);
             Assert.True(value.HasNoValue);
         }
@@ -19,7 +19,7 @@ namespace VoidCore.Test.Domain
         public void MaybeSelectToMaybeWithValue()
         {
             Maybe<string> maybe = "some value";
-            var value = maybe.Select(v => Maybe<int>.From(2));
+            var value = maybe.Select(v => Maybe.From(2));
             Assert.IsType<Maybe<int>>(value);
             Assert.Equal(2, value.Value);
         }
