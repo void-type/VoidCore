@@ -1,5 +1,3 @@
-using System;
-
 namespace VoidCore.Domain
 {
     /// <summary>
