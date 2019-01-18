@@ -1,8 +1,16 @@
-# Model Features
+# VoidCore.Model
+
+## Install
+
+```powerShell
+dotnet add package VoidCore.Model
+```
+
+## Features
 
 VoidCore.Model is an opinionated set of services and interfaces to support business application domains.
 
-## Text Search on Object Properties
+### Text Search on Object Properties
 
 Check many properties of an object for an array of terms. It will split any search string on whitespace, or it can take an explicit array of terms.
 
@@ -19,7 +27,7 @@ var matchedPeople = people
     );
 ```
 
-## API Responses
+### API Responses
 
 Make predictable data APIs.
 
@@ -29,19 +37,19 @@ Make predictable data APIs.
 * Paginated data sets
 * Downloadable files
 
-## Data Persistence
+### Data Persistence
 
 * Repositories with read/write control.
 * Soft delete.
 * Auditable entities via Created and Modified names/dates.
 
-## Logging
+### Logging
 
 * Inherit your custom PostProcessors from FallibleEventLogger to automatically log Result failures from the validation or event.
 * There are also PostProcessors for all API Response types that include fallible logging.
 * Domain-safe, platform-agnostic interfaces for logging services.
 
-## Common Service Interfaces
+### Common Service Interfaces
 
 Interfaces for common services that the domain can use.
 

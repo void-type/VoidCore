@@ -1,4 +1,12 @@
-# AspNet Features
+# VoidCore.AspNet
+
+## Install
+
+```powerShell
+dotnet add package VoidCore.AspNet
+```
+
+## Features
 
 VoidCore.AspNet includes helpers for configuring an ASP.NET Core web application:
 
