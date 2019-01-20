@@ -14,45 +14,40 @@ namespace VoidCore.AspNet.Logging
         /// <summary>
         /// Create a new Serilog ILogger using an absolute path. This can be OS sensitive.
         /// </summary>
-        /// <param name="logFilePath">The full path to the file. Serilog will append the date before the extension</param>
-        /// <param name="suppressFrameworkWarnings">Suppress warnings logged by Microsoft and System</param>
-        /// <param name="daysToRetain">How many days to keep logged files</param>
+        /// <param name="settings">Settings for the logger</param>
+        /// <typeparam name="TClass">A class within the assembly to be logged.</typeparam>
         /// <returns>A Serilog ILogger instance</returns>
-        public static ILogger Create(string logFilePath = null, bool suppressFrameworkWarnings = false, int daysToRetain = 30)
+        public static ILogger Create<TClass>(LoggingSettings settings)
         {
-            var frameworkLoggingLevel = suppressFrameworkWarnings ? LogEventLevel.Error : LogEventLevel.Warning;
+            var frameworkLoggingLevel = settings.SuppressFrameworkWarnings ?
+                LogEventLevel.Error :
+                LogEventLevel.Warning;
+
+            var logFilePath = string.IsNullOrWhiteSpace(settings.LogFilePath) ?
+                GetDefaultPath<TClass>() :
+                settings.LogFilePath;
 
             return new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .MinimumLevel.Override("Microsoft", frameworkLoggingLevel)
                 .MinimumLevel.Override("System", frameworkLoggingLevel)
                 .Enrich.FromLogContext()
-                .WriteTo.File(logFilePath,
+                .WriteTo.File(
+                    logFilePath,
                     rollingInterval : RollingInterval.Day,
-                    retainedFileCountLimit : daysToRetain,
+                    retainedFileCountLimit : settings.DaysToRetain,
                     fileSizeLimitBytes : 10000000,
                     rollOnFileSizeLimit : true)
                 .CreateLogger();
         }
 
-        /// <summary>
-        /// Creates an ILogger using a default path.
-        /// The default path is at the root of the current directory in webAppLogs.
-        /// IE: /webAppLogs/ on *nix and C:\webAppLogs or D:\webAppLogs (if IIS is moved) on Windows.
-        /// </summary>
-        /// <param name="suppressFrameworkWarnings">Suppress warnings logged by Microsoft and System</param>
-        /// <param name="daysToRetain">How many days to keep logged files</param>
-        /// <typeparam name="TClass">The type of a class in the main assembly. Used to determine root directory.</typeparam>
-        /// <returns>A Serilog ILogger instance</returns>
-        public static ILogger Create<TClass>(bool suppressFrameworkWarnings = false, int daysToRetain = 30) where TClass : class
+        private static string GetDefaultPath<TClass>()
         {
             var isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
             var logPath = (isWindows ? Path.GetPathRoot(Environment.CurrentDirectory) : "/") + "webAppLogs";
             var assemblyName = typeof(TClass).Assembly.GetName().Name;
             var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var logFilePath = $"{logPath}/{assemblyName}/{assemblyName}-{environmentName}_.log";
-
-            return Create(logFilePath, suppressFrameworkWarnings, daysToRetain);
+            return $"{logPath}/{assemblyName}/{assemblyName}-{environmentName}_.log";
         }
     }
 }
