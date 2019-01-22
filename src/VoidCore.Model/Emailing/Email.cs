@@ -29,7 +29,7 @@ namespace VoidCore.Model.Emailing
         /// <param name="subject">The subject line of the email</param>
         /// <param name="message">The message content of the email</param>
         /// <param name="recipients">The recipients of the email.</param>
-        /// <exception cref="System.ArgumentNullException">Throws an ArgumentNullException if any parameters are null.</exception>
+        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if any parameters are null.</exception>
         public Email(string subject, string message, IEnumerable<string> recipients)
         {
             if (subject == null)

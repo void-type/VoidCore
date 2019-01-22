@@ -6,12 +6,12 @@ namespace VoidCore.AspNet.Logging
     public class LoggingSettings
     {
         /// <summary>
-        /// The path to the logging file.
+        /// The path to the logging file. This can be OS-sensitive. If null or whitespace, a default path is chosen by the logger.
         /// </summary>
         public string LogFilePath { get; private set; }
 
         /// <summary>
-        /// Don't log Microsoft and System warnings.
+        /// If true, don't log Microsoft and System warnings.
         /// </summary>
         public bool SuppressFrameworkWarnings { get; private set; }
 

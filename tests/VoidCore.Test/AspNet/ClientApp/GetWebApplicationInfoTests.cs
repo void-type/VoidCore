@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using Moq;
@@ -14,7 +13,7 @@ namespace VoidCore.Test.AspNet.ClientApp
         [Fact]
         public async void ApplicationInfoIsCreatedWithAndLogsProperInfo()
         {
-            var appSettings = new ApplicationSettings("AppName", new Dictionary<string, List<string>>());
+            var appSettings = new ApplicationSettings("AppName");
 
             var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
             currentUserAccessorMock

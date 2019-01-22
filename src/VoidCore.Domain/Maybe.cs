@@ -29,7 +29,7 @@ namespace VoidCore.Domain
         /// Get the value of Maybe.
         /// </summary>
         /// <value>The value of the Maybe</value>
-        /// <exception cref="System.InvalidOperationException">Throws an InvalidOperationException if accessed and there is no value.</exception>
+        /// <exception cref="InvalidOperationException">Throws an InvalidOperationException if accessed and there is no value.</exception>
         public T Value
         {
             get

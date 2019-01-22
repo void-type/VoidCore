@@ -1,33 +1,20 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
-using VoidCore.AspNet.Attributes;
 
-namespace VoidCore.AspNet.Configuration
+namespace VoidCore.AspNet.Routing
 {
     /// <summary>
     /// Configuration for SPA routing and exception handling.
     /// </summary>
-    public static class RoutingSpa
+    public static class RoutingApplicationBuilderExtensions
     {
         /// <summary>
-        /// Add a global filter for handling uncaught API exceptions.
-        /// </summary>
-        /// <param name="services">The services collection</param>
-        /// <param name="environment">The hosting environment</param>
-        public static void AddApiExceptionFilter(this IServiceCollection services, IHostingEnvironment environment)
-        {
-            services.AddMvc(options => options.Filters.Add(new TypeFilterAttribute(typeof(ApiRouteExceptionFilterAttribute))));
-        }
-
-        /// <summary>
-        /// Setup exception pages for MVC view endpoints. Exceptions will redirect to /error. Forbidden requests will redirect to /forbidden.
-        /// API endpoints will not redirect, they will return appropriate status codes.
-        /// In development, all exceptions will return a debugging page. For API requests, you can see this page in the browser's developer console.
+        /// Setup exception pages for MVC view endpoints. Exceptions will redirect to /error. Forbidden requests will redirect to /forbidden. API
+        /// endpoints will not redirect, they will return appropriate status codes. In development, all exceptions will return a debugging page. For
+        /// API requests, you can see this page in the browser's developer console.
         /// </summary>
         /// <param name="app">This IApplicationBuilder</param>
         /// <param name="environment">The hosting environment</param>
@@ -75,7 +62,7 @@ namespace VoidCore.AspNet.Configuration
                 routes.MapRoute(
                     name: "spa-fallback",
                     template: "{*url}",
-                    defaults : new { controller = "Home", action = "Index" });
+                    defaults: new { controller = "Home", action = "Index" });
             });
         }
     }

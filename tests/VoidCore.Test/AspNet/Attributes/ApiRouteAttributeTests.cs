@@ -1,4 +1,4 @@
-using VoidCore.AspNet.Attributes;
+using VoidCore.AspNet.Routing;
 using Xunit;
 
 namespace VoidCore.Test.AspNet.Attributes

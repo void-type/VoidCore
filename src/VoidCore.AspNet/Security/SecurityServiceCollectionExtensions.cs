@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace VoidCore.AspNet.Configuration
+namespace VoidCore.AspNet.Security
 {
     /// <summary>
     /// Configuration for security.
     /// </summary>
-    public static class Security
+    public static class SecurityServiceCollectionExtensions
     {
         /// <summary>
         /// Setup Antiforgery token and filters for all non-GET requests.
@@ -23,8 +23,8 @@ namespace VoidCore.AspNet.Configuration
         }
 
         /// <summary>
-        /// Setup HttpsRedirection with a port if not already set. Port will be detected from the ASPNETCORE_HTTPS_PORT env var,
-        /// sslPort or Https URL in launchSettings.json. If no port is detected, this method will use the override supplied or 443.
+        /// Setup HttpsRedirection with a port if not already set. Port will be detected from the ASPNETCORE_HTTPS_PORT env var, sslPort or Https URL
+        /// in launchSettings.json. If no port is detected, this method will use the override supplied or 443.
         /// </summary>
         /// <param name="services">This service collection</param>
         /// <param name="environment">The hosting environment</param>
@@ -47,25 +47,6 @@ namespace VoidCore.AspNet.Configuration
                     options.HttpsPort = httpsPortOverride;
                 }
             });
-        }
-
-        /// <summary>
-        /// Setup secure transport using HTTPS and HSTS.
-        /// HSTS is disabled in development environments or when running on localhost, 127.0.0.1, or [::1].
-        /// </summary>
-        /// <param name="app">This IApplicationBuilder</param>
-        /// <param name="environment">The hosting environment</param>
-        /// <returns>The ApplicationBuilder for chaining.</returns>
-        public static IApplicationBuilder UseSecureTransport(this IApplicationBuilder app, IHostingEnvironment environment)
-        {
-            if (!environment.IsDevelopment())
-            {
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-
-            return app;
         }
     }
 }

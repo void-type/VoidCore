@@ -26,7 +26,7 @@ namespace VoidCore.Model.Responses.Collections
         /// <param name="items">The full set of items</param>
         /// <param name="page">What page number to take from the set</param>
         /// <param name="take">How many items to include in each page</param>
-        /// <exception cref="System.ArgumentNullException">Throws an ArgumentNullException if null is passed for items.</exception>
+        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if null is passed for items.</exception>
         public ItemSetPage(IEnumerable<TEntity> items, int page, int take)
         {
             if (items == null)

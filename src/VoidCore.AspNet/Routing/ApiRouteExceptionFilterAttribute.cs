@@ -4,7 +4,7 @@ using System;
 using VoidCore.Model.Logging;
 using VoidCore.Model.Responses.Messages;
 
-namespace VoidCore.AspNet.Attributes
+namespace VoidCore.AspNet.Routing
 {
     /// <summary>
     /// A filter that handles exceptions for API routes by logging and responding with a user message.

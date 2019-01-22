@@ -26,7 +26,7 @@ namespace VoidCore.Model.Responses.Files
         /// </summary>
         /// <param name="fileContent">The byte representation of the file contents</param>
         /// <param name="fileName">The name of the file</param>
-        /// <exception cref="System.ArgumentNullException">Throws an ArgumentNullException if fileName or content is null.</exception>
+        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if fileName or content is null.</exception>
         public SimpleFile(string fileContent, string fileName)
         {
             if (fileName == null)

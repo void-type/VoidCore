@@ -1,7 +1,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using VoidCore.AspNet.ClientApp;
+using VoidCore.AspNet.Auth;
 using VoidCore.Model.Users;
 
 namespace VoidCore.AspNet.Users
@@ -18,7 +18,7 @@ namespace VoidCore.AspNet.Users
             {
                 var currentUser = _httpContextAccessor.HttpContext.User;
 
-                var authorizedAs = _applicationSettings.AuthorizationPolicies
+                var authorizedAs = _authorizationSettings.Policies
                     .Where(policy => _authorizationService.AuthorizeAsync(currentUser, policy.Key).Result.Succeeded)
                     .Select(policy => policy.Key);
 
@@ -34,16 +34,16 @@ namespace VoidCore.AspNet.Users
         /// <param name="httpContextAccessor">Accessor for the current httpcontext</param>
         /// <param name="userNameFormatter">A formatter for the user names</param>
         /// <param name="authorizationService">Policy checker for users</param>
-        /// <param name="applicationSettings">The application's authorization settings</param>
-        public WebCurrentUserAccessor(IHttpContextAccessor httpContextAccessor, IUserNameFormatStrategy userNameFormatter, IAuthorizationService authorizationService, ApplicationSettings applicationSettings)
+        /// <param name="authorizationSettings">The application's authorization settings</param>
+        public WebCurrentUserAccessor(IHttpContextAccessor httpContextAccessor, IUserNameFormatStrategy userNameFormatter, IAuthorizationService authorizationService, AuthorizationSettings authorizationSettings)
         {
             _httpContextAccessor = httpContextAccessor;
             _userNameFormatter = userNameFormatter;
             _authorizationService = authorizationService;
-            _applicationSettings = applicationSettings;
+            _authorizationSettings = authorizationSettings;
         }
 
-        private readonly ApplicationSettings _applicationSettings;
+        private readonly AuthorizationSettings _authorizationSettings;
         private readonly IAuthorizationService _authorizationService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUserNameFormatStrategy _userNameFormatter;

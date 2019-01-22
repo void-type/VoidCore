@@ -14,7 +14,7 @@ namespace VoidCore.Domain
         /// <summary>
         /// The success value
         /// </summary>
-        /// <exception cref="System.InvalidOperationException">Throws an InvalidOperationException if accessed on a failed Result.</exception>
+        /// <exception cref="InvalidOperationException">Throws an InvalidOperationException if accessed on a failed Result.</exception>
         public T Value
         {
             get

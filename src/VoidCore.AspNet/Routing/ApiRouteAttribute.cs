@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace VoidCore.AspNet.Attributes
+namespace VoidCore.AspNet.Routing
 {
     /// <summary>
     /// Prepend the API route base of "/api" to the route path.
