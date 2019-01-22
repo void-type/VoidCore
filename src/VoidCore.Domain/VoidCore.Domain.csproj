@@ -3,7 +3,7 @@
     <PackageId>VoidCore.Domain</PackageId>
     <Title>VoidCore.Domain</Title>
     <Description>A framework for building domain-driven buisness applications.</Description>
-    <PackageTags>domain driven;ddd;model;validation;request;response;cqrs</PackageTags>
+    <PackageTags>domain;request;response;events;validation;pipeline;functional;</PackageTags>
     <Authors>Jeff Schreiner and contributors</Authors>
     <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>

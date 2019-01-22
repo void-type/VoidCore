@@ -2,8 +2,8 @@
   <PropertyGroup>
     <PackageId>VoidCore.Model</PackageId>
     <Title>VoidCore.Model</Title>
-    <Description>A set of models to implement VoidCore.Domain in API-based applications.</Description>
-    <PackageTags>business logic;domain;ddd;model;validation;search;request;response</PackageTags>
+    <Description>Opinionated set of service models for business applications.</Description>
+    <PackageTags>model;opinionated;services;business logic;search;api;response;</PackageTags>
     <Authors>Jeff Schreiner and contributors</Authors>
     <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>

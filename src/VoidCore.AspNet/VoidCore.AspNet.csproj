@@ -2,8 +2,8 @@
   <PropertyGroup>
     <PackageId>VoidCore.AspNet</PackageId>
     <Title>VoidCore.AspNet</Title>
-    <Description>Contains common code for configuring enterprise web/SPA applications on Asp.Net Core.</Description>
-    <PackageTags>web;dotnet;asp.net;aspnet;spa;web api;entity framework</PackageTags>
+    <Description>Opinionated configuration of single-page business applications on Asp.Net Core.</Description>
+    <PackageTags>asp.net;aspnet;opinionated;spa;single page;entity framework;logging;configuration;</PackageTags>
     <Authors>Jeff Schreiner and contributors</Authors>
     <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
