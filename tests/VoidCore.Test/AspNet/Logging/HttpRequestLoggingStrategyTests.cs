@@ -6,7 +6,7 @@ using VoidCore.AspNet.Logging;
 using VoidCore.Model.Users;
 using Xunit;
 
-namespace VoidCore.Test.AspNet.ClientApp
+namespace VoidCore.Test.AspNet.Logging
 {
     public class HttpRequestLoggingStrategyTests
     {

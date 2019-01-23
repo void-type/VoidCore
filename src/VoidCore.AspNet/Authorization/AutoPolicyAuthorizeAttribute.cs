@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
-using VoidCore.AspNet.Configuration;
+using VoidCore.AspNet.Settings;
 
-namespace VoidCore.AspNet.Auth
+namespace VoidCore.AspNet.Authorization
 {
     /// <summary>
     /// Derivatives of this class will have their policies set by convention from the name of the class.
@@ -14,7 +14,7 @@ namespace VoidCore.AspNet.Auth
         /// </summary>
         public AutoPolicyAuthorizeAttribute()
         {
-            Policy = ConfigHelpers.StripEndingFromType(GetType(), "only");
+            Policy = ConventionHelpers.StripEndingFromType(GetType(), "only");
         }
     }
 }

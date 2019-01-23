@@ -1,7 +1,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using VoidCore.AspNet.Auth;
+using VoidCore.AspNet.Authorization;
 using VoidCore.Model.Users;
 
 namespace VoidCore.AspNet.Users

@@ -1,43 +1,13 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
-namespace VoidCore.AspNet.Configuration
+namespace VoidCore.AspNet.Settings
 {
     /// <summary>
-    /// Helpers to assist in configuring the application.
+    /// Settings configuration extension methods for service collections.
     /// </summary>
-    public static class ConfigHelpers
+    public static class SettingsServiceCollectionExtensions
     {
-        /// <summary>
-        /// Strips an ending from a class type name. This is useful for convention-based naming to replace hardcoded strings.
-        /// Ex: AuthorizationSettings, "settings" => "Authorization"
-        /// Ex: Authorization, "settings" => "Authorization"
-        /// Ex: AuthorizationSettings, null => "AuthorizationSettings"
-        /// </summary>
-        /// <param name="type">The type to get the name from</param>
-        /// <param name="ending">The ending to remove from the class type name</param>
-        /// <returns>Type name with the ending removed</returns>
-        public static string StripEndingFromType(Type type, string ending)
-        {
-            var rawName = type.Name;
-            var nameEnd = rawName.Length;
-
-            if (ending == null)
-            {
-                return rawName.Substring(0, nameEnd);
-            }
-
-            var lastIndexOfEnding = rawName.ToLower().LastIndexOf(ending, StringComparison.Ordinal);
-
-            if (lastIndexOfEnding > -1)
-            {
-                nameEnd = lastIndexOfEnding;
-            }
-
-            return rawName.Substring(0, nameEnd);
-        }
-
         /// <summary>
         /// Pulls a settings object from configuration and adds it as a singleton to the DI container.
         /// Uses naming conventions of the Settings class to find the config section.
@@ -52,7 +22,7 @@ namespace VoidCore.AspNet.Configuration
         {
             if (!root)
             {
-                var sectionName = StripEndingFromType(typeof(TSettings), "settings");
+                var sectionName = ConventionHelpers.StripEndingFromType(typeof(TSettings), "settings");
                 configuration = configuration.GetSection(sectionName);
             }
 
@@ -77,7 +47,7 @@ namespace VoidCore.AspNet.Configuration
         {
             if (!root)
             {
-                var sectionName = StripEndingFromType(typeof(TSettings), "settings");
+                var sectionName = ConventionHelpers.StripEndingFromType(typeof(TSettings), "settings");
                 configuration = configuration.GetSection(sectionName);
             }
 

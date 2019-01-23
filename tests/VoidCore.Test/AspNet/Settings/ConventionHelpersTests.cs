@@ -1,35 +1,35 @@
-using VoidCore.AspNet.Configuration;
+using VoidCore.AspNet.Settings;
 using Xunit;
 
-namespace VoidCore.Test.AspNet.Configuration
+namespace VoidCore.Test.AspNet.Settings
 {
-    public class ConfigHelpersTests
+    public class ConventionHelpersTests
     {
         [Fact]
         public void SectionNameByConventionWithSettingsSuffix()
         {
-            var sectionName = ConfigHelpers.StripEndingFromType(typeof(MyBaseSettings), "settings");
+            var sectionName = ConventionHelpers.StripEndingFromType(typeof(MyBaseSettings), "settings");
             Assert.Equal("MyBase", sectionName);
         }
 
         [Fact]
         public void SectionNameByConventionWithSettingsSuffixIsCaseInsensitive()
         {
-            var sectionName = ConfigHelpers.StripEndingFromType(typeof(Lowercasesettings), "settings");
+            var sectionName = ConventionHelpers.StripEndingFromType(typeof(Lowercasesettings), "settings");
             Assert.Equal("Lowercase", sectionName);
         }
 
         [Fact]
         public void SectionNameByConventionWithoutSettingsSuffix()
         {
-            var sectionName = ConfigHelpers.StripEndingFromType(typeof(Other), "settings");
+            var sectionName = ConventionHelpers.StripEndingFromType(typeof(Other), "settings");
             Assert.Equal("Other", sectionName);
         }
 
         [Fact]
         public void WholeSectionNameWhenEndingIsNull()
         {
-            var sectionName = ConfigHelpers.StripEndingFromType(typeof(MyBaseSettings), null);
+            var sectionName = ConventionHelpers.StripEndingFromType(typeof(MyBaseSettings), null);
             Assert.Equal("MyBaseSettings", sectionName);
         }
     }

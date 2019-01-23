@@ -1,7 +1,7 @@
 using VoidCore.AspNet.Routing;
 using Xunit;
 
-namespace VoidCore.Test.AspNet.Attributes
+namespace VoidCore.Test.AspNet.Routing
 {
     public class ApiRouteAttributeTests
     {

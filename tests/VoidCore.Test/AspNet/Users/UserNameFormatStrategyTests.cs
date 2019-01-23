@@ -1,7 +1,7 @@
 using VoidCore.AspNet.Users;
 using Xunit;
 
-namespace VoidCore.Test.AspNet.ClientApp
+namespace VoidCore.Test.AspNet.Users
 {
     public class UserNameFormatStrategyTests
     {

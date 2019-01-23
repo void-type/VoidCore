@@ -5,12 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 
-namespace VoidCore.AspNet.Auth
+namespace VoidCore.AspNet.Authorization
 {
     /// <summary>
     /// Configuration for authentication and authorization.
     /// </summary>
-    public static class AuthServiceCollectionExtensions
+    public static class AuthorizationServiceCollectionExtensions
     {
         /// <summary>
         /// Setup an authorization policy for a set of roles. These are used via AuthorizeAttributes. A user with any one of the allowed roles will be
@@ -42,7 +42,7 @@ namespace VoidCore.AspNet.Auth
         }
 
         /// <summary>
-        /// /// Add filter to every endpoint for authorization.
+        /// Add filter to every endpoint for authorization.
         /// </summary>
         /// <param name="services">This service collection</param>
         /// <param name="policy">The policy name</param>
