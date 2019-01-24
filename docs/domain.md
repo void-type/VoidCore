@@ -1,6 +1,6 @@
 # VoidCore.Domain
 
-[![NuGet package](https://img.shields.io/nuget/v/VoidCore.Domain.svg)](https://nuget.org/packages/VoidCore.Domain)
+[![NuGet package](https://img.shields.io/nuget/v/VoidCore.Domain.svg?style=flat-square)](https://www.nuget.org/packages/VoidCore.Domain/)
 
 ## Installation
 

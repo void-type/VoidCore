@@ -1,6 +1,6 @@
 # VoidCore.AspNet
 
-[![NuGet package](https://img.shields.io/nuget/v/VoidCore.AspNet.svg)](https://nuget.org/packages/VoidCore.AspNet)
+[![NuGet package](https://img.shields.io/nuget/v/VoidCore.AspNet.svg?style=flat-square)](https://www.nuget.org/packages/VoidCore.AspNet/)
 
 ## Installation
 

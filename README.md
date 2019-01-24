@@ -1,6 +1,8 @@
 # VoidCore
 
-[![Build Status](https://dev.azure.com/void-type/VoidCore/_apis/build/status/void-type.VoidCore?branchName=master)](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=3&branchName=master)
+[![License](https://img.shields.io/github/license/void-type/VoidCore.svg?style=flat-square)](https://github.com/void-type/VoidCore/blob/master/LICENSE.txt)
+[![Build Status](https://img.shields.io/azure-devops/build/void-type/VoidCore/3.svg?style=flat-square)](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=3&branchName=master)
+[![Test Coverage](https://img.shields.io/azure-devops/coverage/void-type/VoidCore/3.svg?style=flat-square)](https://dev.azure.com/void-type/VoidCore/_build/results?buildId=25&view=codecoverage-tab)
 
 A set of core libraries for building domain-driven business applications. Includes opinionated support for Asp.Net Core applications.
 
@@ -18,7 +20,7 @@ Read about the packages available.
 
 ## Developers
 
-To begin, you will need the [.Net Core SDK](https://dotnet.microsoft.com/) installed.
+To begin, you will need the [.Net Core SDK](https://dotnet.microsoft.com/download) installed.
 
 You will also need some global tools. To install them easily, just run the following:
 
