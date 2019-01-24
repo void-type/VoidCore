@@ -18,7 +18,9 @@ Read about the packages available.
 
 ## Developers
 
-To begin, you will need to install some global tools. To do this easily, just run the following:
+To begin, you will need the [.Net Core SDK](https://dotnet.microsoft.com/) installed.
+
+You will also need some global tools. To install them easily, just run the following:
 
 ```powershell
 cd build/
@@ -27,4 +29,4 @@ cd build/
 
 See the /build folder for scripts used to develop, test and build this project.
 
-There are VSCode tasks for each script. The VSCode build task will build all solution nuget packages into the /artifacts folder and test code coverage into the /coverage folder.
+There are VSCode tasks for each script. The VSCode build task (ctrl + shift + b) will build all Nuget packages to /artifacts as well as output /coverage and /testResults.
