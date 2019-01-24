@@ -8,7 +8,7 @@
             "name": ".NET Core Launch (console)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "buildAllDebug",
+            "preLaunchTask": "buildDebug",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/tests/VoidCore.Test/bin/Debug/netcoreapp2.1/VoidCore.Test.dll",
             "args": [],

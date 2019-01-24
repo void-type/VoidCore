@@ -22,7 +22,7 @@ steps:
   displayName: 'Test and Build the App'
   inputs:
     targetType: 'filePath'
-    filePath: 'build/buildAllPkg.ps1'
+    filePath: 'build/build.ps1'
     workingDirectory: 'build'
     pwsh: true
 
