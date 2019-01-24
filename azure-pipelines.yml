@@ -5,6 +5,11 @@ pool:
   vmImage: 'Ubuntu-16.04'
 
 steps:
+- task: DotNetCoreInstaller@0
+  inputs:
+    packageType: 'sdk'
+    version: '2.1.503'
+
 - task: 'PowerShell@2'
   displayName: 'Install Build Tools'
   inputs:
@@ -12,7 +17,6 @@ steps:
     filePath: 'build/installAndUpdateTools.ps1'
     workingDirectory: 'build'
     pwsh: true
-    #failOnStderr: false # Optional
 
 - task: 'PowerShell@2'
   displayName: 'Test and Build the App'
@@ -21,7 +25,6 @@ steps:
     filePath: 'build/buildAllPkg.ps1'
     workingDirectory: 'build'
     pwsh: true
-    #failOnStderr: false # Optional
 
 - task: PublishPipelineArtifact@0
   displayName: 'Publish Code Coverage'
