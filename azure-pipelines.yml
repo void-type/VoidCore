@@ -1,0 +1,34 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'Ubuntu-16.04'
+
+steps:
+- task: 'PowerShell@2'
+  displayName: 'Install Build Tools'
+  inputs:
+    targetType: 'filePath'
+    filePath: 'build/installAndUpdateTools.ps1'
+    pwsh: true
+    #failOnStderr: false # Optional
+
+- task: 'PowerShell@2'
+  displayName: 'Test and Build the App'
+  inputs:
+    targetType: 'filePath'
+    filePath: 'build/buildAllPkg.ps1'
+    pwsh: true
+    #failOnStderr: false # Optional
+
+- task: PublishPipelineArtifact@0
+  displayName: 'Publish Code Coverage'
+  inputs:
+    artifactName: 'coverage'
+    targetPath: 'coverage'
+
+- task: PublishPipelineArtifact@0
+  displayName: 'Publish Nuget Packages'
+  inputs:
+    artifactName: 'artifacts'
+    targetPath: 'artifacts'
