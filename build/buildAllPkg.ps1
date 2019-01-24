@@ -32,7 +32,7 @@ Pop-Location
 
 # Generate code coverage report
 Push-Location -Path "../coverage"
-reportgenerator "-reports:coverage.cobertura.xml" "-targetdir:."
+reportgenerator "-reports:coverage.cobertura.xml" "-targetdir:." "-reporttypes:HtmlInline_AzurePipelines"
 Stop-OnError
 Pop-Location
 
