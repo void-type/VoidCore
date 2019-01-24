@@ -10,6 +10,7 @@ steps:
   inputs:
     targetType: 'filePath'
     filePath: 'build/installAndUpdateTools.ps1'
+    workingDirectory: 'build'
     pwsh: true
     #failOnStderr: false # Optional
 
@@ -18,6 +19,7 @@ steps:
   inputs:
     targetType: 'filePath'
     filePath: 'build/buildAllPkg.ps1'
+    workingDirectory: 'build'
     pwsh: true
     #failOnStderr: false # Optional
 
