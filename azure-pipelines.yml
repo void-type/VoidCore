@@ -26,11 +26,16 @@ steps:
     workingDirectory: 'build'
     pwsh: true
 
-- task: PublishPipelineArtifact@0
-  displayName: 'Publish Code Coverage'
+- task: PublishCodeCoverageResults@1
   inputs:
-    artifactName: 'coverage'
-    targetPath: 'coverage'
+    codeCoverageTool: 'cobertura'
+    summaryFileLocation: 'coverage/coverage.cobertura.xml'
+    reportDirectory: 'coverage'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: 'testResults/*.trx'
 
 - task: PublishPipelineArtifact@0
   displayName: 'Publish Nuget Packages'

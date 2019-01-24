@@ -1,6 +1,8 @@
 # VoidCore.Model
 
-## Install
+[![NuGet package](https://img.shields.io/nuget/v/VoidCore.Model.svg)](https://nuget.org/packagesVoidCore.Model)
+
+## Installation
 
 ```powerShell
 dotnet add package VoidCore.Model

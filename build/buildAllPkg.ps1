@@ -6,6 +6,9 @@ Remove-Item -Path "../artifacts" -Recurse -ErrorAction SilentlyContinue
 # Clean coverage folder
 Remove-Item -Path "../coverage" -Recurse -ErrorAction SilentlyContinue
 
+# Clean testResults folder
+Remove-Item -Path "../testResults" -Recurse -ErrorAction SilentlyContinue
+
 # Build solution
 Push-Location -Path "../"
 dotnet build --configuration "Release"
@@ -14,13 +17,22 @@ Pop-Location
 
 # Run tests, gather coverage
 Push-Location -Path "../tests/VoidCore.Test"
-dotnet test --configuration "Release" --no-build /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="../../coverage/coverage.opencover.xml"
+
+dotnet test `
+  --configuration "Release" `
+  --no-build `
+  --logger 'trx' `
+  --results-directory '../../testResults' `
+  /p:CollectCoverage=true `
+  /p:CoverletOutputFormat=cobertura `
+  /p:CoverletOutput="../../coverage/coverage.cobertura.xml"
+
 Stop-OnError
 Pop-Location
 
 # Generate code coverage report
 Push-Location -Path "../coverage"
-reportgenerator "-reports:coverage.opencover.xml" "-targetdir:."
+reportgenerator "-reports:coverage.cobertura.xml" "-targetdir:."
 Stop-OnError
 Pop-Location
 

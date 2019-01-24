@@ -1,6 +1,8 @@
 # VoidCore.Domain
 
-## Install
+[![NuGet package](https://img.shields.io/nuget/v/VoidCore.Domain.svg)](https://nuget.org/packages/VoidCore.Domain)
+
+## Installation
 
 ```powerShell
 dotnet add package VoidCore.Domain
