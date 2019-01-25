@@ -16,7 +16,7 @@ steps:
     targetType: 'filePath'
     filePath: 'build/installAndUpdateTools.ps1'
     workingDirectory: 'build'
-    pwsh: true
+    pwsh: false
 
 - task: 'PowerShell@2'
   displayName: 'Test and Build the App'
@@ -24,7 +24,7 @@ steps:
     targetType: 'filePath'
     filePath: 'build/build.ps1'
     workingDirectory: 'build'
-    pwsh: true
+    pwsh: false
 
 - task: PublishCodeCoverageResults@1
   inputs:
