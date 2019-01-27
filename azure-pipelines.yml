@@ -37,8 +37,14 @@ steps:
     testResultsFormat: 'VSTest'
     testResultsFiles: 'testResults/*.trx'
 
-- task: PublishPipelineArtifact@0
+-task: CopyFiles@2
+  displayName: 'Copy Nuget Packages'
+  inputs:
+    contents: artifacts\**
+    targetFolder: $(Build.ArtifactStagingDirectory)
+
+- task: PublishBuildArtifacts@1
   displayName: 'Publish Nuget Packages'
   inputs:
+    pathtoPublish: $(Build.ArtifactStagingDirectory)
     artifactName: 'artifacts'
-    targetPath: 'artifacts'
