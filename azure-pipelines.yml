@@ -2,7 +2,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'vs2017-win2016'
+  vmImage: 'ubuntu-16.04'
 
 steps:
 - task: DotNetCoreInstaller@0
@@ -40,6 +40,5 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Nuget Packages'
   inputs:
-    publishLocation: 'filePath'
     artifactName: 'artifacts'
     targetPath: 'artifacts'
