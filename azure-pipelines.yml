@@ -37,7 +37,7 @@ steps:
     testResultsFormat: 'VSTest'
     testResultsFiles: 'testResults/*.trx'
 
--task: CopyFiles@2
+- task: CopyFiles@2
   displayName: 'Copy Nuget Packages'
   inputs:
     contents: artifacts\**
