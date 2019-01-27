@@ -40,7 +40,8 @@ steps:
 - task: CopyFiles@2
   displayName: 'Copy Nuget Packages'
   inputs:
-    contents: 'artifacts\**'
+    sourceFolder: 'artifacts'
+    contents: '**/*'
     targetFolder: $(Build.ArtifactStagingDirectory)
 
 - task: PublishBuildArtifacts@1
