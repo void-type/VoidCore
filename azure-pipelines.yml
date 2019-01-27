@@ -37,7 +37,7 @@ steps:
     testResultsFormat: 'VSTest'
     testResultsFiles: 'testResults/*.trx'
 
-- task: PublishBuildArtifacts@1
+- task: PublishPipelineArtifact@0
   displayName: 'Publish Nuget Packages'
   inputs:
     artifactName: 'artifacts'
