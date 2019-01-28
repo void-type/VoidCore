@@ -16,7 +16,6 @@ steps:
     targetType: 'filePath'
     filePath: 'build/installAndUpdateTools.ps1'
     workingDirectory: 'build'
-    pwsh: false
 
 - task: 'PowerShell@2'
   displayName: 'Test and Build the App'
@@ -24,28 +23,35 @@ steps:
     targetType: 'filePath'
     filePath: 'build/build.ps1'
     workingDirectory: 'build'
-    pwsh: false
 
 - task: PublishCodeCoverageResults@1
+  displayName: 'Publish Test Code Coverages'
   inputs:
     codeCoverageTool: 'cobertura'
     summaryFileLocation: 'coverage/coverage.cobertura.xml'
     reportDirectory: 'coverage'
 
 - task: PublishTestResults@2
+  displayName: 'Publish Test Results'
   inputs:
     testResultsFormat: 'VSTest'
     testResultsFiles: 'testResults/*.trx'
 
 - task: CopyFiles@2
-  displayName: 'Copy Nuget Packages'
+  displayName: 'Copy Nuget Packages to Artifact Staging'
   inputs:
     sourceFolder: 'artifacts'
     contents: '**/*'
     targetFolder: $(Build.ArtifactStagingDirectory)
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Nuget Packages'
+  displayName: 'Publish Artifact Staging'
   inputs:
     pathtoPublish: $(Build.ArtifactStagingDirectory)
     artifactName: 'artifacts'
+
+- task: 'PowerShell@2'
+  displayName: 'Tag Build and Push Tag to GitHub'
+  inputs:
+    targetType: 'inline'
+    script: 'nbgv tag; git push --tags'
