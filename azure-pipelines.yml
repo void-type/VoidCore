@@ -49,9 +49,3 @@ steps:
   inputs:
     pathtoPublish: $(Build.ArtifactStagingDirectory)
     artifactName: 'artifacts'
-
-- task: 'PowerShell@2'
-  displayName: 'Tag Build and Push Tag to GitHub'
-  inputs:
-    targetType: 'inline'
-    script: 'nbgv tag; git push --tags'
