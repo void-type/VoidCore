@@ -37,15 +37,8 @@ steps:
     testResultsFormat: 'VSTest'
     testResultsFiles: 'testResults/*.trx'
 
-- task: CopyFiles@2
-  displayName: 'Copy Nuget Packages to Artifact Staging'
-  inputs:
-    sourceFolder: 'artifacts'
-    contents: '**/*'
-    targetFolder: $(Build.ArtifactStagingDirectory)
-
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact Staging'
   inputs:
-    pathtoPublish: $(Build.ArtifactStagingDirectory)
+    pathtoPublish: 'artifacts'
     artifactName: 'artifacts'
