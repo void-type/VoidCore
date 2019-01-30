@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/github/license/void-type/VoidCore.svg?style=flat-square)](https://github.com/void-type/VoidCore/blob/master/LICENSE.txt)
 [![Build Status](https://img.shields.io/azure-devops/build/void-type/VoidCore/3.svg?style=flat-square)](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=3&branchName=master)
-[![Test Coverage](https://img.shields.io/azure-devops/coverage/void-type/VoidCore/3.svg?style=flat-square)](https://dev.azure.com/void-type/VoidCore/_build/results?buildId=25&view=codecoverage-tab)
+[![Test Coverage](https://img.shields.io/azure-devops/coverage/void-type/VoidCore/3.svg?style=flat-square)](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=3&branchName=master)
 
 A set of core libraries for building domain-driven business applications. Includes opinionated support for Asp.Net Core applications.
 
