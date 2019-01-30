@@ -18,21 +18,14 @@ steps:
     workingDirectory: 'build'
 
 - task: 'PowerShell@2'
-  displayName: 'Test, Build and Pack Releases'
+  displayName: 'Build, Test, and Pack'
   inputs:
     targetType: 'filePath'
     filePath: 'build/build.ps1'
     workingDirectory: 'build'
 
-- task: 'PowerShell@2'
-  displayName: 'Pack Pre-Releases'
-  inputs:
-    targetType: 'filePath'
-    filePath: 'build/packForPreRelease.ps1'
-    workingDirectory: 'build'
-
 - task: PublishCodeCoverageResults@1
-  displayName: 'Publish Test Code Coverages'
+  displayName: 'Publish Code Coverage'
   inputs:
     codeCoverageTool: 'cobertura'
     summaryFileLocation: 'coverage/coverage.cobertura.xml'
@@ -45,7 +38,7 @@ steps:
     testResultsFiles: 'testResults/*.trx'
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact Staging'
+  displayName: 'Publish Artifacts'
   inputs:
     pathtoPublish: 'artifacts'
     artifactName: 'artifacts'

@@ -44,6 +44,7 @@ Get-ChildItem -Path "../src" |
   Push-Location -Path "../src/$_"
   InheritDoc --base "./bin/Release/" --overwrite
   Stop-OnError
+  dotnet pack --configuration "Release" --no-build --output "../../artifacts/pre-release" /p:PublicRelease=false
   dotnet pack --configuration "Release" --no-build --output "../../artifacts"
   Stop-OnError
   Pop-Location
