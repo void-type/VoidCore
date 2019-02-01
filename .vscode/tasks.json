@@ -20,7 +20,7 @@
         },
         {
             "label": "buildDebug",
-            "command": "./buildDebug.ps1",
+            "command": "./build.ps1 -Configuration Debug -Quick",
             "options": {
                 "cwd": "./build"
             },

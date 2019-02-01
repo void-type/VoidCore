@@ -1,3 +1,9 @@
+[CmdletBinding()]
+param(
+  [string] $Configuration = "Release",
+  [switch] $Quick
+)
+
 . ./util.ps1
 
 # Clean coverage folder
@@ -6,17 +12,11 @@ Remove-Item -Path "../coverage" -Recurse -ErrorAction SilentlyContinue
 # Clean testResults folder
 Remove-Item -Path "../testResults" -Recurse -ErrorAction SilentlyContinue
 
-# Build
-Push-Location -Path "../"
-dotnet build --configuration "Debug"
-Stop-OnError
-Pop-Location
-
 # Run tests, gather coverage
 Push-Location -Path "../tests/VoidCore.Test"
 
 dotnet test `
-  --configuration "Debug" `
+  --configuration "$Configuration" `
   --no-build `
   --logger 'trx' `
   --results-directory '../../testResults' `
@@ -26,6 +26,10 @@ dotnet test `
 
 Stop-OnError
 Pop-Location
+
+if ($Quick) {
+  Exit $LASTEXITCODE
+}
 
 # Generate code coverage report
 Push-Location -Path "../coverage"
