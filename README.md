@@ -14,11 +14,11 @@ A set of core libraries for building domain-driven business applications. Includ
 
 Read about the packages available.
 
-[VoidCore.AspNet](docs/aspnet.md) - configure an Asp.Net Core web application.
-
-[VoidCore.Domain](docs/domain.md) - domain-driven and event-based development.
-
-[VoidCore.Model](docs/model.md) - services and interfaces for opinionated business applications.
+| Docs | Version | Description |
+| --- | --- | --- |
+| [VoidCore.AspNet](docs/aspnet.md) | [![NuGet package](https://img.shields.io/nuget/v/VoidCore.AspNet.svg?style=flat-square)](https://www.nuget.org/packages/VoidCore.AspNet/) | Configure an Asp.Net Core web application. |
+| [VoidCore.Domain](docs/domain.md) | [![NuGet package](https://img.shields.io/nuget/v/VoidCore.Domain.svg?style=flat-square)](https://www.nuget.org/packages/VoidCore.Domain/) | Domain-driven and event-based development. |
+| [VoidCore.Model](docs/model.md) | [![NuGet package](https://img.shields.io/nuget/v/VoidCore.Model.svg?style=flat-square)](https://www.nuget.org/packages/VoidCore.Model/) | Services and interfaces for opinionated business applications. |
 
 ## Developers
 
