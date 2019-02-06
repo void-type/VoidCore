@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [string] $Configuration = "Release",
-  [switch] $Quick
+  [switch] $SkipReport
 )
 
 . ./util.ps1
@@ -27,12 +27,10 @@ dotnet test `
 Stop-OnError
 Pop-Location
 
-if ($Quick) {
-  Exit $LASTEXITCODE
+if (-not $SkipReport) {
+  # Generate code coverage report
+  Push-Location -Path "../coverage"
+  reportgenerator "-reports:coverage.cobertura.xml" "-targetdir:." "-reporttypes:HtmlInline_AzurePipelines"
+  Stop-OnError
+  Pop-Location
 }
-
-# Generate code coverage report
-Push-Location -Path "../coverage"
-reportgenerator "-reports:coverage.cobertura.xml" "-targetdir:." "-reporttypes:HtmlInline_AzurePipelines"
-Stop-OnError
-Pop-Location

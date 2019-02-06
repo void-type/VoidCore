@@ -1,8 +1,8 @@
 [CmdletBinding()]
 param(
   [string] $Configuration = "Release",
-  [switch] $NoTest,
-  [switch] $NoPack
+  [switch] $SkipTest,
+  [switch] $SkipPack
 )
 
 . ./util.ps1
@@ -22,7 +22,7 @@ dotnet build --configuration "$Configuration"
 Stop-OnError
 Pop-Location
 
-if (-not $NoTest) {
+if (-not $SkipTest) {
   # Run tests, gather coverage
   Push-Location -Path "../tests/VoidCore.Test"
 
@@ -46,7 +46,7 @@ if (-not $NoTest) {
   Pop-Location
 }
 
-if (-not $NoPack) {
+if (-not $SkipPack) {
   # Pack nugets
   Get-ChildItem -Path "../src" |
     Where-Object { (Test-Path -Path "$($_.FullName)/*.csproj") -eq $true } |

@@ -20,7 +20,7 @@
         },
         {
             "label": "buildDebug",
-            "command": "./build.ps1 -Configuration Debug -NoTest -NoPack",
+            "command": "./build.ps1 -Configuration Debug -SkipTest -SkipPack",
             "options": {
                 "cwd": "./build"
             },
@@ -32,7 +32,7 @@
         },
         {
             "label": "installAndUpdateTools",
-            "command": "./installAndUpdateTools.ps1 -IncludeRecommended",
+            "command": "./installAndUpdateTools.ps1",
             "options": {
                 "cwd": "./build"
             },
