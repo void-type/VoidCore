@@ -17,9 +17,9 @@ Push-Location -Path "../tests/VoidCore.Test"
 
 dotnet test `
   --configuration "$Configuration" `
-  --no-build `
   --logger 'trx' `
   --results-directory '../../testResults' `
+  /p:Exclude='[xunit.runner.*]*' `
   /p:CollectCoverage=true `
   /p:CoverletOutputFormat=cobertura `
   /p:CoverletOutput="../../coverage/coverage.cobertura.xml"
