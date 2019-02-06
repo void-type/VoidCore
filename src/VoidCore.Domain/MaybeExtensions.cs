@@ -18,9 +18,9 @@ namespace VoidCore.Domain
         /// <returns>A Maybe of the new value</returns>
         public static Maybe<TNew> Select<T, TNew>(this Maybe<T> maybe, Func<T, TNew> selector)
         {
-            return maybe.HasNoValue ?
-                Maybe<TNew>.None :
-                selector(maybe.Value);
+            return maybe.HasValue ?
+                selector(maybe.Value) :
+                Maybe<TNew>.None;
         }
 
         /// <summary>
@@ -33,9 +33,9 @@ namespace VoidCore.Domain
         /// <returns>A Maybe of the new value</returns>
         public static Maybe<TNew> Select<T, TNew>(this Maybe<T> maybe, Func<T, Maybe<TNew>> selector)
         {
-            return maybe.HasNoValue ?
-                Maybe<TNew>.None :
-                selector(maybe.Value);
+            return maybe.HasValue ?
+                selector(maybe.Value) :
+                Maybe<TNew>.None;
         }
 
         /// <summary>
@@ -48,9 +48,9 @@ namespace VoidCore.Domain
         /// <returns>A result of the Maybe having a value</returns>
         public static IResult<T> ToResult<T>(this Maybe<T> maybe, string errorMessage, string uiHandle = null)
         {
-            return maybe.HasNoValue ?
-                Result.Fail<T>(errorMessage, uiHandle) :
-                Result.Ok(maybe.Value);
+            return maybe.HasValue ?
+                Result.Ok(maybe.Value) :
+                Result.Fail<T>(errorMessage, uiHandle);
         }
 
         /// <summary>
@@ -62,7 +62,19 @@ namespace VoidCore.Domain
         /// <returns>The value of the Maybe</returns>
         public static T Unwrap<T>(this Maybe<T> maybe, T defaultValue = default(T))
         {
-            return maybe.Unwrap(x => x, defaultValue);
+            return maybe.Unwrap(x => x, () => defaultValue);
+        }
+
+        /// <summary>
+        /// Safely extract the value from the Maybe. If there is no value in the Maybe, this will invoke a factory method to return the defaultValue.
+        /// </summary>
+        /// <param name="maybe">The Maybe</param>
+        /// <param name="defaultValueFactory">A factory method to invoke if the Maybe doesn't have a value</param>
+        /// <typeparam name="T">The type of value</typeparam>
+        /// <returns>The value of the Maybe</returns>
+        public static T Unwrap<T>(this Maybe<T> maybe, Func<T> defaultValueFactory)
+        {
+            return maybe.Unwrap(x => x, defaultValueFactory);
         }
 
         /// <summary>
@@ -76,9 +88,23 @@ namespace VoidCore.Domain
         /// <returns>The value of the maybe or null if there is no value</returns>
         public static TNew Unwrap<T, TNew>(this Maybe<T> maybe, Func<T, TNew> selector, TNew defaultValue = default(TNew))
         {
+            return maybe.Unwrap(selector, () => defaultValue);
+        }
+
+        /// <summary>
+        /// Safely extract and transform the value from the Maybe. If there is no value in the Maybe, this will return the defaultValue.
+        /// </summary>
+        /// <param name="maybe">The Maybe</param>
+        /// <param name="selector">The transforming selector function</param>
+        /// <param name="defaultValueFactory">A factory method to invoke if the Maybe doesn't have a value</param>
+        /// <typeparam name="T">The type of the original value</typeparam>
+        /// <typeparam name="TNew">The type of the new value</typeparam>
+        /// <returns>The value of the maybe or null if there is no value</returns>
+        public static TNew Unwrap<T, TNew>(this Maybe<T> maybe, Func<T, TNew> selector, Func<TNew> defaultValueFactory)
+        {
             return maybe.HasValue ?
                 selector(maybe.Value) :
-                defaultValue;
+                defaultValueFactory();
         }
 
         /// <summary>
