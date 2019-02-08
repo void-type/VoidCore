@@ -33,5 +33,18 @@ namespace VoidCore.Domain
             action(input);
             return input;
         }
+
+        /// <summary>
+        /// Perform a side-effect action while passing the input through to the next step in the pipeline.
+        /// </summary>
+        /// <param name="input">The input to the tee.</param>
+        /// <param name="action">The action to perform.</param>
+        /// <typeparam name="T">The type of input.</typeparam>
+        /// <returns>The input</returns>
+        public static T Tee<T>(this T input, Action action)
+        {
+            action();
+            return input;
+        }
     }
 }

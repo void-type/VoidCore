@@ -1,3 +1,4 @@
+using Moq;
 using VoidCore.Domain;
 using Xunit;
 
@@ -43,6 +44,26 @@ namespace VoidCore.Test.Domain
             var actual = myStrings.Tee(strs => strs[0] = "O");
 
             Assert.Same(myStrings, actual);
+        }
+
+        [Fact]
+        public void TeeStringActionWithoutType()
+        {
+            var myStrings = new [] { "H", "ello", " World" };
+
+            var actionableMock = new Mock<IActionable>();
+            actionableMock.Setup(a => a.Go());
+
+            var actual = myStrings.Tee(actionableMock.Object.Go);
+
+            actionableMock.Verify(a => a.Go(), Times.Once);
+
+            Assert.Same(myStrings, actual);
+        }
+
+        public interface IActionable
+        {
+            void Go();
         }
     }
 }
