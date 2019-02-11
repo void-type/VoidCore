@@ -28,9 +28,9 @@ namespace VoidCore.Domain
         /// <param name="action">The action to perform.</param>
         /// <typeparam name="T">The type of input.</typeparam>
         /// <returns>The input</returns>
-        public static T Tee<T>(this T input, Action<T> action)
+        public static T Tee<T>(this T input, Action action)
         {
-            action(input);
+            action();
             return input;
         }
 
@@ -41,9 +41,9 @@ namespace VoidCore.Domain
         /// <param name="action">The action to perform.</param>
         /// <typeparam name="T">The type of input.</typeparam>
         /// <returns>The input</returns>
-        public static T Tee<T>(this T input, Action action)
+        public static T Tee<T>(this T input, Action<T> action)
         {
-            action();
+            action(input);
             return input;
         }
     }
