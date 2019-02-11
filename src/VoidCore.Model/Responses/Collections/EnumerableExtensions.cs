@@ -16,7 +16,7 @@ namespace VoidCore.Model.Responses.Collections
         /// <returns>A new ItemSet of these items</returns>
         public static IItemSet<TEntity> ToItemSet<TEntity>(this IEnumerable<TEntity> items)
         {
-            return new ItemSet<TEntity>(items.ToList());
+            return new ItemSet<TEntity>(items);
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace VoidCore.Model.Responses.Collections
         /// <returns>A new ItemSetPage of these items</returns>
         public static IItemSetPage<TEntity> ToItemSetPage<TEntity>(this IEnumerable<TEntity> items, int page, int take)
         {
-            return new ItemSetPage<TEntity>(items.ToList(), page, take);
+            return new ItemSetPage<TEntity>(items, page, take);
         }
     }
 }
