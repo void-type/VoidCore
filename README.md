@@ -6,6 +6,8 @@
 
 A set of core libraries for building domain-driven business applications. Includes opinionated support for Asp.Net Core applications.
 
+[FoodStuffs](https://github.com/void-type/foodstuffs) is a comprehensive example of how applications can be built using VoidCore.
+
 | Warning |
 | --- |
 | This project is still in the design phase as a personal project. The API is subject to change and the version numbers may fluctuate. I will remove this warning when the project reaches a stable state. |
