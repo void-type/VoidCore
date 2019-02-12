@@ -10,7 +10,7 @@
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <ReleaseNotes>See commits since last release.</ReleaseNotes>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFrameworks>netcoreapp2.1;netcoreapp2.2</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="all" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.105" PrivateAssets="all" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
