@@ -5,8 +5,8 @@ namespace VoidCore.Domain.RuleValidator
     /// <summary>
     /// Interface for building new validator rules.
     /// </summary>
-    /// <typeparam name="TValidatableEntity">The entity type to validate</typeparam>
-    public interface IRuleBuilder<out TValidatableEntity>
+    /// <typeparam name="T">The entity type to validate</typeparam>
+    public interface IRuleBuilder<out T>
     {
         /// <summary>
         /// Provide a function that returns true when the entity is invalid. All invalid conditions
@@ -14,7 +14,7 @@ namespace VoidCore.Domain.RuleValidator
         /// </summary>
         /// <param name="invalidCondition">A function that returns true if the entity is invalid.</param>
         /// <returns>A rule builder to chain rule creation operations.</returns>
-        IRuleBuilder<TValidatableEntity> InvalidWhen(Func<TValidatableEntity, bool> invalidCondition);
+        IRuleBuilder<T> InvalidWhen(Func<T, bool> invalidCondition);
 
         /// <summary>
         /// Provide a function that returns true when a rule should be suppressed. All suppression conditions
@@ -22,6 +22,6 @@ namespace VoidCore.Domain.RuleValidator
         /// </summary>
         /// <param name="suppressCondition">A function that returns true if the rule should be suppressed.</param>
         /// <returns>A rule builder to chain rule creation operations.</returns>
-        IRuleBuilder<TValidatableEntity> ExceptWhen(Func<TValidatableEntity, bool> suppressCondition);
+        IRuleBuilder<T> ExceptWhen(Func<T, bool> suppressCondition);
     }
 }

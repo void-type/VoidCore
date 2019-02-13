@@ -8,11 +8,11 @@ namespace VoidCore.Domain.RuleValidator
     /// <summary>
     /// The base for a custom rule-based entity validator.
     /// </summary>
-    /// <typeparam name="TValidatableEntity">The type of entities to validate</typeparam>
-    public abstract class RuleValidatorAbstract<TValidatableEntity> : IRequestValidator<TValidatableEntity>
+    /// <typeparam name="T">The type of entities to validate</typeparam>
+    public abstract class RuleValidatorAbstract<T> : IRequestValidator<T>
     {
         /// <inheritdoc/>
-        public IResult Validate(TValidatableEntity validatable)
+        public IResult Validate(T validatable)
         {
             return _rules
                 .Select(rule => rule.Run(validatable))
@@ -25,9 +25,9 @@ namespace VoidCore.Domain.RuleValidator
         /// <param name="errorMessage">The message to display to the user</param>
         /// <param name="uiHandle">The UI field name to tie the error to</param>
         /// <returns>A rule builder to continue building this rule</returns>
-        protected IRuleBuilder<TValidatableEntity> CreateRule(string errorMessage, string uiHandle)
+        protected IRuleBuilder<T> CreateRule(string errorMessage, string uiHandle)
         {
-            var rule = new Rule<TValidatableEntity>(validatable => new Failure(errorMessage, uiHandle));
+            var rule = new Rule<T>(validatable => new Failure(errorMessage, uiHandle));
             _rules.Add(rule);
             return rule;
         }
@@ -38,9 +38,9 @@ namespace VoidCore.Domain.RuleValidator
         /// <param name="errorMessageBuilder">The message to display to the user</param>
         /// <param name="uiHandleBuilder">The UI field name to tie the error to</param>
         /// <returns>A rule builder to continue building this rule</returns>
-        protected IRuleBuilder<TValidatableEntity> CreateRule(Func<TValidatableEntity, string> errorMessageBuilder, Func<TValidatableEntity, string> uiHandleBuilder)
+        protected IRuleBuilder<T> CreateRule(Func<T, string> errorMessageBuilder, Func<T, string> uiHandleBuilder)
         {
-            var rule = new Rule<TValidatableEntity>(validatable => new Failure(errorMessageBuilder(validatable), uiHandleBuilder(validatable)));
+            var rule = new Rule<T>(validatable => new Failure(errorMessageBuilder(validatable), uiHandleBuilder(validatable)));
             _rules.Add(rule);
             return rule;
         }
@@ -51,9 +51,9 @@ namespace VoidCore.Domain.RuleValidator
         /// <param name="errorMessageBuilder">The message to display to the user</param>
         /// <param name="uiHandle">The UI field name to tie the error to</param>
         /// <returns>A rule builder to continue building this rule</returns>
-        protected IRuleBuilder<TValidatableEntity> CreateRule(Func<TValidatableEntity, string> errorMessageBuilder, string uiHandle)
+        protected IRuleBuilder<T> CreateRule(Func<T, string> errorMessageBuilder, string uiHandle)
         {
-            var rule = new Rule<TValidatableEntity>(validatable => new Failure(errorMessageBuilder(validatable), uiHandle));
+            var rule = new Rule<T>(validatable => new Failure(errorMessageBuilder(validatable), uiHandle));
             _rules.Add(rule);
             return rule;
         }
@@ -64,13 +64,13 @@ namespace VoidCore.Domain.RuleValidator
         /// <param name="errorMessage">The message to display to the user</param>
         /// <param name="uiHandleBuilder">The UI field name to tie the error to</param>
         /// <returns>A rule builder to continue building this rule</returns>
-        protected IRuleBuilder<TValidatableEntity> CreateRule(string errorMessage, Func<TValidatableEntity, string> uiHandleBuilder)
+        protected IRuleBuilder<T> CreateRule(string errorMessage, Func<T, string> uiHandleBuilder)
         {
-            var rule = new Rule<TValidatableEntity>(validatable => new Failure(errorMessage, uiHandleBuilder(validatable)));
+            var rule = new Rule<T>(validatable => new Failure(errorMessage, uiHandleBuilder(validatable)));
             _rules.Add(rule);
             return rule;
         }
 
-        private readonly List<IRule<TValidatableEntity>> _rules = new List<IRule<TValidatableEntity>>();
+        private readonly List<IRule<T>> _rules = new List<IRule<T>>();
     }
 }

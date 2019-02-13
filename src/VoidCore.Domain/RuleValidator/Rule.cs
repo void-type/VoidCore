@@ -7,24 +7,24 @@ namespace VoidCore.Domain.RuleValidator
     /// <summary>
     /// A rule for validating an entity.
     /// </summary>
-    public class Rule<TValidatableEntity> : IRule<TValidatableEntity>, IRuleBuilder<TValidatableEntity>
+    public class Rule<T> : IRule<T>, IRuleBuilder<T>
     {
         /// <inheritdoc/>
-        public IRuleBuilder<TValidatableEntity> ExceptWhen(Func<TValidatableEntity, bool> suppressCondition)
+        public IRuleBuilder<T> ExceptWhen(Func<T, bool> suppressCondition)
         {
             _suppressConditions.Add(suppressCondition);
             return this;
         }
 
         /// <inheritdoc/>
-        public IRuleBuilder<TValidatableEntity> InvalidWhen(Func<TValidatableEntity, bool> invalidCondition)
+        public IRuleBuilder<T> InvalidWhen(Func<T, bool> invalidCondition)
         {
             _invalidConditions.Add(invalidCondition);
             return this;
         }
 
         /// <inheritdoc/>
-        public IResult Run(TValidatableEntity validatableEntity)
+        public IResult Run(T validatableEntity)
         {
             if (!IsSuppressed(validatableEntity) && IsInvalid(validatableEntity))
             {
@@ -38,23 +38,23 @@ namespace VoidCore.Domain.RuleValidator
         /// Construct a new rule and underlying validation error to throw when violations are detected.
         /// </summary>
         /// <param name="failureBuilder">A function that builds a custom IFailure to return if the rule fails.</param>
-        internal Rule(Func<TValidatableEntity, IFailure> failureBuilder)
+        internal Rule(Func<T, IFailure> failureBuilder)
         {
             _failureBuilder = failureBuilder;
         }
 
-        private readonly Func<TValidatableEntity, IFailure> _failureBuilder;
+        private readonly Func<T, IFailure> _failureBuilder;
 
-        private readonly List<Func<TValidatableEntity, bool>> _invalidConditions = new List<Func<TValidatableEntity, bool>>();
+        private readonly List<Func<T, bool>> _invalidConditions = new List<Func<T, bool>>();
 
-        private readonly List<Func<TValidatableEntity, bool>> _suppressConditions = new List<Func<TValidatableEntity, bool>>();
+        private readonly List<Func<T, bool>> _suppressConditions = new List<Func<T, bool>>();
 
-        private bool IsInvalid(TValidatableEntity validatableEntity)
+        private bool IsInvalid(T validatableEntity)
         {
             return _invalidConditions.Any() && _invalidConditions.Any(check => check(validatableEntity));
         }
 
-        private bool IsSuppressed(TValidatableEntity validatableEntity)
+        private bool IsSuppressed(T validatableEntity)
         {
             return _suppressConditions.Any() && _suppressConditions.All(check => check(validatableEntity));
         }
