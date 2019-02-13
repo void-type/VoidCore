@@ -26,7 +26,7 @@ Read about the packages available.
 
 VoidCore is built on [Azure Pipelines](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=3&branchName=master) and released on [Nuget](https://www.nuget.org/packages?q=voidcore&prerel=false).
 
-To work on VoidCore, you will need the [.Net Core SDK 2.1](https://dotnet.microsoft.com/download/dotnet-core/2.1) installed.
+To work on VoidCore, you will need the [.Net Core SDK](https://dotnet.microsoft.com/download).
 
 You will also need some global tools. To install them easily, just run the following:
 
