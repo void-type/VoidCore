@@ -92,6 +92,16 @@ namespace VoidCore.Domain
         /// <returns>A boolean result of equality</returns>
         public static bool operator ==(Maybe<T> maybe, T value)
         {
+            if (ReferenceEquals(maybe, value))
+            {
+                return true;
+            }
+
+            if (maybe is null)
+            {
+                return false;
+            }
+
             return !maybe.HasNoValue && maybe.Value.Equals(value);
         }
 
@@ -103,15 +113,25 @@ namespace VoidCore.Domain
         /// <returns>A boolean result of equality</returns>
         public static bool operator ==(Maybe<T> first, Maybe<T> second)
         {
+            if (ReferenceEquals(first, second))
+            {
+                return true;
+            }
+
+            if (first is null)
+            {
+                return false;
+            }
+
             return first.Equals(second);
         }
 
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            if (obj is T)
+            if (obj is T value)
             {
-                obj = new Maybe<T>((T) obj);
+                obj = new Maybe<T>(value);
             }
 
             if (!(obj is Maybe<T>))
@@ -126,6 +146,11 @@ namespace VoidCore.Domain
         /// <inheritdoc/>
         public bool Equals(Maybe<T> other)
         {
+            if (ReferenceEquals(other, null))
+            {
+                return false;
+            }
+
             if (HasNoValue && other.HasNoValue)
             {
                 return true;
