@@ -1,4 +1,4 @@
-namespace VoidCore.Model.Users
+namespace VoidCore.Model.Auth
 {
     /// <summary>
     /// Access the current user's properties.

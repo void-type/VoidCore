@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 
-namespace VoidCore.AspNet.Authorization
+namespace VoidCore.AspNet.Auth
 {
     /// <summary>
     /// Configuration for authentication and authorization.
@@ -60,12 +60,10 @@ namespace VoidCore.AspNet.Authorization
         /// <param name="environment">The hosting environment</param>
         public static void AddWindowsAuthentication(this IServiceCollection services, IHostingEnvironment environment)
         {
-            // Get Windows Authentication from IIS
             services.AddAuthentication(HttpSysDefaults.AuthenticationScheme);
 
             if (environment.IsDevelopment())
             {
-                // Disable authentication in development to run in Kestrel.
                 services.AddMvc(options => { options.Filters.Add(new AllowAnonymousFilter()); });
             }
         }

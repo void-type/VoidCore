@@ -29,6 +29,7 @@ namespace VoidCore.Test.Model.Responses
             Assert.Contains("5", itemSet.Items);
             Assert.Equal(2, itemSet.Count);
             Assert.Equal(2, itemSet.Items.Count());
+            Assert.Equal(5, itemSet.TotalCount);
         }
 
         [Fact]
@@ -53,6 +54,22 @@ namespace VoidCore.Test.Model.Responses
             Assert.Contains("5", itemSet.Items);
             Assert.Equal(2, itemSet.Count);
             Assert.Equal(2, itemSet.Items.Count());
+            Assert.Equal(5, itemSet.TotalCount);
+        }
+
+        [Fact]
+        public void FromPagedListToItemSetPage()
+        {
+            var list = new List<string> { "2", "3", "4" };
+
+            var itemSet = list.ToItemSetPage(2, 3, 6);
+
+            Assert.Contains("2", itemSet.Items);
+            Assert.Contains("3", itemSet.Items);
+            Assert.Contains("4", itemSet.Items);
+            Assert.Equal(3, itemSet.Count);
+            Assert.Equal(6, itemSet.TotalCount);
+            Assert.Equal(3, itemSet.Items.Count());
         }
     }
 }

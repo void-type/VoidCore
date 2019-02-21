@@ -3,7 +3,7 @@
     /// <summary>
     /// A page for paginating a set of results.
     /// </summary>
-    public interface IItemSetPage<out TEntity> : IItemSet<TEntity>
+    public interface IItemSetPage<out T> : IItemSet<T>
     {
         /// <summary>
         /// The page number of this set.

@@ -20,5 +20,5 @@ VoidCore.AspNet includes helpers for configuring an ASP.NET Core web application
   * API endpoints return a JSON {message: ""} object.
   * MVC will redirect to secure error or forbidden pages in non-development.
 * Routing for SPA and Web API.
-* Data repositories implementation for EF Core.
-* HttpResponder for converting Domain Event Responses to IActionResult.
+* Entity Framework Core asynchronous repositories implementation.
+* HttpResponder for converting Domain Event Responses to IActionResult with appropriate status codes.

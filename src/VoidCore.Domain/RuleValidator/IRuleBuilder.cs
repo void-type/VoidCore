@@ -9,16 +9,16 @@ namespace VoidCore.Domain.RuleValidator
     public interface IRuleBuilder<out T>
     {
         /// <summary>
-        /// Provide a function that returns true when the entity is invalid. All invalid conditions
-        /// must be true for the entity to be invalid.
+        /// Provide a function that returns true when the entity is invalid.
+        /// Any conditions that are false will invalidate the entity.
         /// </summary>
         /// <param name="invalidCondition">A function that returns true if the entity is invalid.</param>
         /// <returns>A rule builder to chain rule creation operations.</returns>
         IRuleBuilder<T> InvalidWhen(Func<T, bool> invalidCondition);
 
         /// <summary>
-        /// Provide a function that returns true when a rule should be suppressed. All suppression conditions
-        /// must be true for the rule to be suppressed.
+        /// Provide a function that returns true when a rule should be suppressed.
+        /// Any conditions that are true can suppress the invalid message.
         /// </summary>
         /// <param name="suppressCondition">A function that returns true if the rule should be suppressed.</param>
         /// <returns>A rule builder to chain rule creation operations.</returns>

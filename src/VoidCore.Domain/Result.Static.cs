@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace VoidCore.Domain
 {
@@ -11,8 +12,10 @@ namespace VoidCore.Domain
     public sealed partial class Result
     {
         /// <summary>
-        /// Combine several untyped results. If any have failed, this will return a new aggregate failed result. If none have failed, this will return
-        /// a successful result.
+        /// Combine an array of results.
+        /// If any have failed, this will return a new aggregate failed result.
+        /// If none have failed, this will return a successful result.
+        /// The returned result has no type.
         /// </summary>
         /// <param name="results">Results to combine</param>
         /// <returns>A new result</returns>
@@ -24,6 +27,21 @@ namespace VoidCore.Domain
                 .ToArray();
 
             return failures.Any() ? Fail(failures) : Ok();
+        }
+
+        /// <summary>
+        /// Combine an array of asynchronous results.
+        /// If any have failed, this will return a new aggregate failed result.
+        /// If none have failed, this will return a successful result.
+        /// The returned result has no type.
+        /// </summary>
+        /// <param name="tasks">Task of IResult to combine</param>
+        /// <returns>A new result</returns>
+        public static async Task<IResult> CombineAsync(params Task<IResult>[] tasks)
+        {
+            var results = await Task.WhenAll(tasks).ConfigureAwait(false);
+
+            return Combine(results);
         }
 
         /// <summary>

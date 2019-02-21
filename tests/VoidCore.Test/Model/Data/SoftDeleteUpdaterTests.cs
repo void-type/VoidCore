@@ -1,8 +1,8 @@
 using Moq;
 using System;
+using VoidCore.Model.Auth;
 using VoidCore.Model.Data;
 using VoidCore.Model.Time;
-using VoidCore.Model.Users;
 using Xunit;
 
 namespace VoidCore.Test.Model.Data

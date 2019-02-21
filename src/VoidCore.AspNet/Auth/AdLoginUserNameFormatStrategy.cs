@@ -1,7 +1,6 @@
-using System;
 using System.Linq;
 
-namespace VoidCore.AspNet.Users
+namespace VoidCore.AspNet.Auth
 {
     /// <summary>
     /// Get the samAccountName from a fully-qualified Active Directory login.
@@ -13,12 +12,9 @@ namespace VoidCore.AspNet.Users
         /// Eg: DOMAIN1\UserName returns UserName
         /// </summary>
         /// <param name="adLogin">A fully-qualified AD login like DOMAIN1\UserName</param>
-        /// <returns>The user name</returns>
         public string Format(string adLogin)
         {
-            var lastLoginPart = adLogin?
-                .Split(new [] { "\\" }, StringSplitOptions.None)
-                .LastOrDefault();
+            var lastLoginPart = adLogin?.Split("\\").LastOrDefault();
 
             return string.IsNullOrWhiteSpace(lastLoginPart) ? "Unknown" : lastLoginPart;
         }

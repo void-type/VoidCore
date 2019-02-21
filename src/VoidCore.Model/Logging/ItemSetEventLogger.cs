@@ -1,4 +1,3 @@
-using VoidCore.Domain;
 using VoidCore.Model.Responses.Collections;
 
 namespace VoidCore.Model.Logging
@@ -18,13 +17,11 @@ namespace VoidCore.Model.Logging
         public ItemSetEventLogger(ILoggingService logger) : base(logger) { }
 
         /// <inheritdoc/>
-        public override void OnSuccess(TRequest request, IResult<IItemSet<TEntity>> successfulResult)
+        protected override void OnSuccess(TRequest request, IItemSet<TEntity> response)
         {
-            Logger.Info(
-                $"Count: {successfulResult.Value.Count}"
-            );
+            Logger.Info($"Count: {response.Count}");
 
-            base.OnSuccess(request, successfulResult);
+            base.OnSuccess(request, response);
         }
     }
 }

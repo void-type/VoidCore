@@ -1,5 +1,5 @@
+using VoidCore.Model.Auth;
 using VoidCore.Model.Time;
-using VoidCore.Model.Users;
 
 namespace VoidCore.Model.Data
 {

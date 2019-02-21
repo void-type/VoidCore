@@ -8,27 +8,41 @@ namespace VoidCore.Model.Responses.Collections
     public static class EnumerableExtensions
     {
         /// <summary>
-        /// Change an IEnumerable to a List then ItemSet.
+        /// Create a new ItemSet. Note that this will finalize deferred queries.
         /// </summary>
-        /// <param name="items">Collection of items</param>
-        /// <typeparam name="TEntity">Type of entity</typeparam>
+        /// <param name="items">The items to return in the set</param>
+        /// <typeparam name="T">The type of entities in the collection</typeparam>
         /// <returns>A new ItemSet of these items</returns>
-        public static IItemSet<TEntity> ToItemSet<TEntity>(this IEnumerable<TEntity> items)
+        public static IItemSet<T> ToItemSet<T>(this IEnumerable<T> items)
         {
-            return new ItemSet<TEntity>(items);
+            return new ItemSet<T>(items);
         }
 
         /// <summary>
-        /// Change an IEnumerable to a List then ItemSetPage.
+        /// Create a page from an entire item set.
         /// </summary>
-        /// <param name="items">Collection of items</param>
-        /// <param name="page">The page number to select of the set</param>
-        /// <param name="take">The number of items per page</param>
-        /// <typeparam name="TEntity">Type of entity</typeparam>
+        /// <param name="items">The full set of items</param>
+        /// <param name="page">What page number to take from the set</param>
+        /// <param name="take">How many items to include in each page</param>
+        /// <typeparam name="T">The type of entities in the collection</typeparam>
         /// <returns>A new ItemSetPage of these items</returns>
-        public static IItemSetPage<TEntity> ToItemSetPage<TEntity>(this IEnumerable<TEntity> items, int page, int take)
+        public static IItemSetPage<T> ToItemSetPage<T>(this IEnumerable<T> items, int page, int take)
         {
-            return new ItemSetPage<TEntity>(items, page, take);
+            return new ItemSetPage<T>(items, page, take);
+        }
+
+        /// <summary>
+        /// Create an item set page from an already paginated set.
+        /// </summary>
+        /// <param name="pageItems">The page from set of items</param>
+        /// <param name="page">What page number to take from the set</param>
+        /// <param name="take">How many items to include in each page</param>
+        /// <param name="totalCount">The count of the whole set before it was paginated</param>
+        /// <typeparam name="T">The type of entities in the collection</typeparam>
+        /// <returns>A new ItemSetPage of these items</returns>
+        public static IItemSetPage<T> ToItemSetPage<T>(this IEnumerable<T> pageItems, int page, int take, int totalCount)
+        {
+            return new ItemSetPage<T>(pageItems, page, take, totalCount);
         }
     }
 }

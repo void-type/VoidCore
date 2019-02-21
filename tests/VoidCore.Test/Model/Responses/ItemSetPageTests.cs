@@ -9,29 +9,30 @@ namespace VoidCore.Test.Model.Responses
     public class ItemSetPageTests
     {
         [Fact]
-        public void CountEmptyItemsIsZero()
-        {
-            var set = new ItemSetPage<string>(new List<string>().AsEnumerable(), 2, 2);
-            Assert.Equal(0, set.Count);
-        }
-
-        [Fact]
         public void NullItemsThrowsExceptions()
         {
             Assert.Throws<ArgumentNullException>(() => new ItemSetPage<string>(null, 1, 1));
+            Assert.Throws<ArgumentNullException>(() => new ItemSetPage<string>(null, 1, 1, 0));
+        }
+
+        [Fact]
+        public void CountEmptyItemsIsZero()
+        {
+            var set = new ItemSetPage<string>(new List<string>(), 2, 2);
+            Assert.Equal(0, set.Count);
         }
 
         [Theory]
-        [InlineData(0, 1, 1, 0)]
-        [InlineData(100, 1, 10, 10)]
-        [InlineData(100, 10, 10, 10)]
-        [InlineData(100, 11, 10, 0)]
-        [InlineData(105, 11, 10, 5)]
-        [InlineData(15, 0, 5, 5)]
-        [InlineData(15, -1, 5, 5)]
-        [InlineData(15, 2, 0, 0)]
-        [InlineData(15, 2, -1, 0)]
-        public void PagePropertiesChecks(int totalCount, int page, int take, int expectedCount)
+        [InlineData(0, 1, 1, 0, 1, 1)]
+        [InlineData(100, 1, 10, 10, 1, 10)]
+        [InlineData(100, 10, 10, 10, 10, 10)]
+        [InlineData(100, 11, 10, 0, 11, 10)]
+        [InlineData(105, 11, 10, 5, 11, 10)]
+        [InlineData(15, 0, 5, 5, 1, 5)]
+        [InlineData(15, -1, 5, 5, 1, 5)]
+        [InlineData(15, 2, 0, 0, 2, 0)]
+        [InlineData(15, 2, -1, 0, 2, 0)]
+        public void PagePropertiesChecks(int totalCount, int page, int take, int expectedCount, int expectedPage, int expectedTake)
         {
             var set = new List<string>();
 
@@ -40,12 +41,12 @@ namespace VoidCore.Test.Model.Responses
                 set.Add(i.ToString());
             }
 
-            var itemSetPage = new ItemSetPage<string>(set.AsEnumerable(), page, take);
+            var itemSetPage = new ItemSetPage<string>(set, page, take);
 
             Assert.Equal(expectedCount, itemSetPage.Count);
             Assert.Equal(expectedCount, itemSetPage.Items.Count());
-            Assert.Equal(page, itemSetPage.Page);
-            Assert.Equal(take, itemSetPage.Take);
+            Assert.Equal(expectedPage, itemSetPage.Page);
+            Assert.Equal(expectedTake, itemSetPage.Take);
             Assert.Equal(totalCount, itemSetPage.TotalCount);
         }
 
@@ -54,7 +55,7 @@ namespace VoidCore.Test.Model.Responses
         {
             var set = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 
-            var itemSetPage = new ItemSetPage<int>(set.AsEnumerable(), 2, 5);
+            var itemSetPage = new ItemSetPage<int>(set, 2, 5);
 
             Assert.Contains(6, itemSetPage.Items);
             Assert.Contains(7, itemSetPage.Items);

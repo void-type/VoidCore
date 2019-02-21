@@ -25,7 +25,7 @@ namespace VoidCore.Model.Logging
         /// </summary>
         /// <param name="request">The domain event request</param>
         /// <param name="result">The result of the event, this contains the response if successful</param>
-        public override void OnFailure(TRequest request, IResult result)
+        protected override void OnFailure(TRequest request, IResult result)
         {
             Logger.Warn(
                 $"Count: {result.Failures.Count()}",

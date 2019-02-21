@@ -12,21 +12,21 @@ namespace VoidCore.Domain.Events
         /// </summary>
         /// <param name="request">The domain event request</param>
         /// <param name="result">The result of the event, this contains the response if successful</param>
-        public virtual void OnBoth(TRequest request, IResult<TResponse> result) { }
+        protected virtual void OnBoth(TRequest request, IResult<TResponse> result) { }
 
         /// <summary>
         /// Override this method to process after a validation or event failure.
         /// </summary>
         /// <param name="request">The domain event request</param>
-        /// <param name="failedResult">The failed result of the event</param>
-        public virtual void OnFailure(TRequest request, IResult failedResult) { }
+        /// <param name="result">The failed result of the event</param>
+        protected virtual void OnFailure(TRequest request, IResult result) { }
 
         /// <summary>
         /// Override this method to process on success of the event.
         /// </summary>
         /// <param name="request">The domain event request</param>
-        /// <param name="successfulResult">The result of the event, this contains the response if successful</param>
-        public virtual void OnSuccess(TRequest request, IResult<TResponse> successfulResult) { }
+        /// <param name="response">The result value of the successful event</param>
+        protected virtual void OnSuccess(TRequest request, TResponse response) { }
 
         /// <inheritdoc/>
         public void Process(TRequest request, IResult<TResponse> result)
@@ -35,7 +35,7 @@ namespace VoidCore.Domain.Events
 
             if (result.IsSuccess)
             {
-                OnSuccess(request, result);
+                OnSuccess(request, result.Value);
             }
             else
             {

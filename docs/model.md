@@ -14,19 +14,23 @@ VoidCore.Model is an opinionated set of services and interfaces to support busin
 
 ### Text Search on Object Properties
 
-Check many properties of an object for an array of terms. It will split any search string on whitespace, or it can take an explicit array of terms.
+Check many properties of an object for an array of terms. Just supply the properties you want to include.
+
+SearchTerms will split the search string on whitespace by default. Or you can specify a string separator. Also, you can supply your own array of terms.
+
+SearchCriteria.PropertiesContain returns an expression that you can pass into an ORM like Entity Framework for deferred evaluation.
 
 ```csharp
 IQueryable<Person> people = GetPeople();
 var searchString = "find all these words in any single property";
 
 var matchedPeople = people
-    .SearchStringProperties(
-        searchString,
+    .Where(SearchCriteria.PropertiesContain<TestObject>(
+        new SearchTerms(searchString),
         obj => obj.FirstName,
         obj => obj.LastName,
         obj => obj.Biography
-    );
+    ));
 ```
 
 ### API Responses
@@ -41,15 +45,15 @@ Make predictable data APIs.
 
 ### Data Persistence
 
-* Repositories with read/write control.
-* Soft delete.
+* Asynchronous repositories with read/write control and specification-based queries.
+* Soft delete on entities.
 * Auditable entities via Created and Modified names/dates.
 
 ### Logging
 
-* Inherit your custom PostProcessors from FallibleEventLogger to automatically log Result failures from the validation or event.
-* There are also PostProcessors for all API Response types that include fallible logging.
 * Domain-safe, platform-agnostic interfaces for logging services.
+* PostProcessors for all out-of-the-box Response types that include fallible logging.
+* Inherit your custom PostProcessors from FallibleEventLogger to automatically log Result failures from the validation or event handler.
 
 ### Common Service Interfaces
 

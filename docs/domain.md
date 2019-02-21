@@ -17,26 +17,27 @@ VoidCore.Domain is a basic framework for building domain-driven, event-based app
 Write more functional code with generic functions that help pipe objects into each other.
 
 ```csharp
-// Get output from an IDisposable in a way that can be piped.
+// Get output from an IDisposable "using block" in a way that can be piped.
+// There is also an async variant.
 var employee = Disposable
     .Using(DbContextFactory.Create, context => context.Persons.Find("Joe"))
 
-// Perform side-effects in your pipe while ensuring the input is passed as output.
+    // Perform side-effects in your pipe while ensuring the input is passed as output.
     .Tee(p => Log(p))
 
-// Transform one entity into another. Much like LINQ's Select for single objects rather than collections.
+    // Transform one entity into another. Much like LINQ's Select for single objects rather than collections.
     .Map(p => new Employee(p.Name, p.Email));
 ```
 
 ### Results for fallible operations
 
-Adapted from [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFunctionalExtensions). Any method that might fail can return a Result for explicit fallibility. Results can be typed or untyped to follow the CQRS principle.
+Adapted from [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFunctionalExtensions). Any method that might fail can return a Result for explicit fallibility. Results can be typed or untyped depending if a return value is needed.
 
 ```csharp
-// A fallible method returns a Result<> or Result
-public Result<Person> GetPersonById(int id)
+// A fallible method returns a IResult<> or IResult
+public IResult<Person> GetPersonById(int id)
 {
-    var person = _data.Persons.Stored.Find(id);
+    var person = _data.Persons.GetById(id);
 
     if (person == null)
     {
@@ -56,7 +57,7 @@ if (result.IsFailed)
 
 if (result.IsSuccess)
 {
-  // Generic results like Result<Person> have a Person value on success.
+  // Generic results like IResult<Person> have a Person value on success.
   var person = result.Value;
 }
 ```
@@ -64,19 +65,27 @@ if (result.IsSuccess)
 There are many extension methods for making a pipeline of results.
 
 ```csharp
-// Combine lots of results into a single result. Note that this returns an untyped result.
-IEnumerable<Result> results = CheckLotsOfThings();
-
+// Combine lots of results into a single result. Note that this always returns an untyped result.
+IEnumerable<IResult> results = CheckLotsOfThings();
 var singleResult = results.Combine();
+
+// Asynchronous tasks of IResult can be run in parallel if not awaited.
+var result = await Result.CombineAsync(
+    DoSomeTaskAsync(),
+    DoAnotherTaskAsync()
+);
 
 // Transform your result into a typed one, or transform typed results to other types.
 // If the original result is failed, the selector is not invoked and the failures are copied over.
-var newResult = singleResult.Select(() => "Hooray!");
+var newResult = singleResult
+    .Select(() => "Everything went well.");
 
-// Perform side-effect actions depending on result success. The original result is passed down the pipeline.
-newResult
-    .TeeOnSuccess(value => DoSomething(value))
-    .TeeOnFailure(result => Log(result.Failures));
+    // Perform side-effect actions depending on result success. The original result is passed down the pipeline.
+    .TeeOnSuccess(value => DoSomethingOnSuccess(value))
+    .TeeOnFailure(result => Log(result.Failures))
+
+    // You can also do something on both using the functional extensions.
+    .Tee(result => DoSomethingNoMatterWhat(result));
 ```
 
 ### Maybe for explicit nulls
@@ -86,11 +95,11 @@ Adapted from [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFun
 Maybe also has implicit conversion from the internal type.
 
 ```csharp
-// A fallible method returns a Result
-public Result<Person> GetPersonById(int id)
+public IResult<Person> GetPersonById(int id)
 {
+    // When an external call can return a null, we can capture it in a Maybe.
     // Implicit conversion means you don't have to change code or write wrappers.
-    Maybe<Person> maybePerson = _data.Persons.Stored.FirstOrDefault(p => p.Id == id);
+    Maybe<Person> maybePerson = _data.Persons.GetById(id);
 
     if (maybePerson.HasNoValue)
     {
@@ -101,45 +110,95 @@ public Result<Person> GetPersonById(int id)
 }
 ```
 
-There are useful extension methods for common Maybe tasks.
+There are useful extension methods to make pipelines of Maybes and even convert them to Results.
 
 ```csharp
-// One-line the bulk of the above method using the static From and the ToResult extension
-return Maybe.From(_data.Persons.Stored.FirstOrDefault(p => p.Id == id))
-    .ToResult("Person is not found.", "personIdField");
+// Create a maybe from anything.
+var maybePerson = Maybe.From(_data.Persons.GetById(id))
 
-// Safely unwrap. If there is no value, this will return the default value. We want a null int? to be zero. In the end we have an integer of either 0 or value + 3.
-var safelyAdded = maybeInt.Unwrap(value => value + 3, 0);
+    // Filter on a predicate. A maybe that doesn't match will be replaced with Maybe<Person>.None.
+    .Where(p => p.Name == "Patrick Stewart")
 
-// Safe mappings. If there is no value, it will return a Maybe<Person>.None. We get a new Maybe object.
-var safelyKnighted = maybePerson.Select(p => "Sir" + p.Name);
+    // Safe mappings. If there is no value, it will return a Maybe<Person>.None.
+    .Select(p => p.Name = "Sir " + p.Name);
 
-// All persons without names will be replaced with Maybe<Person>.None
-var filtered = maybePerson.Where(p => !string.IsNullOrEmpty(p.Name));
+// Safely extract the inner value. If there is no value, unwrap will return the default value of that type, or the optionally specified value.
+var captain = maybePerson.Unwrap(new Person {Name = "James Kirk" }); // We will either have Sir Patrick Stewart or James Kirk at this point.
+
+// Alternatively, we can return a Result based on the value of the Maybe.
+var result = maybePerson.ToResult("Person is not found.", "personIdField");
 ```
 
 ### Value Objects to alleviate primitive obsession
 
-Adapted from [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFunctionalExtensions). Make a class that inherits from ValueObject to remove primitive obsession and give types to any logical data groups. Value Objects make it easy to compare the values of objects instead of references.
+Adapted from [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFunctionalExtensions). Make a class that inherits from ValueObject to remove primitive obsession and give types to any logical data groups. Value Objects make it easy to compare the values of object properties instead of references.
 
 ```csharp
+// Compare many properties and ensure equality across all of them.
+public class Address : ValueObject
+{
+    public string Street { get; }
+    public string City { get; }
+    public string State { get; }
+    public string Country { get; }
+    public string ZipCode { get; }
+
+    public Address(string street, string city, string state, string country, string zipCode)
+    {
+        Street = street;
+        City = city;
+        State = state;
+        Country = country;
+        ZipCode = zipCode;
+    }
+
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Street;
+        yield return City;
+        yield return State;
+        yield return Country;
+        yield return ZipCode;
+    }
+}
+
+// Check a single computed property that is comparable across different units.
 public class Temperature : ValueObject
 {
-    public double Reading { get; }
-    public TemperatureUnit Unit { get; }
+    public enum UnitType
+    {
+        F,
+        C,
+        K
+    }
 
-    public Temperature(double reading, string unit)
+    public double Reading { get; }
+    public UnitType Unit { get; }
+    public double Kelvin
+    {
+        get
+        {
+            switch (Unit)
+            {
+                case UnitType.C:
+                    return Math.Round(Reading + 273.15, 2);
+                case UnitType.F:
+                    return Math.Round((Reading - 32.0) * 5 / 9 + 273.15, 2);
+                default:
+                    return Math.Round(Reading, 2);
+            }
+        }
+    }
+
+    public Temperature(double reading, UnitType unit)
     {
         Reading = reading;
         Unit = unit;
     }
 
-    // Temp is not just a number.
-    // You can provide the components that make this temperature unique and comparable.
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        yield return Math.Round(Reading, 1);
-        yield return Unit;
+        yield return Kelvin;
     }
 }
 ```
@@ -152,21 +211,32 @@ Events are tied to explicit request and response objects. Events are handled asy
 
 Event pipelines are created through decorator methods that add Request Validators and Post Processors. Events and their pipeline component base classes are stateless and reusable by default. If your component dependencies allow it, you can register them as singletons and reuse components in different pipelines.
 
+Below is an example of using an event within an Asp.Net MVC controller.
+
 ```csharp
 public class PersonsController : Controller
 {
-    // For extra credit, inject GetPerson event parts into your controller and let DI handle dependencies.
-    // The components are constructed here for example clarity.
+    public PersonsController(ILoggingService logger, HttpResponder responder,
+        GetPerson.Handler getHandler, GetPerson.RequestValidator getValidator, GetPerson.Logger getLogger)
+    {
+        _logger = logger;
+        _responder = responder;
+        _getHandler = getHandler;
+        _getValidator = getValidator;
+        _getLogger = getLogger;
+    }
+
     public async Task<IActionResult> Get(string id)
     {
+        // For POST requests, the request can be extracted directly [FromBody]
         var request = new GetPerson.Request(id);
 
-        var result = await new GetPerson.Handler(_data, _mapper)
-            .AddRequestValidator(new GetPerson.RequestValidator())
-            .AddPostProcessor(new GetPerson.Logger(_logger))
+        var result = await _getHandler(_data)
+            .AddRequestValidator(_getValidator())
+            .AddPostProcessor(_getLogger(_logger))
             .Handle(request);
 
-        // _responder is an HttpResponder from VoidCore.AspNet
+        // Responder will handle the IResult<PersonDto>
         return _responder.Respond(result);
     }
 }
@@ -175,34 +245,31 @@ public class PersonsController : Controller
 <!-- markdownlint-disable MD033 -->
 <details>
     <summary>
-        Show a full real-world event example
+        Show a full event example
     </summary>
 <!-- markdownlint-disable MD033 -->
 
 ```csharp
 public class GetPerson
 {
-    public class Handler : EventHandlerAbstract<Request, Response>
+    public class Handler : EventHandlerAbstract<Request, PersonDto>
     {
-        public Handler(PersonData data, IMapper mapper)
+        public Handler(CompanyData data)
         {
             _data = data;
-            _mapper = mapper;
         }
 
-        public override async Task<IResult<Response>> HandleInternal(Request request)
+        public override async Task<IResult<PersonDto>> Handle(Request request)
         {
-            var person = await _data.Persons.Stored
-                .ProjectTo<Response>(_mapper)
-                .FirstOrDefaultAsync(l => l.Id == request.Id);
+            var personById = new PersonSpecification(p => p.Id == request.Id);
 
-            return (person != null) ?
-                Result.Ok(personDto) :
-                Result.Fail<Response>("Person not found.");
+            // Persons.Get returns a Maybe<Person> from the IReadOnlyRepository interface
+            return (await _data.Persons.Get(personById))
+                .Select(p => new PersonDto(p.Name, p.Email))
+                .ToResult("Person not found.", "id");
         }
 
-        private readonly PersonData _data;
-        private readonly IMapper _mapper;
+        private readonly CompanyData _data;
     }
 
     // Immutable request
@@ -217,9 +284,9 @@ public class GetPerson
     }
 
     // Immutable response
-    public class Response
+    public class PersonDto
     {
-        public Response(string name, string email)
+        public PersonDto(string name, string email)
         {
             Name = name;
             Email = email;
@@ -240,20 +307,20 @@ public class GetPerson
     }
 
     // Log your event. See below for more on this.
-    public class Logger : FallibleEventLogger<Request, Response>
+    public class Logger : FallibleEventLogger<Request, PersonDto>
     {
         public Logging(ILoggingService logger) : base(logger) { }
 
         // Always log the incoming request
-        public override void OnBoth(Request request, IResult<Response> result)
+        public override void OnBoth(Request request, IResult<PersonDto> result)
         {
-            _logger.Info($"RequestName: {request.Name}");
+            _logger.Info($"RequestId: {request.Id}");
         }
 
         // Log the email of the person on success
-        public override void OnSuccess(Request request, IResult<Response> result)
+        public override void OnSuccess(Request request, PersonDto response)
         {
-            _logger.Info($"Found: {result.Value.Email}");
+            _logger.Info($"Found: {response.Email}");
         }
 
         private readonly ILoggingService _logger;
@@ -281,17 +348,16 @@ class CreatePersonValidator : RuleValidatorAbstract<Entity>
         CreateRule(p => $"Name cannot be {p.Name}.", p => nameof(p.Name).ToLower())
             .InvalidWhen(entity => string.IsNullOrWhitespace(entity.Name));
 
-        CreateRule("Phone is required for employees.", "phone")
-            // ValidWhens are OR'd.
+        CreateRule("Phone number is required for employees with phones.", "phone")
+            // InvalidWhens are OR'd.
             // Any of the invalid conditions can invalidate the entity.
-            .InvalidWhen(entity => string.IsNullOrWhitespace(entity.Phone))
-            .InvalidWhen(entity => !PhoneIsValidFormat(entity.Phone))
+            .InvalidWhen(entity => string.IsNullOrWhitespace(entity.PhoneNumber))
+            .InvalidWhen(entity => !PhoneIsValidFormat(entity.PhoneNumber))
 
-            // ExceptWhen suppresses any violations
-            // ExceptWhens are AND'd.
-            // All suppression expressions have to be true to suppress
+            // ExceptWhens are OR'd.
+            // Any suppression condition that is true will suppress the invalid message.
             .ExceptWhen(entity => !entity.IsEmployee)
-            .ExceptWhen(entity => entity.DoesNotHavePhone)
+            .ExceptWhen(entity => !entity.HasPhone);
     }
 }
 ```
@@ -300,7 +366,7 @@ class CreatePersonValidator : RuleValidatorAbstract<Entity>
 
 Post Processors fire after the handling of an event or after validation failure. Post Processors should not change the response of the event; however, they can fire off commands such as notifications and logging.
 
-* Inherit from PostProcessorAbstract to define different processing for three channels of the Result<Response>: Success, Fail, Both.
+* Inherit from PostProcessorAbstract to define different processing for three channels of the IResult<Response>: Success, Fail, Both.
 * Inherit from IPostProcessor for a single channel that fires on both types of Result.
 
 There are default logging Post Processor implementations in the VoidCore.Model library. See above for an example.

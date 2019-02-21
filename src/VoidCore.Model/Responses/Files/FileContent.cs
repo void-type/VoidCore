@@ -14,7 +14,6 @@ namespace VoidCore.Model.Responses.Files
         /// <summary>
         /// Returns the contents encoded as a UTF8 string.
         /// </summary>
-        /// <returns></returns>
         public string AsString => Encoding.UTF8.GetString(_content);
 
         /// <summary>

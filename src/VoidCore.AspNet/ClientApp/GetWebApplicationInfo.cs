@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using VoidCore.Domain;
 using VoidCore.Domain.Events;
+using VoidCore.Model.Auth;
 using VoidCore.Model.Logging;
-using VoidCore.Model.Users;
 
 namespace VoidCore.AspNet.ClientApp
 {
@@ -60,15 +60,15 @@ namespace VoidCore.AspNet.ClientApp
             /// Overrides the base OnSuccess to log some information about the resultant application information.
             /// </summary>
             /// <param name="request">The request of the event</param>
-            /// <param name="successfulResult">The successful result of the event</param>
-            public override void OnSuccess(Request request, IResult<WebApplicationInfo> successfulResult)
+            /// <param name="response">The successful result of the event</param>
+            protected override void OnSuccess(Request request, WebApplicationInfo response)
             {
                 Logger.Info(
-                    $"AppName: {successfulResult.Value.ApplicationName}",
-                    $"UserName: {successfulResult.Value.User.Name}",
-                    $"UserAuthorizedAs: {string.Join(", ", successfulResult.Value.User.AuthorizedAs)}");
+                    $"AppName: {response.ApplicationName}",
+                    $"UserName: {response.User.Name}",
+                    $"UserAuthorizedAs: {string.Join(", ", response.User.AuthorizedAs)}");
 
-                base.OnSuccess(request, successfulResult);
+                base.OnSuccess(request, response);
             }
         }
 

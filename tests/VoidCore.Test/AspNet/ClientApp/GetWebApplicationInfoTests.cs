@@ -1,9 +1,10 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using VoidCore.AspNet.ClientApp;
+using VoidCore.Model.Auth;
 using VoidCore.Model.Logging;
-using VoidCore.Model.Users;
 using Xunit;
 
 namespace VoidCore.Test.AspNet.ClientApp
@@ -11,7 +12,7 @@ namespace VoidCore.Test.AspNet.ClientApp
     public class GetWebApplicationInfoTests
     {
         [Fact]
-        public async void ApplicationInfoIsCreatedWithAndLogsProperInfo()
+        public async Task ApplicationInfoIsCreatedWithAndLogsProperInfo()
         {
             var appSettings = new ApplicationSettings("AppName");
 
