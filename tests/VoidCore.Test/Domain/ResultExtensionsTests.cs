@@ -10,12 +10,12 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void CombineWithFailuresGivesFailures()
         {
-            var result = new List<IResult>()
+            var result = new List<IResult>
                 {
                     Result.Ok(),
-                        Result.Fail("oops"),
-                        Result.Fail("oops"),
-                        Result.Ok()
+                    Result.Fail("oops"),
+                    Result.Fail("oops"),
+                    Result.Ok()
                 }
                 .Combine();
 
@@ -27,8 +27,11 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void CombineWithNoFailuresGivesSuccess()
         {
-            var results = new List<IResult>() { Result.Ok(), Result.Ok() };
-            var result = results.Combine();
+            var result = new List<IResult>
+            {
+                Result.Ok(),
+                Result.Ok()
+            }.Combine();
 
             Assert.True(result.IsSuccess);
             Assert.False(result.IsFailed);
@@ -38,12 +41,12 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void TypedCombineWithFailuresGivesFailures()
         {
-            var result = new List<IResult<string>>()
+            var result = new List<IResult<string>>
                 {
                     Result.Ok(""),
-                        Result.Fail<string>(""),
-                        Result.Fail<string>(""),
-                        Result.Ok("")
+                    Result.Fail<string>(""),
+                    Result.Fail<string>(""),
+                    Result.Ok("")
                 }
                 .Combine();
 
@@ -55,8 +58,11 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void TypedCombineWithNoFailuresGivesSuccess()
         {
-            var results = new List<IResult<string>>() { Result.Ok(""), Result.Ok("") };
-            var result = results.Combine();
+            var result = new List<IResult<string>>
+            {
+                Result.Ok(""),
+                Result.Ok("")
+            }.Combine();
 
             Assert.True(result.IsSuccess);
             Assert.False(result.IsFailed);

@@ -1,4 +1,3 @@
-using VoidCore.Domain;
 using VoidCore.Model.Responses.Messages;
 
 namespace VoidCore.Model.Logging
@@ -17,13 +16,11 @@ namespace VoidCore.Model.Logging
         public UserMessageEventLogger(ILoggingService logger) : base(logger) { }
 
         /// <inheritdoc/>
-        public override void OnSuccess(TRequest request, IResult<UserMessage> successfulResult)
+        protected override void OnSuccess(TRequest request, UserMessage response)
         {
-            Logger.Info(
-                $"Message: {successfulResult.Value.Message}"
-            );
+            Logger.Info($"Message: {response.Message}");
 
-            base.OnSuccess(request, successfulResult);
+            base.OnSuccess(request, response);
         }
     }
 }

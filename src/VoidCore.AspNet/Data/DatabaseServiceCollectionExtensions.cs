@@ -16,8 +16,7 @@ namespace VoidCore.AspNet.Data
         /// <param name="connectionString">The connection string to send to the DbContext</param>
         /// <typeparam name="TDbContext">The concrete type of DbContext to add to the DI container</typeparam>
         /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if null is passed for connectionString.</exception>
-        public static void AddSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString)
-        where TDbContext : DbContext
+        public static void AddSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString) where TDbContext : DbContext
         {
             if (string.IsNullOrWhiteSpace(connectionString))
             {

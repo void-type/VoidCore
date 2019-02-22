@@ -7,42 +7,6 @@ namespace VoidCore.Test.Domain
     public class MaybeExtensionsTests
     {
         [Fact]
-        public void MaybeSelectWithoutValue()
-        {
-            Maybe<string> maybe = Maybe<string>.None;
-            var value = maybe.Select(v => 2);
-            Assert.IsType<Maybe<int>>(value);
-            Assert.True(value.HasNoValue);
-        }
-
-        [Fact]
-        public void MaybeSelectWithValue()
-        {
-            Maybe<string> maybe = "some value";
-            var value = maybe.Select(v => 2);
-            Assert.IsType<Maybe<int>>(value);
-            Assert.Equal(2, value.Value);
-        }
-
-        [Fact]
-        public void MaybeSelectToMaybeWithoutValue()
-        {
-            Maybe<string> maybe = Maybe<string>.None;
-            var value = maybe.Select(v => Maybe.From(2));
-            Assert.IsType<Maybe<int>>(value);
-            Assert.True(value.HasNoValue);
-        }
-
-        [Fact]
-        public void MaybeSelectToMaybeWithValue()
-        {
-            Maybe<string> maybe = "some value";
-            var value = maybe.Select(v => Maybe.From(2));
-            Assert.IsType<Maybe<int>>(value);
-            Assert.Equal(2, value.Value);
-        }
-
-        [Fact]
         public void MaybeToResultWithoutValueIsFailed()
         {
             var maybe = Maybe<string>.None;
@@ -60,9 +24,41 @@ namespace VoidCore.Test.Domain
             Assert.True(maybe.ToResult("no value").IsSuccess);
         }
 
-        //
-        //
-        //
+        [Fact]
+        public void MaybeSelectWithoutValueReturnsNone()
+        {
+            Maybe<string> maybe = Maybe<string>.None;
+            var value = maybe.Select(v => 2);
+            Assert.IsType<Maybe<int>>(value);
+            Assert.True(value.HasNoValue);
+        }
+
+        [Fact]
+        public void MaybeSelectWithValueReturnsTransformation()
+        {
+            Maybe<string> maybe = "some value";
+            var value = maybe.Select(v => 2);
+            Assert.IsType<Maybe<int>>(value);
+            Assert.Equal(2, value.Value);
+        }
+
+        [Fact]
+        public void MaybeSelectToMaybeWithoutValueReturnNone()
+        {
+            Maybe<string> maybe = Maybe<string>.None;
+            var value = maybe.Select(v => Maybe.From(2));
+            Assert.IsType<Maybe<int>>(value);
+            Assert.True(value.HasNoValue);
+        }
+
+        [Fact]
+        public void MaybeSelectToMaybeWithValue()
+        {
+            Maybe<string> maybe = "some value";
+            var value = maybe.Select(v => Maybe.From(2));
+            Assert.IsType<Maybe<int>>(value);
+            Assert.Equal(2, value.Value);
+        }
 
         [Fact]
         public void MaybeUnwrapWithoutValue()
@@ -93,40 +89,6 @@ namespace VoidCore.Test.Domain
             var valueWithDefaultFactory = maybe.Unwrap(() => "default value");
             Assert.Equal("some value", valueWithDefaultFactory);
         }
-
-        [Fact]
-        public void MaybeUnwrapWithoutValueWithSelector()
-        {
-            Maybe<string> maybe = Maybe<string>.None;
-
-            var valueNoDefault = maybe.Unwrap(v => v + " added");
-            Assert.Null(valueNoDefault);
-
-            var valueWithDefault = maybe.Unwrap(v => v + " added", "default value");
-            Assert.Equal("default value", valueWithDefault);
-
-            var valueWithDefaultFactory = maybe.Unwrap(v => v + " added", () => "default value");
-            Assert.Equal("default value", valueWithDefaultFactory);
-        }
-
-        [Fact]
-        public void MaybeUnwrapWithValueWithSelector()
-        {
-            Maybe<string> maybe = "some value";
-
-            var valueNoDefault = maybe.Unwrap(v => v + " added");
-            Assert.Equal("some value added", valueNoDefault);
-
-            var valueWithDefault = maybe.Unwrap(v => v + " added", "default value");
-            Assert.Equal("some value added", valueWithDefault);
-
-            var valueWithDefaultFactory = maybe.Unwrap(v => v + " added", () => "default value");
-            Assert.Equal("some value added", valueWithDefaultFactory);
-        }
-
-        //
-        //
-        //
 
         [Fact]
         public void WhereWithValueAndFalsePredicateReturnsNone()

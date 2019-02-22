@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,14 +11,40 @@ namespace VoidCore.Domain
     public abstract class ValueObject
     {
         /// <summary>
-        /// Compares inequality of two ValueObjects
+        /// Override this method to provide a list of components to compare equality with. These components can be raw or transformed properties.
         /// </summary>
-        /// <param name="first">This valueObject</param>
-        /// <param name="second">The valueObject to compare to</param>
-        /// <returns>The boolean result of inequality</returns>
-        public static bool operator !=(ValueObject first, ValueObject second)
+        /// <returns>A list of components used to check equality of the value object</returns>
+        protected abstract IEnumerable<object> GetEqualityComponents();
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
         {
-            return !(first == second);
+            if (obj == null)
+            {
+                return false;
+            }
+
+            if (GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            var valueObject = (ValueObject) obj;
+
+            return GetEqualityComponents().SequenceEqual(valueObject.GetEqualityComponents());
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            return GetEqualityComponents()
+                .Aggregate(1, (current, obj) =>
+                {
+                    unchecked
+                    {
+                        return current * 23 + (obj?.GetHashCode() ?? 0);
+                    }
+                });
         }
 
         /// <summary>
@@ -43,41 +68,15 @@ namespace VoidCore.Domain
             return first.Equals(second);
         }
 
-        /// <inheritdoc/>
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-            {
-                return false;
-            }
-
-            if (GetType() != obj.GetType())
-            {
-                throw new ArgumentException($"Invalid comparison of Value Objects of different types: {GetType()} and {obj.GetType()}");
-            }
-
-            var valueObject = (ValueObject) obj;
-
-            return GetEqualityComponents().SequenceEqual(valueObject.GetEqualityComponents());
-        }
-
-        /// <inheritdoc/>
-        public override int GetHashCode()
-        {
-            return GetEqualityComponents()
-                .Aggregate(1, (current, obj) =>
-                {
-                    unchecked
-                    {
-                        return current * 23 + (obj?.GetHashCode() ?? 0);
-                    }
-                });
-        }
-
         /// <summary>
-        /// Override this method to provide a list of components to compare equality with. These components can be raw or transformed properties.
+        /// Compares inequality of two ValueObjects
         /// </summary>
-        /// <returns>A list of components used to check equality of the value object</returns>
-        protected abstract IEnumerable<object> GetEqualityComponents();
+        /// <param name="first">This valueObject</param>
+        /// <param name="second">The valueObject to compare to</param>
+        /// <returns>The boolean result of inequality</returns>
+        public static bool operator !=(ValueObject first, ValueObject second)
+        {
+            return !(first == second);
+        }
     }
 }

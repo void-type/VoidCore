@@ -56,7 +56,7 @@ namespace VoidCore.Domain.RuleValidator
 
         private bool IsSuppressed(T validatableEntity)
         {
-            return _suppressConditions.Any() && _suppressConditions.All(check => check(validatableEntity));
+            return _suppressConditions.Any() && _suppressConditions.Any(check => check(validatableEntity));
         }
     }
 }

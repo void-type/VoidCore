@@ -3,7 +3,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using VoidCore.AspNet.Logging;
-using VoidCore.Model.Users;
+using VoidCore.Model.Auth;
 using Xunit;
 
 namespace VoidCore.Test.AspNet.Logging

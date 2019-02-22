@@ -1,4 +1,4 @@
-namespace VoidCore.AspNet.Users
+namespace VoidCore.AspNet.Auth
 {
     /// <summary>
     /// Formatter for getting a UI-friendly user name.
@@ -9,7 +9,6 @@ namespace VoidCore.AspNet.Users
         /// Get the UI-friendly user name from a longer string.
         /// </summary>
         /// <param name="fullUserName">The full or non-UI-friendly user name.</param>
-        /// <returns>The UI-friendly user name</returns>
         string Format(string fullUserName);
     }
 }

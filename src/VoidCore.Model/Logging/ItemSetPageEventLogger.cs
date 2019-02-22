@@ -1,4 +1,3 @@
-using VoidCore.Domain;
 using VoidCore.Model.Responses.Collections;
 
 namespace VoidCore.Model.Logging
@@ -18,16 +17,16 @@ namespace VoidCore.Model.Logging
         public ItemSetPageEventLogger(ILoggingService logger) : base(logger) { }
 
         /// <inheritdoc/>
-        public override void OnSuccess(TRequest request, IResult<IItemSetPage<TEntity>> successfulResult)
+        protected override void OnSuccess(TRequest request, IItemSetPage<TEntity> response)
         {
             Logger.Info(
-                $"Count: {successfulResult.Value.Count}",
-                $"Page: {successfulResult.Value.Page}",
-                $"Take: {successfulResult.Value.Take}",
-                $"TotalCount: {successfulResult.Value.TotalCount}"
+                $"Count: {response.Count}",
+                $"Page: {response.Page}",
+                $"Take: {response.Take}",
+                $"TotalCount: {response.TotalCount}"
             );
 
-            base.OnSuccess(request, successfulResult);
+            base.OnSuccess(request, response);
         }
     }
 }

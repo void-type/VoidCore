@@ -1,17 +1,16 @@
-using VoidCore.Domain;
+using System.Threading.Tasks;
 
 namespace VoidCore.Model.Emailing
 {
     /// <summary>
     /// A service for sending emails.
     /// </summary>
-    public interface IEmailerService
+    public interface IEmailSender
     {
         /// <summary>
         /// Send the email to its recipients.
         /// </summary>
         /// <param name="email">The email to send</param>
-        /// <returns>A result describing the success of sending the email</returns>
-        IResult SendEmail(Email email);
+        Task SendEmail(Email email);
     }
 }

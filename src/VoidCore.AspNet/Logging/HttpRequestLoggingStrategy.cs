@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using VoidCore.Model.Auth;
 using VoidCore.Model.Logging;
-using VoidCore.Model.Users;
 
 namespace VoidCore.AspNet.Logging
 {

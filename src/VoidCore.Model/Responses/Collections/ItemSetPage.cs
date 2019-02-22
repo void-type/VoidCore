@@ -7,8 +7,8 @@ namespace VoidCore.Model.Responses.Collections
     /// <summary>
     /// A page of a full set of items. Used for data pagination.
     /// </summary>
-    /// <typeparam name="TEntity">The entity type of the set</typeparam>
-    public class ItemSetPage<TEntity> : ItemSetBaseAbstract<TEntity>, IItemSetPage<TEntity>
+    /// <typeparam name="T">The entity type of the set</typeparam>
+    public class ItemSetPage<T> : ItemSetBaseAbstract<T>, IItemSetPage<T>
     {
         /// <inheritdoc/>
         public int Page { get; }
@@ -20,14 +20,13 @@ namespace VoidCore.Model.Responses.Collections
         public int TotalCount { get; }
 
         /// <summary>
-        /// Create a new page of an item set. Note that this will finalize deferred queries. If running against Entity Framework, this will result in
-        /// two database calls. However there is the benefit that pagination happens more efficiently on the database.
+        /// Create a page from an entire item set.
         /// </summary>
         /// <param name="items">The full set of items</param>
         /// <param name="page">What page number to take from the set</param>
         /// <param name="take">How many items to include in each page</param>
         /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if null is passed for items.</exception>
-        public ItemSetPage(IEnumerable<TEntity> items, int page, int take)
+        public ItemSetPage(IEnumerable<T> items, int page, int take)
         {
             if (items == null)
             {
@@ -35,28 +34,37 @@ namespace VoidCore.Model.Responses.Collections
             }
 
             var itemsList = items.ToList();
-            Items = SafePaginate(itemsList, page, take);
             TotalCount = itemsList.Count();
+
+            page = page > 1 ? page : 1;
+            take = take > 0 ? take : 0;
+
             Page = page;
             Take = take;
+            Items = itemsList
+                .Skip((page - 1) * take)
+                .Take(take);
         }
 
-        private const int PageFloor = 1;
-
-        private const int TakeFloor = 0;
-
-        private static int RangeFloor(int number, int lowerLimit)
+        /// <summary>
+        /// Create an item set page from an already paginated set.
+        /// </summary>
+        /// <param name="pageItems">The page from set of items</param>
+        /// <param name="page">What page number to take from the set</param>
+        /// <param name="take">How many items to include in each page</param>
+        /// <param name="totalCount">The count of the whole set before it was paginated</param>
+        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if null is passed for items.</exception>
+        public ItemSetPage(IEnumerable<T> pageItems, int page, int take, int totalCount)
         {
-            return number < lowerLimit ? lowerLimit : number;
-        }
+            if (pageItems == null)
+            {
+                throw new ArgumentNullException(nameof(pageItems), "Cannot make an ItemSetPage of null items.");
+            }
 
-        private static IEnumerable<TEntity> SafePaginate(IEnumerable<TEntity> items, int page, int take)
-        {
-            var safePage = RangeFloor(page, PageFloor);
-            var safeTake = RangeFloor(take, TakeFloor);
-            return items
-                .Skip((safePage - 1) * safeTake)
-                .Take(safeTake);
+            Page = page;
+            Take = take;
+            TotalCount = totalCount;
+            Items = pageItems.ToList();
         }
     }
 }

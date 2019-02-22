@@ -5,14 +5,14 @@ using System.Linq;
 namespace VoidCore.Model.Responses.Collections
 {
     /// <inheritdoc/>
-    public class ItemSet<TEntity> : ItemSetBaseAbstract<TEntity>
+    public class ItemSet<T> : ItemSetBaseAbstract<T>
     {
         /// <summary>
-        /// Create a new ItemSet. Note that this will finalize deferred queries.
+        /// Create a new ItemSet. This will finalize deferred queries.
         /// </summary>
         /// <param name="items">The items to return in the set</param>
         /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if null is passed for items.</exception>
-        public ItemSet(IEnumerable<TEntity> items)
+        public ItemSet(IEnumerable<T> items)
         {
             if (items == null)
             {

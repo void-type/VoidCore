@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using VoidCore.AspNet.Settings;
 
-namespace VoidCore.AspNet.Authorization
+namespace VoidCore.AspNet.Auth
 {
     /// <summary>
     /// Derivatives of this class will have their policies set by convention from the name of the class.

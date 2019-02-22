@@ -8,18 +8,27 @@ namespace VoidCore.Test.Domain
     public class ValueObjectTests
     {
         [Fact]
-        public void CannotCompareVosOfDifferentTypes()
+        public void CompareValueObjectsOfDifferentTypesReturnsFalse()
         {
-            var temp1 = new Temperature(20.1, Temperature.UnitType.C);
-            var dist1 = new Distance(20.1, Distance.UnitType.Km);
+            var temp1 = new Address("a", "b");
+            var dist1 = new DerivedAddress("a", "b");
 
-            Assert.Throws<ArgumentException>(() => temp1 == dist1);
+            Assert.False(temp1 == dist1);
+        }
+
+        // This is an edge-case in MS docs that null == null.
+        [Fact]
+        public void NullComparedToNullValueObjectIsEqual()
+        {
+            Assert.True((Address) null == (Address) null);
+            Assert.True((Address) null == null);
+            Assert.True(null == (Address) null);
         }
 
         [Fact]
-        public void VoComparedToNullAreNotEqual()
+        public void ValueObjectsComparedToNullAreNotEqual()
         {
-            var temp1 = new Temperature(20.1, Temperature.UnitType.C);
+            var temp1 = new Address("a", "b");
 
             Assert.False(temp1.Equals(null));
             Assert.False(temp1 == null);
@@ -27,10 +36,10 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void VosWithDifferentValuesAreNotEqual()
+        public void ValueObjectsWithDifferentValuesAreNotEqual()
         {
-            var temp1 = new Temperature(20.1, Temperature.UnitType.C);
-            var temp2 = new Temperature(20.1, Temperature.UnitType.F);
+            var temp1 = new Address("a", "b");
+            var temp2 = new Address("b", "a");
 
             Assert.False(temp1 == temp2);
             Assert.True(temp1 != temp2);
@@ -39,64 +48,38 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void VosWithSameValuesAreEqual()
+        public void ValueObjectsWithSameValuesAreEqual()
         {
-            var temp1 = new Temperature(20.1, Temperature.UnitType.C);
-            var temp2 = new Temperature(20.1, Temperature.UnitType.C);
+            var temp1 = new Address("a", "b");
+            var temp2 = new Address("a", "b");
 
-            Assert.True(null == (Temperature) null);
             Assert.True(temp1 == temp2);
             Assert.False(temp1 != temp2);
             Assert.Equal(temp1, temp2);
             Assert.Equal(temp1.GetHashCode(), temp2.GetHashCode());
         }
 
-        internal class Distance : ValueObject
+        public class Address : ValueObject
         {
-            public enum UnitType
-            {
-                Mi,
-                Km
-            }
+            public string Street { get; }
+            public string City { get; }
 
-            public double Reading { get; }
-            public UnitType Unit { get; }
-
-            public Distance(double reading, UnitType unit)
+            public Address(string street, string city)
             {
-                Reading = reading;
-                Unit = unit;
+                Street = street;
+                City = city;
             }
 
             protected override IEnumerable<object> GetEqualityComponents()
             {
-                yield return Reading;
-                yield return Unit;
+                yield return Street;
+                yield return City;
             }
         }
 
-        internal class Temperature : ValueObject
+        internal class DerivedAddress : Address
         {
-            public enum UnitType
-            {
-                F,
-                C
-            }
-
-            public double Reading { get; }
-            public UnitType Unit { get; }
-
-            public Temperature(double reading, UnitType unit)
-            {
-                Reading = reading;
-                Unit = unit;
-            }
-
-            protected override IEnumerable<object> GetEqualityComponents()
-            {
-                yield return Reading;
-                yield return Unit;
-            }
+            public DerivedAddress(string street, string city) : base(street, city) { }
         }
     }
 }

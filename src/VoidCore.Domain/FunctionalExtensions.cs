@@ -15,7 +15,6 @@ namespace VoidCore.Domain
         /// <param name="selector">The map function to transform input to output</param>
         /// <typeparam name="TInput">The input type</typeparam>
         /// <typeparam name="TOutput">The output type</typeparam>
-        /// <returns></returns>
         public static TOutput Map<TInput, TOutput>(this TInput input, Func<TInput, TOutput> selector)
         {
             return selector(input);
@@ -27,10 +26,10 @@ namespace VoidCore.Domain
         /// <param name="input">The input to the tee.</param>
         /// <param name="action">The action to perform.</param>
         /// <typeparam name="T">The type of input.</typeparam>
-        /// <returns>The input</returns>
         public static T Tee<T>(this T input, Action action)
         {
             action();
+
             return input;
         }
 
@@ -40,10 +39,10 @@ namespace VoidCore.Domain
         /// <param name="input">The input to the tee.</param>
         /// <param name="action">The action to perform.</param>
         /// <typeparam name="T">The type of input.</typeparam>
-        /// <returns>The input</returns>
         public static T Tee<T>(this T input, Action<T> action)
         {
             action(input);
+
             return input;
         }
     }

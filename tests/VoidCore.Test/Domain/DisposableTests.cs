@@ -1,5 +1,5 @@
-using Moq;
 using System;
+using System.Threading.Tasks;
 using VoidCore.Domain;
 using Xunit;
 
@@ -10,22 +10,51 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void UsingReturnsExpectedValueAndDisposes()
         {
-            var disposableMock = new Mock<IDisposableObject>();
-            disposableMock.Setup(d => d.GetValue()).Returns("Hello World");
-            disposableMock.Setup(d => d.Dispose());
+            var disposable = new DisposableObject();
 
             var value = Disposable.Using(
-                () => disposableMock.Object,
+                () => disposable,
                 d => d.GetValue()
             );
 
             Assert.Equal("Hello World", value);
-            disposableMock.Verify(d => d.Dispose(), Times.Once);
+            Assert.True(disposable.Disposed);
         }
 
-        public interface IDisposableObject : IDisposable
+        [Fact]
+        public async Task UsingAsyncReturnsExpectedValueAndDisposes()
         {
-            string GetValue();
+            var disposable = new DisposableObject();
+
+            var value = await Disposable.UsingAsync(
+                () => disposable,
+                d => d.GetValueAsync()
+            );
+
+            Assert.Equal("Hello World", value);
+            Assert.True(disposable.Disposed);
+        }
+
+        private class DisposableObject : IDisposable
+        {
+            public bool Disposed { get; private set; }
+
+
+            public virtual void Dispose()
+            {
+                Disposed = true;
+            }
+
+            public string GetValue()
+            {
+                return "Hello World";
+            }
+
+            public async Task<string> GetValueAsync()
+            {
+                await Task.Delay(1);
+                return "Hello World";
+            }
         }
     }
 }

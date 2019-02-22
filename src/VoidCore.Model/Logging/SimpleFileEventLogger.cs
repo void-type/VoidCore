@@ -1,4 +1,3 @@
-using VoidCore.Domain;
 using VoidCore.Model.Responses.Files;
 
 namespace VoidCore.Model.Logging
@@ -17,13 +16,11 @@ namespace VoidCore.Model.Logging
         public SimpleFileEventLogger(ILoggingService logger) : base(logger) { }
 
         /// <inheritdoc/>
-        public override void OnSuccess(TRequest request, IResult<SimpleFile> successfulResult)
+        protected override void OnSuccess(TRequest request, SimpleFile response)
         {
-            Logger.Info(
-                $"FileName: {successfulResult.Value.Name}"
-            );
+            Logger.Info($"FileName: {response.Name}");
 
-            base.OnSuccess(request, successfulResult);
+            base.OnSuccess(request, response);
         }
     }
 }

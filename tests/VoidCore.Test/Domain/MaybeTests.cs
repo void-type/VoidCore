@@ -68,10 +68,11 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void MaybeFromStringHasValue()
         {
-            var maybe1 = Maybe.From("some value");
-            Assert.False(maybe1.HasNoValue);
-            Assert.True(maybe1.HasValue);
-            Assert.Equal("some value", maybe1.Value);
+            var maybe = Maybe.From("some value");
+            Assert.False(maybe.HasNoValue);
+            Assert.True(maybe.HasValue);
+            Assert.Equal("some value", maybe.Value);
+            Assert.NotEqual(maybe, Maybe<string>.None);
         }
 
         [Fact]
@@ -81,6 +82,7 @@ namespace VoidCore.Test.Domain
             Assert.False(maybe.HasNoValue);
             Assert.True(maybe.HasValue);
             Assert.Equal(2, maybe.Value);
+            Assert.NotEqual(maybe, Maybe<int>.None);
         }
 
         [Fact]
@@ -90,6 +92,7 @@ namespace VoidCore.Test.Domain
             Assert.False(maybe.HasNoValue);
             Assert.True(maybe.HasValue);
             Assert.Equal("some value", maybe.Value);
+            Assert.NotEqual(maybe, Maybe<string>.None);
         }
 
         [Fact]
