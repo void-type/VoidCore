@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 
 namespace VoidCore.Domain
 {
@@ -15,7 +16,7 @@ namespace VoidCore.Domain
         /// <param name="errorMessage">The errorMessage of the result failure</param>
         /// <param name="uiHandle">The uiHandle of the result failure</param>
         /// <typeparam name="T">The type of Maybe and Result value</typeparam>
-        /// <returns>A result of the Maybe having a value</returns>
+        /// <returns>A result of the Maybe value</returns>
         public static IResult<T> ToResult<T>(this Maybe<T> maybe, string errorMessage, string uiHandle = null)
         {
             return maybe.HasValue ?
@@ -24,39 +25,151 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Map the inner value to a Maybe of a new type by specifying the new value. The new value will be implicitly converted to a Maybe.
+        /// Transform the Maybe to a result whose success is dependent on the Maybe having a value.
         /// </summary>
-        /// <param name="maybe">The Maybe</param>
+        /// <param name="maybeTask">A task to asynchronously retrieve the Maybe to transform</param>
+        /// <param name="errorMessage">The errorMessage of the result failure</param>
+        /// <param name="uiHandle">The uiHandle of the result failure</param>
+        /// <typeparam name="T">The type of Maybe and Result value</typeparam>
+        /// <returns>A result of the Maybe value</returns>
+        public static async Task<IResult<T>> ToResultAsync<T>(this Task<Maybe<T>> maybeTask, string errorMessage, string uiHandle = null)
+        {
+            var maybe = await maybeTask.ConfigureAwait(false);
+
+            return maybe.ToResult(errorMessage, uiHandle);
+        }
+
+        /// <summary>
+        /// Map the inner value to a Maybe of a new type by specifying the new value.
+        /// The new value will be implicitly converted to a Maybe.
+        /// </summary>
+        /// <param name="maybe">The Maybe to transform</param>
         /// <param name="selector">The transforming map function</param>
-        /// <typeparam name="T">The type of the original value</typeparam>
-        /// <typeparam name="TNew">The type of the new value</typeparam>
+        /// <typeparam name="TIn">The type of the original value</typeparam>
+        /// <typeparam name="TOut">The type of the new value</typeparam>
         /// <returns>A Maybe of the new value</returns>
-        public static Maybe<TNew> Select<T, TNew>(this Maybe<T> maybe, Func<T, TNew> selector)
+        public static Maybe<TOut> Select<TIn, TOut>(this Maybe<TIn> maybe, Func<TIn, TOut> selector)
         {
             return maybe.HasValue ?
                 selector(maybe.Value) :
-                Maybe<TNew>.None;
+                Maybe<TOut>.None;
+        }
+
+        /// <summary>
+        /// Asynchronously map the inner value to a Maybe of a new type by specifying the new value.
+        /// The new value will be implicitly converted to a Maybe.
+        /// </summary>
+        /// <param name="maybe">The Maybe to transform</param>
+        /// <param name="selectorTask">An asynchronous task representing the transforming map function</param>
+        /// <typeparam name="TIn">The type of the original value</typeparam>
+        /// <typeparam name="TOut">The type of the new value</typeparam>
+        /// <returns>A Maybe of the new value</returns>
+        public static async Task<Maybe<TOut>> SelectAsync<TIn, TOut>(this Maybe<TIn> maybe, Func<TIn, Task<TOut>> selectorTask)
+        {
+            return maybe.HasValue ?
+                await selectorTask(maybe.Value).ConfigureAwait(false) :
+                Maybe<TOut>.None;
+        }
+
+        /// <summary>
+        /// Asynchronously map the inner value to a Maybe of a new type by specifying the new value.
+        /// The new value will be implicitly converted to a Maybe.
+        /// </summary>
+        /// <param name="maybeTask">An asynchronous task representing the Maybe to transform</param>
+        /// <param name="selector">The transforming map function</param>
+        /// <typeparam name="TIn">The type of the original value</typeparam>
+        /// <typeparam name="TOut">The type of the new value</typeparam>
+        /// <returns>A Maybe of the new value</returns>
+        public static async Task<Maybe<TOut>> SelectAsync<TIn, TOut>(this Task<Maybe<TIn>> maybeTask, Func<TIn, TOut> selector)
+        {
+            var maybe = await maybeTask.ConfigureAwait(false);
+
+            return maybe.Select(selector);
+        }
+
+        /// <summary>
+        /// Asynchronously map the inner value to a Maybe of a new type by specifying the new value.
+        /// The new value will be implicitly converted to a Maybe.
+        /// </summary>
+        /// <param name="maybeTask">An asynchronous task representing the Maybe to transform</param>
+        /// <param name="selectorTask">An asynchronous task representing the transforming map function</param>
+        /// <typeparam name="TIn">The type of the original value</typeparam>
+        /// <typeparam name="TOut">The type of the new value</typeparam>
+        /// <returns>A Maybe of the new value</returns>
+        public static async Task<Maybe<TOut>> SelectAsync<TIn, TOut>(this Task<Maybe<TIn>> maybeTask, Func<TIn, Task<TOut>> selectorTask)
+        {
+            var maybe = await maybeTask.ConfigureAwait(false);
+
+            return await maybe.SelectAsync(selectorTask).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Map the inner value to a Maybe of a new type by specifying the new Maybe.
         /// </summary>
-        /// <param name="maybe">The Maybe</param>
-        /// <param name="selector">The transforming map function</param>
-        /// <typeparam name="T">The type of the original value</typeparam>
-        /// <typeparam name="TNew">The type of the new value</typeparam>
-        /// <returns>A Maybe of the new value</returns>
-        public static Maybe<TNew> Select<T, TNew>(this Maybe<T> maybe, Func<T, Maybe<TNew>> selector)
+        /// <param name="maybe">The Maybe to transform</param>
+        /// <param name="selector">The transforming map function that returns a Maybe</param>
+        /// <typeparam name="TIn">The type of the original value</typeparam>
+        /// <typeparam name="TOut">The type of the new value</typeparam>
+        /// <returns>A new Maybe</returns>
+        public static Maybe<TOut> SelectMaybe<TIn, TOut>(this Maybe<TIn> maybe, Func<TIn, Maybe<TOut>> selector)
         {
             return maybe.HasValue ?
                 selector(maybe.Value) :
-                Maybe<TNew>.None;
+                Maybe<TOut>.None;
         }
 
         /// <summary>
-        /// Safely extract the value from the Maybe. If there is no value in the Maybe, this will return the defaultValue.
+        /// Asynchronously map the inner value to a Maybe of a new type by specifying the new Maybe.
+        /// The new value will be implicitly converted to a Maybe.
         /// </summary>
-        /// <param name="maybe">The Maybe</param>
+        /// <param name="maybe">The Maybe to transform</param>
+        /// <param name="selectorTask">An asynchronous task representing the transforming map function that returns a Maybe</param>
+        /// <typeparam name="TIn">The type of the original value</typeparam>
+        /// <typeparam name="TOut">The type of the new value</typeparam>
+        /// <returns>A new Maybe</returns>
+        public static async Task<Maybe<TOut>> SelectMaybeAsync<TIn, TOut>(this Maybe<TIn> maybe, Func<TIn, Task<Maybe<TOut>>> selectorTask)
+        {
+            return maybe.HasValue ?
+                await selectorTask(maybe.Value).ConfigureAwait(false) :
+                Maybe<TOut>.None;
+        }
+
+        /// <summary>
+        /// Asynchronously map the inner value to a Maybe of a new type by specifying the new Maybe.
+        /// The new value will be implicitly converted to a Maybe.
+        /// </summary>
+        /// <param name="maybeTask">An asynchronous task representing the Maybe to transform</param>
+        /// <param name="selector">The transforming map function that returns a Maybe</param>
+        /// <typeparam name="TIn">The type of the original value</typeparam>
+        /// <typeparam name="TOut">The type of the new value</typeparam>
+        /// <returns>A new Maybe</returns>
+        public static async Task<Maybe<TOut>> SelectMaybeAsync<TIn, TOut>(this Task<Maybe<TIn>> maybeTask, Func<TIn, Maybe<TOut>> selector)
+        {
+            var maybe = await maybeTask.ConfigureAwait(false);
+
+            return maybe.SelectMaybe(selector);
+        }
+
+        /// <summary>
+        /// Asynchronously map the inner value to a Maybe of a new type by specifying the new Maybe.
+        /// The new value will be implicitly converted to a Maybe.
+        /// </summary>
+        /// <param name="maybeTask">An asynchronous task representing the Maybe to transform</param>
+        /// <param name="selectorTask">An asynchronous task representing the transforming map function that returns a Maybe</param>
+        /// <typeparam name="TIn">The type of the original value</typeparam>
+        /// <typeparam name="TOut">The type of the new value</typeparam>
+        /// <returns>A new Maybe</returns>
+        public static async Task<Maybe<TOut>> SelectMaybeAsync<TIn, TOut>(this Task<Maybe<TIn>> maybeTask, Func<TIn, Task<Maybe<TOut>>> selectorTask)
+        {
+            var maybe = await maybeTask.ConfigureAwait(false);
+
+            return await maybe.SelectMaybeAsync(selectorTask).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Safely extract the value from the Maybe. If there is no value in the Maybe, return the default value.
+        /// </summary>
+        /// <param name="maybe">The Maybe to get the value from</param>
         /// <param name="defaultValue">What to return if there isn't a value in the Maybe</param>
         /// <typeparam name="T">The type of value</typeparam>
         /// <returns>The value of the Maybe</returns>
@@ -66,9 +179,23 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Safely extract the value from the Maybe. If there is no value in the Maybe, this will invoke a factory method to return the defaultValue.
+        /// Asynchronously and safely extract the value from the Maybe. If there is no value in the Maybe, return the default value.
         /// </summary>
-        /// <param name="maybe">The Maybe</param>
+        /// <param name="maybeTask">An asynchronous task representing the Maybe to get the value from</param>
+        /// <param name="defaultValue">What to return if there isn't a value in the Maybe</param>
+        /// <typeparam name="T">The type of value</typeparam>
+        /// <returns>The value of the Maybe</returns>
+        public static async Task<T> UnwrapAsync<T>(this Task<Maybe<T>> maybeTask, T defaultValue = default(T))
+        {
+            var maybe = await maybeTask.ConfigureAwait(false);
+
+            return maybe.Unwrap(() => defaultValue);
+        }
+
+        /// <summary>
+        /// Safely extract the value from the Maybe. If there is no value in the Maybe, invoke a factory method to return the default value.
+        /// </summary>
+        /// <param name="maybe">The Maybe to get the value from</param>
         /// <param name="defaultValueFactory">A factory method to invoke if the Maybe doesn't have a value</param>
         /// <typeparam name="T">The type of value</typeparam>
         /// <returns>The value of the Maybe</returns>
@@ -80,9 +207,23 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
+        /// Asynchronously and safely extract the value from the Maybe. If there is no value in the Maybe, invoke a factory method to return the default value.
+        /// </summary>
+        /// <param name="maybeTask">An asynchronous task representing the Maybe to get the value from</param>
+        /// <param name="defaultValueFactory">A factory method to invoke if the Maybe doesn't have a value</param>
+        /// <typeparam name="T">The type of value</typeparam>
+        /// <returns>The value of the Maybe</returns>
+        public static async Task<T> UnwrapAsync<T>(this Task<Maybe<T>> maybeTask, Func<T> defaultValueFactory)
+        {
+            var maybe = await maybeTask.ConfigureAwait(false);
+
+            return maybe.Unwrap(defaultValueFactory);
+        }
+
+        /// <summary>
         /// Filter the value using a predicate. If the value does not satisfy the predicate, a Maybe.None is returned.
         /// </summary>
-        /// <param name="maybe">The Maybe</param>
+        /// <param name="maybe">The Maybe to filter</param>
         /// <param name="predicate">The predicate used to filter the value</param>
         /// <typeparam name="T">The type of the value</typeparam>
         /// <returns>A Maybe with value if the predicate is true</returns>
@@ -91,6 +232,20 @@ namespace VoidCore.Domain
             return maybe.HasValue && predicate(maybe.Value) ?
                 maybe :
                 Maybe<T>.None;
+        }
+
+        /// <summary>
+        /// Filter the value using a predicate. If the value does not satisfy the predicate, a Maybe.None is returned.
+        /// </summary>
+        /// <param name="maybeTask">An asynchronous task representing the Maybe to filter</param>
+        /// <param name="predicate">The predicate used to filter the value</param>
+        /// <typeparam name="T">The type of the value</typeparam>
+        /// <returns>A Maybe with value if the predicate is true</returns>
+        public static async Task<Maybe<T>> WhereAsync<T>(this Task<Maybe<T>> maybeTask, Func<T, bool> predicate)
+        {
+            var maybe = await maybeTask.ConfigureAwait(false);
+
+            return maybe.Where(predicate);
         }
     }
 }

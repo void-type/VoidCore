@@ -25,10 +25,10 @@ namespace VoidCore.Model.Responses.Collections
         /// <param name="page">What page number to take from the set</param>
         /// <param name="take">How many items to include in each page</param>
         /// <typeparam name="T">The type of entities in the collection</typeparam>
-        /// <returns>A new ItemSetPage of these items</returns>
-        public static IItemSetPage<T> ToItemSetPage<T>(this IEnumerable<T> items, int page, int take)
+        /// <returns>A new ItemSet of these items</returns>
+        public static IItemSet<T> ToItemSet<T>(this IEnumerable<T> items, int page, int take)
         {
-            return new ItemSetPage<T>(items, page, take);
+            return new ItemSet<T>(items, page, take);
         }
 
         /// <summary>
@@ -38,11 +38,12 @@ namespace VoidCore.Model.Responses.Collections
         /// <param name="page">What page number to take from the set</param>
         /// <param name="take">How many items to include in each page</param>
         /// <param name="totalCount">The count of the whole set before it was paginated</param>
+        /// <param name="isPagingEnabled">If paging is enabled in this set</param>
         /// <typeparam name="T">The type of entities in the collection</typeparam>
-        /// <returns>A new ItemSetPage of these items</returns>
-        public static IItemSetPage<T> ToItemSetPage<T>(this IEnumerable<T> pageItems, int page, int take, int totalCount)
+        /// <returns>A new ItemSet of these items</returns>
+        public static IItemSet<T> ToItemSet<T>(this IEnumerable<T> pageItems, int page, int take, int totalCount, bool isPagingEnabled = true)
         {
-            return new ItemSetPage<T>(pageItems, page, take, totalCount);
+            return new ItemSet<T>(pageItems, page, take, totalCount, isPagingEnabled);
         }
     }
 }

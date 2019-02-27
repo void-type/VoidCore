@@ -1,0 +1,153 @@
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using VoidCore.Domain;
+using VoidCore.Domain.Events;
+using VoidCore.Domain.RuleValidator;
+using VoidCore.Model.Data;
+using VoidCore.Model.Logging;
+using VoidCore.Model.Responses.Messages;
+using VoidCore.Test.AspNet.Data.TestModels.Data;
+using VoidCore.Test.AspNet.Data.TestModels.Queries;
+
+namespace VoidCore.Test.AspNet.Data.TestModels.Events
+{
+    public class SaveRecipe
+    {
+        public class Handler : EventHandlerAbstract<Request, UserMessageWithEntityId<int>>
+        {
+            public Handler(IFoodStuffsData data, IAuditUpdater auditUpdater)
+            {
+                _data = data;
+                _auditUpdater = auditUpdater;
+            }
+
+            public override async Task<IResult<UserMessageWithEntityId<int>>> Handle(Request request, CancellationToken cancellationToken = default(CancellationToken))
+            {
+                var byId = new RecipesByIdWithCategoriesSpecification(request.Id);
+
+                var maybeRecipe = await _data.Recipes.Get(byId);
+
+                if (maybeRecipe.HasValue)
+                {
+                    return await maybeRecipe.Value
+                        .Tee(r => Transfer(request, r))
+                        .TeeAsync(_data.Recipes.Update)
+                        .TeeAsync(r => ManageCategories(request, r))
+                        .MapAsync(r => Result.Ok(UserMessageWithEntityId.Create("Recipe updated.", r.Id)));
+                }
+                else
+                {
+                    return await new Recipe()
+                        .Tee(_auditUpdater.Create)
+                        .Tee(r => Transfer(request, r))
+                        .TeeAsync(_data.Recipes.Add)
+                        .TeeAsync(r => ManageCategories(request, r))
+                        .MapAsync(r => Result.Ok(UserMessageWithEntityId.Create("Recipe added.", r.Id)));
+                }
+            }
+
+            private void Transfer(Request request, Recipe recipe)
+            {
+                recipe.Name = request.Name;
+                recipe.Ingredients = request.Ingredients;
+                recipe.Directions = request.Directions;
+                recipe.CookTimeMinutes = request.CookTimeMinutes;
+                recipe.PrepTimeMinutes = request.PrepTimeMinutes;
+                _auditUpdater.Update(recipe);
+            }
+
+            private async Task ManageCategories(Request request, Recipe recipe)
+            {
+                var requested = request.Categories
+                    .Where(n => !string.IsNullOrWhiteSpace(n))
+                    .Select(n => n.ToLower().Trim())
+                    .ToArray();
+
+                var categoriesThatMatchRequestedSpec = new CategorySpecification(
+                    c => requested.Contains(c.Name.ToLower().Trim()));
+
+                var categoriesExist = (await _data.Categories.List(categoriesThatMatchRequestedSpec))
+                    .Select(c => c.Name.ToLower().Trim());
+
+                // Add categories that don't exist
+                await requested
+                    .Where(n => !categoriesExist.Contains(n))
+                    .Select(n => new Category { Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(n) })
+                    .TeeAsync(_data.Categories.AddRange);
+
+                // Remove relations that are no longer needed
+                await recipe.CategoryRecipe
+                    .Where(r => !requested.Contains(r.Category.Name.ToLower().Trim()))
+                    .TeeAsync(_data.CategoryRecipes.RemoveRange);
+
+                // Add relations that don't exist
+                await _data.Categories
+                    .List(categoriesThatMatchRequestedSpec)
+                    .MapAsync(categories => categories
+                        .Where(c => !recipe.CategoryRecipe
+                            .Select(r => r.Category.Name.ToLower().Trim())
+                            .Contains(c.Name.ToLower().Trim()))
+                        .Select(c => new CategoryRecipe
+                        {
+                            RecipeId = recipe.Id,
+                                CategoryId = c.Id
+                        }))
+                    .TeeAsync(_data.CategoryRecipes.AddRange);
+            }
+
+            private readonly IFoodStuffsData _data;
+            private readonly IAuditUpdater _auditUpdater;
+        }
+
+        public class Request
+        {
+            public Request(int id, string name, string ingredients, string directions, int? cookTimeMinutes, int? prepTimeMinutes, IEnumerable<string> categories)
+            {
+                Id = id;
+                Name = name;
+                Ingredients = ingredients;
+                Directions = directions;
+                CookTimeMinutes = cookTimeMinutes;
+                PrepTimeMinutes = prepTimeMinutes;
+                Categories = categories;
+            }
+
+            public int Id { get; }
+            public string Name { get; }
+            public string Ingredients { get; }
+            public string Directions { get; }
+            public int? CookTimeMinutes { get; }
+            public int? PrepTimeMinutes { get; }
+            public IEnumerable<string> Categories { get; }
+        }
+
+        public class RequestValidator : RuleValidatorAbstract<Request>
+        {
+            public RequestValidator()
+            {
+                CreateRule("Please enter a name.", "name")
+                    .InvalidWhen(entity => string.IsNullOrWhiteSpace(entity.Name));
+
+                CreateRule("Please enter ingredients.", "ingredients")
+                    .InvalidWhen(entity => string.IsNullOrWhiteSpace(entity.Ingredients));
+
+                CreateRule("Please enter directions.", "directions")
+                    .InvalidWhen(entity => string.IsNullOrWhiteSpace(entity.Directions));
+
+                CreateRule("Cook time must be positive.", "cookTimeMinutes")
+                    .InvalidWhen(entity => entity.CookTimeMinutes < 0);
+
+                CreateRule("Prep time must be positive.", "prepTimeMinutes")
+                    .InvalidWhen(entity => entity.PrepTimeMinutes < 0);
+            }
+        }
+
+        public class Logger : UserMessageWithEntityIdEventLogger<Request, int>
+        {
+            public Logger(ILoggingService logger) : base(logger) { }
+        }
+    }
+}

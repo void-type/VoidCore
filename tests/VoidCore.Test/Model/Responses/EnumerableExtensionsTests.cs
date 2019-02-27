@@ -23,7 +23,7 @@ namespace VoidCore.Test.Model.Responses
         {
             var queryable = new List<string> { "1", "2", "3", "4", "5" }.AsQueryable();
 
-            var itemSet = queryable.ToItemSetPage(2, 3);
+            var itemSet = queryable.ToItemSet(2, 3);
 
             Assert.Contains("4", itemSet.Items);
             Assert.Contains("5", itemSet.Items);
@@ -48,7 +48,7 @@ namespace VoidCore.Test.Model.Responses
         {
             var list = new List<string> { "1", "2", "3", "4", "5" };
 
-            var itemSet = list.ToItemSetPage(2, 3);
+            var itemSet = list.ToItemSet(2, 3);
 
             Assert.Contains("4", itemSet.Items);
             Assert.Contains("5", itemSet.Items);
@@ -58,11 +58,11 @@ namespace VoidCore.Test.Model.Responses
         }
 
         [Fact]
-        public void FromPagedListToItemSetPage()
+        public void FromPagedListToItemSet()
         {
             var list = new List<string> { "2", "3", "4" };
 
-            var itemSet = list.ToItemSetPage(2, 3, 6);
+            var itemSet = list.ToItemSet(2, 3, 6);
 
             Assert.Contains("2", itemSet.Items);
             Assert.Contains("3", itemSet.Items);

@@ -38,14 +38,10 @@ namespace VoidCore.Domain.Events
         /// <inheritdoc/>
         public async Task<IResult<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var validation = _requestValidators
+            var result = await _requestValidators
                 .Select(validator => validator.Validate(request))
-                .Combine();
-
-            var result = await (validation.IsSuccess ?
-                    _innerEvent.Handle(request, cancellationToken) :
-                    Task.FromResult(Result.Fail<TResponse>(validation.Failures)))
-                .ConfigureAwait(false);
+                .Combine()
+                .ThenAsync(() => _innerEvent.Handle(request, cancellationToken));
 
             foreach (var postProcessor in _postProcessors)
             {

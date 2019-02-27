@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using VoidCore.AspNet.Queries;
 using VoidCore.Domain;
 using VoidCore.Model.Data;
 using VoidCore.Model.Queries;
@@ -28,7 +27,7 @@ namespace VoidCore.AspNet.Data
         }
 
         /// <inheritdoc/>
-        public virtual async Task<Maybe<T>> Get(IQuerySpecification<T> spec)
+        public async Task<Maybe<T>> Get(IQuerySpecification<T> spec)
         {
             return await ApplySpecification(spec).FirstOrDefaultAsync();
         }
