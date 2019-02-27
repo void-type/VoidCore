@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using VoidCore.Domain;
 using Xunit;
 
@@ -8,193 +9,196 @@ namespace VoidCore.Test.Domain
     public class ResultExtensionsTests
     {
         [Fact]
-        public void CombineWithFailuresGivesFailures()
-        {
-            var result = new List<IResult>
-                {
-                    Result.Ok(),
-                    Result.Fail("oops"),
-                    Result.Fail("oops"),
-                    Result.Ok()
-                }
-                .Combine();
-
-            Assert.False(result.IsSuccess);
-            Assert.True(result.IsFailed);
-            Assert.Equal(2, result.Failures.Count());
-        }
-
-        [Fact]
         public void CombineWithNoFailuresGivesSuccess()
         {
             var result = new List<IResult>
             {
                 Result.Ok(),
-                Result.Ok()
-            }.Combine();
-
-            Assert.True(result.IsSuccess);
-            Assert.False(result.IsFailed);
-            Assert.Empty(result.Failures);
-        }
-
-        [Fact]
-        public void TypedCombineWithFailuresGivesFailures()
-        {
-            var result = new List<IResult<string>>
-                {
-                    Result.Ok(""),
-                    Result.Fail<string>(""),
-                    Result.Fail<string>(""),
-                    Result.Ok("")
-                }
-                .Combine();
-
-            Assert.False(result.IsSuccess);
-            Assert.True(result.IsFailed);
-            Assert.Equal(2, result.Failures.Count());
-        }
-
-        [Fact]
-        public void TypedCombineWithNoFailuresGivesSuccess()
-        {
-            var result = new List<IResult<string>>
-            {
-                Result.Ok(""),
+                Result.Ok(1),
                 Result.Ok("")
             }.Combine();
 
             Assert.True(result.IsSuccess);
-            Assert.False(result.IsFailed);
             Assert.Empty(result.Failures);
         }
 
         [Fact]
-        public void TeeOnSuccessTests()
+        public void CombineWithFailuresGivesFailures()
         {
-            var tick = 1;
-            var okResult = Result.Ok();
-            var failResult = Result.Fail("something happened");
+            var result = new List<IResult>
+            {
+                Result.Ok(),
+                Result.Fail("oops"),
+                Result.Fail<int>("oops"),
+                Result.Fail<string>("oops"),
+                Result.Ok(1),
+                Result.Ok("")
+            }.Combine();
 
-            okResult
-                .TeeOnSuccess(() => tick++)
-                .TeeOnSuccess(() => tick++)
-                .TeeOnSuccess(() => tick++);
-
-            Assert.Equal(4, tick);
-
-            failResult
-                .TeeOnSuccess(() => tick++)
-                .TeeOnSuccess(() => tick++)
-                .TeeOnSuccess(() => tick++);
-
-            Assert.Equal(4, tick);
+            Assert.True(result.IsFailed);
+            Assert.Equal(3, result.Failures.Count());
         }
 
         [Fact]
-        public void TypedTeeOnSuccessTests()
+        public async Task CombineAsyncWithNoFailuresGivesSuccess()
         {
-            var tick = 1;
-            var okResult = Result.Ok(2);
-            var failResult = Result.Fail<int>("something happened");
+            var result = await new List<IResult>
+                {
+                    Result.Ok(),
+                    Result.Ok(1),
+                    Result.Ok("")
+                }
+                .Select(x => Task.Run(() => x))
+                .CombineAsync();
 
-            okResult
-                .TeeOnSuccess(r => tick += r)
-                .TeeOnSuccess(r => tick++)
-                .TeeOnSuccess(() => tick++)
-                .TeeOnSuccess(r => tick += r);
-
-            Assert.Equal(7, tick);
-
-            failResult
-                .TeeOnSuccess(r => tick += r)
-                .TeeOnSuccess(r => tick++)
-                .TeeOnSuccess(() => tick++)
-                .TeeOnSuccess(r => tick += r);
-
-            Assert.Equal(7, tick);
+            Assert.True(result.IsSuccess);
+            Assert.Empty(result.Failures);
         }
 
         [Fact]
-        public void TeeOnFailureTests()
+        public async Task CombineAsyncWithFailuresGivesFailures()
         {
-            var tick = 1;
-            var okResult = Result.Ok();
-            var failResult = Result.Fail("something happened");
+            var result = await new List<IResult>
+                {
+                    Result.Ok(),
+                    Result.Fail("oops"),
+                    Result.Fail<int>("oops"),
+                    Result.Fail<string>("oops"),
+                    Result.Ok(1),
+                    Result.Ok("")
+                }
+                .Select(x => Task.Run(() => x))
+                .CombineAsync();
 
-            okResult
-                .TeeOnFailure(() => tick++)
-                .TeeOnFailure(() => tick++)
-                .TeeOnFailure(() => tick++);
-
-            Assert.Equal(1, tick);
-
-            failResult
-                .TeeOnFailure(() => tick++)
-                .TeeOnFailure(() => tick++)
-                .TeeOnFailure(() => tick++);
-
-            Assert.Equal(4, tick);
-        }
-
-        [Fact]
-        public void TypedTeeOnFailureTests()
-        {
-            var tick = 1;
-            var okResult = Result.Ok(2);
-            var failResult = Result.Fail<int>("something happened");
-
-            okResult
-                .TeeOnFailure(() => tick++)
-                .TeeOnFailure(() => tick++)
-                .TeeOnFailure(() => tick++);
-
-            Assert.Equal(1, tick);
-
-            failResult
-                .TeeOnFailure(() => tick++)
-                .TeeOnFailure(() => tick++)
-                .TeeOnFailure(() => tick++);
-
-            Assert.Equal(4, tick);
+            Assert.True(result.IsFailed);
+            Assert.Equal(3, result.Failures.Count());
         }
 
         [Fact]
         public void SelectTests()
         {
             var okResult = Result.Ok();
-            var failResult = Result.Fail("something happened");
 
             var newOkResult = okResult
+                .Select(() => "new value")
+                .Select(r => "new value")
                 .Select(() => "new value");
 
             Assert.True(newOkResult.IsSuccess);
             Assert.Equal("new value", newOkResult.Value);
 
+            var failResult = Result.Fail("oops");
+
             var newFailResult = failResult
+                .Select(() => "new value")
+                .Select(r => "new value")
                 .Select(() => "new value");
 
             Assert.True(newFailResult.IsFailed);
-            Assert.Equal("something happened", newFailResult.Failures.First().Message);
+            Assert.Equal("oops", newFailResult.Failures.First().Message);
         }
 
         [Fact]
-        public void TypedSelectTests()
+        public async Task SelectAsyncTests()
         {
-            var okResult = Result.Ok(2);
-            var failResult = Result.Fail<int>("something happened");
+            var t = new TestTransformerService();
 
-            var newOkResult = okResult
-                .Select(r => "new value" + r);
+            var newOkResult = await Result.Ok()
+                .SelectAsync(() => t.TransformAsync(t.Start, 1))
+                .SelectAsync(r => t.Transform(r, 2))
+                .SelectAsync(r => t.TransformAsync(r, 3));
 
             Assert.True(newOkResult.IsSuccess);
-            Assert.Equal("new value2", newOkResult.Value);
+            Assert.Equal("Hello World!!!", newOkResult.Value);
 
-            var newFailResult = failResult
-                .Select(r => "new value" + r);
+            newOkResult = await Task.Run(() => Result.Ok())
+                .SelectAsync(() => t.Transform(t.Start, 4));
+
+            Assert.True(newOkResult.IsSuccess);
+            Assert.Equal("Hello World!", newOkResult.Value);
+
+            newOkResult = await Task.Run(() => Result.Ok())
+                .SelectAsync(() => t.TransformAsync(t.Start, 5))
+                .SelectAsync(r => t.TransformAsync(r, 6));
+
+            Assert.True(newOkResult.IsSuccess);
+            Assert.Equal("Hello World!!", newOkResult.Value);
+
+            var newFailResult = await Result.Fail("oops")
+                .SelectAsync(() => t.TransformAsync(t.Start, 1))
+                .SelectAsync(r => t.Transform(r, 2))
+                .SelectAsync(r => t.TransformAsync(r, 3));
 
             Assert.True(newFailResult.IsFailed);
-            Assert.Equal("something happened", newFailResult.Failures.First().Message);
+            Assert.Equal("oops", newFailResult.Failures.First().Message);
+        }
+
+        [Fact]
+        public void ThenTests()
+        {
+            var newOkResult = Result.Ok()
+                .Then(() => Result.Ok())
+                .Then(() => Result.Ok(""))
+                .Then(r => Result.Ok(""))
+                .Then(r => Result.Ok())
+                .Then(() => Result.Ok(""))
+                .Then(() => Result.Ok(""))
+                .Then(r => Result.Ok(2))
+                .Then(() => Result.Ok(2));
+
+            Assert.True(newOkResult.IsSuccess);
+            Assert.Equal(2, newOkResult.Value);
+
+            var newFailResult = Result.Fail<int>("oops")
+                .Then(() => Result.Ok())
+                .Then(() => Result.Ok(""))
+                .Then(r => Result.Ok(""))
+                .Then(r => Result.Ok())
+                .Then(() => Result.Ok(""))
+                .Then(() => Result.Ok(""))
+                .Then(r => Result.Ok(2))
+                .Then(() => Result.Ok(2));
+
+            Assert.True(newFailResult.IsFailed);
+            Assert.Equal("oops", newFailResult.Failures.First().Message);
+        }
+
+        [Fact]
+        public async Task ThenAsyncTests()
+        {
+            var t = new TestTransformerService();
+
+            var newOkResult = await Result.Ok()
+                .ThenAsync(() => t.GetResultAsync(1))
+                .ThenAsync(() => t.GetResult(2))
+                .ThenAsync(() => t.GetResultAsync(3))
+                .ThenAsync(() => t.GetResult("", 4))
+                .ThenAsync(r => t.GetResult("", 5))
+                .ThenAsync(r => t.GetResult("", 6))
+                .ThenAsync(r => t.GetResult("", 7))
+                .ThenAsync(r => t.GetResultAsync(8))
+                .ThenAsync(() => t.GetResultAsync(2, 9))
+                .ThenAsync(r => t.GetResult(2, 10));
+
+            Assert.True(newOkResult.IsSuccess);
+            Assert.Equal(2, newOkResult.Value);
+
+            t = new TestTransformerService();
+
+            var newFailResult = await Result.Fail<int>("oops")
+                .ThenAsync(r => t.GetResultAsync("", 1))
+                .ThenAsync(r => t.GetResult("", 2))
+                .ThenAsync(r => t.GetResultAsync("", 2))
+                .ThenAsync(r => t.GetResultAsync(3))
+                .ThenAsync(() => t.GetResultAsync(4))
+                .ThenAsync(() => t.GetResult("", 5))
+                .ThenAsync(r => t.GetResult("", 6))
+                .ThenAsync(r => t.GetResultAsync(7))
+                .ThenAsync(() => t.GetResultAsync(2, 8))
+                .ThenAsync(r => t.GetResult(9));
+
+            Assert.True(newFailResult.IsFailed);
+            Assert.Equal("oops", newFailResult.Failures.First().Message);
         }
     }
 }

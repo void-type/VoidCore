@@ -14,9 +14,9 @@ namespace VoidCore.Domain
         /// <param name="factory">A factory that creates the IDisposable object.</param>
         /// <param name="selector">A map function for using the disposable to get the output.</param>
         /// <typeparam name="TDisposable">The disposable service type</typeparam>
-        /// <typeparam name="TOutput">The output type</typeparam>
+        /// <typeparam name="TOut">The output type</typeparam>
         /// <returns>The output</returns>
-        public static TOutput Using<TDisposable, TOutput>(Func<TDisposable> factory, Func<TDisposable, TOutput> selector)
+        public static TOut Using<TDisposable, TOut>(Func<TDisposable> factory, Func<TDisposable, TOut> selector)
         where TDisposable : IDisposable
         {
             using(var disposable = factory())
@@ -31,9 +31,9 @@ namespace VoidCore.Domain
         /// <param name="factory">A factory that creates the IDisposable object.</param>
         /// <param name="selector">A map function for using the disposable to get the output.</param>
         /// <typeparam name="TDisposable">The disposable service type</typeparam>
-        /// <typeparam name="TOutput">The output type</typeparam>
+        /// <typeparam name="TOut">The output type</typeparam>
         /// <returns>The output</returns>
-        public static async Task<TOutput> UsingAsync<TDisposable, TOutput>(Func<TDisposable> factory, Func<TDisposable, Task<TOutput>> selector)
+        public static async Task<TOut> UsingAsync<TDisposable, TOut>(Func<TDisposable> factory, Func<TDisposable, Task<TOut>> selector)
         where TDisposable : IDisposable
         {
             using(var disposable = factory())

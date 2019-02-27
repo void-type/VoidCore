@@ -264,9 +264,9 @@ public class GetPerson
             var personById = new PersonSpecification(p => p.Id == request.Id);
 
             // Persons.Get returns a Maybe<Person> from the IReadOnlyRepository interface
-            return (await _data.Persons.Get(personById))
-                .Select(p => new PersonDto(p.Name, p.Email))
-                .ToResult("Person not found.", "id");
+            return await _data.Persons.Get(personById)
+                .SelectAsync(p => new PersonDto(p.Name, p.Email))
+                .ToResultAsync("Person not found.", "id");
         }
 
         private readonly CompanyData _data;

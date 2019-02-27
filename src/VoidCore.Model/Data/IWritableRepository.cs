@@ -11,7 +11,7 @@ namespace VoidCore.Model.Data
     public interface IWritableRepository<T> : IReadOnlyRepository<T> where T : class
     {
         /// <summary>
-        /// Add an entity to the repository.async Returns the entity after it has been added.
+        /// Add an entity to the repository. Returns the entity after it has been added.
         /// </summary>
         /// <param name="entity">The entity to add</param>
         Task<T> Add(T entity);

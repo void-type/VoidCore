@@ -57,13 +57,15 @@ namespace VoidCore.Test.Domain
             var result = Result.Combine(
                 Result.Ok(),
                 Result.Fail("oops"),
-                Result.Fail("oops"),
-                Result.Ok()
+                Result.Fail<int>("oops"),
+                Result.Fail<string>("oops"),
+                Result.Ok(1),
+                Result.Ok("")
             );
 
             Assert.False(result.IsSuccess);
             Assert.True(result.IsFailed);
-            Assert.Equal(2, result.Failures.Count());
+            Assert.Equal(3, result.Failures.Count());
         }
 
         [Fact]
@@ -71,34 +73,7 @@ namespace VoidCore.Test.Domain
         {
             var result = Result.Combine(
                 Result.Ok(),
-                Result.Ok()
-            );
-
-            Assert.True(result.IsSuccess);
-            Assert.False(result.IsFailed);
-            Assert.Empty(result.Failures);
-        }
-
-        [Fact]
-        public void TypedCombineWithFailuresGivesFailures()
-        {
-            var result = Result.Combine(
-                Result.Ok(""),
-                Result.Fail<string>(""),
-                Result.Fail<string>(""),
-                Result.Ok("")
-            );
-
-            Assert.False(result.IsSuccess);
-            Assert.True(result.IsFailed);
-            Assert.Equal(2, result.Failures.Count());
-        }
-
-        [Fact]
-        public void TypedCombineWithNoFailuresGivesSuccess()
-        {
-            var result = Result.Combine(
-                Result.Ok(""),
+                Result.Ok(1),
                 Result.Ok("")
             );
 
@@ -110,25 +85,34 @@ namespace VoidCore.Test.Domain
         [Fact]
         public async Task CombineAsyncWithFailuresGivesFailures()
         {
-            var result = await Result.CombineAsync(
-                SuccessfulTask(),
-                FailedTask(),
-                FailedTask(),
-                SuccessfulTask()
-            );
+            var results = new List<IResult>{
+                Result.Ok(),
+                Result.Fail("oops"),
+                Result.Fail<int>("oops"),
+                Result.Fail<string>("oops"),
+                Result.Ok(1),
+                Result.Ok("")
+            }
+            .Select(x => Task.Run(() => x));
+
+            var result = await Result.CombineAsync(results.ToArray());
 
             Assert.False(result.IsSuccess);
             Assert.True(result.IsFailed);
-            Assert.Equal(2, result.Failures.Count());
+            Assert.Equal(3, result.Failures.Count());
         }
 
         [Fact]
         public async Task CombineAsyncWithNoFailuresGivesSuccess()
         {
-            var result = await Result.CombineAsync(
-                SuccessfulTask(),
-                SuccessfulTask()
-            );
+            var results = new List<IResult>{
+                Result.Ok(),
+                Result.Ok(1),
+                Result.Ok("")
+            }
+            .Select(x => Task.Run(() => x));
+
+            var result = await Result.CombineAsync(results.ToArray());
 
             Assert.True(result.IsSuccess);
             Assert.False(result.IsFailed);
@@ -246,18 +230,6 @@ namespace VoidCore.Test.Domain
             Assert.NotEmpty(result.Failures);
             Assert.Equal("Some error", result.Failures.Single().Message);
             Assert.Equal("someHandle", result.Failures.Single().UiHandle);
-        }
-
-        private async Task<IResult> FailedTask()
-        {
-            await Task.Delay(1);
-            return Result.Fail("oops");
-        }
-
-        private async Task<IResult> SuccessfulTask()
-        {
-            await Task.Delay(1);
-            return Result.Ok();
         }
     }
 }

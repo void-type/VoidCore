@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using VoidCore.Domain;
 using Xunit;
@@ -16,11 +15,9 @@ namespace VoidCore.Test.Domain
             Assert.False(temp1 == dist1);
         }
 
-        // This is an edge-case in MS docs that null == null.
         [Fact]
         public void NullComparedToNullValueObjectIsEqual()
         {
-            Assert.True((Address) null == (Address) null);
             Assert.True((Address) null == null);
             Assert.True(null == (Address) null);
         }
@@ -59,7 +56,7 @@ namespace VoidCore.Test.Domain
             Assert.Equal(temp1.GetHashCode(), temp2.GetHashCode());
         }
 
-        public class Address : ValueObject
+        private class Address : ValueObject
         {
             public string Street { get; }
             public string City { get; }
@@ -77,7 +74,7 @@ namespace VoidCore.Test.Domain
             }
         }
 
-        internal class DerivedAddress : Address
+        private class DerivedAddress : Address
         {
             public DerivedAddress(string street, string city) : base(street, city) { }
         }
