@@ -4,7 +4,7 @@ namespace VoidCore.Model.Logging
 {
     /// <inheritdoc/>
     /// <summary>
-    /// Log meta information about the item set page.
+    /// Log meta information about the item set.
     /// </summary>
     /// <typeparam name="TRequest">The request type</typeparam>
     /// <typeparam name="TEntity">The type of items in the item set</typeparam>

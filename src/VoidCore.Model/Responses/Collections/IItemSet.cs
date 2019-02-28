@@ -3,7 +3,7 @@
 namespace VoidCore.Model.Responses.Collections
 {
     /// <summary>
-    /// A page for paginating a set of results.
+    /// A set of items. Can optionally by a page of a full set.
     /// </summary>
     public interface IItemSet<out T>
     {

@@ -28,9 +28,9 @@ namespace VoidCore.Test.Domain
             var result = new List<IResult>
             {
                 Result.Ok(),
-                Result.Fail("oops"),
-                Result.Fail<int>("oops"),
-                Result.Fail<string>("oops"),
+                Result.Fail(new Failure("oops")),
+                Result.Fail<int>(new Failure("oops")),
+                Result.Fail<string>(new Failure("oops")),
                 Result.Ok(1),
                 Result.Ok("")
             }.Combine();
@@ -61,9 +61,9 @@ namespace VoidCore.Test.Domain
             var result = await new List<IResult>
                 {
                     Result.Ok(),
-                    Result.Fail("oops"),
-                    Result.Fail<int>("oops"),
-                    Result.Fail<string>("oops"),
+                    Result.Fail(new Failure("oops")),
+                    Result.Fail<int>(new Failure("oops")),
+                    Result.Fail<string>(new Failure("oops")),
                     Result.Ok(1),
                     Result.Ok("")
                 }
@@ -87,7 +87,7 @@ namespace VoidCore.Test.Domain
             Assert.True(newOkResult.IsSuccess);
             Assert.Equal("new value", newOkResult.Value);
 
-            var failResult = Result.Fail("oops");
+            var failResult = Result.Fail(new Failure("oops"));
 
             var newFailResult = failResult
                 .Select(() => "new value")
@@ -124,7 +124,7 @@ namespace VoidCore.Test.Domain
             Assert.True(newOkResult.IsSuccess);
             Assert.Equal("Hello World!!", newOkResult.Value);
 
-            var newFailResult = await Result.Fail("oops")
+            var newFailResult = await Result.Fail(new Failure("oops"))
                 .SelectAsync(() => t.TransformAsync(t.Start, 1))
                 .SelectAsync(r => t.Transform(r, 2))
                 .SelectAsync(r => t.TransformAsync(r, 3));
@@ -149,7 +149,7 @@ namespace VoidCore.Test.Domain
             Assert.True(newOkResult.IsSuccess);
             Assert.Equal(2, newOkResult.Value);
 
-            var newFailResult = Result.Fail<int>("oops")
+            var newFailResult = Result.Fail<int>(new Failure("oops"))
                 .Then(() => Result.Ok())
                 .Then(() => Result.Ok(""))
                 .Then(r => Result.Ok(""))
@@ -185,7 +185,7 @@ namespace VoidCore.Test.Domain
 
             t = new TestTransformerService();
 
-            var newFailResult = await Result.Fail<int>("oops")
+            var newFailResult = await Result.Fail<int>(new Failure("oops"))
                 .ThenAsync(r => t.GetResultAsync("", 1))
                 .ThenAsync(r => t.GetResult("", 2))
                 .ThenAsync(r => t.GetResultAsync("", 2))

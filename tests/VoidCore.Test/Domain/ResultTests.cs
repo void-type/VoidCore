@@ -10,32 +10,31 @@ namespace VoidCore.Test.Domain
     public class ResultTests
     {
         [Fact]
-        public void ResultThrowsErrorWithEmptyFailures()
-        {
-            Assert.Throws<ArgumentException>(() => Result.Fail(new IFailure[0]));
-            Assert.Throws<ArgumentException>(() => Result.Fail(new List<IFailure>()));
-        }
-
-        [Fact]
         public void ResultThrowsErrorWithNullFailures()
         {
-            Assert.Throws<ArgumentNullException>(() => Result.Fail((IFailure[]) null));
-            Assert.Throws<ArgumentNullException>(() => Result.Fail((IFailure) null));
+            Assert.Throws<ArgumentNullException>(() => Result.Fail((List<IFailure>) null));
+            Assert.Throws<ArgumentNullException>(() => Result.Fail(null));
         }
 
         [Fact]
-        public void TypedResultAccessingFailedResultValueThrowInvalidOperationException()
+        public void TypedResultThrowsErrorWithNullFailures()
         {
-            Assert.Throws<InvalidOperationException>(() =>
-            {
-                var unused = Result.Fail<object>("some error").Value;
-            });
+            Assert.Throws<ArgumentNullException>(() => Result.Fail<string>((List<IFailure>) null));
+            Assert.Throws<ArgumentNullException>(() => Result.Fail<string>(null));
+        }
+
+        [Fact]
+        public void ResultThrowsErrorWithEmptyFailures()
+        {
+            Assert.Throws<ArgumentException>(() => Result.Fail(new List<IFailure>()));
+            Assert.Throws<ArgumentException>(() => Result.Fail());
         }
 
         [Fact]
         public void TypedResultThrowsErrorWithEmptyFailures()
         {
-            Assert.Throws<ArgumentException>(() => Result.Fail<string>(new IFailure[0]));
+            Assert.Throws<ArgumentException>(() => Result.Fail<string>(new List<IFailure>()));
+            Assert.Throws<ArgumentException>(() => Result.Fail<string>());
         }
 
         [Fact]
@@ -45,10 +44,12 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void TypedResultThrowsErrorWithNullFailures()
+        public void TypedResultAccessingFailedResultValueThrowInvalidOperationException()
         {
-            Assert.Throws<ArgumentNullException>(() => Result.Fail<string>((IFailure[]) null));
-            Assert.Throws<ArgumentNullException>(() => Result.Fail<string>((IFailure) null));
+            Assert.Throws<InvalidOperationException>(() =>
+            {
+                var unused = Result.Fail<object>(new Failure("some error")).Value;
+            });
         }
 
         [Fact]
@@ -56,9 +57,9 @@ namespace VoidCore.Test.Domain
         {
             var result = Result.Combine(
                 Result.Ok(),
-                Result.Fail("oops"),
-                Result.Fail<int>("oops"),
-                Result.Fail<string>("oops"),
+                Result.Fail(new Failure("oops")),
+                Result.Fail<int>(new Failure("oops")),
+                Result.Fail<string>(new Failure("oops")),
                 Result.Ok(1),
                 Result.Ok("")
             );
@@ -85,15 +86,16 @@ namespace VoidCore.Test.Domain
         [Fact]
         public async Task CombineAsyncWithFailuresGivesFailures()
         {
-            var results = new List<IResult>{
-                Result.Ok(),
-                Result.Fail("oops"),
-                Result.Fail<int>("oops"),
-                Result.Fail<string>("oops"),
-                Result.Ok(1),
-                Result.Ok("")
-            }
-            .Select(x => Task.Run(() => x));
+            var results = new List<IResult>
+                {
+                    Result.Ok(),
+                    Result.Fail(new Failure("oops")),
+                    Result.Fail<int>(new Failure("oops")),
+                    Result.Fail<string>(new Failure("oops")),
+                    Result.Ok(1),
+                    Result.Ok("")
+                }
+                .Select(x => Task.Run(() => x));
 
             var result = await Result.CombineAsync(results.ToArray());
 
@@ -105,12 +107,13 @@ namespace VoidCore.Test.Domain
         [Fact]
         public async Task CombineAsyncWithNoFailuresGivesSuccess()
         {
-            var results = new List<IResult>{
-                Result.Ok(),
-                Result.Ok(1),
-                Result.Ok("")
-            }
-            .Select(x => Task.Run(() => x));
+            var results = new List<IResult>
+                {
+                    Result.Ok(),
+                    Result.Ok(1),
+                    Result.Ok("")
+                }
+                .Select(x => Task.Run(() => x));
 
             var result = await Result.CombineAsync(results.ToArray());
 
@@ -125,7 +128,7 @@ namespace VoidCore.Test.Domain
             IResult source1 = Result.Ok("good");
             Assert.True(source1.IsSuccess);
 
-            IResult source2 = Result.Fail<string>("oops");
+            IResult source2 = Result.Fail<string>(new Failure("oops"));
             Assert.True(source2.IsFailed);
         }
 
@@ -182,7 +185,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void ResultIsFailedFailureConstructor()
         {
-            var result = Result.Fail("Some error", "someHandle");
+            var result = Result.Fail(new Failure("Some error", "someHandle"));
 
             Assert.False(result.IsSuccess);
             Assert.True(result.IsFailed);
@@ -223,7 +226,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void TypedResultIsFailedFailureConstructor()
         {
-            var result = Result.Fail<string>("Some error", "someHandle");
+            var result = Result.Fail<string>(new Failure("Some error", "someHandle"));
 
             Assert.False(result.IsSuccess);
             Assert.True(result.IsFailed);

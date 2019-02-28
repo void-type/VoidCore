@@ -11,7 +11,7 @@ namespace VoidCore.Test.Domain
         public void MaybeToResultWithoutValueIsFailed()
         {
             var maybe = Maybe<string>.None;
-            var result = maybe.ToResult("no value", "uiField");
+            var result = maybe.ToResult(new Failure("no value", "uiField"));
 
             Assert.True(result.IsFailed);
             var failure = result.Failures.Single();
@@ -22,7 +22,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void MaybeToResultWithValueIsSuccessful()
         {
-            var result = Maybe.From("some value").ToResult("no value");
+            var result = Maybe.From("some value").ToResult(new Failure("no value"));
 
             Assert.True(result.IsSuccess);
             Assert.Equal("some value", result.Value);
@@ -33,7 +33,7 @@ namespace VoidCore.Test.Domain
         {
             var maybeTask = Task.Run(() => Maybe<string>.None);
 
-            var result = await maybeTask.ToResultAsync("no value", "uiField");
+            var result = await maybeTask.ToResultAsync(new Failure("no value", "uiField"));
 
             Assert.True(result.IsFailed);
             var failure = result.Failures.Single();
@@ -46,7 +46,7 @@ namespace VoidCore.Test.Domain
         {
             var maybeTask = Task.Run(() => Maybe.From("some value"));
 
-            var result = await maybeTask.ToResultAsync("no value", "uiField");
+            var result = await maybeTask.ToResultAsync(new Failure("no value", "uiField"));
 
             Assert.True(result.IsSuccess);
             Assert.Equal("some value", result.Value);

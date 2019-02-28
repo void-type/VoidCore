@@ -45,77 +45,51 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Create a new untyped failed result with a list a failures.
+        /// Create a new failed result with a set a failures.
         /// </summary>
-        /// <param name="failures">A list of failures</param>
+        /// <param name="failures">A set of failures</param>
         /// <returns>A new result</returns>
+        /// <exception cref="ArgumentException">Throws an ArgumentException if failures are empty.</exception>
+        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if null is passed for failures.</exception>
+        public static IResult Fail(params IFailure[] failures)
+        {
+            return new Result(failures);
+        }
+
+        /// <summary>
+        /// Create a new typed failed result with a set a failures.
+        /// </summary>
+        /// <param name="failures">A set of failures</param>
+        /// <returns>A new result</returns>
+        /// <exception cref="ArgumentException">Throws an ArgumentException if failures are empty.</exception>
+        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if null is passed for failures.</exception>
+        public static IResult<T> Fail<T>(params IFailure[] failures)
+        {
+            return new Result<T>(failures);
+        }
+
+        /// <summary>
+        /// Create a new failed result with a set a failures.
+        /// </summary>
+        /// <param name="failures">A set of failures</param>
+        /// <returns>A new result</returns>
+        /// <exception cref="ArgumentException">Throws an ArgumentException if failures are empty.</exception>
+        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if null is passed for failures.</exception>
         public static IResult Fail(IEnumerable<IFailure> failures)
         {
             return new Result(failures);
         }
 
         /// <summary>
-        /// Create a new typed failed result with a list a failures.
+        /// Create a new typed failed result with a set a failures.
         /// </summary>
-        /// <param name="failures">A list of failures</param>
+        /// <param name="failures">A set of failures</param>
         /// <returns>A new result</returns>
+        /// <exception cref="ArgumentException">Throws an ArgumentException if failures are empty.</exception>
+        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if null is passed for failures.</exception>
         public static IResult<T> Fail<T>(IEnumerable<IFailure> failures)
         {
             return new Result<T>(failures);
-        }
-
-        /// <summary>
-        /// Create a new untyped result with a single failure.
-        /// </summary>
-        /// <param name="failure">The failure</param>
-        /// <returns>A new result</returns>
-        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if null is passed for failure.</exception>
-        public static IResult Fail(IFailure failure)
-        {
-            if (failure == null)
-            {
-                throw new ArgumentNullException(nameof(failure), "Failure must not be null for a failed result.");
-            }
-
-            return Fail(new [] { failure });
-        }
-
-        /// <summary>
-        /// Create a new typed result with a single failure.
-        /// </summary>
-        /// <param name="failure">The failure</param>
-        /// <returns>A new result</returns>
-        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if null is passed for failure.</exception>
-        public static IResult<T> Fail<T>(IFailure failure)
-        {
-            if (failure == null)
-            {
-                throw new ArgumentNullException(nameof(failure), "Failure must not be null for a failed result.");
-            }
-
-            return Fail<T>(new [] { failure });
-        }
-
-        /// <summary>
-        /// Create a new untyped result with a single failure using strings.
-        /// </summary>
-        /// <param name="errorMessage">The error message to put into the failed result</param>
-        /// <param name="uiHandle">The uiHandle to put into the failed result</param>
-        /// <returns>A new result</returns>
-        public static IResult Fail(string errorMessage, string uiHandle = null)
-        {
-            return Fail(new Failure(errorMessage, uiHandle));
-        }
-
-        /// <summary>
-        /// Create a new typed result with a single failure using strings.
-        /// </summary>
-        /// <param name="errorMessage">The error message to put into the failed result</param>
-        /// <param name="uiHandle">The uiHandle to put into the failed result</param>
-        /// <returns>A new result</returns>
-        public static IResult<T> Fail<T>(string errorMessage, string uiHandle = null)
-        {
-            return Fail<T>(new Failure(errorMessage, uiHandle));
         }
 
         /// <summary>
