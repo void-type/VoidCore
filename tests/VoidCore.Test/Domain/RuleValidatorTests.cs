@@ -88,10 +88,10 @@ namespace VoidCore.Test.Domain
         {
             public ValidatorLogicTestValidator()
             {
-                CreateRule("violated", "violated field name")
+                CreateRule(new Failure("violated", "violated field name"))
                     .InvalidWhen(stg => stg != "not match");
 
-                CreateRule("valid", "validField")
+                CreateRule(new Failure("valid", "validField"))
                     .InvalidWhen(stg => stg != "match");
             }
         }
@@ -100,7 +100,7 @@ namespace VoidCore.Test.Domain
         {
             public RuleLogicTestValidator(bool isValid2, bool isSuppressed1, bool isSuppressed2)
             {
-                CreateRule("test is invalid", "testField")
+                CreateRule(new Failure("test is invalid", "testField"))
                     .InvalidWhen(isValid1 => isValid1)
                     .InvalidWhen(isValid1 => isValid2)
                     .ExceptWhen(isValid1 => isSuppressed1)
@@ -112,12 +112,12 @@ namespace VoidCore.Test.Domain
         {
             public NoValidConditionTestValidator()
             {
-                CreateRule("implicit success", "implicit success");
+                CreateRule(new Failure("implicit success", "implicit success"));
 
-                CreateRule("implicit success", "implicit success")
+                CreateRule(new Failure("implicit success", "implicit success"))
                     .ExceptWhen(number => false);
 
-                CreateRule("implicit success", "implicit success")
+                CreateRule(new Failure("implicit success", "implicit success"))
                     .ExceptWhen(number => true);
             }
         }
@@ -126,7 +126,7 @@ namespace VoidCore.Test.Domain
         {
             public InheritedEntityValidator()
             {
-                CreateRule("invalid", "someProperty")
+                CreateRule(new Failure("invalid", "someProperty"))
                     .InvalidWhen(v => string.IsNullOrWhiteSpace(v.SomeProperty));
             }
         }
@@ -135,16 +135,16 @@ namespace VoidCore.Test.Domain
         {
             public FailureBuilderValidator()
             {
-                CreateRule(v => $"{v.Message}", "hardCodedUiHandle")
+                CreateRule(v => new Failure($"{v.Message}", "hardCodedUiHandle"))
                     .InvalidWhen(v => true);
 
-                CreateRule("hardCodedMessage", v => $"{v.UiHandle}")
+                CreateRule(v => new Failure("hardCodedMessage", $"{v.UiHandle}"))
                     .InvalidWhen(v => true);
 
-                CreateRule(v => $"{v.Message}", v => $"{v.UiHandle}")
+                CreateRule(v => new Failure($"{v.Message}", $"{v.UiHandle}"))
                     .InvalidWhen(v => true);
 
-                CreateRule("hardCodedMessage", "hardCodedUiHandle")
+                CreateRule(v => new Failure("hardCodedMessage", "hardCodedUiHandle"))
                     .InvalidWhen(v => true);
             }
         }

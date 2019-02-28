@@ -32,7 +32,7 @@ namespace VoidCore.Model.Responses.Collections
         }
 
         /// <summary>
-        /// Create an item set page from an already paginated set.
+        /// Create an item set from an already paginated set.
         /// </summary>
         /// <param name="pageItems">The page from set of items</param>
         /// <param name="page">What page number to take from the set</param>

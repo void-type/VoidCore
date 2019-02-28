@@ -15,7 +15,7 @@ namespace VoidCore.Test.Model.Responses
             var file = new SimpleFile(TestString, "filename.txt");
             var contentString = Encoding.UTF8.GetString(file.Content.AsBytes);
             Assert.Equal(TestString, contentString);
-            Assert.Equal(TestString, file.Content.AsString);
+            Assert.Equal(TestString, file.Content.ToString());
             Assert.Equal("filename.txt", file.Name);
         }
 
@@ -25,7 +25,7 @@ namespace VoidCore.Test.Model.Responses
             var file = new SimpleFile(Encoding.UTF8.GetBytes(TestString), "filename.txt");
             var contentString = Encoding.UTF8.GetString(file.Content.AsBytes);
             Assert.Equal(TestString, contentString);
-            Assert.Equal(TestString, file.Content.AsString);
+            Assert.Equal(TestString, file.Content.ToString());
             Assert.Equal("filename.txt", file.Name);
         }
 
@@ -59,13 +59,19 @@ namespace VoidCore.Test.Model.Responses
         [Fact]
         public void CreatingFileWithNullContentThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new SimpleFile((byte[]) null, ""));
+            Assert.Throws<ArgumentNullException>(() => new SimpleFile((byte[]) null, "some.txt"));
         }
 
         [Fact]
         public void CreatingFileWithNullNameThrowsArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => new SimpleFile("", null));
+        }
+
+        [Fact]
+        public void CreatingFileWithEmptyNameThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => new SimpleFile("", ""));
         }
     }
 }

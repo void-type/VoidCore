@@ -41,7 +41,7 @@ public IResult<Person> GetPersonById(int id)
 
     if (person == null)
     {
-        return Result.Fail("Person is not found.", "personIdField"));
+        return Result.Fail(new Failure("Person is not found.", "personIdField"));
     }
 
     return Result.Ok(person);
@@ -103,7 +103,7 @@ public IResult<Person> GetPersonById(int id)
 
     if (maybePerson.HasNoValue)
     {
-        return Result.Fail("Person is not found.", "personIdField"));
+        return Result.Fail(new PersonNotFoundFailure());
     }
 
     return Result.Ok(maybePerson.Value);
@@ -126,7 +126,7 @@ var maybePerson = Maybe.From(_data.Persons.GetById(id))
 var captain = maybePerson.Unwrap(new Person {Name = "James Kirk" }); // We will either have Sir Patrick Stewart or James Kirk at this point.
 
 // Alternatively, we can return a Result based on the value of the Maybe.
-var result = maybePerson.ToResult("Person is not found.", "personIdField");
+var result = maybePerson.ToResult(new PersonNotFoundFailure());
 ```
 
 ### Value Objects to alleviate primitive obsession
@@ -266,7 +266,7 @@ public class GetPerson
             // Persons.Get returns a Maybe<Person> from the IReadOnlyRepository interface
             return await _data.Persons.Get(personById)
                 .SelectAsync(p => new PersonDto(p.Name, p.Email))
-                .ToResultAsync("Person not found.", "id");
+                .ToResultAsync(new PersonNotFoundFailure());
         }
 
         private readonly CompanyData _data;
@@ -301,7 +301,7 @@ public class GetPerson
     {
         public RequestValidator()
         {
-            CreateRule("Id is required.", "id")
+            CreateRule(new Failure("Id is required.", "id"))
                 .InvalidWhen(request => string.IsNullOrWhiteSpace(request.Id));
         }
     }
@@ -341,14 +341,14 @@ class CreatePersonValidator : RuleValidatorAbstract<Entity>
 {
     public CreatePersonValidator()
     {
-        CreateRule("Name is required.", "name")
+        CreateRule(new Failure("Name is required.", "name")
             .InvalidWhen(entity => string.IsNullOrWhitespace(entity.Name));
 
         // dynamic messages
-        CreateRule(p => $"Name cannot be {p.Name}.", p => nameof(p.Name).ToLower())
+        CreateRule(p => new Failure($"Name cannot be {p.Name}.", nameof(p.Name).ToLower()))
             .InvalidWhen(entity => string.IsNullOrWhitespace(entity.Name));
 
-        CreateRule("Phone number is required for employees with phones.", "phone")
+        CreateRule(new Failure("Phone number is required for employees with phones.", "phone"))
             // InvalidWhens are OR'd.
             // Any of the invalid conditions can invalidate the entity.
             .InvalidWhen(entity => string.IsNullOrWhitespace(entity.PhoneNumber))

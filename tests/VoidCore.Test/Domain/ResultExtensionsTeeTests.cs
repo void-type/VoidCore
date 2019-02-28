@@ -12,7 +12,7 @@ namespace VoidCore.Test.Domain
         {
             var tick = 1;
             var okResult = Result.Ok();
-            var failResult = Result.Fail("oops");
+            var failResult = Result.Fail(new Failure("oops"));
 
             okResult
                 .TeeOnSuccess(() => tick++)
@@ -34,7 +34,7 @@ namespace VoidCore.Test.Domain
         {
             var tick = 1;
             var okResult = Result.Ok(2);
-            var failResult = Result.Fail<int>("oops");
+            var failResult = Result.Fail<int>(new Failure("oops"));
 
             okResult
                 .TeeOnSuccess(r => tick += r)
@@ -58,7 +58,7 @@ namespace VoidCore.Test.Domain
         {
             var tick = 1;
             var okResult = Result.Ok();
-            var failResult = Result.Fail("oops");
+            var failResult = Result.Fail(new Failure("oops"));
 
             okResult
                 .TeeOnFailure(() => tick++)
@@ -80,7 +80,7 @@ namespace VoidCore.Test.Domain
         {
             var tick = 1;
             var okResult = Result.Ok(2);
-            var failResult = Result.Fail<int>("oops");
+            var failResult = Result.Fail<int>(new Failure("oops"));
 
             okResult
                 .TeeOnFailure(() => tick++)
@@ -118,7 +118,7 @@ namespace VoidCore.Test.Domain
 
             p = new TestPerformerService();
 
-            var newFailResult = await Result.Fail("oops")
+            var newFailResult = await Result.Fail(new Failure("oops"))
                 .TeeOnSuccessAsync(() => p.GoAsync(1))
                 .TeeOnFailureAsync(() => p.GoAsync(1))
                 .TeeOnFailureAsync(() => p.Go(2))
@@ -155,7 +155,7 @@ namespace VoidCore.Test.Domain
 
             p = new TestPerformerService();
 
-            var newFailResult = await Result.Fail<int>("oops")
+            var newFailResult = await Result.Fail<int>(new Failure("oops"))
                 .TeeOnSuccessAsync(r => p.GoAsync(1))
                 .TeeOnFailureAsync(() => p.GoAsync(1))
                 .TeeOnFailureAsync(() => p.Go(2))

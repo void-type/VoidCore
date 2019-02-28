@@ -22,12 +22,11 @@ namespace VoidCore.Domain.RuleValidator
         /// <summary>
         /// Create a new rule for this entity.
         /// </summary>
-        /// <param name="errorMessage">The message to display to the user</param>
-        /// <param name="uiHandle">The UI field name to tie the error to</param>
+        /// <param name="failureBuilder">A builder function for the failure to give upon invalid entity.</param>
         /// <returns>A rule builder to continue building this rule</returns>
-        protected IRuleBuilder<T> CreateRule(string errorMessage, string uiHandle)
+        protected IRuleBuilder<T> CreateRule(Func<T, IFailure> failureBuilder)
         {
-            var rule = new Rule<T>(validatable => new Failure(errorMessage, uiHandle));
+            var rule = new Rule<T>(validatable => failureBuilder(validatable));
             _rules.Add(rule);
             return rule;
         }
@@ -35,38 +34,11 @@ namespace VoidCore.Domain.RuleValidator
         /// <summary>
         /// Create a new rule for this entity.
         /// </summary>
-        /// <param name="errorMessageBuilder">The message to display to the user</param>
-        /// <param name="uiHandleBuilder">The UI field name to tie the error to</param>
+        /// <param name="failure">The failure to give upon invalid entity.</param>
         /// <returns>A rule builder to continue building this rule</returns>
-        protected IRuleBuilder<T> CreateRule(Func<T, string> errorMessageBuilder, Func<T, string> uiHandleBuilder)
+        protected IRuleBuilder<T> CreateRule(IFailure failure)
         {
-            var rule = new Rule<T>(validatable => new Failure(errorMessageBuilder(validatable), uiHandleBuilder(validatable)));
-            _rules.Add(rule);
-            return rule;
-        }
-
-        /// <summary>
-        /// Create a new rule for this entity.
-        /// </summary>
-        /// <param name="errorMessageBuilder">The message to display to the user</param>
-        /// <param name="uiHandle">The UI field name to tie the error to</param>
-        /// <returns>A rule builder to continue building this rule</returns>
-        protected IRuleBuilder<T> CreateRule(Func<T, string> errorMessageBuilder, string uiHandle)
-        {
-            var rule = new Rule<T>(validatable => new Failure(errorMessageBuilder(validatable), uiHandle));
-            _rules.Add(rule);
-            return rule;
-        }
-
-        /// <summary>
-        /// Create a new rule for this entity.
-        /// </summary>
-        /// <param name="errorMessage">The message to display to the user</param>
-        /// <param name="uiHandleBuilder">The UI field name to tie the error to</param>
-        /// <returns>A rule builder to continue building this rule</returns>
-        protected IRuleBuilder<T> CreateRule(string errorMessage, Func<T, string> uiHandleBuilder)
-        {
-            var rule = new Rule<T>(validatable => new Failure(errorMessage, uiHandleBuilder(validatable)));
+            var rule = new Rule<T>(validatable => failure);
             _rules.Add(rule);
             return rule;
         }

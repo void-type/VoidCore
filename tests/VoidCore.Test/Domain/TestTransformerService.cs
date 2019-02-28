@@ -50,7 +50,7 @@ namespace VoidCore.Test.Domain
             }
 
             LastStep = currentStep;
-            return success ? Result.Ok() : Result.Fail("oops");
+            return success ? Result.Ok() : Result.Fail(new Failure("oops"));
         }
 
         public IResult<T> GetResult<T>(T obj, int currentStep, bool success = true)
@@ -61,7 +61,7 @@ namespace VoidCore.Test.Domain
             }
 
             LastStep = currentStep;
-            return success ? Result.Ok(obj) : Result.Fail<T>("oops");
+            return success ? Result.Ok(obj) : Result.Fail<T>(new Failure("oops"));
         }
 
         public async Task<IResult> GetResultAsync(int currentStep, bool success = true)
@@ -73,7 +73,7 @@ namespace VoidCore.Test.Domain
 
             await Task.Delay(10);
             LastStep = currentStep;
-            return success ? Result.Ok() : Result.Fail("oops");
+            return success ? Result.Ok() : Result.Fail(new Failure("oops"));
         }
 
         public async Task<IResult<T>> GetResultAsync<T>(T obj, int currentStep, bool success = true)
@@ -85,7 +85,7 @@ namespace VoidCore.Test.Domain
 
             await Task.Delay(10);
             LastStep = currentStep;
-            return success ? Result.Ok(obj) : Result.Fail<T>("oops");
+            return success ? Result.Ok(obj) : Result.Fail<T>(new Failure("oops"));
         }
     }
 }

@@ -33,7 +33,7 @@ namespace VoidCore.Domain
             if (value == null)
             {
                 throw new ArgumentNullException(nameof(value),
-                    "Cannot set a result value of null. Use non-generic Result for void results.");
+                    "Cannot set a result value of null. Use non-generic Result for results without values.");
             }
 
             _value = value;

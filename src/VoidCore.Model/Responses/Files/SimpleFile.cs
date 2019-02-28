@@ -9,6 +9,8 @@ namespace VoidCore.Model.Responses.Files
     /// </summary>
     public class SimpleFile : ValueObject
     {
+        private string _name;
+
         /// <summary>
         /// The content of the file.
         /// </summary>
@@ -19,7 +21,25 @@ namespace VoidCore.Model.Responses.Files
         /// The name of the file.
         /// </summary>
         /// <value></value>
-        public string Name { get; }
+        public string Name
+        {
+            get => _name;
+
+            private set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException("fileName", "Cannot create a file with null name.");
+                }
+
+                if (value == string.Empty)
+                {
+                    throw new ArgumentException("fileName", "Cannot create a file with empty name.");
+                }
+
+                _name = value;
+            }
+        }
 
         /// <summary>
         /// Create a new file from a byte array. Useful for binary files.
@@ -29,11 +49,6 @@ namespace VoidCore.Model.Responses.Files
         /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if fileName or content is null.</exception>
         public SimpleFile(string fileContent, string fileName)
         {
-            if (fileName == null)
-            {
-                throw new ArgumentNullException(nameof(fileName), "Cannot create a file with null name.");
-            }
-
             Name = fileName;
             Content = new FileContent(fileContent);
         }
@@ -45,8 +60,8 @@ namespace VoidCore.Model.Responses.Files
         /// <param name="fileName">The name of the file</param>
         public SimpleFile(byte[] fileContent, string fileName)
         {
-            Content = new FileContent(fileContent);
             Name = fileName;
+            Content = new FileContent(fileContent);
         }
 
         /// <inheritdoc />

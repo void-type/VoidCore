@@ -18,7 +18,7 @@ namespace VoidCore.AspNet.ClientApp
         /// <returns>An IActionResult</returns>
         public IActionResult Respond<TSuccessValue>(IResult<TSuccessValue> result)
         {
-            return result.IsSuccess ? Ok(result.Value) : Failure(result);
+            return result.IsSuccess ? Ok(result.Value) : Fail(result);
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace VoidCore.AspNet.ClientApp
         /// <returns>An IActionResult</returns>
         public IActionResult Respond(IResult result)
         {
-            return result.IsSuccess ? Ok(null) : Failure(result);
+            return result.IsSuccess ? Ok(null) : Fail(result);
         }
 
         /// <summary>
@@ -55,11 +55,11 @@ namespace VoidCore.AspNet.ClientApp
             }
             else
             {
-                return Failure(result);
+                return Fail(result);
             }
         }
 
-        private static IActionResult Failure(IResult result)
+        private static IActionResult Fail(IResult result)
         {
             return new ObjectResult(result.Failures.ToItemSet()) { StatusCode = 400 };
         }

@@ -75,7 +75,7 @@ namespace VoidCore.Test.Domain
         {
             var validatorMock = new Mock<IRequestValidator<TestRequest>>();
             validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>()))
-                .Returns(Result.Fail<TestResponse>("request invalid"));
+                .Returns(Result.Fail<TestResponse>(new Failure("request invalid")));
 
             var processorMock = new Mock<IPostProcessor<TestRequest, TestResponse>>();
             processorMock.Setup(p => p.Process(It.IsAny<TestRequest>(), It.IsAny<IResult<TestResponse>>()));
@@ -114,7 +114,7 @@ namespace VoidCore.Test.Domain
         {
             var validatorMock = new Mock<IRequestValidator<TestRequest>>();
             validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>()))
-                .Returns(Result.Fail<TestResponse>("request invalid"));
+                .Returns(Result.Fail<TestResponse>(new Failure("request invalid")));
 
             var processorMock = new Mock<IPostProcessor<TestRequest, TestResponse>>();
             processorMock.Setup(p => p.Process(It.IsAny<TestRequest>(), It.IsAny<IResult<TestResponse>>()));
@@ -184,7 +184,7 @@ namespace VoidCore.Test.Domain
             public override async Task<IResult<TestResponse>> Handle(TestRequest validRequest, CancellationToken cancellationToken = default(CancellationToken))
             {
                 await Task.Delay(1);
-                return Result.Fail<TestResponse>("event failed");
+                return Result.Fail<TestResponse>(new Failure("event failed"));
             }
         }
 
@@ -201,7 +201,7 @@ namespace VoidCore.Test.Domain
         {
             protected override IResult<TestResponse> HandleSync(TestRequest request)
             {
-                return Result.Fail<TestResponse>("event failed");
+                return Result.Fail<TestResponse>(new Failure("event failed"));
             }
         }
 

@@ -10,13 +10,9 @@ namespace VoidCore.Test.Model.Logging
         [Fact]
         public void LogFailures()
         {
-            var failures = new []
-            {
+            var result = Result.Fail<string>(
                 new Failure("oops1", "uiHandle"),
-                new Failure("oops2", "uiHandle")
-            };
-
-            var result = Result.Fail<string>(failures);
+                new Failure("oops2", "uiHandle"));
 
             var request = "";
 
