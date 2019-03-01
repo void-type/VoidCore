@@ -8,7 +8,7 @@ steps:
 - task: DotNetCoreInstaller@0
   inputs:
     packageType: 'sdk'
-    version: '2.2.103'
+    version: '2.2.104'
 
 - task: 'PowerShell@2'
   displayName: 'Install Build Tools'
