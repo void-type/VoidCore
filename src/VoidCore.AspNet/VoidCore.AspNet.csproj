@@ -11,6 +11,7 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <ReleaseNotes>See commits since last release.</ReleaseNotes>
     <TargetFrameworks>netcoreapp2.1;netcoreapp2.2</TargetFrameworks>
+    <LangVersion>Latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
