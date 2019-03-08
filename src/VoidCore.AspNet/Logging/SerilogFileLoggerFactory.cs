@@ -34,10 +34,10 @@ namespace VoidCore.AspNet.Logging
                 .Enrich.FromLogContext()
                 .WriteTo.File(
                     logFilePath,
-                    rollingInterval : RollingInterval.Day,
-                    retainedFileCountLimit : settings.DaysToRetain,
-                    fileSizeLimitBytes : 10000000,
-                    rollOnFileSizeLimit : true)
+                    rollingInterval: RollingInterval.Day,
+                    retainedFileCountLimit: settings.DaysToRetain,
+                    fileSizeLimitBytes: 10000000,
+                    rollOnFileSizeLimit: true)
                 .CreateLogger();
         }
 

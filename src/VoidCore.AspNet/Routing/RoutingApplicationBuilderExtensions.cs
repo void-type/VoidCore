@@ -12,9 +12,10 @@ namespace VoidCore.AspNet.Routing
     public static class RoutingApplicationBuilderExtensions
     {
         /// <summary>
-        /// Setup exception pages for MVC view endpoints. Exceptions will redirect to /error. Forbidden requests will redirect to /forbidden. API
-        /// endpoints will not redirect, they will return appropriate status codes. In development, all exceptions will return a debugging page. For
-        /// API requests, you can see this page in the browser's developer console.
+        /// Setup exception pages for MVC view endpoints. Exceptions will redirect to /error. Forbidden requests will
+        /// redirect to /forbidden. API endpoints will not redirect, they will return appropriate status codes. In
+        /// development, all exceptions will return a debugging page. For API requests, you can see this page in the
+        /// browser's developer console.
         /// </summary>
         /// <param name="app">This IApplicationBuilder</param>
         /// <param name="environment">The hosting environment</param>

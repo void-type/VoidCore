@@ -4,8 +4,7 @@ using System.Threading.Tasks;
 namespace VoidCore.Domain
 {
     /// <summary>
-    /// Extensions for the Result class.
-    /// Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions
+    /// Extensions for the Result class. Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
     public static class ResultExtensionsThen
     {

@@ -6,11 +6,6 @@ namespace VoidCore.AspNet.ClientApp
     public class ApplicationSettings
     {
         /// <summary>
-        /// The name of the application.
-        /// </summary>
-        public string Name { get; private set; }
-
-        /// <summary>
         /// Constructor used by AspNet to instantiate using private setters.
         /// </summary>
         public ApplicationSettings() { }
@@ -23,5 +18,10 @@ namespace VoidCore.AspNet.ClientApp
         {
             Name = name;
         }
+
+        /// <summary>
+        /// The name of the application.
+        /// </summary>
+        public string Name { get; private set; }
     }
 }

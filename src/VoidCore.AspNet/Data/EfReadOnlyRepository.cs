@@ -9,8 +9,7 @@ using VoidCore.Model.Queries;
 namespace VoidCore.AspNet.Data
 {
     /// <summary>
-    /// A generic read-only repository. Optimized for Entity Framework Contexts.
-    /// Adapted from https://github.com/dotnet-architecture/eShopOnWeb
+    /// A generic read-only repository. Optimized for Entity Framework Contexts. Adapted from https://github.com/dotnet-architecture/eShopOnWeb
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class

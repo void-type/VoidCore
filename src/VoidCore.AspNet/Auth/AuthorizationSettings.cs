@@ -8,11 +8,6 @@ namespace VoidCore.AspNet.Auth
     public class AuthorizationSettings
     {
         /// <summary>
-        /// Policies represented as a key of policyName and names of allowed roles.
-        /// </summary>
-        public Dictionary<string, List<string>> Policies { get; private set; } = new Dictionary<string, List<string>>();
-
-        /// <summary>
         /// Constructor used by AspNet to instantiate using private setters.
         /// </summary>
         public AuthorizationSettings() { }
@@ -25,5 +20,10 @@ namespace VoidCore.AspNet.Auth
         {
             Policies = policies;
         }
+
+        /// <summary>
+        /// Policies represented as a key of policyName and names of allowed roles.
+        /// </summary>
+        public Dictionary<string, List<string>> Policies { get; private set; } = new Dictionary<string, List<string>>();
     }
 }

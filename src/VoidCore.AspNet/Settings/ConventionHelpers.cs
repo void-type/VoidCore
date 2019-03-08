@@ -9,9 +9,9 @@ namespace VoidCore.AspNet.Settings
     {
         /// <summary>
         /// Strips an ending from a class type name. This is useful for convention-based naming to replace hardcoded strings.
-        /// Ex: AuthorizationSettings, "settings" => "Authorization"
-        /// Ex: Authorization, "settings" => "Authorization"
-        /// Ex: AuthorizationSettings, null => "AuthorizationSettings"
+        /// Ex: AuthorizationSettings, "settings" becomes "Authorization"
+        /// Ex: Authorization, "settings" becomes "Authorization"
+        /// Ex: AuthorizationSettings, null becomes "AuthorizationSettings"
         /// </summary>
         /// <param name="type">The type to get the name from</param>
         /// <param name="ending">The ending to remove from the class type name</param>

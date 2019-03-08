@@ -9,6 +9,19 @@ namespace VoidCore.Domain.RuleValidator
     /// </summary>
     public class Rule<T> : IRule<T>, IRuleBuilder<T>
     {
+        private readonly Func<T, IFailure> _failureBuilder;
+        private readonly List<Func<T, bool>> _invalidConditions = new List<Func<T, bool>>();
+        private readonly List<Func<T, bool>> _suppressConditions = new List<Func<T, bool>>();
+
+        /// <summary>
+        /// Construct a new rule and underlying validation error to throw when violations are detected.
+        /// </summary>
+        /// <param name="failureBuilder">A function that builds a custom IFailure to return if the rule fails.</param>
+        internal Rule(Func<T, IFailure> failureBuilder)
+        {
+            _failureBuilder = failureBuilder;
+        }
+
         /// <inheritdoc/>
         public IRuleBuilder<T> ExceptWhen(Func<T, bool> suppressCondition)
         {
@@ -33,21 +46,6 @@ namespace VoidCore.Domain.RuleValidator
 
             return Result.Ok();
         }
-
-        /// <summary>
-        /// Construct a new rule and underlying validation error to throw when violations are detected.
-        /// </summary>
-        /// <param name="failureBuilder">A function that builds a custom IFailure to return if the rule fails.</param>
-        internal Rule(Func<T, IFailure> failureBuilder)
-        {
-            _failureBuilder = failureBuilder;
-        }
-
-        private readonly Func<T, IFailure> _failureBuilder;
-
-        private readonly List<Func<T, bool>> _invalidConditions = new List<Func<T, bool>>();
-
-        private readonly List<Func<T, bool>> _suppressConditions = new List<Func<T, bool>>();
 
         private bool IsInvalid(T validatableEntity)
         {

@@ -154,7 +154,6 @@ namespace VoidCore.Test.Domain
             processorMock.Protected().Setup("OnFailure", ItExpr.IsAny<TestRequest>(), ItExpr.IsAny<IResult>());
             processorMock.Protected().Setup("OnSuccess", ItExpr.IsAny<TestRequest>(), ItExpr.IsAny<TestResponse>());
 
-
             await new TestEventFail()
                 .AddPostProcessor(processorMock.Object)
                 .Handle(new TestRequest());
@@ -177,6 +176,13 @@ namespace VoidCore.Test.Domain
             Assert.True(result.IsFailed);
             Assert.Equal("event failed", result.Failures.Single().Message);
             processorMock.Verify(p => p.Process(It.IsAny<TestRequest>(), It.IsAny<IResult<TestResponse>>()), Times.Once());
+        }
+
+        public class TestRequest { }
+
+        public class TestResponse
+        {
+            public string Name { get; set; }
         }
 
         internal class TestEventFail : EventHandlerAbstract<TestRequest, TestResponse>
@@ -211,13 +217,6 @@ namespace VoidCore.Test.Domain
             {
                 return Result.Ok(new TestResponse { Name = "success" });
             }
-        }
-
-        public class TestRequest { }
-
-        public class TestResponse
-        {
-            public string Name { get; set; }
         }
     }
 }

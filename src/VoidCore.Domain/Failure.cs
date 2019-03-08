@@ -3,12 +3,6 @@
     /// <inheritdoc/>
     public class Failure : IFailure
     {
-        /// <inheritdoc/>
-        public string Message { get; }
-
-        /// <inheritdoc/>
-        public string UiHandle { get; }
-
         /// <summary>
         /// Construct a new Failure.
         /// </summary>
@@ -19,5 +13,11 @@
             Message = errorMessage;
             UiHandle = uiHandle;
         }
+
+        /// <inheritdoc/>
+        public string Message { get; }
+
+        /// <inheritdoc/>
+        public string UiHandle { get; }
     }
 }

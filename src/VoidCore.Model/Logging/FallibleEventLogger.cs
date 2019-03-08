@@ -12,6 +12,11 @@ namespace VoidCore.Model.Logging
     public class FallibleEventLogger<TRequest, TResponse> : PostProcessorAbstract<TRequest, TResponse>
     {
         /// <summary>
+        /// Instance of a logging service.
+        /// </summary>
+        protected readonly ILoggingService Logger;
+
+        /// <summary>
         /// Construct a new post processor
         /// </summary>
         /// <param name="logger">The ILoggingService to log to</param>
@@ -21,7 +26,8 @@ namespace VoidCore.Model.Logging
         }
 
         /// <summary>
-        /// Log failures of the IFallible. If other you are overriding this method, be sure to call base() to invoke this default behavior.
+        /// Log failures of the IFallible. If other you are overriding this method, be sure to call base() to invoke this
+        /// default behavior.
         /// </summary>
         /// <param name="request">The domain event request</param>
         /// <param name="result">The result of the event, this contains the response if successful</param>
@@ -32,10 +38,5 @@ namespace VoidCore.Model.Logging
                 $"Failures: {string.Join(" ", result.Failures.Select(failure => failure.Message))}");
             base.OnFailure(request, result);
         }
-
-        /// <summary>
-        /// Instance of a logging service.
-        /// </summary>
-        protected readonly ILoggingService Logger;
     }
 }

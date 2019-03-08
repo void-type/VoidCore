@@ -13,12 +13,15 @@ namespace VoidCore.AspNet.Auth
     public static class AuthorizationServiceCollectionExtensions
     {
         /// <summary>
-        /// Setup an authorization policy for a set of roles. These are used via AuthorizeAttributes. A user with any one of the allowed roles will be
-        /// authorized for the policy. For example, a role can be an AD group name. Having any role within the policy will grant access.
+        /// Setup an authorization policy for a set of roles. These are used via AuthorizeAttributes. A user with any one
+        /// of the allowed roles will be authorized for the policy. For example, a role can be an AD group name. Having
+        /// any role within the policy will grant access.
         /// </summary>
         /// <param name="services">The service collection</param>
         /// <param name="authorizationSettings">Authorization settings from configuration</param>
-        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if authorizationSettings are not configured.</exception>
+        /// <exception cref="ArgumentNullException">
+        /// Throws an ArgumentNullException if authorizationSettings are not configured.
+        /// </exception>
         /// <exception cref="ArgumentException">Throws an ArgumentException if authorizationPolicies are not configured.</exception>
         public static void AddAuthorizationPoliciesFromSettings(this IServiceCollection services, AuthorizationSettings authorizationSettings)
         {
@@ -53,8 +56,8 @@ namespace VoidCore.AspNet.Auth
 
         /// <summary>
         /// Add Windows Authentication. Used in Microsoft enterprise environments with Active Directory authentication.
-        /// Adds an AllowAnonymousFilter when in Development for Kestrel which essentially disables all auth.
-        /// Use Staging environment to test authorization.
+        /// Adds an AllowAnonymousFilter when in Development for Kestrel which essentially disables all auth. Use Staging
+        /// environment to test authorization.
         /// </summary>
         /// <param name="services">This service collection</param>
         /// <param name="environment">The hosting environment</param>

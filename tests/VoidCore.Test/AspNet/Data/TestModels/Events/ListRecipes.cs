@@ -16,6 +16,8 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
     {
         public class Handler : EventHandlerAbstract<Request, IItemSet<RecipeListItemDto>>
         {
+            private readonly IFoodStuffsData _data;
+
             public Handler(IFoodStuffsData data)
             {
                 _data = data;
@@ -53,8 +55,6 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                     .ToItemSet(request.Page, request.Take, totalCount)
                     .Map(page => Result.Ok(page));
             }
-
-            private readonly IFoodStuffsData _data;
         }
 
         public class Request

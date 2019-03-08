@@ -4,8 +4,7 @@ using System.Threading.Tasks;
 namespace VoidCore.Model.Data
 {
     /// <summary>
-    /// A persistent repository that can be modified asynchronously.
-    /// Adapted from https://github.com/dotnet-architecture/eShopOnWeb
+    /// A persistent repository that can be modified asynchronously. Adapted from https://github.com/dotnet-architecture/eShopOnWeb
     /// </summary>
     /// <typeparam name="T">The type of entity stored</typeparam>
     public interface IWritableRepository<T> : IReadOnlyRepository<T> where T : class
@@ -45,6 +44,5 @@ namespace VoidCore.Model.Data
         /// </summary>
         /// <param name="entities">The entities to remove</param>
         Task RemoveRange(IEnumerable<T> entities);
-
     }
 }

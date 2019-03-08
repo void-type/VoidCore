@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 namespace VoidCore.Domain
 {
     /// <summary>
-    /// Extensions for the Result class.
-    /// Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions
+    /// Extensions for the Result class. Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
     public static class ResultExtensions
     {
         /// <summary>
-        /// Combine many results to one result.
-        /// If any have failed, this will return a new aggregate failed result. If none have failed, this will return
-        /// a successful result.
+        /// Combine many results to one result. If any have failed, this will return a new aggregate failed result. If
+        /// none have failed, this will return a successful result.
         /// </summary>
         /// <param name="results">The results to combine</param>
         /// <returns>A combined result</returns>
@@ -24,9 +22,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Asynchronously combine many results to one result.
-        /// If any have failed, this will return a new aggregate failed result. If none have failed, this will return
-        /// a successful result.
+        /// Asynchronously combine many results to one result. If any have failed, this will return a new aggregate
+        /// failed result. If none have failed, this will return a successful result.
         /// </summary>
         /// <param name="resultTasks">Asynchronous tasks representing the the results to combine</param>
         /// <returns>A combined result</returns>
@@ -50,7 +47,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Asynchronously map the untyped result to a typed result. If the result is failed, the failures will be mapped to the new result.
+        /// Asynchronously map the untyped result to a typed result. If the result is failed, the failures will be mapped
+        /// to the new result.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="selectorTask">An asynchronous map function to transform input value to output value</param>
@@ -64,7 +62,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Asynchronously map the untyped result to a typed result. If the result is failed, the failures will be mapped to the new result.
+        /// Asynchronously map the untyped result to a typed result. If the result is failed, the failures will be mapped
+        /// to the new result.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="selector">A map function to transform input value to output value</param>
@@ -78,7 +77,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Asynchronously map the untyped result to a typed result. If the result is failed, the failures will be mapped to the new result.
+        /// Asynchronously map the untyped result to a typed result. If the result is failed, the failures will be mapped
+        /// to the new result.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="selectorTask">An asynchronous map function to transform input value to output value</param>
@@ -92,7 +92,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Map the result value to a result of a new type. If the result is failed, the failures will be mapped to the new result.
+        /// Map the result value to a result of a new type. If the result is failed, the failures will be mapped to the
+        /// new result.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="selector">The map function to transform input value to output value</param>
@@ -107,7 +108,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Asynchronously map the result value to a result of a new type. If the result is failed, the failures will be mapped to the new result.
+        /// Asynchronously map the result value to a result of a new type. If the result is failed, the failures will be
+        /// mapped to the new result.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="selectorTask">An asynchronous map function to transform input value to output value</param>
@@ -122,7 +124,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Asynchronously map the result value to a result of a new type. If the result is failed, the failures will be mapped to the new result.
+        /// Asynchronously map the result value to a result of a new type. If the result is failed, the failures will be
+        /// mapped to the new result.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="selector">The map function to transform input value to output value</param>
@@ -137,7 +140,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Asynchronously map the result value to a result of a new type. If the result is failed, the failures will be mapped to the new result.
+        /// Asynchronously map the result value to a result of a new type. If the result is failed, the failures will be
+        /// mapped to the new result.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="selectorTask">An asynchronous map function to transform input value to output value</param>

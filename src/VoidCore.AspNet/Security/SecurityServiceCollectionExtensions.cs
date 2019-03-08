@@ -23,8 +23,9 @@ namespace VoidCore.AspNet.Security
         }
 
         /// <summary>
-        /// Setup HttpsRedirection with a port if not already set. Port will be detected from the ASPNETCORE_HTTPS_PORT env var, sslPort or Https URL
-        /// in launchSettings.json. If no port is detected, this method will use the override supplied or 443.
+        /// Setup HttpsRedirection with a port if not already set. Port will be detected from the ASPNETCORE_HTTPS_PORT
+        /// env var, sslPort or Https URL in launchSettings.json. If no port is detected, this method will use the
+        /// override supplied or 443.
         /// </summary>
         /// <param name="services">This service collection</param>
         /// <param name="environment">The hosting environment</param>

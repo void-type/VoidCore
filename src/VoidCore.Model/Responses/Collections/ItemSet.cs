@@ -10,24 +10,6 @@ namespace VoidCore.Model.Responses.Collections
     /// <typeparam name="T">The entity type of the set</typeparam>
     public class ItemSet<T> : IItemSet<T>
     {
-        /// <inheritdoc/>
-        public IEnumerable<T> Items { get; }
-
-        /// <inheritdoc/>
-        public int Count => Items.Count();
-
-        /// <inheritdoc/>
-        public bool IsPagingEnabled { get; }
-
-        /// <inheritdoc/>
-        public int Page { get; }
-
-        /// <inheritdoc/>
-        public int Take { get; }
-
-        /// <inheritdoc/>
-        public int TotalCount { get; }
-
         /// <summary>
         /// Create a non-paged item set.
         /// </summary>
@@ -92,5 +74,23 @@ namespace VoidCore.Model.Responses.Collections
             TotalCount = totalCount;
             Items = pageItems.ToList();
         }
+
+        /// <inheritdoc/>
+        public IEnumerable<T> Items { get; }
+
+        /// <inheritdoc/>
+        public int Count => Items.Count();
+
+        /// <inheritdoc/>
+        public bool IsPagingEnabled { get; }
+
+        /// <inheritdoc/>
+        public int Page { get; }
+
+        /// <inheritdoc/>
+        public int Take { get; }
+
+        /// <inheritdoc/>
+        public int TotalCount { get; }
     }
 }

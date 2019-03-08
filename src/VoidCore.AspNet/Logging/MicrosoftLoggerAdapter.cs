@@ -9,6 +9,9 @@ namespace VoidCore.AspNet.Logging
     /// </summary>
     public class MicrosoftLoggerAdapter : ILoggingService
     {
+        private readonly ILoggingStrategy _eventLogger;
+        private readonly ILogger _logger;
+
         /// <summary>
         /// Construct a new LoggerAdapter.
         /// </summary>
@@ -79,8 +82,5 @@ namespace VoidCore.AspNet.Logging
         {
             _logger.LogWarning(_eventLogger.Log(messages));
         }
-
-        private readonly ILoggingStrategy _eventLogger;
-        private readonly ILogger _logger;
     }
 }

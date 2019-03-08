@@ -6,13 +6,11 @@ using VoidCore.Model.Queries;
 namespace VoidCore.Model.Data
 {
     /// <summary>
-    /// A repository of entities that can be queried asynchronously.
-    /// Adapted from https://github.com/dotnet-architecture/eShopOnWeb
+    /// A repository of entities that can be queried asynchronously. Adapted from https://github.com/dotnet-architecture/eShopOnWeb
     /// </summary>
     /// <typeparam name="T">The type of entity stored</typeparam>
     public interface IReadOnlyRepository<T> where T : class
     {
-
         /// <summary>
         /// Get the first entity that matches a specification.
         /// </summary>

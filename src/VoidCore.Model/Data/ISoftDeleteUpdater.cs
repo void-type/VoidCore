@@ -1,8 +1,8 @@
 namespace VoidCore.Model.Data
 {
     /// <summary>
-    /// A service to soft delete a peristed entity. Soft deleting is marking that entity as deleted when
-    /// it still exists in the persisted store.
+    /// A service to soft delete a peristed entity. Soft deleting is marking that entity as deleted when it still exists
+    /// in the persisted store.
     /// </summary>
     public interface ISoftDeleteUpdater
     {

@@ -2,19 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace VoidCore.Domain
+namespace VoidCore.Domain.Internal
 {
     /// <summary>
-    /// This class holds the internal logic for the Result abstract class and its inheritors.
-    /// InternalResult should not be directly accessed outside of its Result wrapper. This class shares its constructor logic with inheritors.
+    /// This class holds the internal logic for the Result abstract class and its inheritors. InternalResult should not
+    /// be directly accessed outside of its Result wrapper. This class shares its constructor logic with inheritors.
     /// Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
     internal sealed class ResultInternal
     {
-        public IEnumerable<IFailure> Failures { get; } = new IFailure[0];
-        public bool IsFailed { get; }
-        public bool IsSuccess => !IsFailed;
-        
         internal ResultInternal(IEnumerable<IFailure> failures)
         {
             if (failures == null)
@@ -39,5 +35,9 @@ namespace VoidCore.Domain
         {
             IsFailed = false;
         }
+
+        public IEnumerable<IFailure> Failures { get; } = new IFailure[0];
+        public bool IsFailed { get; }
+        public bool IsSuccess => !IsFailed;
     }
 }

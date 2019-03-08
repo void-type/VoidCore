@@ -6,6 +6,9 @@ namespace VoidCore.Model.Data
     /// <inheritdoc/>
     public class SoftDeleteUpdater : ISoftDeleteUpdater
     {
+        private readonly IDateTimeService _now;
+        private readonly ICurrentUserAccessor _currentUserAccessor;
+
         /// <summary>
         /// Construct a new SoftDeleteUpdater.
         /// </summary>
@@ -30,8 +33,5 @@ namespace VoidCore.Model.Data
             entity.DeletedOn = null;
             entity.DeletedBy = null;
         }
-
-        private readonly IDateTimeService _now;
-        private readonly ICurrentUserAccessor _currentUserAccessor;
     }
 }

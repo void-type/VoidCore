@@ -11,6 +11,8 @@ namespace VoidCore.Domain.RuleValidator
     /// <typeparam name="T">The type of entities to validate</typeparam>
     public abstract class RuleValidatorAbstract<T> : IRequestValidator<T>
     {
+        private readonly List<IRule<T>> _rules = new List<IRule<T>>();
+
         /// <inheritdoc/>
         public IResult Validate(T validatable)
         {
@@ -42,7 +44,5 @@ namespace VoidCore.Domain.RuleValidator
             _rules.Add(rule);
             return rule;
         }
-
-        private readonly List<IRule<T>> _rules = new List<IRule<T>>();
     }
 }

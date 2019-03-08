@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 namespace VoidCore.Test.Domain
 {
-
     internal class TestPerformerService
     {
         public int LastStep { get; private set; }
