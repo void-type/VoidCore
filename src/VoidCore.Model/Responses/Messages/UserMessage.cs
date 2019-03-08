@@ -6,11 +6,6 @@
     public class UserMessage
     {
         /// <summary>
-        /// The UI-friendly message.
-        /// </summary>
-        public string Message { get; }
-
-        /// <summary>
         /// Create a new message.
         /// </summary>
         /// <param name="message">The user message to display</param>
@@ -18,5 +13,10 @@
         {
             Message = message;
         }
+
+        /// <summary>
+        /// The UI-friendly message.
+        /// </summary>
+        public string Message { get; }
     }
 }

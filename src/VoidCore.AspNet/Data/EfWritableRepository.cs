@@ -6,8 +6,7 @@ using VoidCore.Model.Data;
 namespace VoidCore.AspNet.Data
 {
     /// <summary>
-    /// A generic read/write repository. Optimized for Entity Framework Contexts.
-    /// Adapted from https://github.com/dotnet-architecture/eShopOnWeb
+    /// A generic read/write repository. Optimized for Entity Framework Contexts. Adapted from https://github.com/dotnet-architecture/eShopOnWeb
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class EfWritableRepository<T> : EfReadOnlyRepository<T>, IWritableRepository<T> where T : class

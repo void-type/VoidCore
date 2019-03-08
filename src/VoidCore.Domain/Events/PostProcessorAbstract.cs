@@ -7,6 +7,21 @@ namespace VoidCore.Domain.Events
     /// <typeparam name="TResponse">The response of the event</typeparam>
     public abstract class PostProcessorAbstract<TRequest, TResponse> : IPostProcessor<TRequest, TResponse>
     {
+        /// <inheritdoc/>
+        public void Process(TRequest request, IResult<TResponse> result)
+        {
+            OnBoth(request, result);
+
+            if (result.IsSuccess)
+            {
+                OnSuccess(request, result.Value);
+            }
+            else
+            {
+                OnFailure(request, result);
+            }
+        }
+
         /// <summary>
         /// Override this method to process regardless of success or failure.
         /// </summary>
@@ -27,20 +42,5 @@ namespace VoidCore.Domain.Events
         /// <param name="request">The domain event request</param>
         /// <param name="response">The result value of the successful event</param>
         protected virtual void OnSuccess(TRequest request, TResponse response) { }
-
-        /// <inheritdoc/>
-        public void Process(TRequest request, IResult<TResponse> result)
-        {
-            OnBoth(request, result);
-
-            if (result.IsSuccess)
-            {
-                OnSuccess(request, result.Value);
-            }
-            else
-            {
-                OnFailure(request, result);
-            }
-        }
     }
 }

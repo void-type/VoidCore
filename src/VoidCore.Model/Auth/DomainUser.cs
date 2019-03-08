@@ -8,16 +8,6 @@ namespace VoidCore.Model.Auth
     public class DomainUser
     {
         /// <summary>
-        /// UI-friendly name for the current user
-        /// </summary>
-        public string Name { get; }
-
-        /// <summary>
-        /// Names of the authorization policies that the user fulfills.
-        /// </summary>
-        public IEnumerable<string> AuthorizedAs { get; }
-
-        /// <summary>
         /// Construct a new domain user
         /// </summary>
         /// <param name="name">UI-Friendly name for the current user</param>
@@ -27,5 +17,15 @@ namespace VoidCore.Model.Auth
             Name = name;
             AuthorizedAs = authorizedAs;
         }
+
+        /// <summary>
+        /// UI-friendly name for the current user
+        /// </summary>
+        public string Name { get; }
+
+        /// <summary>
+        /// Names of the authorization policies that the user fulfills.
+        /// </summary>
+        public IEnumerable<string> AuthorizedAs { get; }
     }
 }

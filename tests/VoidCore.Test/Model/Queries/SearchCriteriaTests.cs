@@ -22,7 +22,7 @@ namespace VoidCore.Test.Model.Queries
                 new TestObject(" text \n", "aaaaaaaaaaa")
             }.AsQueryable();
 
-            var terms = new[] { "text", "other" };
+            var terms = new [] { "text", "other" };
 
             var actual = objectCollection.Where(
                 SearchCriteria.PropertiesContain<TestObject>(
@@ -134,7 +134,7 @@ namespace VoidCore.Test.Model.Queries
 
             var actual = objectCollection.Where(
                 SearchCriteria.PropertiesContain<TestObject>(
-                    new SearchTerms((string)null),
+                    new SearchTerms((string) null),
                     obj => obj.StringProperty1,
                     obj => obj.StringProperty2
                 )
@@ -229,15 +229,15 @@ namespace VoidCore.Test.Model.Queries
 
         private class TestObject
         {
-            public string StringProperty1 { get; }
-
-            public string StringProperty2 { get; }
-
             public TestObject(string propertyValue1, string propertyValue2)
             {
                 StringProperty1 = propertyValue1;
                 StringProperty2 = propertyValue2;
             }
+
+            public string StringProperty1 { get; }
+
+            public string StringProperty2 { get; }
         }
     }
 }

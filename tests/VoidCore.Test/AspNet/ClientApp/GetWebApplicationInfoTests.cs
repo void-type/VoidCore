@@ -1,7 +1,7 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using Moq;
+using System.Threading.Tasks;
 using VoidCore.AspNet.ClientApp;
 using VoidCore.Model.Auth;
 using VoidCore.Model.Logging;

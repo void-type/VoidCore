@@ -8,11 +8,14 @@ using VoidCore.Model.Logging;
 namespace VoidCore.AspNet.Logging
 {
     /// <summary>
-    /// A strategy to log within HTTP Requests.
-    /// This enriches the entries with information about the request such as current user name and request trace.
+    /// A strategy to log within HTTP Requests. This enriches the entries with information about the request such as
+    /// current user name and request trace.
     /// </summary>
     public class HttpRequestLoggingStrategy : ILoggingStrategy
     {
+        private readonly ICurrentUserAccessor _currentUserAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
         /// <summary>
         /// Construct a new strategy.
         /// </summary>
@@ -41,8 +44,8 @@ namespace VoidCore.AspNet.Logging
         }
 
         /// <summary>
-        /// Prepend the HTTP request method and path to concatenated messages and exception messages. Inner Exception messages are recursively
-        /// flattened into a string.
+        /// Prepend the HTTP request method and path to concatenated messages and exception messages. Inner Exception
+        /// messages are recursively flattened into a string.
         /// </summary>
         /// <param name="ex">The exception to log</param>
         /// <param name="messages">Array of messages to log</param>
@@ -53,10 +56,6 @@ namespace VoidCore.AspNet.Logging
 
             return Log(eventArray);
         }
-
-        private readonly ICurrentUserAccessor _currentUserAccessor;
-
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
         private static IEnumerable<string> FlattenExceptionMessages(Exception exception)
         {

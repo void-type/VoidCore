@@ -9,21 +9,6 @@ namespace VoidCore.Model.Emailing
     public class Email
     {
         /// <summary>
-        /// The message content of the email.
-        /// </summary>
-        public string Message { get; }
-
-        /// <summary>
-        /// A list of recipients to send the email to.
-        /// </summary>
-        public IEnumerable<string> Recipients { get; }
-
-        /// <summary>
-        /// The subject line of the email.
-        /// </summary>
-        public string Subject { get; }
-
-        /// <summary>
         /// Construct a new email
         /// </summary>
         /// <param name="subject">The subject line of the email</param>
@@ -51,5 +36,20 @@ namespace VoidCore.Model.Emailing
             Message = message;
             Recipients = recipients;
         }
+
+        /// <summary>
+        /// The message content of the email.
+        /// </summary>
+        public string Message { get; }
+
+        /// <summary>
+        /// A list of recipients to send the email to.
+        /// </summary>
+        public IEnumerable<string> Recipients { get; }
+
+        /// <summary>
+        /// The subject line of the email.
+        /// </summary>
+        public string Subject { get; }
     }
 }

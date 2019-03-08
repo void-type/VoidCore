@@ -4,8 +4,9 @@ using System.Threading.Tasks;
 namespace VoidCore.Domain.Events
 {
     /// <summary>
-    /// An event in the domain that asynchronously takes a request and returns a response. The event request can be validated before handling. The
-    /// event can also be fallible, returning a Result of response. The event can be appended with post processors for concerns like logging.
+    /// An event in the domain that asynchronously takes a request and returns a response. The event request can be
+    /// validated before handling. The event can also be fallible, returning a Result of response. The event can be
+    /// appended with post processors for concerns like logging.
     /// </summary>
     /// <typeparam name="TRequest">The type of the event request</typeparam>
     /// <typeparam name="TResponse">The type of the event response</typeparam>

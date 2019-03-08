@@ -5,8 +5,7 @@ using VoidCore.Model.Queries;
 namespace VoidCore.AspNet.Data
 {
     /// <summary>
-    /// Build queries from specifications.
-    /// Adapted from https://github.com/dotnet-architecture/eShopOnWeb
+    /// Build queries from specifications. Adapted from https://github.com/dotnet-architecture/eShopOnWeb
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class SpecificationEvaluator<T> where T : class

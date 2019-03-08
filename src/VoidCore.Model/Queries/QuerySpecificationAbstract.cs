@@ -7,6 +7,15 @@ namespace VoidCore.Model.Queries
     /// <inheritdoc/>
     public abstract class QuerySpecificationAbstract<T> : IQuerySpecification<T>
     {
+        /// <summary>
+        /// Create a new query
+        /// </summary>
+        /// <param name="criteria">The filtering criteria</param>
+        protected QuerySpecificationAbstract(params Expression<Func<T, bool>>[] criteria)
+        {
+            Criteria = criteria;
+        }
+
         /// <inheritdoc/>
         public Expression<Func<T, bool>>[] Criteria { get; }
 
@@ -30,15 +39,6 @@ namespace VoidCore.Model.Queries
 
         /// <inheritdoc/>
         public bool IsPagingEnabled { get; private set; }
-
-        /// <summary>
-        /// Create a new query
-        /// </summary>
-        /// <param name="criteria">The filtering criteria</param>
-        protected QuerySpecificationAbstract(params Expression<Func<T, bool>>[] criteria)
-        {
-            Criteria = criteria;
-        }
 
         /// <summary>
         /// Add an include expression.

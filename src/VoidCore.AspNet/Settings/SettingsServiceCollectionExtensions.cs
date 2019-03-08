@@ -9,12 +9,14 @@ namespace VoidCore.AspNet.Settings
     public static class SettingsServiceCollectionExtensions
     {
         /// <summary>
-        /// Pulls a settings object from configuration and adds it as a singleton to the DI container.
-        /// Uses naming conventions of the Settings class to find the config section.
+        /// Pulls a settings object from configuration and adds it as a singleton to the DI container. Uses naming
+        /// conventions of the Settings class to find the config section.
         /// </summary>
         /// <param name="services">This service collection</param>
         /// <param name="configuration">The application configuration</param>
-        /// <param name="root">When true, the naming conventions are ignored and settings are assumed to be at the root of the config</param>
+        /// <param name="root">
+        /// When true, the naming conventions are ignored and settings are assumed to be at the root of the config
+        /// </param>
         /// <typeparam name="TSettings">The settings object type to pull from configuration</typeparam>
         /// <returns>The settings object to use during startup.</returns>
         public static TSettings AddSettingsSingleton<TSettings>(this IServiceCollection services, IConfiguration configuration, bool root = false)
@@ -37,7 +39,9 @@ namespace VoidCore.AspNet.Settings
         /// </summary>
         /// <param name="services">This service collection</param>
         /// <param name="configuration">The application configuration</param>
-        /// <param name="root">When true, the naming conventions are ignored and settings are assumed to be at the root of the config</param>
+        /// <param name="root">
+        /// When true, the naming conventions are ignored and settings are assumed to be at the root of the config
+        /// </param>
         /// <typeparam name="TService">An interface or higher-level service to access the settings from</typeparam>
         /// <typeparam name="TSettings">The settings object type to pull from configuration</typeparam>
         /// <returns>The settings object to use during startup.</returns>

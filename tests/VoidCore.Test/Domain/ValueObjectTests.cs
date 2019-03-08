@@ -58,14 +58,14 @@ namespace VoidCore.Test.Domain
 
         private class Address : ValueObject
         {
-            public string Street { get; }
-            public string City { get; }
-
             public Address(string street, string city)
             {
                 Street = street;
                 City = city;
             }
+
+            public string Street { get; }
+            public string City { get; }
 
             protected override IEnumerable<object> GetEqualityComponents()
             {

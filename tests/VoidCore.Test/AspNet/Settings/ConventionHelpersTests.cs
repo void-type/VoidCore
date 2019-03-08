@@ -35,6 +35,8 @@ namespace VoidCore.Test.AspNet.Settings
     }
 
     internal class MyBaseSettings { }
+
     internal class Lowercasesettings { }
+
     internal class Other { }
 }

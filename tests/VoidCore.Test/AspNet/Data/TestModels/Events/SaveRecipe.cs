@@ -18,6 +18,9 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
     {
         public class Handler : EventHandlerAbstract<Request, UserMessageWithEntityId<int>>
         {
+            private readonly IFoodStuffsData _data;
+            private readonly IAuditUpdater _auditUpdater;
+
             public Handler(IFoodStuffsData data, IAuditUpdater auditUpdater)
             {
                 _data = data;
@@ -93,13 +96,10 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                         .Select(c => new CategoryRecipe
                         {
                             RecipeId = recipe.Id,
-                                CategoryId = c.Id
+                            CategoryId = c.Id
                         }))
                     .TeeAsync(_data.CategoryRecipes.AddRange);
             }
-
-            private readonly IFoodStuffsData _data;
-            private readonly IAuditUpdater _auditUpdater;
         }
 
         public class Request

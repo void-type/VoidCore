@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 namespace VoidCore.Domain
 {
     /// <summary>
-    /// Extensions for the Result class.
-    /// Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions
+    /// Extensions for the Result class. Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
     public static class ResultExtensionsTee
     {
         /// <summary>
-        /// If the result is failed, perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is failed, perform a side-effect action then pass the original result through to the next step
+        /// in the pipeline.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="action">The action to perform</param>
@@ -26,7 +26,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to
+        /// the next step in the pipeline.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="actionTask">The asynchronous action to perform</param>
@@ -42,7 +43,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to
+        /// the next step in the pipeline.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="action">The action to perform</param>
@@ -55,7 +57,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to
+        /// the next step in the pipeline.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="actionTask">The asynchronous action to perform</param>
@@ -68,7 +71,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is failed, perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is failed, perform a side-effect action then pass the original result through to the next step
+        /// in the pipeline.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="action">The action to perform</param>
@@ -85,7 +89,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to
+        /// the next step in the pipeline.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="actionTask">The asynchronous action to perform</param>
@@ -102,7 +107,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to
+        /// the next step in the pipeline.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="action">The action to perform</param>
@@ -116,7 +122,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to
+        /// the next step in the pipeline.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="actionTask">The asynchronous action to perform</param>
@@ -130,7 +137,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is successful, perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is successful, perform a side-effect action then pass the original result through to the next
+        /// step in the pipeline.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="action">The action to perform</param>
@@ -146,7 +154,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is successful, asynchronously perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
+        /// through to the next step in the pipeline.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="actionTask">The asynchronous action to perform</param>
@@ -162,7 +171,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is successful, asynchronously perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
+        /// through to the next step in the pipeline.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="action">The action to perform</param>
@@ -175,7 +185,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is successful, asynchronously perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
+        /// through to the next step in the pipeline.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="actionTask">The asynchronous action to perform</param>
@@ -188,7 +199,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is successful, perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is successful, perform a side-effect action then pass the original result through to the next
+        /// step in the pipeline.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="action">The action to perform</param>
@@ -205,7 +217,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is successful, asynchronously perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
+        /// through to the next step in the pipeline.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="actionTask">The asynchronous action to perform</param>
@@ -221,7 +234,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is successful, asynchronously perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
+        /// through to the next step in the pipeline.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="action">The action to perform</param>
@@ -234,7 +248,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is successful, asynchronously perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
+        /// through to the next step in the pipeline.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="actionTask">The asynchronous action to perform</param>
@@ -247,8 +262,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is successful, perform a side-effect action then pass the original result through to the next step in the pipeline.
-        /// This side-effect takes the result value as a parameter.
+        /// If the result is successful, perform a side-effect action then pass the original result through to the next
+        /// step in the pipeline. This side-effect takes the result value as a parameter.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="action">The action to perform</param>
@@ -265,7 +280,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is successful, asynchronously perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
+        /// through to the next step in the pipeline.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="actionTask">The asynchronous action to perform</param>
@@ -281,7 +297,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is successful, asynchronously perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
+        /// through to the next step in the pipeline.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="action">The action to perform</param>
@@ -294,7 +311,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is successful, asynchronously perform a side-effect action then pass the original result through to the next step in the pipeline.
+        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
+        /// through to the next step in the pipeline.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="actionTask">The asynchronous action to perform</param>

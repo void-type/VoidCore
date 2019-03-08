@@ -12,6 +12,10 @@ namespace VoidCore.Domain.Events
     /// <typeparam name="TResponse">The type of the event response</typeparam>
     public class EventHandlerDecorator<TRequest, TResponse> : IEventHandler<TRequest, TResponse>
     {
+        private readonly EventHandlerAbstract<TRequest, TResponse> _innerEvent;
+        private readonly List<IPostProcessor<TRequest, TResponse>> _postProcessors = new List<IPostProcessor<TRequest, TResponse>>();
+        private readonly List<IRequestValidator<TRequest>> _requestValidators = new List<IRequestValidator<TRequest>>();
+
         /// <summary>
         /// Create a new Decorated Domain Event handler
         /// </summary>
@@ -50,9 +54,5 @@ namespace VoidCore.Domain.Events
 
             return result;
         }
-
-        private readonly EventHandlerAbstract<TRequest, TResponse> _innerEvent;
-        private readonly List<IPostProcessor<TRequest, TResponse>> _postProcessors = new List<IPostProcessor<TRequest, TResponse>>();
-        private readonly List<IRequestValidator<TRequest>> _requestValidators = new List<IRequestValidator<TRequest>>();
     }
 }

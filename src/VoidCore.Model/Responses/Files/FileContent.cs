@@ -11,15 +11,7 @@ namespace VoidCore.Model.Responses.Files
     /// </summary>
     public class FileContent : ValueObject
     {
-        /// <summary>
-        /// Returns the contents encoded as a UTF8 string.
-        /// </summary>
-        public override string ToString() => Encoding.UTF8.GetString(_content);
-
-        /// <summary>
-        /// Returns the contents of the file in bytes.
-        /// </summary>
-        public byte[] AsBytes => _content;
+        private byte[] _content;
 
         /// <summary>
         /// Create a new file contents using bytes.
@@ -43,12 +35,20 @@ namespace VoidCore.Model.Responses.Files
         /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if content is null.</exception>
         public FileContent(string content) : this(Encoding.UTF8.GetBytes(content)) { }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Returns the contents of the file in bytes.
+        /// </summary>
+        public byte[] AsBytes => _content;
+
+        /// <summary>
+        /// Returns the contents encoded as a UTF8 string.
+        /// </summary>
+        public override string ToString() => Encoding.UTF8.GetString(_content);
+
+        /// <inheritdoc/>
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return string.Join("", _content.Select(b => string.Format("{0:X2}", b)));
         }
-
-        private byte[] _content;
     }
 }

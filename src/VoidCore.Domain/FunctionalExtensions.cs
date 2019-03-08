@@ -57,7 +57,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Perform a side-effect action using the input within the action, then pass the input through to the next step in the pipeline.
+        /// Perform a side-effect action using the input within the action, then pass the input through to the next step
+        /// in the pipeline.
         /// </summary>
         /// <param name="input">The input to the tee.</param>
         /// <param name="action">The action to perform.</param>
@@ -70,7 +71,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Asynchronously perform a side-effect action using the input within the action, then pass the input through to the next step in the pipeline.
+        /// Asynchronously perform a side-effect action using the input within the action, then pass the input through to
+        /// the next step in the pipeline.
         /// </summary>
         /// <param name="input">The input to the tee.</param>
         /// <param name="actionTask">The asynchronous action to perform.</param>
@@ -83,7 +85,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Asynchronously perform a side-effect action using the input within the action, then pass the input through to the next step in the pipeline.
+        /// Asynchronously perform a side-effect action using the input within the action, then pass the input through to
+        /// the next step in the pipeline.
         /// </summary>
         /// <param name="inputTask">A task to asynchronously retrieve the input to the tee</param>
         /// <param name="action">The action to perform.</param>
@@ -97,7 +100,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Asynchronously perform a side-effect action using the input within the action, then pass the input through to the next step in the pipeline.
+        /// Asynchronously perform a side-effect action using the input within the action, then pass the input through to
+        /// the next step in the pipeline.
         /// </summary>
         /// <param name="inputTask">A task to asynchronously retrieve the input to the tee.</param>
         /// <param name="actionTask">The asynchronous action to perform.</param>

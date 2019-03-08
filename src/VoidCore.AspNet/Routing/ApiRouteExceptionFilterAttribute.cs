@@ -11,6 +11,8 @@ namespace VoidCore.AspNet.Routing
     /// </summary>
     public class ApiRouteExceptionFilterAttribute : ExceptionFilterAttribute
     {
+        private readonly ILoggingService _logger;
+
         /// <summary>
         /// Construct a new ApiExceptionFilterAttribute
         /// </summary>
@@ -35,7 +37,5 @@ namespace VoidCore.AspNet.Routing
             _logger.Fatal(context.Exception, message);
             context.Result = new ObjectResult(new UserMessage(message)) { StatusCode = 500 };
         }
-
-        private readonly ILoggingService _logger;
     }
 }

@@ -6,6 +6,9 @@ namespace VoidCore.Model.Data
     /// <inheritdoc/>
     public class AuditUpdater : IAuditUpdater
     {
+        private readonly ICurrentUserAccessor _currentUserAccessor;
+        private readonly IDateTimeService _now;
+
         /// <summary>
         /// Create a new audit updater
         /// </summary>
@@ -31,8 +34,5 @@ namespace VoidCore.Model.Data
             entity.ModifiedOn = _now.Moment;
             entity.ModifiedBy = _currentUserAccessor.User.Name;
         }
-
-        private readonly ICurrentUserAccessor _currentUserAccessor;
-        private readonly IDateTimeService _now;
     }
 }

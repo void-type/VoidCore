@@ -21,7 +21,8 @@ namespace VoidCore.Domain.Events
         }
 
         /// <summary>
-        /// Override this method to provide domain logic to handle the validated request and return an appropriate result of the response.
+        /// Override this method to provide domain logic to handle the validated request and return an appropriate result
+        /// of the response.
         /// </summary>
         /// <param name="request">The validated request</param>
         /// <returns>A result of TResponse</returns>

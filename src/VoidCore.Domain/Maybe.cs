@@ -9,6 +9,25 @@ namespace VoidCore.Domain
     /// <typeparam name="T">The value of the maybe</typeparam>
     public sealed class Maybe<T> : IEquatable<Maybe<T>>
     {
+        private readonly MaybeValueWrapper _value;
+
+        /// <summary>
+        /// Construct an empty Maybe
+        /// </summary>
+        private Maybe()
+        {
+            _value = null;
+        }
+
+        /// <summary>
+        /// Construct a Maybe with value.
+        /// </summary>
+        /// <param name="value">The value to create the Maybe from</param>
+        private Maybe(T value)
+        {
+            _value = value == null ? null : new MaybeValueWrapper(value);
+        }
+
         /// <summary>
         /// Get a new empty Maybe of type T
         /// </summary>
@@ -29,7 +48,9 @@ namespace VoidCore.Domain
         /// Get the value of Maybe.
         /// </summary>
         /// <value>The value of the Maybe</value>
-        /// <exception cref="InvalidOperationException">Throws an InvalidOperationException if accessed and there is no value.</exception>
+        /// <exception cref="InvalidOperationException">
+        /// Throws an InvalidOperationException if accessed and there is no value.
+        /// </exception>
         public T Value
         {
             get
@@ -176,37 +197,18 @@ namespace VoidCore.Domain
             return HasNoValue ? "No value" : Value.ToString();
         }
 
-        private readonly MaybeValueWrapper _value;
-
         /// <summary>
-        /// Construct an empty Maybe
-        /// </summary>
-        private Maybe()
-        {
-            _value = null;
-        }
-
-        /// <summary>
-        /// Construct a Maybe with value.
-        /// </summary>
-        /// <param name="value">The value to create the Maybe from</param>
-        private Maybe(T value)
-        {
-            _value = value == null ? null : new MaybeValueWrapper(value);
-        }
-
-        /// <summary>
-        /// This class wraps the inner value to allow Maybe to work with non-nullable value types. We can set a reference to this type to null whereas
-        /// we can't do that with non-nullable value types.
+        /// This class wraps the inner value to allow Maybe to work with non-nullable value types. We can set a reference
+        /// to this type to null whereas we can't do that with non-nullable value types.
         /// </summary>
         private class MaybeValueWrapper
         {
+            internal readonly T Value;
+
             public MaybeValueWrapper(T value)
             {
                 Value = value;
             }
-
-            internal readonly T Value;
         }
     }
 }

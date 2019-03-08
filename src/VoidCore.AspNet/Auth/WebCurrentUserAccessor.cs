@@ -10,22 +10,10 @@ namespace VoidCore.AspNet.Auth
     /// </summary>
     public class WebCurrentUserAccessor : ICurrentUserAccessor
     {
-        /// <inherit/>
-        public DomainUser User
-        {
-            get
-            {
-                var currentUser = _httpContextAccessor.HttpContext.User;
-
-                var authorizedAs = _authorizationSettings.Policies
-                    .Where(policy => _authorizationService.AuthorizeAsync(currentUser, policy.Key).Result.Succeeded)
-                    .Select(policy => policy.Key);
-
-                var name = _userNameFormatter.Format(currentUser.Identity.Name);
-
-                return new DomainUser(name, authorizedAs);
-            }
-        }
+        private readonly AuthorizationSettings _authorizationSettings;
+        private readonly IAuthorizationService _authorizationService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IUserNameFormatStrategy _userNameFormatter;
 
         /// <summary>
         /// Create a new current user accessor
@@ -42,9 +30,21 @@ namespace VoidCore.AspNet.Auth
             _authorizationSettings = authorizationSettings;
         }
 
-        private readonly AuthorizationSettings _authorizationSettings;
-        private readonly IAuthorizationService _authorizationService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IUserNameFormatStrategy _userNameFormatter;
+        /// <inheritdoc/>
+        public DomainUser User
+        {
+            get
+            {
+                var currentUser = _httpContextAccessor.HttpContext.User;
+
+                var authorizedAs = _authorizationSettings.Policies
+                    .Where(policy => _authorizationService.AuthorizeAsync(currentUser, policy.Key).Result.Succeeded)
+                    .Select(policy => policy.Key);
+
+                var name = _userNameFormatter.Format(currentUser.Identity.Name);
+
+                return new DomainUser(name, authorizedAs);
+            }
+        }
     }
 }
