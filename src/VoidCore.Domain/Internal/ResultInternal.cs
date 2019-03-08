@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace VoidCore.Domain
+namespace VoidCore.Domain.Internal
 {
     /// <summary>
     /// This class holds the internal logic for the Result abstract class and its inheritors. InternalResult should not

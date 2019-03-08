@@ -1,4 +1,5 @@
 using System;
+using VoidCore.Domain.Internal;
 
 namespace VoidCore.Domain
 {
@@ -9,7 +10,7 @@ namespace VoidCore.Domain
     /// <typeparam name="T">The value of the maybe</typeparam>
     public sealed class Maybe<T> : IEquatable<Maybe<T>>
     {
-        private readonly MaybeValueWrapper _value;
+        private readonly MaybeValueWrapper<T> _value;
 
         /// <summary>
         /// Construct an empty Maybe
@@ -25,7 +26,7 @@ namespace VoidCore.Domain
         /// <param name="value">The value to create the Maybe from</param>
         private Maybe(T value)
         {
-            _value = value == null ? null : new MaybeValueWrapper(value);
+            _value = value == null ? null : new MaybeValueWrapper<T>(value);
         }
 
         /// <summary>
@@ -195,20 +196,6 @@ namespace VoidCore.Domain
         public override string ToString()
         {
             return HasNoValue ? "No value" : Value.ToString();
-        }
-
-        /// <summary>
-        /// This class wraps the inner value to allow Maybe to work with non-nullable value types. We can set a reference
-        /// to this type to null whereas we can't do that with non-nullable value types.
-        /// </summary>
-        private class MaybeValueWrapper
-        {
-            internal readonly T Value;
-
-            public MaybeValueWrapper(T value)
-            {
-                Value = value;
-            }
         }
     }
 }
