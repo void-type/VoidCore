@@ -48,7 +48,7 @@ namespace VoidCore.Test.Domain
                     Result.Ok(1),
                     Result.Ok("")
                 }
-                .Select(x => Task.Run(() => x))
+                .Select(x => Task.FromResult(x))
                 .CombineAsync();
 
             Assert.True(result.IsSuccess);
@@ -67,7 +67,7 @@ namespace VoidCore.Test.Domain
                     Result.Ok(1),
                     Result.Ok("")
                 }
-                .Select(x => Task.Run(() => x))
+                .Select(x => Task.FromResult(x))
                 .CombineAsync();
 
             Assert.True(result.IsFailed);
@@ -111,13 +111,13 @@ namespace VoidCore.Test.Domain
             Assert.True(newOkResult.IsSuccess);
             Assert.Equal("Hello World!!!", newOkResult.Value);
 
-            newOkResult = await Task.Run(() => Result.Ok())
+            newOkResult = await Task.FromResult(Result.Ok())
                 .SelectAsync(() => t.Transform(t.Start, 4));
 
             Assert.True(newOkResult.IsSuccess);
             Assert.Equal("Hello World!", newOkResult.Value);
 
-            newOkResult = await Task.Run(() => Result.Ok())
+            newOkResult = await Task.FromResult(Result.Ok())
                 .SelectAsync(() => t.TransformAsync(t.Start, 5))
                 .SelectAsync(r => t.TransformAsync(r, 6));
 

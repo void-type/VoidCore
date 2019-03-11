@@ -95,7 +95,7 @@ namespace VoidCore.Test.Domain
                     Result.Ok(1),
                     Result.Ok("")
                 }
-                .Select(x => Task.Run(() => x));
+                .Select(x => Task.FromResult(x));
 
             var result = await Result.CombineAsync(results.ToArray());
 
@@ -113,7 +113,7 @@ namespace VoidCore.Test.Domain
                     Result.Ok(1),
                     Result.Ok("")
                 }
-                .Select(x => Task.Run(() => x));
+                .Select(x => Task.FromResult(x));
 
             var result = await Result.CombineAsync(results.ToArray());
 
