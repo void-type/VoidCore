@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using VoidCore.Domain;
 using VoidCore.Model.Data;
@@ -26,27 +27,27 @@ namespace VoidCore.AspNet.Data
         }
 
         /// <inheritdoc/>
-        public async Task<Maybe<T>> Get(IQuerySpecification<T> spec)
+        public async Task<Maybe<T>> Get(IQuerySpecification<T> spec, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await ApplySpecification(spec).FirstOrDefaultAsync();
+            return await ApplySpecification(spec).FirstOrDefaultAsync(cancellationToken);
         }
 
         /// <inheritdoc/>
-        public async Task<IReadOnlyList<T>> ListAll()
+        public async Task<IReadOnlyList<T>> ListAll(CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await Context.Set<T>().ToListAsync();
+            return await Context.Set<T>().ToListAsync(cancellationToken);
         }
 
         /// <inheritdoc/>
-        public async Task<IReadOnlyList<T>> List(IQuerySpecification<T> spec)
+        public async Task<IReadOnlyList<T>> List(IQuerySpecification<T> spec, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await ApplySpecification(spec).ToListAsync();
+            return await ApplySpecification(spec).ToListAsync(cancellationToken);
         }
 
         /// <inheritdoc/>
-        public async Task<int> Count(IQuerySpecification<T> spec)
+        public async Task<int> Count(IQuerySpecification<T> spec, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await ApplySpecification(spec).CountAsync();
+            return await ApplySpecification(spec).CountAsync(cancellationToken);
         }
 
         private IQueryable<T> ApplySpecification(IQuerySpecification<T> spec)

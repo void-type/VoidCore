@@ -37,7 +37,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                 {
                     return await maybeRecipe.Value
                         .Tee(r => Transfer(request, r))
-                        .TeeAsync(_data.Recipes.Update)
+                        .TeeAsync(r => _data.Recipes.Update(r))
                         .TeeAsync(r => ManageCategories(request, r))
                         .MapAsync(r => Result.Ok(UserMessageWithEntityId.Create("Recipe updated.", r.Id)));
                 }
@@ -46,7 +46,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                     return await new Recipe()
                         .Tee(_auditUpdater.Create)
                         .Tee(r => Transfer(request, r))
-                        .TeeAsync(_data.Recipes.Add)
+                        .TeeAsync(r => _data.Recipes.Add(r))
                         .TeeAsync(r => ManageCategories(request, r))
                         .MapAsync(r => Result.Ok(UserMessageWithEntityId.Create("Recipe added.", r.Id)));
                 }
@@ -79,12 +79,12 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                 await requested
                     .Where(n => !categoriesExist.Contains(n))
                     .Select(n => new Category { Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(n) })
-                    .TeeAsync(_data.Categories.AddRange);
+                    .TeeAsync(r => _data.Categories.AddRange(r));
 
                 // Remove relations that are no longer needed
                 await recipe.CategoryRecipe
                     .Where(r => !requested.Contains(r.Category.Name.ToLower().Trim()))
-                    .TeeAsync(_data.CategoryRecipes.RemoveRange);
+                    .TeeAsync(r => _data.CategoryRecipes.RemoveRange(r));
 
                 // Add relations that don't exist
                 await _data.Categories
@@ -98,7 +98,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                             RecipeId = recipe.Id,
                             CategoryId = c.Id
                         }))
-                    .TeeAsync(_data.CategoryRecipes.AddRange);
+                    .TeeAsync(r => _data.CategoryRecipes.AddRange(r));
             }
         }
 
