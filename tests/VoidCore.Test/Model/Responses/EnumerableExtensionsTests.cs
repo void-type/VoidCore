@@ -62,7 +62,7 @@ namespace VoidCore.Test.Model.Responses
         {
             var list = new List<string> { "2", "3", "4" };
 
-            var itemSet = list.ToItemSet(2, 3, 6);
+            var itemSet = list.ToItemSet(true, 2, 3, 6);
 
             Assert.Contains("2", itemSet.Items);
             Assert.Contains("3", itemSet.Items);

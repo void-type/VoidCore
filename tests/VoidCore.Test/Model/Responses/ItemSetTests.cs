@@ -19,15 +19,27 @@ namespace VoidCore.Test.Model.Responses
         }
 
         [Fact]
-        public void ExplicitCreationSetsPropertiesCorrectly()
+        public void ExplicitCreationWithoutPagingIgnoresPageTakeAndTotalCount()
         {
             var items = new List<string>() { "", "", "" }.AsEnumerable();
-            var set = new ItemSet<string>(items, 2, 3, 4, false);
+            var set = new ItemSet<string>(items, false, 2, 3, 4);
+            Assert.Equal(3, set.Count);
+            Assert.Equal(1, set.Page);
+            Assert.Equal(3, set.Take);
+            Assert.Equal(3, set.TotalCount);
+            Assert.False(set.IsPagingEnabled);
+        }
+
+        [Fact]
+        public void ExplicitPageCreationSetsPropertiesCorrectly()
+        {
+            var items = new List<string>() { "", "", "" }.AsEnumerable();
+            var set = new ItemSet<string>(items, true, 2, 3, 4);
             Assert.Equal(3, set.Count);
             Assert.Equal(2, set.Page);
             Assert.Equal(3, set.Take);
             Assert.Equal(4, set.TotalCount);
-            Assert.False(set.IsPagingEnabled);
+            Assert.True(set.IsPagingEnabled);
         }
 
         [Fact]
@@ -35,7 +47,7 @@ namespace VoidCore.Test.Model.Responses
         {
             Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null));
             Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null, 1, 1));
-            Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null, 1, 1, 0));
+            Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null, true, 1, 1, 1));
         }
 
         [Theory]

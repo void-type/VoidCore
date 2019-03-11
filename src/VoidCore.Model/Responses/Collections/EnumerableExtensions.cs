@@ -33,7 +33,8 @@ namespace VoidCore.Model.Responses.Collections
         }
 
         /// <summary>
-        /// Create an item set from explicit properties. This extension will not perform pagination.
+        /// Create an item set from explicit properties. This extension bypasses pagination logic.
+        /// This is useful if another service performed the pagination and the total count is known.
         /// </summary>
         /// <param name="items">The page from set of items</param>
         /// <param name="page">What page number to take from the set</param>
@@ -42,9 +43,9 @@ namespace VoidCore.Model.Responses.Collections
         /// <param name="isPagingEnabled">If paging is enabled in this set</param>
         /// <typeparam name="T">The type of entities in the collection</typeparam>
         /// <returns>A new ItemSet of these items</returns>
-        public static IItemSet<T> ToItemSet<T>(this IEnumerable<T> items, int totalCount, bool isPagingEnabled, int page, int take)
+        public static IItemSet<T> ToItemSet<T>(this IEnumerable<T> items, bool isPagingEnabled, int page, int take, int totalCount)
         {
-            return new ItemSet<T>(items, totalCount, isPagingEnabled, page, take);
+            return new ItemSet<T>(items, isPagingEnabled, page, take, totalCount);
         }
     }
 }

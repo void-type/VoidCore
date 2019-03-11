@@ -34,44 +34,56 @@ namespace VoidCore.Model.Responses.Collections
 
             var allItems = items.ToList();
             IsPagingEnabled = isPagingEnabled;
+            TotalCount = allItems.Count();
 
             if (isPagingEnabled)
             {
                 Page = page;
                 Take = take;
-                TotalCount = allItems.Count();
                 Items = allItems
                     .Skip((page - 1) * take)
                     .Take(take);
             }
             else
             {
-                TotalCount = allItems.Count();
+                Page = 1;
+                Take = (TotalCount > 1) ? TotalCount : 1;
                 Items = allItems;
             }
         }
 
         /// <summary>
-        /// Create an item set from explicit properties. This constructor will not perform pagination.
+        /// Create an item set by explicitly describing the items and set. This constructor will not perform pagination.
         /// </summary>
         /// <param name="items">The page from set of items</param>
-        /// <param name="totalCount">The count of the whole set before it was paginated</param>
         /// <param name="isPagingEnabled">Mark the set as paged or not paged</param>
-        /// <param name="page">What page number to take from the set</param>
-        /// <param name="take">How many items to include in each page</param>
+        /// <param name="page">What page number to take from the set. Ignored if pagination is disabled</param>
+        /// <param name="take">How many items to include in each page. Ignored if pagination is disabled</param>
+        /// <param name="totalCount">The total count. Ignored if pagination is disabled</param>
         /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if null is passed for items.</exception>
-        public ItemSet(IEnumerable<T> items, int totalCount, bool isPagingEnabled, int page, int take)
+        public ItemSet(IEnumerable<T> items, bool isPagingEnabled, int page, int take, int totalCount)
         {
             if (items == null)
             {
                 throw new ArgumentNullException(nameof(items), "Cannot make an ItemSet of null items.");
             }
 
+            var allItems = items.ToList();
             IsPagingEnabled = isPagingEnabled;
-            Page = page;
-            Take = take;
-            TotalCount = totalCount;
-            Items = items.ToList();
+            Items = allItems;
+
+            if (isPagingEnabled)
+            {
+                TotalCount = totalCount;
+                Page = page;
+                Take = take;
+            }
+            else
+            {
+                TotalCount = allItems.Count();
+                Page = 1;
+                Take = (TotalCount > 1) ? TotalCount : 1;
+            }
         }
 
         /// <inheritdoc/>

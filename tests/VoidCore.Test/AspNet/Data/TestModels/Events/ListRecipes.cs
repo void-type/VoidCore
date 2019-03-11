@@ -52,7 +52,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                         recipe.Id,
                         recipe.Name,
                         recipe.CategoryRecipe.Select(cr => cr.Category.Name)))
-                    .ToItemSet(request.Page, request.Take, totalCount)
+                    .ToItemSet(request.IsPagingEnabled, request.Page, request.Take, totalCount)
                     .Map(page => Result.Ok(page));
             }
         }
