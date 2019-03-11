@@ -25,7 +25,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
 
             public override async Task<IResult<IItemSet<RecipeListItemDto>>> Handle(Request request, CancellationToken cancellationToken = default(CancellationToken))
             {
-                var searchExpressions = new []
+                var criteria = new []
                 {
                 SearchCriteria.PropertiesContain<Recipe>(
                 new SearchTerms(request.NameSearch),
@@ -38,11 +38,11 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                 )
                 };
 
-                var allSearch = new RecipesSearchSpecification(searchExpressions, request.NameSort);
+                var allSearch = new RecipesSearchSpecification(criteria, request.NameSort);
 
                 var totalCount = await _data.Recipes.Count(allSearch);
 
-                var pagedSearch = new RecipesSearchSpecification(searchExpressions, request.NameSort,
+                var pagedSearch = new RecipesSearchSpecification(criteria, request.NameSort,
                     request.IsPagingEnabled, request.Page, request.Take);
 
                 var recipes = await _data.Recipes.List(pagedSearch);

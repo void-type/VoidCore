@@ -26,14 +26,19 @@ namespace VoidCore.Model.Queries
         List<string> IncludeStrings { get; }
 
         /// <summary>
-        /// Ascending sort on the query
+        /// Ascending primary sort on the query
         /// </summary>
         Expression<Func<T, object>> OrderBy { get; }
 
         /// <summary>
-        /// Descending sort on the query
+        /// Descending primary sort on the query
         /// </summary>
         Expression<Func<T, object>> OrderByDescending { get; }
+
+        /// <summary>
+        /// Secondary sorts on the query. If there is no primary sort, this is ignored.
+        /// </summary>
+        List<(Expression<Func<T, object>> ThenBy, bool IsDescending)> SecondaryOrderings { get; }
 
         /// <summary>
         /// The page number if paging is enabled.

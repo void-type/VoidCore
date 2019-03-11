@@ -12,7 +12,7 @@ namespace VoidCore.AspNet.Data
     /// <summary>
     /// A generic read-only repository. Optimized for Entity Framework Contexts. Adapted from https://github.com/dotnet-architecture/eShopOnWeb
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of entity stored in the repository</typeparam>
     public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
     {
         /// <summary>
@@ -52,7 +52,7 @@ namespace VoidCore.AspNet.Data
 
         private IQueryable<T> ApplySpecification(IQuerySpecification<T> spec)
         {
-            return SpecificationEvaluator<T>.GetQuery(Context.Set<T>(), spec);
+            return SpecificationEvaluator.GetQuery(Context.Set<T>(), spec);
         }
     }
 }

@@ -32,6 +32,9 @@ namespace VoidCore.Model.Queries
         public Expression<Func<T, object>> OrderByDescending { get; private set; }
 
         /// <inheritdoc/>
+        public List < (Expression<Func<T, object>> ThenBy, bool IsDescending) > SecondaryOrderings { get; } = new List < (Expression<Func<T, object>>, bool) > ();
+
+        /// <inheritdoc/>
         public int Page { get; private set; }
 
         /// <inheritdoc/>
@@ -59,7 +62,7 @@ namespace VoidCore.Model.Queries
         }
 
         /// <summary>
-        /// Apply sorting to the query
+        /// Apply primary sorting to the query
         /// </summary>
         /// <param name="orderByExpression">A selector for the property to sort by</param>
         protected void ApplyOrderBy(Expression<Func<T, object>> orderByExpression)
@@ -68,7 +71,7 @@ namespace VoidCore.Model.Queries
         }
 
         /// <summary>
-        /// Apply a descending sort to the query
+        /// Apply a descending primary sort to the query
         /// </summary>
         /// <param name="orderByDescendingExpression">A selector for the property to sort by</param>
         protected void ApplyOrderByDescending(Expression<Func<T, object>> orderByDescendingExpression)
@@ -77,7 +80,25 @@ namespace VoidCore.Model.Queries
         }
 
         /// <summary>
-        /// Enable pagination on the query
+        /// Apply secondary sorting to the query
+        /// </summary>
+        /// <param name="sortExpression">A selector for the property to sort by</param>
+        protected void AddThenBy(Expression<Func<T, object>> sortExpression)
+        {
+            SecondaryOrderings.Add((sortExpression, false));
+        }
+
+        /// <summary>
+        /// Apply a secondary descending sort to the query
+        /// </summary>
+        /// <param name="sortExpression">A selector for the property to sort by</param>
+        protected void AddThenByDescending(Expression<Func<T, object>> sortExpression)
+        {
+            SecondaryOrderings.Add((sortExpression, true));
+        }
+
+        /// <summary>
+        /// /// Enable pagination on the query
         /// </summary>
         /// <param name="page">The page number</param>
         /// <param name="take">The size of the pages</param>
