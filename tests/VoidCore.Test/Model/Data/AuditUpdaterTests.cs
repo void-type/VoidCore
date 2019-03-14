@@ -46,12 +46,12 @@ namespace VoidCore.Test.Model.Data
             auditUpdater.Update(entity);
 
             Assert.Null(entity.CreatedBy);
-            Assert.Equal(default(DateTime), entity.CreatedOn);
+            Assert.Equal(default, entity.CreatedOn);
             Assert.Equal("userName", entity.ModifiedBy);
             Assert.Equal(date, entity.ModifiedOn);
         }
 
-        internal class TestEntity : IAuditable
+        private class TestEntity : IAuditable
         {
             public string CreatedBy { get; set; } = null;
             public DateTime CreatedOn { get; set; }

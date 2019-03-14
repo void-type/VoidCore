@@ -38,7 +38,7 @@ namespace VoidCore.Test.AspNet.Logging
                 .Returns(new DomainUser("userName", new string[] { }));
 
             var strategy = new HttpRequestLoggingStrategy(httpContextAccessorMock.Object, currentUserAccessorMock.Object);
-            var messages = new List<string>() { "added12", "added23" };
+            var messages = new List<string> { "added12", "added23" };
 
             var logText = strategy.Log(exception, messages);
 
@@ -73,7 +73,7 @@ namespace VoidCore.Test.AspNet.Logging
                 .Returns(new DomainUser("userName", new string[] { }));
 
             var strategy = new HttpRequestLoggingStrategy(httpContextAccessorMock.Object, currentUserAccessorMock.Object);
-            var messages = new List<string>() { "added12", "added23" };
+            var messages = new List<string> { "added12", "added23" };
 
             var logText = strategy.Log(null, messages);
 

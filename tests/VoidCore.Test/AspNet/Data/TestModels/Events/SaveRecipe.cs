@@ -27,29 +27,27 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                 _auditUpdater = auditUpdater;
             }
 
-            public override async Task<IResult<UserMessageWithEntityId<int>>> Handle(Request request, CancellationToken cancellationToken = default(CancellationToken))
+            public override async Task<IResult<UserMessageWithEntityId<int>>> Handle(Request request, CancellationToken cancellationToken = default)
             {
                 var byId = new RecipesByIdWithCategoriesSpecification(request.Id);
 
-                var maybeRecipe = await _data.Recipes.Get(byId);
+                var maybeRecipe = await _data.Recipes.Get(byId, cancellationToken);
 
                 if (maybeRecipe.HasValue)
                 {
                     return await maybeRecipe.Value
                         .Tee(r => Transfer(request, r))
-                        .TeeAsync(r => _data.Recipes.Update(r))
+                        .TeeAsync(r => _data.Recipes.Update(r, cancellationToken))
                         .TeeAsync(r => ManageCategories(request, r))
                         .MapAsync(r => Result.Ok(UserMessageWithEntityId.Create("Recipe updated.", r.Id)));
                 }
-                else
-                {
-                    return await new Recipe()
-                        .Tee(_auditUpdater.Create)
-                        .Tee(r => Transfer(request, r))
-                        .TeeAsync(r => _data.Recipes.Add(r))
-                        .TeeAsync(r => ManageCategories(request, r))
-                        .MapAsync(r => Result.Ok(UserMessageWithEntityId.Create("Recipe added.", r.Id)));
-                }
+
+                return await new Recipe()
+                    .Tee(_auditUpdater.Create)
+                    .Tee(r => Transfer(request, r))
+                    .TeeAsync(r => _data.Recipes.Add(r, cancellationToken))
+                    .TeeAsync(r => ManageCategories(request, r))
+                    .MapAsync(r => Result.Ok(UserMessageWithEntityId.Create("Recipe added.", r.Id)));
             }
 
             private void Transfer(Request request, Recipe recipe)
@@ -96,7 +94,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                         .Select(c => new CategoryRecipe
                         {
                             RecipeId = recipe.Id,
-                            CategoryId = c.Id
+                                CategoryId = c.Id
                         }))
                     .TeeAsync(r => _data.CategoryRecipes.AddRange(r));
             }

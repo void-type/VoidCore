@@ -17,24 +17,12 @@ namespace VoidCore.Model.Emailing
         /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if any parameters are null.</exception>
         public Email(string subject, string message, IEnumerable<string> recipients)
         {
-            if (subject == null)
-            {
+            Subject = subject ??
                 throw new ArgumentNullException(nameof(subject), "Parameter cannot be null.");
-            }
-
-            if (message == null)
-            {
+            Message = message ??
                 throw new ArgumentNullException(nameof(message), "Parameter cannot be null.");
-            }
-
-            if (recipients == null)
-            {
+            Recipients = recipients ??
                 throw new ArgumentNullException(nameof(recipients), "Parameter cannot be null.");
-            }
-
-            Subject = subject;
-            Message = message;
-            Recipients = recipients;
         }
 
         /// <summary>

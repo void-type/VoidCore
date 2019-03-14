@@ -40,39 +40,39 @@ namespace VoidCore.Test.AspNet.Data.TestModels
             await data.Recipes.Add(new Recipe
             {
                 Id = 11,
-                Name = "Recipe1",
-                Ingredients = "ing",
-                Directions = "dir",
-                CookTimeMinutes = 21,
-                PrepTimeMinutes = 2,
-                CreatedOn = DateTimeServiceEarly.Moment,
-                ModifiedOn = DateTimeServiceLate.Moment,
-                CreatedBy = "11",
-                ModifiedBy = "12"
+                    Name = "Recipe1",
+                    Ingredients = "ing",
+                    Directions = "dir",
+                    CookTimeMinutes = 21,
+                    PrepTimeMinutes = 2,
+                    CreatedOn = DateTimeServiceEarly.Moment,
+                    ModifiedOn = DateTimeServiceLate.Moment,
+                    CreatedBy = "11",
+                    ModifiedBy = "12"
             });
 
             await data.Recipes.Add(new Recipe
             {
                 Id = 12,
-                Name = "Recipe2",
-                CookTimeMinutes = 2,
-                PrepTimeMinutes = 2,
-                CreatedOn = DateTimeServiceEarly.Moment,
-                ModifiedOn = DateTimeServiceLate.Moment,
-                CreatedBy = "11",
-                ModifiedBy = "11"
+                    Name = "Recipe2",
+                    CookTimeMinutes = 2,
+                    PrepTimeMinutes = 2,
+                    CreatedOn = DateTimeServiceEarly.Moment,
+                    ModifiedOn = DateTimeServiceLate.Moment,
+                    CreatedBy = "11",
+                    ModifiedBy = "11"
             });
 
             await data.Recipes.Add(new Recipe
             {
                 Id = 13,
-                Name = "Recipe3",
-                CookTimeMinutes = 2,
-                PrepTimeMinutes = 2,
-                CreatedOn = DateTimeServiceEarly.Moment,
-                ModifiedOn = DateTimeServiceLate.Moment,
-                CreatedBy = "11",
-                ModifiedBy = "11"
+                    Name = "Recipe3",
+                    CookTimeMinutes = 2,
+                    PrepTimeMinutes = 2,
+                    CreatedOn = DateTimeServiceEarly.Moment,
+                    ModifiedOn = DateTimeServiceLate.Moment,
+                    CreatedBy = "11",
+                    ModifiedBy = "11"
             });
 
             await data.CategoryRecipes.Add(new CategoryRecipe { RecipeId = 11, CategoryId = 11 });

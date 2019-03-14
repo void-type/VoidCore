@@ -33,7 +33,7 @@ namespace VoidCore.Test.Model.Data
             Assert.False(entity.DeletedOn.HasValue);
         }
 
-        internal class TestEntity : ISoftDeletable
+        private class TestEntity : ISoftDeletable
         {
             public string DeletedBy { get; set; }
             public DateTime? DeletedOn { get; set; } = null;

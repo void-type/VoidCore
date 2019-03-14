@@ -16,7 +16,7 @@ namespace VoidCore.AspNet.Data
         public EfWritableRepository(DbContext context) : base(context) { }
 
         /// <inheritdoc/>
-        public async Task<T> Add(T entity, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<T> Add(T entity, CancellationToken cancellationToken = default)
         {
             Context.Set<T>().Add(entity);
             await Context.SaveChangesAsync(cancellationToken);
@@ -24,21 +24,21 @@ namespace VoidCore.AspNet.Data
         }
 
         /// <inheritdoc/>
-        public async Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken = default)
         {
             Context.Set<T>().AddRange(entities);
             await Context.SaveChangesAsync(cancellationToken);
         }
 
         /// <inheritdoc/>
-        public async Task Update(T entity, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task Update(T entity, CancellationToken cancellationToken = default)
         {
             Context.Entry(entity).State = EntityState.Modified;
             await Context.SaveChangesAsync(cancellationToken);
         }
 
         /// <inheritdoc/>
-        public async Task UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken = default)
         {
             foreach (var entity in entities)
             {
@@ -49,14 +49,14 @@ namespace VoidCore.AspNet.Data
         }
 
         /// <inheritdoc/>
-        public async Task Remove(T entity, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task Remove(T entity, CancellationToken cancellationToken = default)
         {
             Context.Set<T>().Remove(entity);
             await Context.SaveChangesAsync(cancellationToken);
         }
 
         /// <inheritdoc/>
-        public async Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken = default)
         {
             Context.Set<T>().RemoveRange(entities);
             await Context.SaveChangesAsync(cancellationToken);

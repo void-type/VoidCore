@@ -140,12 +140,7 @@ namespace VoidCore.Domain
                 return true;
             }
 
-            if (first is null)
-            {
-                return false;
-            }
-
-            return first.Equals(second);
+            return !(first is null) && first.Equals(second);
         }
 
         /// <inheritdoc/>

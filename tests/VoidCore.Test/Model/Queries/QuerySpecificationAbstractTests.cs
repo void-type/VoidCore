@@ -12,7 +12,7 @@ namespace VoidCore.Test.Model.Queries
         public void SpecificationBaseSetsProperties()
         {
             Expression<Func<MyObject, object>> include = o => o.Include;
-            var includeString = "include me";
+            const string includeString = "include me";
             Expression<Func<MyObject, object>> orderBy = o => o.OrderBy;
             Expression<Func<MyObject, object>> orderByDesc = o => o.OrderByDescending;
             Expression<Func<MyObject, object>> thenBy = o => o.ThenBy;
@@ -35,7 +35,7 @@ namespace VoidCore.Test.Model.Queries
             Assert.Equal(orderBy, spec.OrderBy);
             Assert.Equal(orderByDesc, spec.OrderByDescending);
             Assert.Equal(thenBy, spec.SecondaryOrderings.Single(s => s.IsDescending == false).ThenBy);
-            Assert.Equal(thenByDesc, spec.SecondaryOrderings.Single(s => s.IsDescending == true).ThenBy);
+            Assert.Equal(thenByDesc, spec.SecondaryOrderings.Single(s => s.IsDescending).ThenBy);
             Assert.True(spec.IsPagingEnabled);
             Assert.Equal(2, spec.Page);
             Assert.Equal(3, spec.Take);

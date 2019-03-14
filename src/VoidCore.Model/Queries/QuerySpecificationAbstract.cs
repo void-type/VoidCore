@@ -7,6 +7,10 @@ namespace VoidCore.Model.Queries
     /// <inheritdoc/>
     public abstract class QuerySpecificationAbstract<T> : IQuerySpecification<T>
     {
+        private readonly List<Expression<Func<T, object>>> _includes = new List<Expression<Func<T, object>>>();
+        private readonly List<string> _includeStrings = new List<string>();
+        private readonly List<(Expression<Func<T, object>> ThenBy, bool IsDescending)> _secondaryOrderings = new List < (Expression<Func<T, object>>, bool) > ();
+
         /// <summary>
         /// Create a new query
         /// </summary>
@@ -17,13 +21,13 @@ namespace VoidCore.Model.Queries
         }
 
         /// <inheritdoc/>
-        public Expression<Func<T, bool>>[] Criteria { get; }
+        public IReadOnlyList<Expression<Func<T, bool>>> Criteria { get; }
 
         /// <inheritdoc/>
-        public List<Expression<Func<T, object>>> Includes { get; } = new List<Expression<Func<T, object>>>();
+        public IReadOnlyList<Expression<Func<T, object>>> Includes => _includes;
 
         /// <inheritdoc/>
-        public List<string> IncludeStrings { get; } = new List<string>();
+        public IReadOnlyList<string> IncludeStrings => _includeStrings;
 
         /// <inheritdoc/>
         public Expression<Func<T, object>> OrderBy { get; private set; }
@@ -32,7 +36,7 @@ namespace VoidCore.Model.Queries
         public Expression<Func<T, object>> OrderByDescending { get; private set; }
 
         /// <inheritdoc/>
-        public List < (Expression<Func<T, object>> ThenBy, bool IsDescending) > SecondaryOrderings { get; } = new List < (Expression<Func<T, object>>, bool) > ();
+        public IReadOnlyList<(Expression<Func<T, object>> ThenBy, bool IsDescending)> SecondaryOrderings => _secondaryOrderings;
 
         /// <inheritdoc/>
         public int Page { get; private set; }
@@ -49,7 +53,7 @@ namespace VoidCore.Model.Queries
         /// <param name="includeExpression">A selector of the extended entities to include</param>
         protected void AddInclude(Expression<Func<T, object>> includeExpression)
         {
-            Includes.Add(includeExpression);
+            _includes.Add(includeExpression);
         }
 
         /// <summary>
@@ -58,7 +62,7 @@ namespace VoidCore.Model.Queries
         /// <param name="includeString">A string that can be used with reflection to find extended entities</param>
         protected void AddInclude(string includeString)
         {
-            IncludeStrings.Add(includeString);
+            _includeStrings.Add(includeString);
         }
 
         /// <summary>
@@ -85,7 +89,7 @@ namespace VoidCore.Model.Queries
         /// <param name="sortExpression">A selector for the property to sort by</param>
         protected void AddThenBy(Expression<Func<T, object>> sortExpression)
         {
-            SecondaryOrderings.Add((sortExpression, false));
+            _secondaryOrderings.Add((sortExpression, false));
         }
 
         /// <summary>
@@ -94,7 +98,7 @@ namespace VoidCore.Model.Queries
         /// <param name="sortExpression">A selector for the property to sort by</param>
         protected void AddThenByDescending(Expression<Func<T, object>> sortExpression)
         {
-            SecondaryOrderings.Add((sortExpression, true));
+            _secondaryOrderings.Add((sortExpression, true));
         }
 
         /// <summary>

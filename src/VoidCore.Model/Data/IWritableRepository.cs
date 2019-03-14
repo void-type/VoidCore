@@ -15,41 +15,41 @@ namespace VoidCore.Model.Data
         /// </summary>
         /// <param name="entity">The entity to add</param>
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-        Task<T> Add(T entity, CancellationToken cancellationToken = default(CancellationToken));
+        Task<T> Add(T entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Add many entities to the repository.
         /// </summary>
         /// <param name="entities">Entities to add</param>
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-        Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken = default(CancellationToken));
+        Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// The entity to update within the repository.
         /// </summary>
         /// <param name="entity">The altered entity to update</param>
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-        Task Update(T entity, CancellationToken cancellationToken = default(CancellationToken));
+        Task Update(T entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Update many entities in the repository.
         /// </summary>
         /// <param name="entities">The altered entities to update</param>
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-        Task UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken = default(CancellationToken));
+        Task UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Remove an entity from the repository.
         /// </summary>
         /// <param name="entity">The entity to remove</param>
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-        Task Remove(T entity, CancellationToken cancellationToken = default(CancellationToken));
+        Task Remove(T entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Remove many entities from the repository
         /// </summary>
         /// <param name="entities">The entities to remove</param>
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-        Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken = default(CancellationToken));
+        Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken = default);
     }
 }

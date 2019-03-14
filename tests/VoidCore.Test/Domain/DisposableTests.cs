@@ -39,7 +39,7 @@ namespace VoidCore.Test.Domain
         {
             public bool Disposed { get; private set; }
 
-            public virtual void Dispose()
+            public void Dispose()
             {
                 Disposed = true;
             }

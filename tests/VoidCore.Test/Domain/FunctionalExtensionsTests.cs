@@ -11,7 +11,7 @@ namespace VoidCore.Test.Domain
         {
             var t = new TestTransformerService();
 
-            var actual = t.Start
+            var actual = TestTransformerService.Start
                 .Map(i => t.Transform(i, 1))
                 .Map(i => t.Transform(i, 2));
 
@@ -23,7 +23,7 @@ namespace VoidCore.Test.Domain
         {
             var t = new TestTransformerService();
 
-            var actual = await t.Start
+            var actual = await TestTransformerService.Start
                 .MapAsync(i => t.TransformAsync(i, 1))
                 .MapAsync(i => t.Transform(i, 2))
                 .MapAsync(i => t.TransformAsync(i, 3));
@@ -36,7 +36,7 @@ namespace VoidCore.Test.Domain
         {
             var p = new TestPerformerService();
 
-            var actual = p.Start
+            var actual = TestPerformerService.Start
                 .Tee(a => p.Do(a, 1))
                 .Tee(() => p.Go(2));
 
@@ -48,7 +48,7 @@ namespace VoidCore.Test.Domain
         {
             var p = new TestPerformerService();
 
-            var actual = await p.Start
+            var actual = await TestPerformerService.Start
                 .TeeAsync(i => p.DoAsync(i, 1))
                 .TeeAsync(() => p.GoAsync(2))
                 .TeeAsync(i => p.DoAsync(i, 3))
@@ -59,7 +59,7 @@ namespace VoidCore.Test.Domain
 
             var p2 = new TestPerformerService();
 
-            var actual2 = await p2.Start
+            var actual2 = await TestPerformerService.Start
                 .TeeAsync(() => p2.GoAsync(1));
 
             Assert.Equal("Hello World", actual2);

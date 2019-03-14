@@ -13,13 +13,12 @@ namespace VoidCore.Test.Model.Logging
         {
             var file = new SimpleFile("your content here", "filename.txt");
             var result = Result.Ok(file);
-            var request = "";
 
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
 
             new SimpleFileEventLogger<string>(loggerMock.Object)
-                .Process(request, result);
+                .Process(string.Empty, result);
 
             loggerMock.Verify(l => l.Info(
                 "FileName: filename.txt"

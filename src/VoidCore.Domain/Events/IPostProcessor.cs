@@ -8,7 +8,7 @@ namespace VoidCore.Domain.Events
     /// </summary>
     /// <typeparam name="TRequest">The request type of the event.</typeparam>
     /// <typeparam name="TResponse">The response type of the event.</typeparam>
-    public interface IPostProcessor<in TRequest, TResponse>
+    public interface IPostProcessor<in TRequest, in TResponse>
     {
         /// <summary>
         /// Process the request and result of the event.

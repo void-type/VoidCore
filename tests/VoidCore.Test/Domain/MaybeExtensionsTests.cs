@@ -90,7 +90,7 @@ namespace VoidCore.Test.Domain
         {
             var t = new TestTransformerService();
 
-            var maybe = await Maybe.From(t.Start)
+            var maybe = await Maybe.From(TestTransformerService.Start)
                 .SelectAsync(a => t.TransformAsync(a, 1))
                 .SelectAsync(a => t.Transform(a, 2))
                 .SelectAsync(a => t.TransformAsync(a, 3));
@@ -137,7 +137,7 @@ namespace VoidCore.Test.Domain
         {
             var t = new TestTransformerService();
 
-            var maybe = await Maybe.From(t.Start)
+            var maybe = await Maybe.From(TestTransformerService.Start)
                 .SelectMaybeAsync(a => t.TransformMaybeAsync(a, 1))
                 .SelectMaybeAsync(a => t.TransformMaybe(a, 2))
                 .SelectMaybeAsync(a => t.TransformMaybeAsync(a, 3));

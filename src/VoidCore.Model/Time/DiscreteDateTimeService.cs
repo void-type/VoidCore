@@ -7,18 +7,16 @@ namespace VoidCore.Model.Time
     /// </summary>
     public class DiscreteDateTimeService : IDateTimeService
     {
-        private readonly DateTime _when;
-
         /// <summary>
         /// Make a new discrete date time service.
         /// </summary>
         /// <param name="when">The static moment in time to return</param>
         public DiscreteDateTimeService(DateTime when)
         {
-            _when = when;
+            Moment = when;
         }
 
         /// <inheritdoc/>
-        public DateTime Moment => _when;
+        public DateTime Moment { get; }
     }
 }

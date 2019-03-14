@@ -63,7 +63,7 @@ namespace VoidCore.AspNet.Routing
                 routes.MapRoute(
                     name: "spa-fallback",
                     template: "{*url}",
-                    defaults: new { controller = "Home", action = "Index" });
+                    defaults : new { controller = "Home", action = "Index" });
             });
         }
     }

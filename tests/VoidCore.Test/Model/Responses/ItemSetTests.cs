@@ -21,7 +21,7 @@ namespace VoidCore.Test.Model.Responses
         [Fact]
         public void ExplicitCreationWithoutPagingIgnoresPageTakeAndTotalCount()
         {
-            var items = new List<string>() { "", "", "" }.AsEnumerable();
+            var items = new List<string> { string.Empty, string.Empty, string.Empty }.AsEnumerable();
             var set = new ItemSet<string>(items, false, 2, 3, 4);
             Assert.Equal(3, set.Count);
             Assert.Equal(1, set.Page);
@@ -31,9 +31,21 @@ namespace VoidCore.Test.Model.Responses
         }
 
         [Fact]
+        public void ExplicitCreationWithoutPagingAndNoItemsSetsTakeAsOne()
+        {
+            var items = new List<string>().AsEnumerable();
+            var set = new ItemSet<string>(items, false, 2, 3, 4);
+            Assert.Equal(0, set.Count);
+            Assert.Equal(1, set.Page);
+            Assert.Equal(1, set.Take);
+            Assert.Equal(0, set.TotalCount);
+            Assert.False(set.IsPagingEnabled);
+        }
+
+        [Fact]
         public void ExplicitPageCreationSetsPropertiesCorrectly()
         {
-            var items = new List<string>() { "", "", "" }.AsEnumerable();
+            var items = new List<string> { string.Empty, string.Empty, string.Empty }.AsEnumerable();
             var set = new ItemSet<string>(items, true, 2, 3, 4);
             Assert.Equal(3, set.Count);
             Assert.Equal(2, set.Page);
@@ -81,7 +93,7 @@ namespace VoidCore.Test.Model.Responses
         [Fact]
         public void PaginateStringsReturnsProperItems()
         {
-            var set = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
+            var set = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 
             var itemSetPage = new ItemSet<int>(set, 2, 5);
 

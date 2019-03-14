@@ -23,7 +23,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                 _data = data;
             }
 
-            public override async Task<IResult<IItemSet<RecipeListItemDto>>> Handle(Request request, CancellationToken cancellationToken = default(CancellationToken))
+            public override async Task<IResult<IItemSet<RecipeListItemDto>>> Handle(Request request, CancellationToken cancellationToken = default)
             {
                 var criteria = new []
                 {
@@ -40,12 +40,12 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
 
                 var allSearch = new RecipesSearchSpecification(criteria, request.NameSort);
 
-                var totalCount = await _data.Recipes.Count(allSearch);
+                var totalCount = await _data.Recipes.Count(allSearch, cancellationToken);
 
                 var pagedSearch = new RecipesSearchSpecification(criteria, request.NameSort,
                     request.IsPagingEnabled, request.Page, request.Take);
 
-                var recipes = await _data.Recipes.List(pagedSearch);
+                var recipes = await _data.Recipes.List(pagedSearch, cancellationToken);
 
                 return recipes
                     .Select(recipe => new RecipeListItemDto(

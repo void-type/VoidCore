@@ -20,13 +20,7 @@ namespace VoidCore.AspNet.Data
         {
             var query = inputQuery;
 
-            if (specification.Criteria != null)
-            {
-                foreach (var criteria in specification.Criteria)
-                {
-                    query = query.Where(criteria);
-                }
-            }
+            query = specification.Criteria.Aggregate(query, (current, criteria) => current.Where(criteria));
 
             query = specification.Includes.Aggregate(query, (current, include) => current.Include(include));
 
@@ -55,16 +49,11 @@ namespace VoidCore.AspNet.Data
 
         private static IQueryable<T> ApplySecondaryOrderings<T>(this IOrderedQueryable<T> query, IQuerySpecification<T> specification) where T : class
         {
-            foreach (var sort in specification.SecondaryOrderings)
+            foreach (var(thenBy, isDescending) in specification.SecondaryOrderings)
             {
-                if (sort.IsDescending)
-                {
-                    query = query.ThenByDescending(sort.ThenBy);
-                }
-                else
-                {
-                    query = query.ThenBy(sort.ThenBy);
-                }
+                query = isDescending ?
+                    query.ThenByDescending(thenBy) :
+                    query.ThenBy(thenBy);
             }
 
             return query;

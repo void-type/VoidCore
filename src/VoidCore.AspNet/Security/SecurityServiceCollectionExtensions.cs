@@ -15,8 +15,7 @@ namespace VoidCore.AspNet.Security
         /// Setup Antiforgery token and filters for all non-GET requests.
         /// </summary>
         /// <param name="services">This service collection</param>
-        /// <param name="environment">The hosting environment</param>
-        public static void AddAntiforgery(this IServiceCollection services, IHostingEnvironment environment)
+        public static void AddApiAntiforgery(this IServiceCollection services)
         {
             services.AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
             services.AddAntiforgery(options => { options.HeaderName = "X-Csrf-Token"; });

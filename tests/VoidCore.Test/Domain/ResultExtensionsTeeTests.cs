@@ -139,7 +139,7 @@ namespace VoidCore.Test.Domain
         {
             var p = new TestPerformerService();
 
-            var newOkResult = await Result.Ok("")
+            var newOkResult = await Result.Ok(string.Empty)
                 .TeeOnSuccessAsync(r => p.GoAsync(1))
                 .TeeOnFailureAsync(() => p.GoAsync(1))
                 .TeeOnFailureAsync(() => p.Go(2))

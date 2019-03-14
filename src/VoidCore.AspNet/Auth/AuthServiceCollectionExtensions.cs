@@ -37,9 +37,9 @@ namespace VoidCore.AspNet.Auth
 
             services.AddAuthorization(options =>
             {
-                foreach (var policy in authorizationSettings.Policies)
+                foreach (var(key, value) in authorizationSettings.Policies)
                 {
-                    options.AddPolicy(policy.Key, builder => builder.RequireRole(policy.Value));
+                    options.AddPolicy(key, builder => builder.RequireRole(value));
                 }
             });
         }

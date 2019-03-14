@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,8 +12,7 @@ namespace VoidCore.AspNet.Routing
         /// Add a global filter for handling uncaught API exceptions.
         /// </summary>
         /// <param name="services">The services collection</param>
-        /// <param name="environment">The hosting environment</param>
-        public static void AddApiExceptionFilter(this IServiceCollection services, IHostingEnvironment environment)
+        public static void AddApiExceptionFilter(this IServiceCollection services)
         {
             services.AddMvc(options => options.Filters.Add(new TypeFilterAttribute(typeof(ApiRouteExceptionFilterAttribute))));
         }

@@ -17,26 +17,26 @@ namespace VoidCore.Model.Data
         /// </summary>
         /// <param name="spec">The specification that describes the entity to get</param>
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-        Task<Maybe<T>> Get(IQuerySpecification<T> spec, CancellationToken cancellationToken = default(CancellationToken));
+        Task<Maybe<T>> Get(IQuerySpecification<T> spec, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// List all entities in the repository.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-        Task<IReadOnlyList<T>> ListAll(CancellationToken cancellationToken = default(CancellationToken));
+        Task<IReadOnlyList<T>> ListAll(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// List al entities that match a specification.
         /// </summary>
         /// <param name="spec">The specification that describes entities to get</param>
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-        Task<IReadOnlyList<T>> List(IQuerySpecification<T> spec, CancellationToken cancellationToken = default(CancellationToken));
+        Task<IReadOnlyList<T>> List(IQuerySpecification<T> spec, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Count entities that match a specification.
         /// </summary>
         /// <param name="spec">The specification that describes entities to count</param>
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-        Task<int> Count(IQuerySpecification<T> spec, CancellationToken cancellationToken = default(CancellationToken));
+        Task<int> Count(IQuerySpecification<T> spec, CancellationToken cancellationToken = default);
     }
 }

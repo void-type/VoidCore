@@ -8,14 +8,14 @@ using VoidCore.Model.Logging;
 namespace VoidCore.AspNet.ClientApp
 {
     /// <summary>
-    /// A domain event group for getting information to boostrap a web SPA client.
+    /// A domain event group for getting information to bootstrap a web SPA client.
     /// </summary>
     public class GetWebApplicationInfo
     {
         /// <inheritdoc/>
         public class Handler : EventHandlerSyncAbstract<Request, WebApplicationInfo>
         {
-            private readonly IAntiforgery _antiforgery;
+            private readonly IAntiforgery _antiForgery;
             private readonly ApplicationSettings _applicationSettings;
             private readonly ICurrentUserAccessor _currentUser;
             private readonly IHttpContextAccessor _httpContextAccessor;
@@ -24,14 +24,14 @@ namespace VoidCore.AspNet.ClientApp
             /// Construct a new handler for GetApplicationInfo
             /// </summary>
             /// <param name="applicationSettings">Application settings pulled from configuration</param>
-            /// <param name="httpContextAccessor">Accessor for the current httpcontext</param>
-            /// <param name="antiforgery">The ASP.NET antiforgery object</param>
+            /// <param name="httpContextAccessor">Accessor for the current httpContext</param>
+            /// <param name="antiforgery">The ASP.NET antiForgery object</param>
             /// <param name="currentUser">UI-friendly user name</param>
             public Handler(ApplicationSettings applicationSettings, IHttpContextAccessor httpContextAccessor, IAntiforgery antiforgery, ICurrentUserAccessor currentUser)
             {
                 _applicationSettings = applicationSettings;
                 _httpContextAccessor = httpContextAccessor;
-                _antiforgery = antiforgery;
+                _antiForgery = antiforgery;
                 _currentUser = currentUser;
             }
 
@@ -40,8 +40,8 @@ namespace VoidCore.AspNet.ClientApp
             {
                 var applicationInfo = new WebApplicationInfo(
                     _applicationSettings.Name,
-                    _antiforgery.GetAndStoreTokens(_httpContextAccessor.HttpContext).RequestToken,
-                    _antiforgery.GetAndStoreTokens(_httpContextAccessor.HttpContext).HeaderName,
+                    _antiForgery.GetAndStoreTokens(_httpContextAccessor.HttpContext).RequestToken,
+                    _antiForgery.GetAndStoreTokens(_httpContextAccessor.HttpContext).HeaderName,
                     _currentUser);
 
                 return Result.Ok(applicationInfo);

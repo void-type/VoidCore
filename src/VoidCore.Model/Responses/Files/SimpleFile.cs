@@ -52,12 +52,12 @@ namespace VoidCore.Model.Responses.Files
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException("fileName", "Cannot create a file with null name.");
+                    throw new ArgumentNullException(nameof(value), "Cannot create a file with null name.");
                 }
 
                 if (value == string.Empty)
                 {
-                    throw new ArgumentException("fileName", "Cannot create a file with empty name.");
+                    throw new ArgumentException("Cannot create a file with empty name.", nameof(value));
                 }
 
                 _name = value;

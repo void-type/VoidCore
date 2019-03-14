@@ -106,7 +106,7 @@ namespace VoidCore.Test.AspNet.Data
             {
                 var data = await context.FoodStuffsData().Seed();
 
-                await data.Recipes.Add(new Recipe() { Name = "ANewRecipe" });
+                await data.Recipes.Add(new Recipe { Name = "ANewRecipe" });
 
                 var result = await new ListRecipes.Handler(data)
                     .Handle(new ListRecipes.Request(null, null, "ascending", true, 1, 1));
@@ -230,7 +230,7 @@ namespace VoidCore.Test.AspNet.Data
                 Assert.True(result.IsSuccess);
                 Assert.True(result.Value.Id > 0);
 
-                Maybe<Recipe> maybeRecipe = await data.Recipes.Get(new RecipesByIdWithCategoriesSpecification(result.Value.Id));
+                var maybeRecipe = await data.Recipes.Get(new RecipesByIdWithCategoriesSpecification(result.Value.Id));
                 Assert.True(maybeRecipe.HasValue);
                 Assert.Equal(Deps.DateTimeServiceEarly.Moment, maybeRecipe.Value.CreatedOn);
                 Assert.Equal(Deps.DateTimeServiceEarly.Moment, maybeRecipe.Value.ModifiedOn);
@@ -260,7 +260,7 @@ namespace VoidCore.Test.AspNet.Data
                 var userAccessorMock = new Mock<ICurrentUserAccessor>();
                 userAccessorMock.Setup(a => a.User).Returns(user);
 
-                Maybe<Recipe> maybeRecipe = await data.Recipes.Get(new RecipesByIdWithCategoriesSpecification(11));
+                var maybeRecipe = await data.Recipes.Get(new RecipesByIdWithCategoriesSpecification(11));
                 Assert.True(maybeRecipe.HasValue);
 
                 var result = await new SaveRecipe.Handler(data, new AuditUpdater(Deps.DateTimeServiceEarly, userAccessorMock.Object))

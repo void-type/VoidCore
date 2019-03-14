@@ -34,7 +34,7 @@ namespace VoidCore.Model.Responses.Collections
 
             var allItems = items.ToList();
             IsPagingEnabled = isPagingEnabled;
-            TotalCount = allItems.Count();
+            TotalCount = allItems.Count;
 
             if (isPagingEnabled)
             {
@@ -47,7 +47,7 @@ namespace VoidCore.Model.Responses.Collections
             else
             {
                 Page = 1;
-                Take = (TotalCount > 1) ? TotalCount : 1;
+                Take = TotalCount > 1 ? TotalCount : 1;
                 Items = allItems;
             }
         }
@@ -80,9 +80,9 @@ namespace VoidCore.Model.Responses.Collections
             }
             else
             {
-                TotalCount = allItems.Count();
+                TotalCount = allItems.Count;
                 Page = 1;
-                Take = (TotalCount > 1) ? TotalCount : 1;
+                Take = TotalCount > 1 ? TotalCount : 1;
             }
         }
 
