@@ -52,12 +52,7 @@ namespace VoidCore.Test.AspNet.ClientApp
             Assert.Equal("header-name", appInfo.AntiforgeryTokenHeaderName);
             Assert.Equal("request-token", appInfo.AntiforgeryToken);
 
-            loggingServiceMock.Verify(l => l.Info(new []
-            {
-                "AppName: AppName",
-                "UserName: UserName",
-                "UserAuthorizedAs: policy1, policy2"
-            }), Times.Once());
+            loggingServiceMock.Verify(l => l.Info("AppName: AppName", "UserName: UserName", "UserAuthorizedAs: policy1, policy2"), Times.Once());
         }
     }
 }

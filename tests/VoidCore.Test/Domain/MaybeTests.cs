@@ -98,7 +98,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void MaybeGetHashCodeReturnsValueHashCodeExceptWhenNone()
         {
-            var value = "some value";
+            const string value = "some value";
             var maybe = Maybe.From(value);
             Assert.Equal(value.GetHashCode(), maybe.GetHashCode());
 

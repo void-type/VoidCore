@@ -6,29 +6,30 @@ namespace VoidCore.Test.Domain
 {
     internal class TestTransformerService
     {
-        public int LastStep { get; private set; }
-        public string Start => "Hello World";
+        private int _lastStep;
+
+        public static string Start => "Hello World";
 
         public string Transform(string input, int currentStep)
         {
-            if (LastStep != currentStep - 1)
+            if (_lastStep != currentStep - 1)
             {
                 throw new InvalidOperationException();
             }
 
-            LastStep = currentStep;
+            _lastStep = currentStep;
             return input + "!";
         }
 
         public async Task<string> TransformAsync(string input, int currentStep)
         {
-            if (LastStep != currentStep - 1)
+            if (_lastStep != currentStep - 1)
             {
                 throw new InvalidOperationException();
             }
 
             await Task.Delay(10);
-            LastStep = currentStep;
+            _lastStep = currentStep;
             return input + "!";
         }
 
@@ -44,47 +45,47 @@ namespace VoidCore.Test.Domain
 
         public IResult GetResult(int currentStep, bool success = true)
         {
-            if (LastStep != currentStep - 1)
+            if (_lastStep != currentStep - 1)
             {
                 throw new InvalidOperationException();
             }
 
-            LastStep = currentStep;
+            _lastStep = currentStep;
             return success ? Result.Ok() : Result.Fail(new Failure("oops"));
         }
 
         public IResult<T> GetResult<T>(T obj, int currentStep, bool success = true)
         {
-            if (LastStep != currentStep - 1)
+            if (_lastStep != currentStep - 1)
             {
                 throw new InvalidOperationException();
             }
 
-            LastStep = currentStep;
+            _lastStep = currentStep;
             return success ? Result.Ok(obj) : Result.Fail<T>(new Failure("oops"));
         }
 
         public async Task<IResult> GetResultAsync(int currentStep, bool success = true)
         {
-            if (LastStep != currentStep - 1)
+            if (_lastStep != currentStep - 1)
             {
                 throw new InvalidOperationException();
             }
 
             await Task.Delay(10);
-            LastStep = currentStep;
+            _lastStep = currentStep;
             return success ? Result.Ok() : Result.Fail(new Failure("oops"));
         }
 
         public async Task<IResult<T>> GetResultAsync<T>(T obj, int currentStep, bool success = true)
         {
-            if (LastStep != currentStep - 1)
+            if (_lastStep != currentStep - 1)
             {
                 throw new InvalidOperationException();
             }
 
             await Task.Delay(10);
-            LastStep = currentStep;
+            _lastStep = currentStep;
             return success ? Result.Ok(obj) : Result.Fail<T>(new Failure("oops"));
         }
     }

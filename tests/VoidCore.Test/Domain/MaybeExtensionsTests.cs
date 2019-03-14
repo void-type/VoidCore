@@ -31,7 +31,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public async Task MaybeToResultAsyncWithoutValueIsFailed()
         {
-            var maybeTask = Task.Run(() => Maybe<string>.None);
+            var maybeTask = Task.FromResult(Maybe<string>.None);
 
             var result = await maybeTask.ToResultAsync(new Failure("no value", "uiField"));
 
@@ -44,7 +44,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public async Task MaybeToResultAsyncWithValueIsSuccessful()
         {
-            var maybeTask = Task.Run(() => Maybe.From("some value"));
+            var maybeTask = Task.FromResult(Maybe.From("some value"));
 
             var result = await maybeTask.ToResultAsync(new Failure("no value", "uiField"));
 
@@ -90,7 +90,7 @@ namespace VoidCore.Test.Domain
         {
             var t = new TestTransformerService();
 
-            var maybe = await Maybe.From(t.Start)
+            var maybe = await Maybe.From(TestTransformerService.Start)
                 .SelectAsync(a => t.TransformAsync(a, 1))
                 .SelectAsync(a => t.Transform(a, 2))
                 .SelectAsync(a => t.TransformAsync(a, 3));
@@ -137,7 +137,7 @@ namespace VoidCore.Test.Domain
         {
             var t = new TestTransformerService();
 
-            var maybe = await Maybe.From(t.Start)
+            var maybe = await Maybe.From(TestTransformerService.Start)
                 .SelectMaybeAsync(a => t.TransformMaybeAsync(a, 1))
                 .SelectMaybeAsync(a => t.TransformMaybe(a, 2))
                 .SelectMaybeAsync(a => t.TransformMaybeAsync(a, 3));
@@ -164,7 +164,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public async Task MaybeUnwrapAsyncWithoutValue()
         {
-            var maybe = Task.Run(() => Maybe<string>.None);
+            var maybe = Task.FromResult(Maybe<string>.None);
 
             var valueNoDefault = await maybe.UnwrapAsync();
             Assert.Null(valueNoDefault);
@@ -194,7 +194,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public async Task MaybeUnwrapAsyncWithValue()
         {
-            var maybe = Task.Run(() => Maybe.From("some value"));
+            var maybe = Task.FromResult(Maybe.From("some value"));
 
             var valueNoDefault = await maybe.UnwrapAsync();
             Assert.Equal("some value", valueNoDefault);
@@ -237,7 +237,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public async Task WhereAsyncWithValueAndFalsePredicateReturnsNone()
         {
-            var maybe = Task.Run(() => Maybe.From("some value"));
+            var maybe = Task.FromResult(Maybe.From("some value"));
             var queried = await maybe.WhereAsync(v => false);
 
             Assert.True(queried.HasNoValue);
@@ -246,7 +246,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public async Task WhereAsyncWithoutValueAndTruePredicateReturnsNone()
         {
-            var maybe = Task.Run(() => Maybe<string>.None);
+            var maybe = Task.FromResult(Maybe<string>.None);
             var queried = await maybe.WhereAsync(v => true);
 
             Assert.True(queried.HasNoValue);
@@ -255,7 +255,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public async Task WhereAsyncWithValueAndTruePredicateReturnsMaybe()
         {
-            var maybe = Task.Run(() => Maybe.From("some value"));
+            var maybe = Task.FromResult(Maybe.From("some value"));
             var queried = await maybe.WhereAsync(v => true);
 
             Assert.True(queried.HasValue);

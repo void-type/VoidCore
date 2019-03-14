@@ -11,7 +11,7 @@ namespace VoidCore.Test.Model.Emailing
         [Fact]
         public void EmailCreation()
         {
-            var email = new Email("RE: Testing", "Please test.", new List<string>() { "vt@example.com", "vt2@example.com" });
+            var email = new Email("RE: Testing", "Please test.", new List<string> { "vt@example.com", "vt2@example.com" });
 
             Assert.Equal("RE: Testing", email.Subject);
             Assert.Equal("Please test.", email.Message);
@@ -33,13 +33,13 @@ namespace VoidCore.Test.Model.Emailing
         [Fact]
         public void EmailCreationWithNullSubjectThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new Email(null, "Please test.", new List<string>() { "vt@example.com", "vt2@example.com" }));
+            Assert.Throws<ArgumentNullException>(() => new Email(null, "Please test.", new List<string> { "vt@example.com", "vt2@example.com" }));
         }
 
         [Fact]
         public void EmailCreationWithNullMessageThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new Email("RE: Testing", null, new List<string>() { "vt@example.com", "vt2@example.com" }));
+            Assert.Throws<ArgumentNullException>(() => new Email("RE: Testing", null, new List<string> { "vt@example.com", "vt2@example.com" }));
         }
 
         [Fact]

@@ -65,13 +65,13 @@ namespace VoidCore.Test.Model.Responses
         [Fact]
         public void CreatingFileWithNullNameThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new SimpleFile("", null));
+            Assert.Throws<ArgumentNullException>(() => new SimpleFile(string.Empty, null));
         }
 
         [Fact]
         public void CreatingFileWithEmptyNameThrowsArgumentException()
         {
-            Assert.Throws<ArgumentException>(() => new SimpleFile("", ""));
+            Assert.Throws<ArgumentException>(() => new SimpleFile(string.Empty, string.Empty));
         }
     }
 }

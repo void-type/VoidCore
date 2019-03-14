@@ -174,7 +174,7 @@ namespace VoidCore.Domain
         /// <param name="defaultValue">What to return if there isn't a value in the Maybe</param>
         /// <typeparam name="T">The type of value</typeparam>
         /// <returns>The value of the Maybe</returns>
-        public static T Unwrap<T>(this Maybe<T> maybe, T defaultValue = default(T))
+        public static T Unwrap<T>(this Maybe<T> maybe, T defaultValue = default)
         {
             return maybe.Unwrap(() => defaultValue);
         }
@@ -187,7 +187,7 @@ namespace VoidCore.Domain
         /// <param name="defaultValue">What to return if there isn't a value in the Maybe</param>
         /// <typeparam name="T">The type of value</typeparam>
         /// <returns>The value of the Maybe</returns>
-        public static async Task<T> UnwrapAsync<T>(this Task<Maybe<T>> maybeTask, T defaultValue = default(T))
+        public static async Task<T> UnwrapAsync<T>(this Task<Maybe<T>> maybeTask, T defaultValue = default)
         {
             var maybe = await maybeTask.ConfigureAwait(false);
 

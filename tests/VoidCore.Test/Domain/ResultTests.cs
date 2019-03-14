@@ -61,7 +61,7 @@ namespace VoidCore.Test.Domain
                 Result.Fail<int>(new Failure("oops")),
                 Result.Fail<string>(new Failure("oops")),
                 Result.Ok(1),
-                Result.Ok("")
+                Result.Ok(string.Empty)
             );
 
             Assert.False(result.IsSuccess);
@@ -75,7 +75,7 @@ namespace VoidCore.Test.Domain
             var result = Result.Combine(
                 Result.Ok(),
                 Result.Ok(1),
-                Result.Ok("")
+                Result.Ok(string.Empty)
             );
 
             Assert.True(result.IsSuccess);
@@ -93,9 +93,9 @@ namespace VoidCore.Test.Domain
                     Result.Fail<int>(new Failure("oops")),
                     Result.Fail<string>(new Failure("oops")),
                     Result.Ok(1),
-                    Result.Ok("")
+                    Result.Ok(string.Empty)
                 }
-                .Select(x => Task.Run(() => x));
+                .Select(x => Task.FromResult(x));
 
             var result = await Result.CombineAsync(results.ToArray());
 
@@ -111,9 +111,9 @@ namespace VoidCore.Test.Domain
                 {
                     Result.Ok(),
                     Result.Ok(1),
-                    Result.Ok("")
+                    Result.Ok(string.Empty)
                 }
-                .Select(x => Task.Run(() => x));
+                .Select(x => Task.FromResult(x));
 
             var result = await Result.CombineAsync(results.ToArray());
 

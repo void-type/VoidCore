@@ -62,7 +62,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void ValidatorWorksOnDerivedTypesFailure()
         {
-            var result = new InheritedEntityValidator().Validate(new DerivedEntity() { SomeProperty = "" });
+            var result = new InheritedEntityValidator().Validate(new DerivedEntity { SomeProperty = string.Empty });
 
             Assert.True(result.IsFailed);
             Assert.True(result.Failures.Any());
@@ -71,20 +71,20 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void ValidatorWorksOnDerivedTypesSuccess()
         {
-            var result = new InheritedEntityValidator().Validate(new DerivedEntity() { SomeProperty = "valid" });
+            var result = new InheritedEntityValidator().Validate(new DerivedEntity { SomeProperty = "valid" });
 
             Assert.True(result.IsSuccess);
             Assert.False(result.Failures.Any());
         }
 
-        internal class Entity
+        private class Entity
         {
             public string SomeProperty { get; set; }
         }
 
-        internal class DerivedEntity : Entity { }
+        private class DerivedEntity : Entity { }
 
-        internal class ValidatorLogicTestValidator : RuleValidatorAbstract<string>
+        private class ValidatorLogicTestValidator : RuleValidatorAbstract<string>
         {
             public ValidatorLogicTestValidator()
             {
@@ -96,7 +96,7 @@ namespace VoidCore.Test.Domain
             }
         }
 
-        internal class RuleLogicTestValidator : RuleValidatorAbstract<bool>
+        private class RuleLogicTestValidator : RuleValidatorAbstract<bool>
         {
             public RuleLogicTestValidator(bool isValid2, bool isSuppressed1, bool isSuppressed2)
             {
@@ -108,7 +108,7 @@ namespace VoidCore.Test.Domain
             }
         }
 
-        internal class NoValidConditionTestValidator : RuleValidatorAbstract<int>
+        private class NoValidConditionTestValidator : RuleValidatorAbstract<int>
         {
             public NoValidConditionTestValidator()
             {
@@ -122,7 +122,7 @@ namespace VoidCore.Test.Domain
             }
         }
 
-        internal class InheritedEntityValidator : RuleValidatorAbstract<Entity>
+        private class InheritedEntityValidator : RuleValidatorAbstract<Entity>
         {
             public InheritedEntityValidator()
             {
@@ -131,7 +131,7 @@ namespace VoidCore.Test.Domain
             }
         }
 
-        internal class FailureBuilderValidator : RuleValidatorAbstract<Failure>
+        private class FailureBuilderValidator : RuleValidatorAbstract<Failure>
         {
             public FailureBuilderValidator()
             {

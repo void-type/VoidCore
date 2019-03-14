@@ -12,6 +12,6 @@ namespace VoidCore.Test.AspNet.Authorization
             Assert.Equal("Tester", att.Policy);
         }
 
-        internal class TesterOnly : AutoPolicyAuthorizeAttribute { }
+        private class TesterOnly : AutoPolicyAuthorizeAttribute { }
     }
 }

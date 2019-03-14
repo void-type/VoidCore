@@ -27,6 +27,6 @@ namespace VoidCore.Domain.Events
         /// <param name="request">The validated request</param>
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
         /// <returns>A Task of Result of TResponse</returns>
-        public abstract Task<IResult<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default(CancellationToken));
+        public abstract Task<IResult<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default);
     }
 }

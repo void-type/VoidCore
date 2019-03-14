@@ -11,8 +11,6 @@ namespace VoidCore.Model.Responses.Files
     /// </summary>
     public class FileContent : ValueObject
     {
-        private byte[] _content;
-
         /// <summary>
         /// Create a new file contents using bytes.
         /// </summary>
@@ -20,12 +18,8 @@ namespace VoidCore.Model.Responses.Files
         /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if content is null.</exception>
         public FileContent(byte[] content)
         {
-            if (content == null)
-            {
+            AsBytes = content ??
                 throw new ArgumentNullException(nameof(content), "Cannot create a file content with null content.");
-            }
-
-            _content = content;
         }
 
         /// <summary>
@@ -38,17 +32,17 @@ namespace VoidCore.Model.Responses.Files
         /// <summary>
         /// Returns the contents of the file in bytes.
         /// </summary>
-        public byte[] AsBytes => _content;
+        public byte[] AsBytes { get; }
 
         /// <summary>
         /// Returns the contents encoded as a UTF8 string.
         /// </summary>
-        public override string ToString() => Encoding.UTF8.GetString(_content);
+        public override string ToString() => Encoding.UTF8.GetString(AsBytes);
 
         /// <inheritdoc/>
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            yield return string.Join("", _content.Select(b => string.Format("{0:X2}", b)));
+            yield return string.Join(string.Empty, AsBytes.Select(b => $"{b:X2}"));
         }
     }
 }

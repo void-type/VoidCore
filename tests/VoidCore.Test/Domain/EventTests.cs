@@ -185,33 +185,25 @@ namespace VoidCore.Test.Domain
             public string Name { get; set; }
         }
 
-        internal class TestEventFail : EventHandlerAbstract<TestRequest, TestResponse>
+        private class TestEventFail : EventHandlerAbstract<TestRequest, TestResponse>
         {
-            public override async Task<IResult<TestResponse>> Handle(TestRequest validRequest, CancellationToken cancellationToken = default(CancellationToken))
+            public override async Task<IResult<TestResponse>> Handle(TestRequest validRequest, CancellationToken cancellationToken = default)
             {
-                await Task.Delay(1);
+                await Task.Delay(1, cancellationToken);
                 return Result.Fail<TestResponse>(new Failure("event failed"));
             }
         }
 
-        internal class TestEventOk : EventHandlerAbstract<TestRequest, TestResponse>
+        private class TestEventOk : EventHandlerAbstract<TestRequest, TestResponse>
         {
-            public override async Task<IResult<TestResponse>> Handle(TestRequest validRequest, CancellationToken cancellationToken = default(CancellationToken))
+            public override async Task<IResult<TestResponse>> Handle(TestRequest validRequest, CancellationToken cancellationToken = default)
             {
-                await Task.Delay(1);
+                await Task.Delay(1, cancellationToken);
                 return Result.Ok(new TestResponse { Name = "success" });
             }
         }
 
-        internal class TestEventSyncFail : EventHandlerSyncAbstract<TestRequest, TestResponse>
-        {
-            protected override IResult<TestResponse> HandleSync(TestRequest request)
-            {
-                return Result.Fail<TestResponse>(new Failure("event failed"));
-            }
-        }
-
-        internal class TestEventSyncOk : EventHandlerSyncAbstract<TestRequest, TestResponse>
+        private class TestEventSyncOk : EventHandlerSyncAbstract<TestRequest, TestResponse>
         {
             protected override IResult<TestResponse> HandleSync(TestRequest request)
             {

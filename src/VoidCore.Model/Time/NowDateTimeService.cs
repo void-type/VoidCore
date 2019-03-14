@@ -1,3 +1,5 @@
+using System;
+
 namespace VoidCore.Model.Time
 {
     /// <summary>
@@ -8,6 +10,6 @@ namespace VoidCore.Model.Time
         /// <summary>
         /// Returns the current DateTime.
         /// </summary>
-        public System.DateTime Moment => System.DateTime.Now;
+        public DateTime Moment => DateTime.Now;
     }
 }

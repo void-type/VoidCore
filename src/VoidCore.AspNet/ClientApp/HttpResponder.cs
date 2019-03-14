@@ -8,7 +8,7 @@ namespace VoidCore.AspNet.ClientApp
     /// <summary>
     /// Create ActionResults from Results.
     /// </summary>
-    public class HttpResponder
+    public static class HttpResponder
     {
         /// <summary>
         /// Create a ObjectResult based on pass or fail of the domain result. Returns the success value on success.
@@ -16,7 +16,7 @@ namespace VoidCore.AspNet.ClientApp
         /// <param name="result">The domain result</param>
         /// <typeparam name="TSuccessValue">The type of success value in the result</typeparam>
         /// <returns>An IActionResult</returns>
-        public IActionResult Respond<TSuccessValue>(IResult<TSuccessValue> result)
+        public static IActionResult Respond<TSuccessValue>(IResult<TSuccessValue> result)
         {
             return result.IsSuccess ? Ok(result.Value) : Fail(result);
         }
@@ -26,7 +26,7 @@ namespace VoidCore.AspNet.ClientApp
         /// </summary>
         /// <param name="result">The domain result</param>
         /// <returns>An IActionResult</returns>
-        public IActionResult Respond(IResult result)
+        public static IActionResult Respond(IResult result)
         {
             return result.IsSuccess ? Ok(null) : Fail(result);
         }
@@ -36,7 +36,7 @@ namespace VoidCore.AspNet.ClientApp
         /// </summary>
         /// <param name="obj">An object</param>
         /// <returns>An IActionResult</returns>
-        public IActionResult Respond(object obj)
+        public static IActionResult Respond(object obj)
         {
             return Ok(obj);
         }
@@ -46,17 +46,16 @@ namespace VoidCore.AspNet.ClientApp
         /// </summary>
         /// <param name="result">The domain result</param>
         /// <returns>An IActionResult</returns>
-        public IActionResult RespondWithFile(IResult<SimpleFile> result)
+        public static IActionResult RespondWithFile(IResult<SimpleFile> result)
         {
-            if (result.IsSuccess)
-            {
-                var file = result.Value;
-                return new FileContentResult(file.Content.AsBytes, "application/force-download") { FileDownloadName = file.Name };
-            }
-            else
+            if (result.IsFailed)
             {
                 return Fail(result);
             }
+
+            var file = result.Value;
+            return new FileContentResult(file.Content.AsBytes, "application/force-download") { FileDownloadName = file.Name };
+
         }
 
         private static IActionResult Fail(IResult result)

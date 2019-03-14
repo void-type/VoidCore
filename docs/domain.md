@@ -216,11 +216,8 @@ Below is an example of using an event within an Asp.Net MVC controller.
 ```csharp
 public class PersonsController : Controller
 {
-    public PersonsController(ILoggingService logger, HttpResponder responder,
-        GetPerson.Handler getHandler, GetPerson.RequestValidator getValidator, GetPerson.Logger getLogger)
+    public PersonsController(GetPerson.Handler getHandler, GetPerson.RequestValidator getValidator, GetPerson.Logger getLogger)
     {
-        _logger = logger;
-        _responder = responder;
         _getHandler = getHandler;
         _getValidator = getValidator;
         _getLogger = getLogger;
@@ -231,13 +228,13 @@ public class PersonsController : Controller
         // For POST requests, the request can be extracted directly [FromBody]
         var request = new GetPerson.Request(id);
 
-        var result = await _getHandler(_data)
-            .AddRequestValidator(_getValidator())
-            .AddPostProcessor(_getLogger(_logger))
-            .Handle(request);
+        return await _getHandler
+            .AddRequestValidator(_getValidator)
+            .AddPostProcessor(_getLogger)
+            .Handle(request)
 
-        // Responder will handle the IResult<PersonDto>
-        return _responder.Respond(result);
+            // HttpResponder will handle the conversion of IResult<PersonDto> to a 200/500 IActionResult
+            .MapAsync(HttpResponder.Respond);
     }
 }
 ```

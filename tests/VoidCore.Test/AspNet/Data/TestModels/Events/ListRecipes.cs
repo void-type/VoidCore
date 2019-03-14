@@ -23,9 +23,9 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                 _data = data;
             }
 
-            public override async Task<IResult<IItemSet<RecipeListItemDto>>> Handle(Request request, CancellationToken cancellationToken = default(CancellationToken))
+            public override async Task<IResult<IItemSet<RecipeListItemDto>>> Handle(Request request, CancellationToken cancellationToken = default)
             {
-                var searchExpressions = new []
+                var criteria = new []
                 {
                 SearchCriteria.PropertiesContain<Recipe>(
                 new SearchTerms(request.NameSearch),
@@ -38,21 +38,21 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                 )
                 };
 
-                var allSearch = new RecipesSearchSpecification(searchExpressions, request.NameSort);
+                var allSearch = new RecipesSearchSpecification(criteria, request.NameSort);
 
-                var totalCount = await _data.Recipes.Count(allSearch);
+                var totalCount = await _data.Recipes.Count(allSearch, cancellationToken);
 
-                var pagedSearch = new RecipesSearchSpecification(searchExpressions, request.NameSort,
+                var pagedSearch = new RecipesSearchSpecification(criteria, request.NameSort,
                     request.IsPagingEnabled, request.Page, request.Take);
 
-                var recipes = await _data.Recipes.List(pagedSearch);
+                var recipes = await _data.Recipes.List(pagedSearch, cancellationToken);
 
                 return recipes
                     .Select(recipe => new RecipeListItemDto(
                         recipe.Id,
                         recipe.Name,
                         recipe.CategoryRecipe.Select(cr => cr.Category.Name)))
-                    .ToItemSet(request.Page, request.Take, totalCount)
+                    .ToItemSet(request.IsPagingEnabled, request.Page, request.Take, totalCount)
                     .Map(page => Result.Ok(page));
             }
         }

@@ -20,13 +20,11 @@ namespace VoidCore.Test.Model.Logging
 
             var result = Result.Ok(itemSetMock.Object);
 
-            var request = "";
-
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
 
             new ItemSetEventLogger<string, string>(loggerMock.Object)
-                .Process(request, result);
+                .Process(string.Empty, result);
 
             loggerMock.Verify(l => l.Info(
                 "Count: 7",

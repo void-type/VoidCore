@@ -7,26 +7,20 @@ namespace VoidCore.AspNet.Data
     /// <summary>
     /// Build queries from specifications. Adapted from https://github.com/dotnet-architecture/eShopOnWeb
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class SpecificationEvaluator<T> where T : class
+    public static class SpecificationEvaluator
     {
         /// <summary>
         /// Evaluate the specification and build the query against the input.
         /// </summary>
         /// <param name="inputQuery">The input query</param>
         /// <param name="specification">The specification to evaluate</param>
+        /// <typeparam name="T">The type of entity to query</typeparam>
         /// <returns>The final query</returns>
-        public static IQueryable<T> GetQuery(IQueryable<T> inputQuery, IQuerySpecification<T> specification)
+        public static IQueryable<T> GetQuery<T>(IQueryable<T> inputQuery, IQuerySpecification<T> specification) where T : class
         {
             var query = inputQuery;
 
-            if (specification.Criteria != null)
-            {
-                foreach (var criteria in specification.Criteria)
-                {
-                    query = query.Where(criteria);
-                }
-            }
+            query = specification.Criteria.Aggregate(query, (current, criteria) => current.Where(criteria));
 
             query = specification.Includes.Aggregate(query, (current, include) => current.Include(include));
 
@@ -34,11 +28,13 @@ namespace VoidCore.AspNet.Data
 
             if (specification.OrderBy != null)
             {
-                query = query.OrderBy(specification.OrderBy);
+                query = query.OrderBy(specification.OrderBy)
+                    .ApplySecondaryOrderings(specification);
             }
             else if (specification.OrderByDescending != null)
             {
-                query = query.OrderByDescending(specification.OrderByDescending);
+                query = query.OrderByDescending(specification.OrderByDescending)
+                    .ApplySecondaryOrderings(specification);
             }
 
             if (specification.IsPagingEnabled)
@@ -46,6 +42,18 @@ namespace VoidCore.AspNet.Data
                 query = query
                     .Skip((specification.Page - 1) * specification.Take)
                     .Take(specification.Take);
+            }
+
+            return query;
+        }
+
+        private static IQueryable<T> ApplySecondaryOrderings<T>(this IOrderedQueryable<T> query, IQuerySpecification<T> specification) where T : class
+        {
+            foreach (var(thenBy, isDescending) in specification.SecondaryOrderings)
+            {
+                query = isDescending ?
+                    query.ThenByDescending(thenBy) :
+                    query.ThenBy(thenBy);
             }
 
             return query;

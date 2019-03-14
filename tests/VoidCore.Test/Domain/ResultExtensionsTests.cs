@@ -15,7 +15,7 @@ namespace VoidCore.Test.Domain
             {
                 Result.Ok(),
                 Result.Ok(1),
-                Result.Ok("")
+                Result.Ok(string.Empty)
             }.Combine();
 
             Assert.True(result.IsSuccess);
@@ -32,7 +32,7 @@ namespace VoidCore.Test.Domain
                 Result.Fail<int>(new Failure("oops")),
                 Result.Fail<string>(new Failure("oops")),
                 Result.Ok(1),
-                Result.Ok("")
+                Result.Ok(string.Empty)
             }.Combine();
 
             Assert.True(result.IsFailed);
@@ -46,9 +46,9 @@ namespace VoidCore.Test.Domain
                 {
                     Result.Ok(),
                     Result.Ok(1),
-                    Result.Ok("")
+                    Result.Ok(string.Empty)
                 }
-                .Select(x => Task.Run(() => x))
+                .Select(x => Task.FromResult(x))
                 .CombineAsync();
 
             Assert.True(result.IsSuccess);
@@ -65,9 +65,9 @@ namespace VoidCore.Test.Domain
                     Result.Fail<int>(new Failure("oops")),
                     Result.Fail<string>(new Failure("oops")),
                     Result.Ok(1),
-                    Result.Ok("")
+                    Result.Ok(string.Empty)
                 }
-                .Select(x => Task.Run(() => x))
+                .Select(x => Task.FromResult(x))
                 .CombineAsync();
 
             Assert.True(result.IsFailed);
@@ -104,28 +104,28 @@ namespace VoidCore.Test.Domain
             var t = new TestTransformerService();
 
             var newOkResult = await Result.Ok()
-                .SelectAsync(() => t.TransformAsync(t.Start, 1))
+                .SelectAsync(() => t.TransformAsync(TestTransformerService.Start, 1))
                 .SelectAsync(r => t.Transform(r, 2))
                 .SelectAsync(r => t.TransformAsync(r, 3));
 
             Assert.True(newOkResult.IsSuccess);
             Assert.Equal("Hello World!!!", newOkResult.Value);
 
-            newOkResult = await Task.Run(() => Result.Ok())
-                .SelectAsync(() => t.Transform(t.Start, 4));
+            newOkResult = await Task.FromResult(Result.Ok())
+                .SelectAsync(() => t.Transform(TestTransformerService.Start, 4));
 
             Assert.True(newOkResult.IsSuccess);
             Assert.Equal("Hello World!", newOkResult.Value);
 
-            newOkResult = await Task.Run(() => Result.Ok())
-                .SelectAsync(() => t.TransformAsync(t.Start, 5))
+            newOkResult = await Task.FromResult(Result.Ok())
+                .SelectAsync(() => t.TransformAsync(TestTransformerService.Start, 5))
                 .SelectAsync(r => t.TransformAsync(r, 6));
 
             Assert.True(newOkResult.IsSuccess);
             Assert.Equal("Hello World!!", newOkResult.Value);
 
             var newFailResult = await Result.Fail(new Failure("oops"))
-                .SelectAsync(() => t.TransformAsync(t.Start, 1))
+                .SelectAsync(() => t.TransformAsync(TestTransformerService.Start, 1))
                 .SelectAsync(r => t.Transform(r, 2))
                 .SelectAsync(r => t.TransformAsync(r, 3));
 
@@ -138,11 +138,11 @@ namespace VoidCore.Test.Domain
         {
             var newOkResult = Result.Ok()
                 .Then(() => Result.Ok())
-                .Then(() => Result.Ok(""))
-                .Then(r => Result.Ok(""))
+                .Then(() => Result.Ok(string.Empty))
+                .Then(r => Result.Ok(string.Empty))
                 .Then(r => Result.Ok())
-                .Then(() => Result.Ok(""))
-                .Then(() => Result.Ok(""))
+                .Then(() => Result.Ok(string.Empty))
+                .Then(() => Result.Ok(string.Empty))
                 .Then(r => Result.Ok(2))
                 .Then(() => Result.Ok(2));
 
@@ -151,11 +151,11 @@ namespace VoidCore.Test.Domain
 
             var newFailResult = Result.Fail<int>(new Failure("oops"))
                 .Then(() => Result.Ok())
-                .Then(() => Result.Ok(""))
-                .Then(r => Result.Ok(""))
+                .Then(() => Result.Ok(string.Empty))
+                .Then(r => Result.Ok(string.Empty))
                 .Then(r => Result.Ok())
-                .Then(() => Result.Ok(""))
-                .Then(() => Result.Ok(""))
+                .Then(() => Result.Ok(string.Empty))
+                .Then(() => Result.Ok(string.Empty))
                 .Then(r => Result.Ok(2))
                 .Then(() => Result.Ok(2));
 
@@ -172,10 +172,10 @@ namespace VoidCore.Test.Domain
                 .ThenAsync(() => t.GetResultAsync(1))
                 .ThenAsync(() => t.GetResult(2))
                 .ThenAsync(() => t.GetResultAsync(3))
-                .ThenAsync(() => t.GetResult("", 4))
-                .ThenAsync(r => t.GetResult("", 5))
-                .ThenAsync(r => t.GetResult("", 6))
-                .ThenAsync(r => t.GetResult("", 7))
+                .ThenAsync(() => t.GetResult(string.Empty, 4))
+                .ThenAsync(r => t.GetResult(string.Empty, 5))
+                .ThenAsync(r => t.GetResult(string.Empty, 6))
+                .ThenAsync(r => t.GetResult(string.Empty, 7))
                 .ThenAsync(r => t.GetResultAsync(8))
                 .ThenAsync(() => t.GetResultAsync(2, 9))
                 .ThenAsync(r => t.GetResult(2, 10));
@@ -186,13 +186,13 @@ namespace VoidCore.Test.Domain
             t = new TestTransformerService();
 
             var newFailResult = await Result.Fail<int>(new Failure("oops"))
-                .ThenAsync(r => t.GetResultAsync("", 1))
-                .ThenAsync(r => t.GetResult("", 2))
-                .ThenAsync(r => t.GetResultAsync("", 2))
+                .ThenAsync(r => t.GetResultAsync(string.Empty, 1))
+                .ThenAsync(r => t.GetResult(string.Empty, 2))
+                .ThenAsync(r => t.GetResultAsync(string.Empty, 2))
                 .ThenAsync(r => t.GetResultAsync(3))
                 .ThenAsync(() => t.GetResultAsync(4))
-                .ThenAsync(() => t.GetResult("", 5))
-                .ThenAsync(r => t.GetResult("", 6))
+                .ThenAsync(() => t.GetResult(string.Empty, 5))
+                .ThenAsync(r => t.GetResult(string.Empty, 6))
                 .ThenAsync(r => t.GetResultAsync(7))
                 .ThenAsync(() => t.GetResultAsync(2, 8))
                 .ThenAsync(r => t.GetResult(9));

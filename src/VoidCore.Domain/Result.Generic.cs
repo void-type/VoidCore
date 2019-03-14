@@ -10,7 +10,7 @@ namespace VoidCore.Domain
     /// <typeparam name="T">The type of value to return on success</typeparam>
     public sealed class Result<T> : ResultAbstract, IResult<T>
     {
-        private T _value;
+        private readonly T _value;
 
         internal Result(T value)
         {

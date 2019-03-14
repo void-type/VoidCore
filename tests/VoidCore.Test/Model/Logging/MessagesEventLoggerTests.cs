@@ -13,14 +13,12 @@ namespace VoidCore.Test.Model.Logging
         {
             var result = Result.Ok(UserMessageWithEntityId.Create("Good stuff happened", 7));
 
-            var request = "";
-
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
 
             var processor = new UserMessageWithEntityIdEventLogger<string, int>(loggerMock.Object);
 
-            processor.Process(request, result);
+            processor.Process(string.Empty, result);
 
             loggerMock.Verify(l => l.Info("Message: Good stuff happened", "EntityId: 7"), Times.Once());
         }
@@ -30,14 +28,12 @@ namespace VoidCore.Test.Model.Logging
         {
             var result = Result.Ok(UserMessageWithEntityId.Create("Good stuff happened", "7"));
 
-            var request = "";
-
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
 
             var processor = new UserMessageWithEntityIdEventLogger<string, string>(loggerMock.Object);
 
-            processor.Process(request, result);
+            processor.Process(string.Empty, result);
 
             loggerMock.Verify(l => l.Info("Message: Good stuff happened", "EntityId: 7"), Times.Once());
         }
@@ -47,14 +43,12 @@ namespace VoidCore.Test.Model.Logging
         {
             var result = Result.Ok(new UserMessage("good"));
 
-            var request = "";
-
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
 
             var processor = new UserMessageEventLogger<string>(loggerMock.Object);
 
-            processor.Process(request, result);
+            processor.Process(string.Empty, result);
 
             loggerMock.Verify(l => l.Info("Message: good"), Times.Once());
         }
