@@ -7,7 +7,7 @@ namespace VoidCore.AspNet.Data
     /// <summary>
     /// Build queries from specifications. Adapted from https://github.com/dotnet-architecture/eShopOnWeb
     /// </summary>
-    public static class SpecificationEvaluator
+    public static class EfSpecificationEvaluator
     {
         /// <summary>
         /// Evaluate the specification and build the query against the input.
@@ -16,15 +16,15 @@ namespace VoidCore.AspNet.Data
         /// <param name="specification">The specification to evaluate</param>
         /// <typeparam name="T">The type of entity to query</typeparam>
         /// <returns>The final query</returns>
-        public static IQueryable<T> GetQuery<T>(IQueryable<T> inputQuery, IQuerySpecification<T> specification) where T : class
+        public static IQueryable<T> ApplyEfSpecification<T>(this IQueryable<T> inputQuery, IQuerySpecification<T> specification) where T : class
         {
             var query = inputQuery;
-
-            query = specification.Criteria.Aggregate(query, (current, criteria) => current.Where(criteria));
 
             query = specification.Includes.Aggregate(query, (current, include) => current.Include(include));
 
             query = specification.IncludeStrings.Aggregate(query, (current, include) => current.Include(include));
+
+            query = specification.Criteria.Aggregate(query, (current, criteria) => current.Where(criteria));
 
             if (specification.OrderBy != null)
             {

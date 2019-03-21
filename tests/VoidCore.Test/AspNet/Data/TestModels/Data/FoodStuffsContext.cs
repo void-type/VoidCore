@@ -1,12 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace VoidCore.Test.AspNet.Data.TestModels.Data
 {
-    public partial class FoodStuffsContext : DbContext
+    public class FoodStuffsContext : DbContext
     {
+        public FoodStuffsContext(DbContextOptions<FoodStuffsContext> options) : base(options) { }
+
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<CategoryRecipe> CategoryRecipe { get; set; }
         public virtual DbSet<Recipe> Recipe { get; set; }
+        public virtual DbQuery<User> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -50,6 +55,13 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Data
 
                 entity.Property(e => e.Name).IsRequired();
             });
+
+            modelBuilder.Query<User>().ToQuery(() => new List<User>()
+            {
+                new User { Name = "Joe Food", JoinedOn = Deps.DateTimeServiceEarly.Moment },
+                new User { Name = "Jose Comida", JoinedOn = Deps.DateTimeServiceEarly.Moment },
+                new User { Name = "Josef Lebensmittel", JoinedOn = Deps.DateTimeServiceLate.Moment }
+            }.AsQueryable());
         }
     }
 }
