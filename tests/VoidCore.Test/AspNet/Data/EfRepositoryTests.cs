@@ -312,5 +312,22 @@ namespace VoidCore.Test.AspNet.Data
                 Assert.Contains(13, recipes.Select(r => r.Id));
             }
         }
+
+        [Fact]
+        public async Task QueryViewWithSpecification()
+        {
+            using(var context = Deps.FoodStuffsContext())
+            {
+                var data = context.FoodStuffsData();
+
+                var users1 = await data.Users.List(new UserSpecification(u => u.JoinedOn < Deps.DateTimeServiceLate.Moment));
+
+                Assert.Equal(2, users1.Count);
+
+                var users2 = await data.Users.ListAll();
+
+                Assert.Equal(3, users2.Count);
+            }
+        }
     }
 }
