@@ -9,7 +9,7 @@ namespace VoidCore.Model.Queries
     {
         private readonly List<Expression<Func<T, object>>> _includes = new List<Expression<Func<T, object>>>();
         private readonly List<string> _includeStrings = new List<string>();
-        private readonly List<(Expression<Func<T, object>> ThenBy, bool IsDescending)> _secondaryOrderings = new List < (Expression<Func<T, object>>, bool) > ();
+        private readonly List<(Expression<Func<T, object>> ThenBy, bool IsDescending)> _secondaryOrderings = new List<(Expression<Func<T, object>>, bool)>();
 
         /// <summary>
         /// Create a new query
@@ -27,7 +27,7 @@ namespace VoidCore.Model.Queries
         public IReadOnlyList<Expression<Func<T, object>>> Includes => _includes;
 
         /// <inheritdoc/>
-        public IReadOnlyList<string> IncludeStrings => _includeStrings;
+        public IEnumerable<string> IncludeStrings => _includeStrings;
 
         /// <inheritdoc/>
         public Expression<Func<T, object>> OrderBy { get; private set; }
@@ -102,7 +102,7 @@ namespace VoidCore.Model.Queries
         }
 
         /// <summary>
-        /// /// Enable pagination on the query
+        /// Enable pagination on the query
         /// </summary>
         /// <param name="page">The page number</param>
         /// <param name="take">The size of the pages</param>

@@ -55,7 +55,6 @@ namespace VoidCore.AspNet.ClientApp
 
             var file = result.Value;
             return new FileContentResult(file.Content.AsBytes, "application/force-download") { FileDownloadName = file.Name };
-
         }
 
         private static IActionResult Fail(IResult result)

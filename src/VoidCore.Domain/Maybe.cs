@@ -1,5 +1,4 @@
 using System;
-using VoidCore.Domain.Internal;
 
 namespace VoidCore.Domain
 {
@@ -49,9 +48,6 @@ namespace VoidCore.Domain
         /// Get the value of Maybe.
         /// </summary>
         /// <value>The value of the Maybe</value>
-        /// <exception cref="InvalidOperationException">
-        /// Throws an InvalidOperationException if accessed and there is no value.
-        /// </exception>
         public T Value
         {
             get
@@ -156,7 +152,7 @@ namespace VoidCore.Domain
                 return false;
             }
 
-            var other = (Maybe<T>) obj;
+            var other = (Maybe<T>)obj;
             return Equals(other);
         }
 

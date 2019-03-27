@@ -23,7 +23,7 @@ namespace VoidCore.Model.Queries
         /// <summary>
         /// Strings for related entities to include
         /// </summary>
-        IReadOnlyList<string> IncludeStrings { get; }
+        IEnumerable<string> IncludeStrings { get; }
 
         /// <summary>
         /// Ascending primary sort on the query

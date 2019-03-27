@@ -5,56 +5,48 @@ using System.Linq;
 namespace VoidCore.Domain.RuleValidator
 {
     /// <summary>
-    /// A rule for validating an entity.
+    /// A rule for validating a request.
     /// </summary>
-    public class Rule<T> : IRule<T>, IRuleBuilder<T>
+    /// <typeparam name="T">The type of request to validate.</typeparam>
+    internal class Rule<T>
     {
         private readonly Func<T, IFailure> _failureBuilder;
-        private readonly List<Func<T, bool>> _invalidConditions = new List<Func<T, bool>>();
-        private readonly List<Func<T, bool>> _suppressConditions = new List<Func<T, bool>>();
+        private readonly IReadOnlyList<Func<T, bool>> _invalidConditions;
+        private readonly IReadOnlyList<Func<T, bool>> _suppressConditions;
 
         /// <summary>
         /// Construct a new rule and underlying validation error to throw when violations are detected.
         /// </summary>
         /// <param name="failureBuilder">A function that builds a custom IFailure to return if the rule fails.</param>
-        internal Rule(Func<T, IFailure> failureBuilder)
+        /// <param name="invalidConditions">A set of functions that return true if the request is invalid.</param>
+        /// <param name="suppressConditions">A set of functions that return true if the rule should be suppressed.</param>
+        internal Rule(Func<T, IFailure> failureBuilder, IReadOnlyList<Func<T, bool>> invalidConditions, IReadOnlyList<Func<T, bool>> suppressConditions)
         {
             _failureBuilder = failureBuilder;
+            _invalidConditions = invalidConditions;
+            _suppressConditions = suppressConditions;
         }
 
-        /// <inheritdoc/>
-        public IRuleBuilder<T> ExceptWhen(Func<T, bool> suppressCondition)
+        /// <summary>
+        /// Run this rule to validate the request.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public IResult Run(T request)
         {
-            _suppressConditions.Add(suppressCondition);
-            return this;
+            return !IsSuppressed(request) && IsInvalid(request) ?
+                Result.Fail(_failureBuilder(request)) :
+                Result.Ok();
         }
 
-        /// <inheritdoc/>
-        public IRuleBuilder<T> InvalidWhen(Func<T, bool> invalidCondition)
+        private bool IsInvalid(T request)
         {
-            _invalidConditions.Add(invalidCondition);
-            return this;
+            return _invalidConditions.Any() && _invalidConditions.Any(check => check(request));
         }
 
-        /// <inheritdoc/>
-        public IResult Run(T validatableEntity)
+        private bool IsSuppressed(T request)
         {
-            if (!IsSuppressed(validatableEntity) && IsInvalid(validatableEntity))
-            {
-                return Result.Fail(_failureBuilder(validatableEntity));
-            }
-
-            return Result.Ok();
-        }
-
-        private bool IsInvalid(T validatableEntity)
-        {
-            return _invalidConditions.Any() && _invalidConditions.Any(check => check(validatableEntity));
-        }
-
-        private bool IsSuppressed(T validatableEntity)
-        {
-            return _suppressConditions.Any() && _suppressConditions.Any(check => check(validatableEntity));
+            return _suppressConditions.Any() && _suppressConditions.Any(check => check(request));
         }
     }
 }

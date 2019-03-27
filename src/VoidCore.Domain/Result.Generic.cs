@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using VoidCore.Domain.Guards;
 
 namespace VoidCore.Domain
 {
@@ -14,13 +15,7 @@ namespace VoidCore.Domain
 
         internal Result(T value)
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value),
-                    "Cannot set a result value of null. Use non-generic Result for results without values.");
-            }
-
-            _value = value;
+            _value = value.EnsureNotNull(nameof(value), "Cannot set a result value of null. Use non-generic Result for results without values.");
         }
 
         internal Result(IEnumerable<IFailure> failures) : base(failures) { }
@@ -28,9 +23,6 @@ namespace VoidCore.Domain
         /// <summary>
         /// The success value
         /// </summary>
-        /// <exception cref="InvalidOperationException">
-        /// Throws an InvalidOperationException if accessed on a failed Result.
-        /// </exception>
         public T Value
         {
             get

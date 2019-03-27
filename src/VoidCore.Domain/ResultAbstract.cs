@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using VoidCore.Domain.Internal;
 
 namespace VoidCore.Domain
 {

@@ -12,14 +12,14 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void ResultThrowsErrorWithNullFailures()
         {
-            Assert.Throws<ArgumentNullException>(() => Result.Fail((List<IFailure>) null));
+            Assert.Throws<ArgumentNullException>(() => Result.Fail((List<IFailure>)null));
             Assert.Throws<ArgumentNullException>(() => Result.Fail(null));
         }
 
         [Fact]
         public void TypedResultThrowsErrorWithNullFailures()
         {
-            Assert.Throws<ArgumentNullException>(() => Result.Fail<string>((List<IFailure>) null));
+            Assert.Throws<ArgumentNullException>(() => Result.Fail<string>((List<IFailure>)null));
             Assert.Throws<ArgumentNullException>(() => Result.Fail<string>(null));
         }
 
@@ -40,7 +40,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void TypedResultThrowsErrorWithEmptySuccess()
         {
-            Assert.Throws<ArgumentNullException>(() => Result.Ok((string) null));
+            Assert.Throws<ArgumentNullException>(() => Result.Ok((string)null));
         }
 
         [Fact]
@@ -95,7 +95,7 @@ namespace VoidCore.Test.Domain
                     Result.Ok(1),
                     Result.Ok(string.Empty)
                 }
-                .Select(x => Task.FromResult(x));
+                .Select(Task.FromResult);
 
             var result = await Result.CombineAsync(results.ToArray());
 
@@ -113,7 +113,7 @@ namespace VoidCore.Test.Domain
                     Result.Ok(1),
                     Result.Ok(string.Empty)
                 }
-                .Select(x => Task.FromResult(x));
+                .Select(Task.FromResult);
 
             var result = await Result.CombineAsync(results.ToArray());
 

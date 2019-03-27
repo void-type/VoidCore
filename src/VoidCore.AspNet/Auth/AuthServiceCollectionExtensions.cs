@@ -2,8 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Linq;
+using VoidCore.Domain.Guards;
 
 namespace VoidCore.AspNet.Auth
 {
@@ -19,25 +18,14 @@ namespace VoidCore.AspNet.Auth
         /// </summary>
         /// <param name="services">The service collection</param>
         /// <param name="authorizationSettings">Authorization settings from configuration</param>
-        /// <exception cref="ArgumentNullException">
-        /// Throws an ArgumentNullException if authorizationSettings are not configured.
-        /// </exception>
-        /// <exception cref="ArgumentException">Throws an ArgumentException if authorizationPolicies are not configured.</exception>
         public static void AddAuthorizationPoliciesFromSettings(this IServiceCollection services, AuthorizationSettings authorizationSettings)
         {
-            if (authorizationSettings == null)
-            {
-                throw new ArgumentNullException(nameof(authorizationSettings), "Application is not configured properly. AuthorizationSettings not found.");
-            }
-
-            if (authorizationSettings.Policies == null || !authorizationSettings.Policies.Any())
-            {
-                throw new ArgumentException("Application is not properly configured. AuthorizationPolicies is either empty or not found.", nameof(authorizationSettings));
-            }
+            authorizationSettings?.Policies
+                .EnsureNotNullOrEmpty(nameof(authorizationSettings), "Authorization Policies not found in application configuration.");
 
             services.AddAuthorization(options =>
             {
-                foreach (var(key, value) in authorizationSettings.Policies)
+                foreach (var (key, value) in authorizationSettings.Policies)
                 {
                     options.AddPolicy(key, builder => builder.RequireRole(value));
                 }

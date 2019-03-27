@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
+using VoidCore.Domain.Guards;
 
 namespace VoidCore.AspNet.Data
 {
@@ -13,17 +16,30 @@ namespace VoidCore.AspNet.Data
         /// Add a DbContext to the DI container using SQL server settings.
         /// </summary>
         /// <param name="services">The service collection</param>
+        /// <param name="environment">The hosting environment</param>
         /// <param name="connectionString">The connection string to send to the DbContext</param>
         /// <typeparam name="TDbContext">The concrete type of DbContext to add to the DI container</typeparam>
-        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if null is passed for connectionString.</exception>
-        public static void AddSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString) where TDbContext : DbContext
+        public static void AddSqlServerDbContext<TDbContext>(this IServiceCollection services, IHostingEnvironment environment, string connectionString) where TDbContext : DbContext
         {
-            if (string.IsNullOrWhiteSpace(connectionString))
-            {
-                throw new ArgumentNullException(nameof(connectionString), "Application is not properly configured. Connection string is either empty or not found.");
-            }
+            connectionString.EnsureNotNullOrEmpty(nameof(connectionString), "Connection string not found in application configuration.");
 
-            services.AddDbContext<TDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<TDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+
+                if (environment.IsDevelopment())
+                {
+                    // TODO: .Net Core 3.0 will have a new way of doing this. Can ignore CS0618 warning for now.
+                    var consoleLoggerFactory = new LoggerFactory(new []
+                    {
+                        new ConsoleLoggerProvider(
+                            (category, level) => category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information,
+                            false)
+                    });
+
+                    options.UseLoggerFactory(consoleLoggerFactory);
+                }
+            });
         }
     }
 }

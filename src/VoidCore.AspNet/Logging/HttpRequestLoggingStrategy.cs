@@ -72,6 +72,7 @@ namespace VoidCore.AspNet.Logging
                 exceptionMessages.Add($"{exception.GetType()}: {exception.Message}");
                 exception = exception.InnerException;
             }
+
             exceptionMessages.Add($"Stack Trace: {stackTrace}");
             return exceptionMessages;
         }

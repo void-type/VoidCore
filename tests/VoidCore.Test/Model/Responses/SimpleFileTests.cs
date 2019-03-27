@@ -59,7 +59,7 @@ namespace VoidCore.Test.Model.Responses
         [Fact]
         public void CreatingFileWithNullContentThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new SimpleFile((byte[]) null, "some.txt"));
+            Assert.Throws<ArgumentNullException>(() => new SimpleFile((byte[])null, "some.txt"));
         }
 
         [Fact]

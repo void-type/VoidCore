@@ -24,7 +24,7 @@ namespace VoidCore.Test.Model.Queries
 
             var actual = objectCollection.Where(
                 SearchCriteria.PropertiesContain<TestObject>(
-                    new SearchTerms(new [] { "text", "other" }),
+                    new SearchTerms(new[] { "text", "other" }),
                     obj => obj.StringProperty1,
                     obj => obj.StringProperty2
                 )
@@ -128,7 +128,7 @@ namespace VoidCore.Test.Model.Queries
 
             var actual = objectCollection.Where(
                 SearchCriteria.PropertiesContain<TestObject>(
-                    new SearchTerms((string) null),
+                    new SearchTerms((string)null),
                     obj => obj.StringProperty1,
                     obj => obj.StringProperty2
                 )
@@ -154,7 +154,7 @@ namespace VoidCore.Test.Model.Queries
 
             var actual = objectCollection.Where(
                 SearchCriteria.PropertiesContain<TestObject>(
-                    new SearchTerms(new [] { "a" }),
+                    new SearchTerms(new[] { "a" }),
                     obj => obj.StringProperty1,
                     obj => obj.StringProperty2
                 )

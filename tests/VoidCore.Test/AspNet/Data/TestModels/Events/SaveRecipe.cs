@@ -94,7 +94,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                         .Select(c => new CategoryRecipe
                         {
                             RecipeId = recipe.Id,
-                                CategoryId = c.Id
+                            CategoryId = c.Id
                         }))
                     .TeeAsync(r => _data.CategoryRecipes.AddRange(r));
             }

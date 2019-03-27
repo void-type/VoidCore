@@ -19,7 +19,7 @@ namespace VoidCore.Test.AspNet.ClientApp
             var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
             currentUserAccessorMock
                 .Setup(mock => mock.User)
-                .Returns(new DomainUser("UserName", new [] { "policy1", "policy2" }));
+                .Returns(new DomainUser("UserName", new[] { "policy1", "policy2" }));
 
             var contextMock = new Mock<HttpContext>();
 
@@ -48,7 +48,7 @@ namespace VoidCore.Test.AspNet.ClientApp
 
             Assert.Equal("AppName", appInfo.ApplicationName);
             Assert.Equal("UserName", appInfo.User.Name);
-            Assert.Equal(new [] { "policy1", "policy2" }, appInfo.User.AuthorizedAs);
+            Assert.Equal(new[] { "policy1", "policy2" }, appInfo.User.AuthorizedAs);
             Assert.Equal("header-name", appInfo.AntiforgeryTokenHeaderName);
             Assert.Equal("request-token", appInfo.AntiforgeryToken);
 

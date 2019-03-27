@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using VoidCore.Domain;
+using VoidCore.Domain.Guards;
 
 namespace VoidCore.Model.Responses.Files
 {
@@ -15,18 +15,15 @@ namespace VoidCore.Model.Responses.Files
         /// Create a new file contents using bytes.
         /// </summary>
         /// <param name="content">The content of the file.</param>
-        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if content is null.</exception>
         public FileContent(byte[] content)
         {
-            AsBytes = content ??
-                throw new ArgumentNullException(nameof(content), "Cannot create a file content with null content.");
+            AsBytes = content.EnsureNotNull(nameof(content));
         }
 
         /// <summary>
         /// Create a new file contents using a string. Will be decoded from UTF8 to bytes internally.
         /// </summary>
         /// <param name="content">The content of the file.</param>
-        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if content is null.</exception>
         public FileContent(string content) : this(Encoding.UTF8.GetBytes(content)) { }
 
         /// <summary>

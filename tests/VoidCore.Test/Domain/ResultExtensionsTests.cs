@@ -48,7 +48,7 @@ namespace VoidCore.Test.Domain
                     Result.Ok(1),
                     Result.Ok(string.Empty)
                 }
-                .Select(x => Task.FromResult(x))
+                .Select(Task.FromResult)
                 .CombineAsync();
 
             Assert.True(result.IsSuccess);
@@ -67,7 +67,7 @@ namespace VoidCore.Test.Domain
                     Result.Ok(1),
                     Result.Ok(string.Empty)
                 }
-                .Select(x => Task.FromResult(x))
+                .Select(Task.FromResult)
                 .CombineAsync();
 
             Assert.True(result.IsFailed);
@@ -137,7 +137,7 @@ namespace VoidCore.Test.Domain
         public void ThenTests()
         {
             var newOkResult = Result.Ok()
-                .Then(() => Result.Ok())
+                .Then(Result.Ok)
                 .Then(() => Result.Ok(string.Empty))
                 .Then(r => Result.Ok(string.Empty))
                 .Then(r => Result.Ok())
