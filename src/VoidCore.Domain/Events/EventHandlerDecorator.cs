@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace VoidCore.Domain.Events
 {
     /// <summary>
-    /// A wrapper that decorates a domain event with validators and post processors.
+    /// A decorator for building a pipeline from a domain event with validators and post processors.
     /// </summary>
     /// <typeparam name="TRequest">The type of the event request</typeparam>
     /// <typeparam name="TResponse">The type of the event response</typeparam>
@@ -20,7 +20,7 @@ namespace VoidCore.Domain.Events
         /// Create a new Decorated Domain Event handler
         /// </summary>
         /// <param name="innerEvent">The inner domain handler</param>
-        public EventHandlerDecorator(EventHandlerAbstract<TRequest, TResponse> innerEvent)
+        internal EventHandlerDecorator(EventHandlerAbstract<TRequest, TResponse> innerEvent)
         {
             _innerEvent = innerEvent;
         }

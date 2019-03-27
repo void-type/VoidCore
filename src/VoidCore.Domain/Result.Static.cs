@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,8 +43,6 @@ namespace VoidCore.Domain
         /// </summary>
         /// <param name="failures">A set of failures</param>
         /// <returns>A new result</returns>
-        /// <exception cref="ArgumentException">Throws an ArgumentException if failures are empty.</exception>
-        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if null is passed for failures.</exception>
         public static IResult Fail(params IFailure[] failures)
         {
             return new Result(failures);
@@ -56,8 +53,6 @@ namespace VoidCore.Domain
         /// </summary>
         /// <param name="failures">A set of failures</param>
         /// <returns>A new result</returns>
-        /// <exception cref="ArgumentException">Throws an ArgumentException if failures are empty.</exception>
-        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if null is passed for failures.</exception>
         public static IResult<T> Fail<T>(params IFailure[] failures)
         {
             return new Result<T>(failures);
@@ -68,8 +63,6 @@ namespace VoidCore.Domain
         /// </summary>
         /// <param name="failures">A set of failures</param>
         /// <returns>A new result</returns>
-        /// <exception cref="ArgumentException">Throws an ArgumentException if failures are empty.</exception>
-        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if null is passed for failures.</exception>
         public static IResult Fail(IEnumerable<IFailure> failures)
         {
             return new Result(failures);
@@ -80,8 +73,6 @@ namespace VoidCore.Domain
         /// </summary>
         /// <param name="failures">A set of failures</param>
         /// <returns>A new result</returns>
-        /// <exception cref="ArgumentException">Throws an ArgumentException if failures are empty.</exception>
-        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if null is passed for failures.</exception>
         public static IResult<T> Fail<T>(IEnumerable<IFailure> failures)
         {
             return new Result<T>(failures);
@@ -102,7 +93,6 @@ namespace VoidCore.Domain
         /// <param name="value">The result value</param>
         /// <typeparam name="T">The type of success value</typeparam>
         /// <returns>A new result</returns>
-        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if null is passed for value.</exception>
         public static IResult<T> Ok<T>(T value)
         {
             return new Result<T>(value);

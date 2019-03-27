@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using VoidCore.Domain.Guards;
 
-namespace VoidCore.Domain.Internal
+namespace VoidCore.Domain
 {
     /// <summary>
     /// This class holds the internal logic for the Result abstract class and its inheritors. InternalResult should not
@@ -13,16 +13,9 @@ namespace VoidCore.Domain.Internal
     {
         internal ResultInternal(IEnumerable<IFailure> failures)
         {
-            if (failures == null)
-            {
-                throw new ArgumentNullException(nameof(failures), "Failures must not be null for a failed result.");
-            }
+            var failuresArray = failures as IFailure[] ?? failures?.ToArray();
 
-            var failuresArray = failures as IFailure[] ?? failures.ToArray();
-            if (!failuresArray.Any())
-            {
-                throw new ArgumentException("Failures must not be empty for failed result.", nameof(failures));
-            }
+            failuresArray.EnsureNotNullOrEmpty(nameof(failures));
 
             Failures = failuresArray;
             IsFailed = true;
