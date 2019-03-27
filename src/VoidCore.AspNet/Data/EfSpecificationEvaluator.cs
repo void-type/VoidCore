@@ -49,7 +49,7 @@ namespace VoidCore.AspNet.Data
 
         private static IQueryable<T> ApplySecondaryOrderings<T>(this IOrderedQueryable<T> query, IQuerySpecification<T> specification) where T : class
         {
-            foreach (var(thenBy, isDescending) in specification.SecondaryOrderings)
+            foreach (var (thenBy, isDescending) in specification.SecondaryOrderings)
             {
                 query = isDescending ?
                     query.ThenByDescending(thenBy) :

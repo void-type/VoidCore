@@ -6,12 +6,12 @@ using VoidCore.Domain;
 namespace VoidCore.AspNet.Security
 {
     /// <summary>
-    /// Builds the options to configure the CSP header.
-    /// Adapted from https://www.c-sharpcorner.com/article/using-csp-header-in-asp-net-core-2-0/
+    /// Builds the options to configure the CSP header. Adapted from https://www.c-sharpcorner.com/article/using-csp-header-in-asp-net-core-2-0/
     /// </summary>
     public sealed class CspOptionsBuilder
     {
-        private List<CspDirectiveBuilder> _directives = new List<CspDirectiveBuilder>();
+        private readonly List<CspDirectiveBuilder> _directives = new List<CspDirectiveBuilder>();
+        private bool _isReportOnly;
 
         internal CspOptionsBuilder() { }
 
@@ -51,8 +51,7 @@ namespace VoidCore.AspNet.Security
         /// <returns>The builder for chaining.</returns>
         public CspDirectiveBuilder Media => Custom("media-src");
 
-        private CspDirectiveBuilder _reportUri => Custom("report-uri");
-        private bool _isReportOnly;
+        private CspDirectiveBuilder ReportUri => Custom("report-uri");
 
         /// <summary>
         /// Set the header to report-only. Content will not be blocked.
@@ -67,18 +66,19 @@ namespace VoidCore.AspNet.Security
         }
 
         /// <summary>
-        /// Set a URI to send blocked content JSON reports to. These reports can be collected to track violations on client pages.
+        /// Set a URI to send blocked content JSON reports to. These reports can be collected to track violations on
+        /// client pages.
         /// </summary>
         /// <param name="reportUri">The URI that collects CSP violation reports.</param>
         /// <returns>The builder for chaining.</returns>
         public CspOptionsBuilder SetReportUri(string reportUri)
         {
-            if (_reportUri.Sources.Count > 0)
+            if (ReportUri.Sources.Count > 0)
             {
                 throw new InvalidOperationException("Cannot set more than one report-uri directive value.");
             }
 
-            _reportUri.Allow(reportUri);
+            ReportUri.Allow(reportUri);
             return this;
         }
 

@@ -14,7 +14,7 @@ namespace VoidCore.Test.Domain
             var ex1 = Assert.Throws<ArgumentNullException>("myString1", () => myString1.EnsureNotNull(nameof(myString1)));
             Assert.Contains("Argument cannot be null.", ex1.Message);
 
-            string myString2 = string.Empty;
+            var myString2 = string.Empty;
             myString2.EnsureNotNull(nameof(myString2));
         }
 
@@ -25,11 +25,11 @@ namespace VoidCore.Test.Domain
             var ex1 = Assert.Throws<ArgumentNullException>("myString1", () => myString1.EnsureNotNullOrEmpty(nameof(myString1)));
             Assert.Contains("Argument cannot be null.", ex1.Message);
 
-            string myString2 = string.Empty;
+            var myString2 = string.Empty;
             var ex2 = Assert.Throws<ArgumentException>("myString2", () => myString2.EnsureNotNullOrEmpty(nameof(myString2)));
             Assert.Contains("Argument cannot be empty.", ex2.Message);
 
-            string myString3 = "Something";
+            var myString3 = "Something";
             myString3.EnsureNotNullOrEmpty(nameof(myString3));
         }
 
@@ -51,7 +51,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void EnsureThrowsWhenConditionFalse()
         {
-            var myInt1 = 2;
+            const int myInt1 = 2;
             var ex1 = Assert.Throws<ArgumentException>("myInt1", () => myInt1.Ensure(i => i > 4, nameof(myInt1)));
             Assert.Contains("Argument is invalid.", ex1.Message);
 
@@ -61,7 +61,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void EnsureWithMessageBuilderThrowsWhenConditionFalse()
         {
-            var myInt1 = 2;
+            const int myInt1 = 2;
             var ex = Assert.Throws<ArgumentException>("myInt1", () => myInt1.Ensure(i => i > 4, nameof(myInt1), i => $"Int must be greater than 4. Got {i}."));
             Assert.Contains("Int must be greater than 4. Got 2.", ex.Message);
         }

@@ -34,7 +34,7 @@ namespace VoidCore.Domain.RuleValidator
         /// <returns></returns>
         public IResult Run(T request)
         {
-            return (!IsSuppressed(request) && IsInvalid(request)) ?
+            return !IsSuppressed(request) && IsInvalid(request) ?
                 Result.Fail(_failureBuilder(request)) :
                 Result.Ok();
         }

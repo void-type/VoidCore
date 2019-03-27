@@ -152,7 +152,7 @@ namespace VoidCore.Domain
                 return false;
             }
 
-            var other = (Maybe<T>) obj;
+            var other = (Maybe<T>)obj;
             return Equals(other);
         }
 

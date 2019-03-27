@@ -27,9 +27,9 @@ namespace VoidCore.AspNet.Security
         }
 
         /// <summary>
-        /// Set a Content Security Policy header on the HTTP response.
-        /// See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
-        /// Denies unsafe content from being rendered on the page.
+        /// Set a Content Security Policy header on the HTTP response. See
+        /// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy Denies unsafe content from
+        /// being rendered on the page.
         /// </summary>
         /// <param name="app">This IApplicationBuilder</param>
         /// <param name="builder">A callback to configure header options.</param>
@@ -44,8 +44,8 @@ namespace VoidCore.AspNet.Security
         }
 
         /// <summary>
-        /// Set an X-Frame-Options header on the HTTP response.
-        /// Allows or denies this page from being shown in an x-frame, i-frame, embed, or object tag.
+        /// Set an X-Frame-Options header on the HTTP response. Allows or denies this page from being shown in an
+        /// x-frame, i-frame, embed, or object tag.
         /// </summary>
         /// <param name="app">This IApplicationBuilder</param>
         /// <param name="builder">A callback to configure header options.</param>

@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 namespace VoidCore.AspNet.Security
 {
     /// <summary>
-    /// Middleware for adding X-Frame-Options security headers to HTTP responses.
-    /// Allows or denies this page from being shown in an x-frame, i-frame, embed, or object tag.
+    /// Middleware for adding X-Frame-Options security headers to HTTP responses. Allows or denies this page from being
+    /// shown in an x-frame, i-frame, embed, or object tag.
     /// </summary>
     public class XFrameOptionsMiddleware
     {

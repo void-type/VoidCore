@@ -47,10 +47,7 @@ namespace VoidCore.Model.Responses.Files
         {
             get => _name;
 
-            private set
-            {
-                _name = value.EnsureNotNullOrEmpty(nameof(Name));
-            }
+            private set => _name = value.EnsureNotNullOrEmpty(nameof(Name));
         }
 
         /// <inheritdoc/>

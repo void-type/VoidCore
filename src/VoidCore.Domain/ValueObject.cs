@@ -54,7 +54,7 @@ namespace VoidCore.Domain
                 return false;
             }
 
-            var valueObject = (ValueObject) obj;
+            var valueObject = (ValueObject)obj;
 
             return GetEqualityComponents().SequenceEqual(valueObject.GetEqualityComponents());
         }

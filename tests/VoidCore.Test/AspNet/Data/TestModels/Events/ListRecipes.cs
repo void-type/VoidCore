@@ -25,7 +25,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
 
             public override async Task<IResult<IItemSet<RecipeListItemDto>>> Handle(Request request, CancellationToken cancellationToken = default)
             {
-                var criteria = new []
+                var criteria = new[]
                 {
                 SearchCriteria.PropertiesContain<Recipe>(
                 new SearchTerms(request.NameSearch),
@@ -53,7 +53,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                         recipe.Name,
                         recipe.CategoryRecipe.Select(cr => cr.Category.Name)))
                     .ToItemSet(request.IsPagingEnabled, request.Page, request.Take, totalCount)
-                    .Map(page => Result.Ok(page));
+                    .Map(Result.Ok);
             }
         }
 

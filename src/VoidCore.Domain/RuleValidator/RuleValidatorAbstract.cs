@@ -31,7 +31,7 @@ namespace VoidCore.Domain.RuleValidator
         /// <returns>A rule builder to continue building this rule</returns>
         protected IRuleBuilder<T> CreateRule(Func<T, IFailure> failureBuilder)
         {
-            var rule = new RuleBuilder<T>(request => failureBuilder(request));
+            var rule = new RuleBuilder<T>(failureBuilder);
             _ruleBuilders.Add(rule);
             return rule;
         }
@@ -43,7 +43,7 @@ namespace VoidCore.Domain.RuleValidator
         /// <returns>A rule builder to continue building this rule</returns>
         protected IRuleBuilder<T> CreateRule(IFailure failure)
         {
-            return this.CreateRule(request => failure);
+            return CreateRule(request => failure);
         }
     }
 }

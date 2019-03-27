@@ -25,7 +25,7 @@ namespace VoidCore.AspNet.Auth
 
             services.AddAuthorization(options =>
             {
-                foreach (var(key, value) in authorizationSettings.Policies)
+                foreach (var (key, value) in authorizationSettings.Policies)
                 {
                     options.AddPolicy(key, builder => builder.RequireRole(value));
                 }

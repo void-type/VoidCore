@@ -3,8 +3,7 @@ using System.Collections.Generic;
 namespace VoidCore.AspNet.Security
 {
     /// <summary>
-    /// Builds CSP header directives.
-    /// Adapted from https://www.c-sharpcorner.com/article/using-csp-header-in-asp-net-core-2-0/
+    /// Builds CSP header directives. Adapted from https://www.c-sharpcorner.com/article/using-csp-header-in-asp-net-core-2-0/
     /// </summary>
     public sealed class CspDirectiveBuilder
     {

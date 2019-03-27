@@ -18,7 +18,9 @@ namespace VoidCore.Domain.Guards
         /// Ensure that the argument is not null.
         /// </summary>
         /// <param name="argumentValue">The value of the argument.</param>
-        /// <param name="argumentName">The name of the argument. It is recommended to use nameof instead of hardcoding the parameter name.</param>
+        /// <param name="argumentName">
+        /// The name of the argument. It is recommended to use nameof instead of hardcoding the parameter name.
+        /// </param>
         /// <param name="message">An option to override the default exception message.</param>
         /// <typeparam name="T">The type of argument.</typeparam>
         /// <returns>The argument for chaining guards or assignment.</returns>
@@ -37,7 +39,9 @@ namespace VoidCore.Domain.Guards
         /// Ensure that the string argument is not null or empty.
         /// </summary>
         /// <param name="argumentValue">The value of the argument.</param>
-        /// <param name="argumentName">The name of the argument. It is recommended to use nameof instead of hardcoding the parameter name.</param>
+        /// <param name="argumentName">
+        /// The name of the argument. It is recommended to use nameof instead of hardcoding the parameter name.
+        /// </param>
         /// <param name="message">An option to override the default exception message.</param>
         /// <returns>The argument for chaining guards or assignment.</returns>
         [DebuggerStepThrough]
@@ -52,7 +56,9 @@ namespace VoidCore.Domain.Guards
         /// Ensure the collection argument is not null or empty.
         /// </summary>
         /// <param name="argumentValue">The value of the argument.</param>
-        /// <param name="argumentName">The name of the argument. It is recommended to use nameof instead of hardcoding the parameter name.</param>
+        /// <param name="argumentName">
+        /// The name of the argument. It is recommended to use nameof instead of hardcoding the parameter name.
+        /// </param>
         /// <param name="message">An option to override the default exception message.</param>
         /// <typeparam name="T">The type of argument.</typeparam>
         /// <returns>The argument for chaining guards or assignment.</returns>
@@ -69,7 +75,9 @@ namespace VoidCore.Domain.Guards
         /// </summary>
         /// <param name="argumentValue">The value of the argument.</param>
         /// <param name="conditionExpression">A function that if evaluates to false, will throw the exception.</param>
-        /// <param name="argumentName">The name of the argument. It is recommended to use nameof instead of hardcoding the parameter name.</param>
+        /// <param name="argumentName">
+        /// The name of the argument. It is recommended to use nameof instead of hardcoding the parameter name.
+        /// </param>
         /// <param name="message">An option to override the default exception message.</param>
         /// <typeparam name="T">The type of argument.</typeparam>
         /// <returns>The argument for chaining guards or assignment.</returns>
@@ -89,7 +97,9 @@ namespace VoidCore.Domain.Guards
         /// </summary>
         /// <param name="argumentValue">The value of the argument.</param>
         /// <param name="conditionExpression">A function that if evaluates to false, will throw the exception.</param>
-        /// <param name="argumentName">The name of the argument. It is recommended to use nameof instead of hardcoding the parameter name.</param>
+        /// <param name="argumentName">
+        /// The name of the argument. It is recommended to use nameof instead of hardcoding the parameter name.
+        /// </param>
         /// <param name="messageBuilder">An option to override the default exception message.</param>
         /// <typeparam name="T">The type of argument.</typeparam>
         /// <returns>The argument for chaining guards or assignment.</returns>

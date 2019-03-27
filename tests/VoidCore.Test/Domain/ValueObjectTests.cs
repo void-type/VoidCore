@@ -18,8 +18,8 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void NullComparedToNullValueObjectIsEqual()
         {
-            Assert.True((Address) null == null);
-            Assert.True(null == (Address) null);
+            Assert.True((Address)null == null);
+            Assert.True(null == (Address)null);
         }
 
         [Fact]

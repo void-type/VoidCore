@@ -33,8 +33,8 @@ namespace VoidCore.Model.Responses.Collections
         }
 
         /// <summary>
-        /// Create an item set from explicit properties. This extension bypasses pagination logic.
-        /// This is useful if another service performed the pagination and the total count is known.
+        /// Create an item set from explicit properties. This extension bypasses pagination logic. This is useful if
+        /// another service performed the pagination and the total count is known.
         /// </summary>
         /// <param name="items">The page from set of items</param>
         /// <param name="page">What page number to take from the set</param>
