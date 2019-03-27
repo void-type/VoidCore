@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using VoidCore.Domain;
+using VoidCore.Domain.Guards;
 
 namespace VoidCore.Model.Responses.Files
 {
@@ -16,7 +16,6 @@ namespace VoidCore.Model.Responses.Files
         /// </summary>
         /// <param name="fileContent">The byte representation of the file contents</param>
         /// <param name="fileName">The name of the file</param>
-        /// <exception cref="ArgumentNullException">Throws an ArgumentNullException if fileName or content is null.</exception>
         public SimpleFile(string fileContent, string fileName)
         {
             Name = fileName;
@@ -50,17 +49,7 @@ namespace VoidCore.Model.Responses.Files
 
             private set
             {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value), "Cannot create a file with null name.");
-                }
-
-                if (value == string.Empty)
-                {
-                    throw new ArgumentException("Cannot create a file with empty name.", nameof(value));
-                }
-
-                _name = value;
+                _name = value.EnsureNotNullOrEmpty(nameof(Name));
             }
         }
 
