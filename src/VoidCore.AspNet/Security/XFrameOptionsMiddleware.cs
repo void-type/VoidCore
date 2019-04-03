@@ -9,7 +9,7 @@ namespace VoidCore.AspNet.Security
     /// </summary>
     public class XFrameOptionsMiddleware
     {
-        private const string _headerName = "X-Frame-Options";
+        private const string HeaderName = "X-Frame-Options";
         private readonly RequestDelegate _next;
         private readonly XFrameOptionsOptions _options;
 
@@ -30,7 +30,7 @@ namespace VoidCore.AspNet.Security
         /// <param name="context">The current HttpContext</param>
         public async Task Invoke(HttpContext context)
         {
-            context.Response.Headers.Add(_headerName, _options.Value);
+            context.Response.Headers.Add(HeaderName, _options.Value);
             await _next(context);
         }
     }

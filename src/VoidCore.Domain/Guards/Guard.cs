@@ -10,9 +10,9 @@ namespace VoidCore.Domain.Guards
     /// </summary>
     public static class Guard
     {
-        private const string _argumentNullMessage = "Argument cannot be null.";
-        private const string _argumentEmptyMessage = "Argument cannot be empty.";
-        private const string _argumentInvalidMessage = "Argument is invalid.";
+        private const string ArgumentNullMessage = "Argument cannot be null.";
+        private const string ArgumentEmptyMessage = "Argument cannot be empty.";
+        private const string ArgumentInvalidMessage = "Argument is invalid.";
 
         /// <summary>
         /// Ensure that the argument is not null.
@@ -29,7 +29,7 @@ namespace VoidCore.Domain.Guards
         {
             if (argumentValue == null)
             {
-                throw new ArgumentNullException(argumentName, message ?? _argumentNullMessage);
+                throw new ArgumentNullException(argumentName, message ?? ArgumentNullMessage);
             }
 
             return argumentValue;
@@ -48,8 +48,8 @@ namespace VoidCore.Domain.Guards
         public static string EnsureNotNullOrEmpty(this string argumentValue, string argumentName, string message = null)
         {
             return argumentValue
-                .EnsureNotNull(argumentName, message ?? _argumentNullMessage)
-                .Ensure(v => !string.IsNullOrEmpty(v), argumentName, message ?? _argumentEmptyMessage);
+                .EnsureNotNull(argumentName, message ?? ArgumentNullMessage)
+                .Ensure(v => !string.IsNullOrEmpty(v), argumentName, message ?? ArgumentEmptyMessage);
         }
 
         /// <summary>
@@ -66,8 +66,8 @@ namespace VoidCore.Domain.Guards
         public static IEnumerable<T> EnsureNotNullOrEmpty<T>(this IEnumerable<T> argumentValue, string argumentName, string message = null)
         {
             return argumentValue
-                .EnsureNotNull(argumentName, message ?? _argumentNullMessage)
-                .Ensure(v => v.Any(), argumentName, message ?? _argumentEmptyMessage);
+                .EnsureNotNull(argumentName, message ?? ArgumentNullMessage)
+                .Ensure(v => v.Any(), argumentName, message ?? ArgumentEmptyMessage);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace VoidCore.Domain.Guards
         {
             if (!conditionExpression(argumentValue))
             {
-                throw new ArgumentException(message ?? _argumentInvalidMessage, argumentName);
+                throw new ArgumentException(message ?? ArgumentInvalidMessage, argumentName);
             }
 
             return argumentValue;
