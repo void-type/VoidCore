@@ -63,6 +63,7 @@ namespace VoidCore.Test.Domain
             okResult
                 .TeeOnFailure(() => tick++)
                 .TeeOnFailure(() => tick++)
+                .TeeOnFailure(r => Assert.Single(r.Failures))
                 .TeeOnFailure(() => tick++);
 
             Assert.Equal(1, tick);
@@ -70,6 +71,7 @@ namespace VoidCore.Test.Domain
             failResult
                 .TeeOnFailure(() => tick++)
                 .TeeOnFailure(() => tick++)
+                .TeeOnFailure(r => Assert.Single(r.Failures))
                 .TeeOnFailure(() => tick++);
 
             Assert.Equal(4, tick);
@@ -85,6 +87,7 @@ namespace VoidCore.Test.Domain
             okResult
                 .TeeOnFailure(() => tick++)
                 .TeeOnFailure(() => tick++)
+                .TeeOnFailure(r => Assert.Single(r.Failures))
                 .TeeOnFailure(() => tick++);
 
             Assert.Equal(1, tick);
@@ -92,6 +95,7 @@ namespace VoidCore.Test.Domain
             failResult
                 .TeeOnFailure(() => tick++)
                 .TeeOnFailure(() => tick++)
+                .TeeOnFailure(r => Assert.Single(r.Failures))
                 .TeeOnFailure(() => tick++);
 
             Assert.Equal(4, tick);
@@ -105,6 +109,8 @@ namespace VoidCore.Test.Domain
             var newOkResult = await Result.Ok()
                 .TeeOnSuccessAsync(() => p.GoAsync(1))
                 .TeeOnFailureAsync(() => p.GoAsync(1))
+                .TeeOnFailureAsync(r => Assert.Single(r.Failures))
+                .TeeOnFailureAsync(async r => await Task.FromResult(Assert.Single(r.Failures)))
                 .TeeOnFailureAsync(() => p.Go(2))
                 .TeeOnSuccessAsync(() => p.GoAsync(2))
                 .TeeOnFailureAsync(() => p.Go(3))
@@ -121,6 +127,8 @@ namespace VoidCore.Test.Domain
             var newFailResult = await Result.Fail(new Failure("oops"))
                 .TeeOnSuccessAsync(() => p.GoAsync(1))
                 .TeeOnFailureAsync(() => p.GoAsync(1))
+                .TeeOnFailureAsync(r => Assert.Single(r.Failures))
+                .TeeOnFailureAsync(async r => await Task.FromResult(Assert.Single(r.Failures)))
                 .TeeOnFailureAsync(() => p.Go(2))
                 .TeeOnSuccessAsync(() => p.GoAsync(2))
                 .TeeOnFailureAsync(() => p.Go(3))
@@ -142,6 +150,8 @@ namespace VoidCore.Test.Domain
             var newOkResult = await Result.Ok(string.Empty)
                 .TeeOnSuccessAsync(r => p.GoAsync(1))
                 .TeeOnFailureAsync(() => p.GoAsync(1))
+                .TeeOnFailureAsync(r => Assert.Single(r.Failures))
+                .TeeOnFailureAsync(async r => await Task.FromResult(Assert.Single(r.Failures)))
                 .TeeOnFailureAsync(() => p.Go(2))
                 .TeeOnSuccessAsync(() => p.Go(2))
                 .TeeOnFailureAsync(() => p.Go(3))
@@ -158,6 +168,8 @@ namespace VoidCore.Test.Domain
             var newFailResult = await Result.Fail<int>(new Failure("oops"))
                 .TeeOnSuccessAsync(r => p.GoAsync(1))
                 .TeeOnFailureAsync(() => p.GoAsync(1))
+                .TeeOnFailureAsync(r => Assert.Single(r.Failures))
+                .TeeOnFailureAsync(async r => await Task.FromResult(Assert.Single(r.Failures)))
                 .TeeOnFailureAsync(() => p.Go(2))
                 .TeeOnSuccessAsync(() => p.Go(2))
                 .TeeOnFailureAsync(() => p.Go(3))
