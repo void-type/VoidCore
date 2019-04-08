@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace VoidCore.Domain
@@ -77,11 +78,11 @@ namespace VoidCore.Domain
         /// <param name="result">The result</param>
         /// <param name="action">The action to perform</param>
         /// <returns>The original result</returns>
-        public static IResult TeeOnFailure(this IResult result, Action<IResult> action)
+        public static IResult TeeOnFailure(this IResult result, Action<IEnumerable<IFailure>> action)
         {
             if (result.IsFailed)
             {
-                action(result);
+                action(result.Failures);
             }
 
             return result;
@@ -94,11 +95,11 @@ namespace VoidCore.Domain
         /// <param name="result">The result</param>
         /// <param name="actionTask">The asynchronous action to perform</param>
         /// <returns>The original result</returns>
-        public static async Task<IResult> TeeOnFailureAsync(this IResult result, Func<IResult, Task> actionTask)
+        public static async Task<IResult> TeeOnFailureAsync(this IResult result, Func<IEnumerable<IFailure>, Task> actionTask)
         {
             if (result.IsFailed)
             {
-                await actionTask(result).ConfigureAwait(false);
+                await actionTask(result.Failures).ConfigureAwait(false);
             }
 
             return result;
@@ -111,7 +112,7 @@ namespace VoidCore.Domain
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="action">The action to perform</param>
         /// <returns>The original result</returns>
-        public static async Task<IResult> TeeOnFailureAsync(this Task<IResult> resultTask, Action<IResult> action)
+        public static async Task<IResult> TeeOnFailureAsync(this Task<IResult> resultTask, Action<IEnumerable<IFailure>> action)
         {
             var result = await resultTask.ConfigureAwait(false);
 
@@ -125,7 +126,7 @@ namespace VoidCore.Domain
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="actionTask">The asynchronous action to perform</param>
         /// <returns>The original result</returns>
-        public static async Task<IResult> TeeOnFailureAsync(this Task<IResult> resultTask, Func<IResult, Task> actionTask)
+        public static async Task<IResult> TeeOnFailureAsync(this Task<IResult> resultTask, Func<IEnumerable<IFailure>, Task> actionTask)
         {
             var result = await resultTask.ConfigureAwait(false);
 
@@ -206,11 +207,11 @@ namespace VoidCore.Domain
         /// <param name="action">The action to perform</param>
         /// <typeparam name="T">The value of the result</typeparam>
         /// <returns>The original result</returns>
-        public static IResult<T> TeeOnFailure<T>(this IResult<T> result, Action<IResult<T>> action)
+        public static IResult<T> TeeOnFailure<T>(this IResult<T> result, Action<IEnumerable<IFailure>> action)
         {
             if (result.IsFailed)
             {
-                action(result);
+                action(result.Failures);
             }
 
             return result;
@@ -224,11 +225,11 @@ namespace VoidCore.Domain
         /// <param name="actionTask">The asynchronous action to perform</param>
         /// <typeparam name="T">The value of the result</typeparam>
         /// <returns>The original result</returns>
-        public static async Task<IResult<T>> TeeOnFailureAsync<T>(this IResult<T> result, Func<IResult<T>, Task> actionTask)
+        public static async Task<IResult<T>> TeeOnFailureAsync<T>(this IResult<T> result, Func<IEnumerable<IFailure>, Task> actionTask)
         {
             if (result.IsFailed)
             {
-                await actionTask(result).ConfigureAwait(false);
+                await actionTask(result.Failures).ConfigureAwait(false);
             }
 
             return result;
@@ -242,7 +243,7 @@ namespace VoidCore.Domain
         /// <param name="action">The action to perform</param>
         /// <typeparam name="T">The value of the result</typeparam>
         /// <returns>The original result</returns>
-        public static async Task<IResult<T>> TeeOnFailureAsync<T>(this Task<IResult<T>> resultTask, Action<IResult<T>> action)
+        public static async Task<IResult<T>> TeeOnFailureAsync<T>(this Task<IResult<T>> resultTask, Action<IEnumerable<IFailure>> action)
         {
             var result = await resultTask.ConfigureAwait(false);
 
@@ -257,7 +258,7 @@ namespace VoidCore.Domain
         /// <param name="actionTask">The asynchronous action to perform</param>
         /// <typeparam name="T">The value of the result</typeparam>
         /// <returns>The original result</returns>
-        public static async Task<IResult<T>> TeeOnFailureAsync<T>(this Task<IResult<T>> resultTask, Func<IResult<T>, Task> actionTask)
+        public static async Task<IResult<T>> TeeOnFailureAsync<T>(this Task<IResult<T>> resultTask, Func<IEnumerable<IFailure>, Task> actionTask)
         {
             var result = await resultTask.ConfigureAwait(false);
 
