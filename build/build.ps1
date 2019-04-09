@@ -2,18 +2,15 @@
 param(
   [string] $Configuration = "Release",
   [switch] $SkipTest,
+  [switch] $SkipTestReport,
   [switch] $SkipPack
 )
 
 . ./util.ps1
 
-# Clean the artifacts folder
+# Clean the artifacts folders
 Remove-Item -Path "../artifacts" -Recurse -ErrorAction SilentlyContinue
-
-# Clean coverage folder
 Remove-Item -Path "../coverage" -Recurse -ErrorAction SilentlyContinue
-
-# Clean testResults folder
 Remove-Item -Path "../testResults" -Recurse -ErrorAction SilentlyContinue
 
 # Build solution
@@ -24,14 +21,14 @@ Pop-Location
 
 if (-not $SkipTest) {
   # Run tests, gather coverage
-  Push-Location -Path "../tests/VoidCore.Test"
+  Push-Location -Path "$testProjectFolder"
 
   dotnet test `
     --configuration "$Configuration" `
     --no-build `
     --logger 'trx' `
     --results-directory '../../testResults' `
-    /p:Exclude='[xunit.runner.*]*' `
+    /p:Exclude='[xunit.*]*' `
     /p:CollectCoverage=true `
     /p:CoverletOutputFormat=cobertura `
     /p:CoverletOutput="../../coverage/coverage.cobertura.xml"
@@ -39,11 +36,13 @@ if (-not $SkipTest) {
   Stop-OnError
   Pop-Location
 
-  # Generate code coverage report
-  Push-Location -Path "../coverage"
-  reportgenerator "-reports:coverage.cobertura.xml" "-targetdir:." "-reporttypes:HtmlInline_AzurePipelines"
-  Stop-OnError
-  Pop-Location
+  if (-not $SkipTestReport) {
+    # Generate code coverage report
+    Push-Location -Path "../coverage"
+    reportgenerator "-reports:coverage.cobertura.xml" "-targetdir:." "-reporttypes:HtmlInline_AzurePipelines"
+    Stop-OnError
+    Pop-Location
+  }
 }
 
 if (-not $SkipPack) {
