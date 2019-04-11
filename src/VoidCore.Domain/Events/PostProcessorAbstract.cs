@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace VoidCore.Domain.Events
 {
     /// <summary>
@@ -10,16 +12,10 @@ namespace VoidCore.Domain.Events
         /// <inheritdoc/>
         public void Process(TRequest request, IResult<TResponse> result)
         {
-            OnBoth(request, result);
-
-            if (result.IsSuccess)
-            {
-                OnSuccess(request, result.Value);
-            }
-            else
-            {
-                OnFailure(request, result);
-            }
+            result
+                .Tee(r => OnBoth(request, r))
+                .TeeOnSuccess(response => OnSuccess(request, response))
+                .TeeOnFailure(failures => OnFailure(request, failures));
         }
 
         /// <summary>
@@ -33,8 +29,8 @@ namespace VoidCore.Domain.Events
         /// Override this method to process after a validation or event failure.
         /// </summary>
         /// <param name="request">The domain event request</param>
-        /// <param name="result">The failed result of the event</param>
-        protected virtual void OnFailure(TRequest request, IResult result) { }
+        /// <param name="failures">The failures of the result of the event</param>
+        protected virtual void OnFailure(TRequest request, IEnumerable<IFailure> failures) { }
 
         /// <summary>
         /// Override this method to process on success of the event.

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using VoidCore.Domain;
 using VoidCore.Domain.Events;
@@ -30,13 +31,14 @@ namespace VoidCore.Model.Logging
         /// default behavior.
         /// </summary>
         /// <param name="request">The domain event request</param>
-        /// <param name="result">The result of the event, this contains the response if successful</param>
-        protected override void OnFailure(TRequest request, IResult result)
+        /// <param name="failures">The failures of the event</param>
+        protected override void OnFailure(TRequest request, IEnumerable<IFailure> failures)
         {
             Logger.Warn(
-                $"Count: {result.Failures.Count()}",
-                $"Failures: {string.Join(" ", result.Failures.Select(failure => failure.Message))}");
-            base.OnFailure(request, result);
+                $"Count: {failures.Count()}",
+                $"Failures: {string.Join(" ", failures.Select(failure => failure.Message))}");
+
+            base.OnFailure(request, failures);
         }
     }
 }
