@@ -1,5 +1,6 @@
 using Moq;
 using Moq.Protected;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -134,7 +135,7 @@ namespace VoidCore.Test.Domain
         {
             var processorMock = new Mock<PostProcessorAbstract<TestRequest, TestResponse>>();
             processorMock.Protected().Setup("OnBoth", ItExpr.IsAny<TestRequest>(), ItExpr.IsAny<IResult<TestResponse>>());
-            processorMock.Protected().Setup("OnFailure", ItExpr.IsAny<TestRequest>(), ItExpr.IsAny<IResult>());
+            processorMock.Protected().Setup("OnFailure", ItExpr.IsAny<TestRequest>(), ItExpr.IsAny<IEnumerable<IFailure>>());
             processorMock.Protected().Setup("OnSuccess", ItExpr.IsAny<TestRequest>(), ItExpr.IsAny<TestResponse>());
 
             await new TestEventOk()
@@ -142,7 +143,7 @@ namespace VoidCore.Test.Domain
                 .Handle(new TestRequest());
 
             processorMock.Protected().Verify("OnBoth", Times.Once(), ItExpr.IsAny<TestRequest>(), ItExpr.IsAny<IResult<TestResponse>>());
-            processorMock.Protected().Verify("OnFailure", Times.Never(), ItExpr.IsAny<TestRequest>(), ItExpr.IsAny<IResult>());
+            processorMock.Protected().Verify("OnFailure", Times.Never(), ItExpr.IsAny<TestRequest>(), ItExpr.IsAny<IEnumerable<IFailure>>());
             processorMock.Protected().Verify("OnSuccess", Times.Once(), ItExpr.IsAny<TestRequest>(), ItExpr.IsAny<TestResponse>());
         }
 
@@ -151,7 +152,7 @@ namespace VoidCore.Test.Domain
         {
             var processorMock = new Mock<PostProcessorAbstract<TestRequest, TestResponse>>();
             processorMock.Protected().Setup("OnBoth", ItExpr.IsAny<TestRequest>(), ItExpr.IsAny<IResult<TestResponse>>());
-            processorMock.Protected().Setup("OnFailure", ItExpr.IsAny<TestRequest>(), ItExpr.IsAny<IResult>());
+            processorMock.Protected().Setup("OnFailure", ItExpr.IsAny<TestRequest>(), ItExpr.IsAny<IEnumerable<IFailure>>());
             processorMock.Protected().Setup("OnSuccess", ItExpr.IsAny<TestRequest>(), ItExpr.IsAny<TestResponse>());
 
             await new TestEventFail()
@@ -159,7 +160,7 @@ namespace VoidCore.Test.Domain
                 .Handle(new TestRequest());
 
             processorMock.Protected().Verify("OnBoth", Times.Once(), ItExpr.IsAny<TestRequest>(), ItExpr.IsAny<IResult<TestResponse>>());
-            processorMock.Protected().Verify("OnFailure", Times.Once(), ItExpr.IsAny<TestRequest>(), ItExpr.IsAny<IResult>());
+            processorMock.Protected().Verify("OnFailure", Times.Once(), ItExpr.IsAny<TestRequest>(), ItExpr.IsAny<IEnumerable<IFailure>>());
             processorMock.Protected().Verify("OnSuccess", Times.Never(), ItExpr.IsAny<TestRequest>(), ItExpr.IsAny<TestResponse>());
         }
 
