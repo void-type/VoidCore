@@ -28,12 +28,14 @@ namespace VoidCore.AspNet.Data
 
             if (specification.OrderBy != null)
             {
-                query = query.OrderBy(specification.OrderBy)
+                query = query
+                    .OrderBy(specification.OrderBy)
                     .ApplySecondaryOrderings(specification);
             }
             else if (specification.OrderByDescending != null)
             {
-                query = query.OrderByDescending(specification.OrderByDescending)
+                query = query
+                    .OrderByDescending(specification.OrderByDescending)
                     .ApplySecondaryOrderings(specification);
             }
 
