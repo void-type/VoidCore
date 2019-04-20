@@ -20,11 +20,11 @@ namespace VoidCore.AspNet.Data
         {
             var query = inputQuery;
 
-            query = specification.Criteria.Aggregate(query, (current, criteria) => current.Where(criteria));
-
             query = specification.Includes.Aggregate(query, (current, include) => current.Include(include));
 
             query = specification.IncludeStrings.Aggregate(query, (current, include) => current.Include(include));
+
+            query = specification.Criteria.Aggregate(query, (current, criteria) => current.Where(criteria));
 
             if (specification.OrderBy != null)
             {

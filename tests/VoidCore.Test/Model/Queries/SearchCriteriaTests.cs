@@ -23,7 +23,7 @@ namespace VoidCore.Test.Model.Queries
             }.AsQueryable();
 
             var actual = objectCollection.Where(
-                SearchCriteria.PropertiesContain<TestObject>(
+                SearchCriteria.PropertiesContainAll<TestObject>(
                     new SearchTerms(new[] { "text", "other" }),
                     obj => obj.StringProperty1,
                     obj => obj.StringProperty2
@@ -49,7 +49,7 @@ namespace VoidCore.Test.Model.Queries
             }.AsQueryable();
 
             var actual = objectCollection.Where(
-                SearchCriteria.PropertiesContain<TestObject>(
+                SearchCriteria.PropertiesContainAll<TestObject>(
                     new SearchTerms("text other  "),
                     obj => obj.StringProperty1,
                     obj => obj.StringProperty2
@@ -75,7 +75,7 @@ namespace VoidCore.Test.Model.Queries
             }.AsQueryable();
 
             var actual = objectCollection.Where(
-                SearchCriteria.PropertiesContain<TestObject>(
+                SearchCriteria.PropertiesContainAll<TestObject>(
                     new SearchTerms(new string[0]),
                     obj => obj.StringProperty1,
                     obj => obj.StringProperty2
@@ -101,7 +101,7 @@ namespace VoidCore.Test.Model.Queries
             }.AsQueryable();
 
             var actual = objectCollection.Where(
-                SearchCriteria.PropertiesContain<TestObject>(
+                SearchCriteria.PropertiesContainAll<TestObject>(
                     new SearchTerms(null),
                     obj => obj.StringProperty1,
                     obj => obj.StringProperty2
@@ -127,7 +127,7 @@ namespace VoidCore.Test.Model.Queries
             }.AsQueryable();
 
             var actual = objectCollection.Where(
-                SearchCriteria.PropertiesContain<TestObject>(
+                SearchCriteria.PropertiesContainAll<TestObject>(
                     new SearchTerms((string)null),
                     obj => obj.StringProperty1,
                     obj => obj.StringProperty2
@@ -153,7 +153,7 @@ namespace VoidCore.Test.Model.Queries
             }.AsQueryable();
 
             var actual = objectCollection.Where(
-                SearchCriteria.PropertiesContain<TestObject>(
+                SearchCriteria.PropertiesContainAll<TestObject>(
                     new SearchTerms(new[] { "a" }),
                     obj => obj.StringProperty1,
                     obj => obj.StringProperty2
@@ -179,7 +179,7 @@ namespace VoidCore.Test.Model.Queries
             }.AsQueryable();
 
             var actual = objectCollection.Where(
-                SearchCriteria.PropertiesContain<TestObject>(
+                SearchCriteria.PropertiesContainAll<TestObject>(
                     new SearchTerms("a"),
                     obj => obj.StringProperty1,
                     obj => obj.StringProperty2
@@ -205,7 +205,7 @@ namespace VoidCore.Test.Model.Queries
             }.AsQueryable();
 
             var actual = objectCollection.Where(
-                SearchCriteria.PropertiesContain<TestObject>(
+                SearchCriteria.PropertiesContainAll<TestObject>(
                     new SearchTerms("text"),
                     obj => obj.StringProperty1,
                     obj => obj.StringProperty2

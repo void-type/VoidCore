@@ -25,14 +25,14 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
 
             public override async Task<IResult<IItemSet<RecipeListItemDto>>> Handle(Request request, CancellationToken cancellationToken = default)
             {
-                var criteria = new[]
+                var criteria = new []
                 {
-                SearchCriteria.PropertiesContain<Recipe>(
+                SearchCriteria.PropertiesContainAll<Recipe>(
                 new SearchTerms(request.NameSearch),
                 r => r.Name
                 ),
                 // TODO: Category search doesn't seem to work against SQL Server.
-                SearchCriteria.PropertiesContain<Recipe>(
+                SearchCriteria.PropertiesContainAll<Recipe>(
                 new SearchTerms(request.CategorySearch),
                 r => string.Join(" ", r.CategoryRecipe.Select(cr => cr.Category.Name))
                 )
@@ -52,7 +52,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                         recipe.Id,
                         recipe.Name,
                         recipe.CategoryRecipe.Select(cr => cr.Category.Name)))
-                    .ToItemSet(request.IsPagingEnabled, request.Page, request.Take, totalCount)
+                    .ToItemSet(request.Page, request.Take, totalCount, request.IsPagingEnabled)
                     .Map(Result.Ok);
             }
         }

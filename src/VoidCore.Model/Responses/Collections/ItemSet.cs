@@ -11,13 +11,13 @@ namespace VoidCore.Model.Responses.Collections
     public class ItemSet<T> : IItemSet<T>
     {
         /// <summary>
-        /// Create an item set without pagination.
+        /// Create an non-paged item set.
         /// </summary>
         /// <param name="items">The full set of items</param>
         public ItemSet(IEnumerable<T> items) : this(items, 0, 0, false) { }
 
         /// <summary>
-        /// Create a paged item set with option to turn off pagination.
+        /// Create an optionally paginated itemset.
         /// </summary>
         /// <param name="items">The full set of items</param>
         /// <param name="page">What page number to take from the set</param>
@@ -48,14 +48,15 @@ namespace VoidCore.Model.Responses.Collections
         }
 
         /// <summary>
-        /// Create an item set by explicitly describing the items and set. This constructor will not perform pagination.
+        /// Create an item set from explicit properties. This extension bypasses pagination logic. This is useful if
+        /// another service performed the pagination and the total count is known.
         /// </summary>
         /// <param name="items">The page from set of items</param>
         /// <param name="isPagingEnabled">Mark the set as paged or not paged</param>
         /// <param name="page">What page number to take from the set. Ignored if pagination is disabled</param>
         /// <param name="take">How many items to include in each page. Ignored if pagination is disabled</param>
         /// <param name="totalCount">The total count. Ignored if pagination is disabled</param>
-        public ItemSet(IEnumerable<T> items, bool isPagingEnabled, int page, int take, int totalCount)
+        public ItemSet(IEnumerable<T> items, int page, int take, int totalCount, bool isPagingEnabled = true)
         {
             items.EnsureNotNull(nameof(items));
 
