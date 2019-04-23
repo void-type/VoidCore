@@ -5,7 +5,7 @@ using Xunit;
 
 namespace VoidCore.Test.Model.Queries
 {
-    public class SearchCriteriaTests
+    public class SearchCriteriaPropertiesContainAllTests
     {
         [Fact]
         public void SearchObjectPropertiesForManyTermsArray()

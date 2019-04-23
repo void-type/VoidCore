@@ -32,6 +32,11 @@ namespace VoidCore.Model.Queries
         /// <typeparam name="T">The type of entity to search</typeparam>
         public static Expression<Func<T, bool>> PropertiesContainAny<T>(SearchTerms searchTerms, params Func<T, string>[] propertySelectors)
         {
+            if (!searchTerms.Terms.Any())
+            {
+                return entity => true;
+            }
+
             return entity =>
                 searchTerms.Terms.Any(term =>
                     propertySelectors.Any(selector =>

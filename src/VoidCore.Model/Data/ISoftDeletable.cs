@@ -11,12 +11,17 @@ namespace VoidCore.Model.Data
     public interface ISoftDeletable
     {
         /// <summary>
-        /// A string representing the remover of the entity
+        /// Mark the entity as soft-deleted so it can be excluded from normal queries.
+        /// </summary>
+        bool IsDeleted { get; set; }
+
+        /// <summary>
+        /// A string representing the remover of the entity.
         /// </summary>
         string DeletedBy { get; set; }
 
         /// <summary>
-        /// The date and time the entity was deleted
+        /// The date and time the entity was deleted. Can be used for uniqueness in the event the entity is recreated.
         /// </summary>
         DateTime? DeletedOn { get; set; }
     }

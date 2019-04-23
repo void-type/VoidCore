@@ -1,15 +1,17 @@
 ﻿using VoidCore.AspNet.Data;
+using VoidCore.Model.Auth;
 using VoidCore.Model.Data;
+using VoidCore.Model.Time;
 
 namespace VoidCore.Test.AspNet.Data.TestModels.Data
 {
     public class FoodStuffsEfData : IFoodStuffsData
     {
-        public FoodStuffsEfData(FoodStuffsContext context)
+        public FoodStuffsEfData(FoodStuffsContext context, IDateTimeService now, ICurrentUserAccessor currentUserAccessor)
         {
             Categories = new EfWritableRepository<Category>(context);
             CategoryRecipes = new EfWritableRepository<CategoryRecipe>(context);
-            Recipes = new EfWritableRepository<Recipe>(context);
+            Recipes = new AuditableRepositoryDecorator<Recipe>(new EfWritableRepository<Recipe>(context), now, currentUserAccessor);
             Users = new EfQueryRepository<User>(context);
         }
 
