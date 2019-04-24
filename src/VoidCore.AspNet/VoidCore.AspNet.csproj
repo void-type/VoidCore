@@ -2,7 +2,7 @@
   <PropertyGroup>
     <PackageId>VoidCore.AspNet</PackageId>
     <Title>VoidCore.AspNet</Title>
-    <Description>Opinionated configuration of single-page business applications on Asp.Net Core.</Description>
+    <Description>Configure an Asp.Net Core web application with enterprise SPA conventions.</Description>
     <PackageTags>asp.net;aspnet;opinionated;spa;single page;entity framework;logging;configuration;</PackageTags>
     <Authors>Jeff Schreiner and contributors</Authors>
     <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
