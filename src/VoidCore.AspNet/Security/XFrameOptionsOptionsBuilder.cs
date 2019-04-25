@@ -5,19 +5,22 @@ namespace VoidCore.AspNet.Security
     /// </summary>
     public sealed class XFrameOptionsOptionsBuilder
     {
-        private const string DenyValue = "deny";
-        private const string SameOriginValue = "sameorigin";
-        private const string AllowFromValue = "allow-from";
-        private string _option = DenyValue;
+        private string _option;
 
-        internal XFrameOptionsOptionsBuilder() { }
+        /// <summary>
+        /// Construct a new XFrameOptionsOptionsBuilder.
+        /// </summary>
+        public XFrameOptionsOptionsBuilder()
+        {
+            Deny();
+        }
 
         /// <summary>
         /// Deny this page from being shown in a frame.
         /// </summary>
         public void Deny()
         {
-            _option = DenyValue;
+            _option = "deny";
         }
 
         /// <summary>
@@ -25,7 +28,7 @@ namespace VoidCore.AspNet.Security
         /// </summary>
         public void SameOrigin()
         {
-            _option = SameOriginValue;
+            _option = "sameorigin";
         }
 
         /// <summary>
@@ -34,10 +37,14 @@ namespace VoidCore.AspNet.Security
         /// <param name="originUri">The origin URI of a page that can frame this page.</param>
         public void AllowFrom(string originUri)
         {
-            _option = $"{AllowFromValue} {originUri}";
+            _option = $"allow-from {originUri}";
         }
 
-        internal XFrameOptionsOptions Build()
+        /// <summary>
+        /// Build the XFrameOptionsOptions as configured by this builder.
+        /// </summary>
+        /// <returns>A new XFrameOptionsOptions</returns>
+        public XFrameOptionsOptions Build()
         {
             return new XFrameOptionsOptions(_option);
         }

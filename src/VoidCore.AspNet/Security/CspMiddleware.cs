@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace VoidCore.AspNet.Security
@@ -31,23 +30,9 @@ namespace VoidCore.AspNet.Security
         /// <param name="context">The current HttpContext</param>
         public async Task Invoke(HttpContext context)
         {
-            var reportOnly = _options.IsReportOnly ? "-Report-Only" : string.Empty;
-            context.Response.Headers.Add($"Content-Security-Policy{reportOnly}", GetHeaderValue());
+            var header = new CspHeader(_options);
+            context.Response.Headers.Add(header.Key, header.Value);
             await _next(context);
-        }
-
-        private string GetHeaderValue()
-        {
-            var stringBuilder = new StringBuilder();
-
-            var directiveBuilders = _options.DirectiveBuilders;
-
-            foreach (var directiveBuilder in directiveBuilders)
-            {
-                stringBuilder.Append(directiveBuilder.Build());
-            }
-
-            return stringBuilder.ToString();
         }
     }
 }

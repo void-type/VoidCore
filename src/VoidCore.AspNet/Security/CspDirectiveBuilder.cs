@@ -71,9 +71,7 @@ namespace VoidCore.AspNet.Security
         /// <returns>The string representation of the header directive.</returns>
         public string Build()
         {
-            return _sources.Count > 0 ?
-                $"{Name} {string.Join(" ", _sources)}; " :
-                string.Empty;
+            return $"{Name} {string.Join(" ", _sources)}; ";
         }
     }
 }

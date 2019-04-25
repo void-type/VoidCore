@@ -12,6 +12,13 @@ namespace VoidCore.Test.AspNet.ClientApp
     public class GetWebApplicationInfoTests
     {
         [Fact]
+        public void ApplicationSettingsHasParameterlessConstructorForAspNetOptions(){
+            var appSettings = new ApplicationSettings();
+
+            Assert.IsType<ApplicationSettings>(appSettings);
+        }
+
+        [Fact]
         public async Task ApplicationInfoIsCreatedWithAndLogsProperInfo()
         {
             var appSettings = new ApplicationSettings("AppName");

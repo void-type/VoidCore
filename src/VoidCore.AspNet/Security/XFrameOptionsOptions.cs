@@ -13,6 +13,6 @@ namespace VoidCore.AspNet.Security
         /// <summary>
         /// The value of the header.
         /// </summary>
-        public string Value { get; }
+        internal string Value { get; }
     }
 }
