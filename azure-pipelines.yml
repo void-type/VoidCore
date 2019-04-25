@@ -21,7 +21,7 @@ steps:
   displayName: 'Build, Test, and Pack'
   inputs:
     targetType: 'filePath'
-    filePath: 'build/build.ps1'
+    filePath: 'build/build.ps1 -SkipTestReport'
     workingDirectory: 'build'
 
 - task: PublishCodeCoverageResults@1
