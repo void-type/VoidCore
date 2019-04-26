@@ -2,7 +2,7 @@
   <PropertyGroup>
     <PackageId>VoidCore.Model</PackageId>
     <Title>VoidCore.Model</Title>
-    <Description>Opinionated set of service models for business applications.</Description>
+    <Description>Services and interfaces for opinionated business applications.</Description>
     <PackageTags>model;opinionated;services;business logic;search;api;response;</PackageTags>
     <Authors>Jeff Schreiner and contributors</Authors>
     <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="all" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.138" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.138" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

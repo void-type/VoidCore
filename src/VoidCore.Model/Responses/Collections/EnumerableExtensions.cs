@@ -8,7 +8,7 @@ namespace VoidCore.Model.Responses.Collections
     public static class EnumerableExtensions
     {
         /// <summary>
-        /// Create an item set without pagination.
+        /// Create an non-paged item set.
         /// </summary>
         /// <param name="items">The items to return in the set</param>
         /// <typeparam name="T">The type of entities in the collection</typeparam>
@@ -19,7 +19,7 @@ namespace VoidCore.Model.Responses.Collections
         }
 
         /// <summary>
-        /// Create a paged item set with option to turn off pagination.
+        /// Create an optionally paginated itemset.
         /// </summary>
         /// <param name="items">The full set of items</param>
         /// <param name="page">What page number to take from the set</param>
@@ -43,9 +43,9 @@ namespace VoidCore.Model.Responses.Collections
         /// <param name="isPagingEnabled">If paging is enabled in this set</param>
         /// <typeparam name="T">The type of entities in the collection</typeparam>
         /// <returns>A new ItemSet of these items</returns>
-        public static IItemSet<T> ToItemSet<T>(this IEnumerable<T> items, bool isPagingEnabled, int page, int take, int totalCount)
+        public static IItemSet<T> ToItemSet<T>(this IEnumerable<T> items, int page, int take, int totalCount, bool isPagingEnabled = true)
         {
-            return new ItemSet<T>(items, isPagingEnabled, page, take, totalCount);
+            return new ItemSet<T>(items, page, take, totalCount, isPagingEnabled);
         }
     }
 }

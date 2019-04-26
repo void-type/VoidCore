@@ -22,7 +22,7 @@ namespace VoidCore.Test.Model.Responses
         public void ExplicitCreationWithoutPagingIgnoresPageTakeAndTotalCount()
         {
             var items = new List<string> { string.Empty, string.Empty, string.Empty }.AsEnumerable();
-            var set = new ItemSet<string>(items, false, 2, 3, 4);
+            var set = new ItemSet<string>(items, 2, 3, 4, false);
             Assert.Equal(3, set.Count);
             Assert.Equal(1, set.Page);
             Assert.Equal(3, set.Take);
@@ -34,7 +34,7 @@ namespace VoidCore.Test.Model.Responses
         public void ExplicitCreationWithoutPagingAndNoItemsSetsTakeAsOne()
         {
             var items = new List<string>().AsEnumerable();
-            var set = new ItemSet<string>(items, false, 2, 3, 4);
+            var set = new ItemSet<string>(items, 2, 3, 4, false);
             Assert.Equal(0, set.Count);
             Assert.Equal(1, set.Page);
             Assert.Equal(1, set.Take);
@@ -46,7 +46,7 @@ namespace VoidCore.Test.Model.Responses
         public void ExplicitPageCreationSetsPropertiesCorrectly()
         {
             var items = new List<string> { string.Empty, string.Empty, string.Empty }.AsEnumerable();
-            var set = new ItemSet<string>(items, true, 2, 3, 4);
+            var set = new ItemSet<string>(items, 2, 3, 4, true);
             Assert.Equal(3, set.Count);
             Assert.Equal(2, set.Page);
             Assert.Equal(3, set.Take);
@@ -59,7 +59,7 @@ namespace VoidCore.Test.Model.Responses
         {
             Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null));
             Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null, 1, 1));
-            Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null, true, 1, 1, 1));
+            Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null, 1, 1, 1, true));
         }
 
         [Theory]

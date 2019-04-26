@@ -2,7 +2,7 @@
   <PropertyGroup>
     <PackageId>VoidCore.Domain</PackageId>
     <Title>VoidCore.Domain</Title>
-    <Description>A framework for building domain-driven buisness applications.</Description>
+    <Description>Domain-driven, functional and event-based development.</Description>
     <PackageTags>domain;request;response;events;validation;pipeline;functional;</PackageTags>
     <Authors>Jeff Schreiner and contributors</Authors>
     <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="all" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.138" PrivateAssets="all" />
   </ItemGroup>
 

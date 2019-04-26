@@ -7,13 +7,13 @@ namespace VoidCore.AspNet.Security
     /// </summary>
     public sealed class CspOptions
     {
-        internal CspOptions(bool isReportOnly, IReadOnlyList<CspDirectiveBuilder> directives)
+        internal CspOptions(bool isReportOnly, IReadOnlyList<string> directives)
         {
             IsReportOnly = isReportOnly;
-            DirectiveBuilders = directives;
+            Directives = directives;
         }
 
         internal bool IsReportOnly { get; }
-        internal IReadOnlyList<CspDirectiveBuilder> DirectiveBuilders { get; }
+        internal IReadOnlyList<string> Directives { get; }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Moq;
 using System;
 using System.Threading.Tasks;
+using VoidCore.Model.Auth;
 using VoidCore.Model.Time;
 using VoidCore.Test.AspNet.Data.TestModels.Data;
 
@@ -11,11 +13,20 @@ namespace VoidCore.Test.AspNet.Data.TestModels
     /// </summary>
     public static class Deps
     {
-        public static IDateTimeService DateTimeServiceEarly =>
+        static Deps()
+        {
+            var userAccessorMock = new Mock<ICurrentUserAccessor>();
+            userAccessorMock.Setup(a => a.User).Returns(new DomainUser("SingleUser", new string[0]));
+            CurrentUserAccessor = userAccessorMock.Object;
+        }
+
+        public static IDateTimeService DateTimeServiceEarly =
             new DiscreteDateTimeService(new DateTime(2001, 1, 1, 11, 11, 11, DateTimeKind.Utc));
 
-        public static IDateTimeService DateTimeServiceLate =>
+        public static IDateTimeService DateTimeServiceLate =
             new DiscreteDateTimeService(new DateTime(2002, 2, 2, 22, 22, 22, DateTimeKind.Utc));
+
+        public static ICurrentUserAccessor CurrentUserAccessor;
 
         public static FoodStuffsContext FoodStuffsContext(string dbName = null)
         {
@@ -28,7 +39,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels
 
         public static FoodStuffsEfData FoodStuffsData(this FoodStuffsContext context)
         {
-            return new FoodStuffsEfData(context);
+            return new FoodStuffsEfData(context, DateTimeServiceLate, CurrentUserAccessor);
         }
 
         public static async Task<FoodStuffsEfData> Seed(this FoodStuffsEfData data)
@@ -40,39 +51,39 @@ namespace VoidCore.Test.AspNet.Data.TestModels
             await data.Recipes.Add(new Recipe
             {
                 Id = 11,
-                Name = "Recipe1",
-                Ingredients = "ing",
-                Directions = "dir",
-                CookTimeMinutes = 21,
-                PrepTimeMinutes = 2,
-                CreatedOn = DateTimeServiceEarly.Moment,
-                ModifiedOn = DateTimeServiceLate.Moment,
-                CreatedBy = "11",
-                ModifiedBy = "12"
+                    Name = "Recipe1",
+                    Ingredients = "ing",
+                    Directions = "dir",
+                    CookTimeMinutes = 21,
+                    PrepTimeMinutes = 2,
+                    CreatedOn = DateTimeServiceEarly.Moment,
+                    ModifiedOn = DateTimeServiceLate.Moment,
+                    CreatedBy = "11",
+                    ModifiedBy = "12"
             });
 
             await data.Recipes.Add(new Recipe
             {
                 Id = 12,
-                Name = "Recipe2",
-                CookTimeMinutes = 2,
-                PrepTimeMinutes = 2,
-                CreatedOn = DateTimeServiceEarly.Moment,
-                ModifiedOn = DateTimeServiceLate.Moment,
-                CreatedBy = "11",
-                ModifiedBy = "11"
+                    Name = "Recipe2",
+                    CookTimeMinutes = 2,
+                    PrepTimeMinutes = 2,
+                    CreatedOn = DateTimeServiceEarly.Moment,
+                    ModifiedOn = DateTimeServiceLate.Moment,
+                    CreatedBy = "11",
+                    ModifiedBy = "11"
             });
 
             await data.Recipes.Add(new Recipe
             {
                 Id = 13,
-                Name = "Recipe3",
-                CookTimeMinutes = 2,
-                PrepTimeMinutes = 2,
-                CreatedOn = DateTimeServiceEarly.Moment,
-                ModifiedOn = DateTimeServiceLate.Moment,
-                CreatedBy = "11",
-                ModifiedBy = "11"
+                    Name = "Recipe3",
+                    CookTimeMinutes = 2,
+                    PrepTimeMinutes = 2,
+                    CreatedOn = DateTimeServiceEarly.Moment,
+                    ModifiedOn = DateTimeServiceLate.Moment,
+                    CreatedBy = "11",
+                    ModifiedBy = "11"
             });
 
             await data.CategoryRecipes.Add(new CategoryRecipe { RecipeId = 11, CategoryId = 11 });

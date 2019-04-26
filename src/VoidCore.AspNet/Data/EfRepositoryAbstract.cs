@@ -10,8 +10,8 @@ using VoidCore.Model.Queries;
 namespace VoidCore.AspNet.Data
 {
     /// <summary>
-    /// A generic read-only repository backed by a DbQuery instead of a DbSet of entities. Optimized for Entity Framework
-    /// Contexts. Adapted from https://github.com/dotnet-architecture/eShopOnWeb
+    /// A base class for repositories that use specifications to define queries.
+    /// Adapted from https://github.com/dotnet-architecture/eShopOnWeb
     /// </summary>
     /// <typeparam name="T">The type of entity stored in the repository</typeparam>
     public abstract class EfRepositoryAbstract<T> : IReadOnlyRepository<T> where T : class

@@ -10,10 +10,13 @@ namespace VoidCore.AspNet.Security
     /// </summary>
     public sealed class CspOptionsBuilder
     {
-        private readonly List<CspDirectiveBuilder> _directives = new List<CspDirectiveBuilder>();
+        private readonly List<CspDirectiveBuilder> _directiveBuilders = new List<CspDirectiveBuilder>();
         private bool _isReportOnly;
 
-        internal CspOptionsBuilder() { }
+        /// <summary>
+        /// Construct a new CspOptionsBuilder.
+        /// </summary>
+        public CspOptionsBuilder() { }
 
         /// <summary>
         /// Set the default fallback policy for sources that don't match any other set policy.
@@ -89,19 +92,25 @@ namespace VoidCore.AspNet.Security
         /// <returns>The builder for chaining.</returns>
         public CspDirectiveBuilder Custom(string directiveName)
         {
-            Maybe<CspDirectiveBuilder> maybeBuilder = _directives.FirstOrDefault(d => d.Name == directiveName);
+            Maybe<CspDirectiveBuilder> maybeBuilder = _directiveBuilders.FirstOrDefault(d => d.Name == directiveName);
 
             return maybeBuilder.Unwrap(() =>
             {
                 var newBuilder = new CspDirectiveBuilder(directiveName);
-                _directives.Add(newBuilder);
+                _directiveBuilders.Add(newBuilder);
                 return newBuilder;
             });
         }
 
-        internal CspOptions Build()
+        /// <summary>
+        /// Build the CspOptions as configured by this builder.
+        /// </summary>
+        /// <returns>A new CspOptions</returns>
+        public CspOptions Build()
         {
-            return new CspOptions(_isReportOnly, _directives);
+            var directives = new List<string>(_directiveBuilders.Select(d => d.Build()));
+
+            return new CspOptions(_isReportOnly, directives);
         }
     }
 }

@@ -20,20 +20,22 @@ namespace VoidCore.AspNet.Data
         {
             var query = inputQuery;
 
-            query = specification.Criteria.Aggregate(query, (current, criteria) => current.Where(criteria));
-
             query = specification.Includes.Aggregate(query, (current, include) => current.Include(include));
 
             query = specification.IncludeStrings.Aggregate(query, (current, include) => current.Include(include));
 
+            query = specification.Criteria.Aggregate(query, (current, criteria) => current.Where(criteria));
+
             if (specification.OrderBy != null)
             {
-                query = query.OrderBy(specification.OrderBy)
+                query = query
+                    .OrderBy(specification.OrderBy)
                     .ApplySecondaryOrderings(specification);
             }
             else if (specification.OrderByDescending != null)
             {
-                query = query.OrderByDescending(specification.OrderByDescending)
+                query = query
+                    .OrderByDescending(specification.OrderByDescending)
                     .ApplySecondaryOrderings(specification);
             }
 

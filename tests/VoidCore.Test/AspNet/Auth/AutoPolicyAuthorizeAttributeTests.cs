@@ -1,7 +1,7 @@
 using VoidCore.AspNet.Auth;
 using Xunit;
 
-namespace VoidCore.Test.AspNet.Authorization
+namespace VoidCore.Test.AspNet.Auth
 {
     public class AutoPolicyAuthorizeAttributeTests
     {

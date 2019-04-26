@@ -2,7 +2,7 @@
   <PropertyGroup>
     <PackageId>VoidCore.AspNet</PackageId>
     <Title>VoidCore.AspNet</Title>
-    <Description>Opinionated configuration of single-page business applications on Asp.Net Core.</Description>
+    <Description>Configure an Asp.Net Core web application with enterprise SPA conventions.</Description>
     <PackageTags>asp.net;aspnet;opinionated;spa;single page;entity framework;logging;configuration;</PackageTags>
     <Authors>Jeff Schreiner and contributors</Authors>
     <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="all" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="2.3.138" PrivateAssets="all" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using VoidCore.Domain;
 using VoidCore.Domain.Events;
 using VoidCore.Domain.RuleValidator;
-using VoidCore.Model.Data;
 using VoidCore.Model.Logging;
 using VoidCore.Model.Responses.Messages;
 using VoidCore.Test.AspNet.Data.TestModels.Data;
@@ -19,12 +18,10 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
         public class Handler : EventHandlerAbstract<Request, UserMessageWithEntityId<int>>
         {
             private readonly IFoodStuffsData _data;
-            private readonly IAuditUpdater _auditUpdater;
 
-            public Handler(IFoodStuffsData data, IAuditUpdater auditUpdater)
+            public Handler(IFoodStuffsData data)
             {
                 _data = data;
-                _auditUpdater = auditUpdater;
             }
 
             public override async Task<IResult<UserMessageWithEntityId<int>>> Handle(Request request, CancellationToken cancellationToken = default)
@@ -36,28 +33,26 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                 if (maybeRecipe.HasValue)
                 {
                     return await maybeRecipe.Value
-                        .Tee(r => Transfer(request, r))
+                        .Tee(r => TransferProperties(request, r))
                         .TeeAsync(r => _data.Recipes.Update(r, cancellationToken))
                         .TeeAsync(r => ManageCategories(request, r))
                         .MapAsync(r => Result.Ok(UserMessageWithEntityId.Create("Recipe updated.", r.Id)));
                 }
 
                 return await new Recipe()
-                    .Tee(_auditUpdater.Create)
-                    .Tee(r => Transfer(request, r))
+                    .Tee(r => TransferProperties(request, r))
                     .TeeAsync(r => _data.Recipes.Add(r, cancellationToken))
                     .TeeAsync(r => ManageCategories(request, r))
                     .MapAsync(r => Result.Ok(UserMessageWithEntityId.Create("Recipe added.", r.Id)));
             }
 
-            private void Transfer(Request request, Recipe recipe)
+            private void TransferProperties(Request request, Recipe recipe)
             {
                 recipe.Name = request.Name;
                 recipe.Ingredients = request.Ingredients;
                 recipe.Directions = request.Directions;
                 recipe.CookTimeMinutes = request.CookTimeMinutes;
                 recipe.PrepTimeMinutes = request.PrepTimeMinutes;
-                _auditUpdater.Update(recipe);
             }
 
             private async Task ManageCategories(Request request, Recipe recipe)
@@ -94,7 +89,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                         .Select(c => new CategoryRecipe
                         {
                             RecipeId = recipe.Id,
-                            CategoryId = c.Id
+                                CategoryId = c.Id
                         }))
                     .TeeAsync(r => _data.CategoryRecipes.AddRange(r));
             }
