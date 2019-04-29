@@ -11,7 +11,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Data
         {
             Categories = new EfWritableRepository<Category>(context);
             CategoryRecipes = new EfWritableRepository<CategoryRecipe>(context);
-            Recipes = new AuditableRepositoryDecorator<Recipe>(new EfWritableRepository<Recipe>(context), now, currentUserAccessor);
+            Recipes = new EfWritableRepository<Recipe>(context).AddAuditability(now, currentUserAccessor);
             Users = new EfQueryRepository<User>(context);
         }
 

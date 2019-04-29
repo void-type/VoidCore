@@ -20,7 +20,7 @@ namespace VoidCore.Model.Data
         /// <param name="innerRepository">The repository to be decorated</param>
         /// <param name="now">A datetime service that provides the time the entity was updated</param>
         /// <param name="currentUserAccessor">An accessor for the current user's properties</param>
-        public SoftDeletableRepositoryDecorator(IWritableRepository<T> innerRepository, IDateTimeService now, ICurrentUserAccessor currentUserAccessor) : base(innerRepository)
+        internal SoftDeletableRepositoryDecorator(IWritableRepository<T> innerRepository, IDateTimeService now, ICurrentUserAccessor currentUserAccessor) : base(innerRepository)
         {
             _now = now;
             _currentUserAccessor = currentUserAccessor;
