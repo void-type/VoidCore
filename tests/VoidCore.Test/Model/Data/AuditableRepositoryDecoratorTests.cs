@@ -27,7 +27,7 @@ namespace VoidCore.Test.Model.Data
             currentUserAccessorMock.Setup(c => c.User)
                 .Returns(new DomainUser("userName", new string[] { }));
 
-            var decorator = new AuditableRepositoryDecorator<TestEntity>(repoMock.Object, dateTimeService, currentUserAccessorMock.Object);
+            var decorator = repoMock.Object.AddAuditability(dateTimeService, currentUserAccessorMock.Object);
 
             await decorator.Add(entity);
 
@@ -55,9 +55,9 @@ namespace VoidCore.Test.Model.Data
             currentUserAccessorMock.Setup(c => c.User)
                 .Returns(new DomainUser("userName", new string[] { }));
 
-            var decorator = new AuditableRepositoryDecorator<TestEntity>(repoMock.Object, dateTimeService, currentUserAccessorMock.Object);
+            var decoratedRepo = repoMock.Object.AddAuditability(dateTimeService, currentUserAccessorMock.Object);
 
-            await decorator.AddRange(entities);
+            await decoratedRepo.AddRange(entities);
 
             Assert.Equal("userName", entities[0].CreatedBy);
             Assert.Equal(date, entities[0].CreatedOn);
@@ -83,9 +83,9 @@ namespace VoidCore.Test.Model.Data
             currentUserAccessorMock.Setup(c => c.User)
                 .Returns(new DomainUser("userName", new string[] { }));
 
-            var decorator = new AuditableRepositoryDecorator<TestEntity>(repoMock.Object, dateTimeService, currentUserAccessorMock.Object);
+            var decoratedRepo = repoMock.Object.AddAuditability(dateTimeService, currentUserAccessorMock.Object);
 
-            await decorator.Update(entity);
+            await decoratedRepo.Update(entity);
 
             Assert.Equal(default(string), entity.CreatedBy);
             Assert.Equal(default(DateTime), entity.CreatedOn);
@@ -111,9 +111,9 @@ namespace VoidCore.Test.Model.Data
             currentUserAccessorMock.Setup(c => c.User)
                 .Returns(new DomainUser("userName", new string[] { }));
 
-            var decorator = new AuditableRepositoryDecorator<TestEntity>(repoMock.Object, dateTimeService, currentUserAccessorMock.Object);
+            var decoratedRepo = repoMock.Object.AddAuditability(dateTimeService, currentUserAccessorMock.Object);
 
-            await decorator.UpdateRange(entities);
+            await decoratedRepo.UpdateRange(entities);
 
             Assert.Equal(default(string), entities[0].CreatedBy);
             Assert.Equal(default(DateTime), entities[0].CreatedOn);

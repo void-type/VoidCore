@@ -30,9 +30,9 @@ namespace VoidCore.Test.Model.Data
             currentUserAccessorMock.Setup(c => c.User)
                 .Returns(new DomainUser("userName", new string[] { }));
 
-            var decorator = new SoftDeletableRepositoryDecorator<TestEntity>(repoMock.Object, dateTimeService, currentUserAccessorMock.Object);
+            var decoratedRepo = repoMock.Object.AddSoftDeletability(dateTimeService, currentUserAccessorMock.Object);
 
-            await decorator.Remove(entity);
+            await decoratedRepo.Remove(entity);
 
             Assert.Equal("userName", entity.DeletedBy);
             Assert.Equal(date, entity.DeletedOn);
@@ -60,9 +60,9 @@ namespace VoidCore.Test.Model.Data
             currentUserAccessorMock.Setup(c => c.User)
                 .Returns(new DomainUser("userName", new string[] { }));
 
-            var decorator = new SoftDeletableRepositoryDecorator<TestEntity>(repoMock.Object, dateTimeService, currentUserAccessorMock.Object);
+            var decoratedRepo = repoMock.Object.AddSoftDeletability(dateTimeService, currentUserAccessorMock.Object);
 
-            await decorator.RemoveRange(entities);
+            await decoratedRepo.RemoveRange(entities);
 
             Assert.Equal("userName", entities[0].DeletedBy);
             Assert.Equal(date, entities[0].DeletedOn);
