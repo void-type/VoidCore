@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using VoidCore.Model.Logging;
 
 namespace VoidCore.AspNet.Data
 {
@@ -10,7 +11,7 @@ namespace VoidCore.AspNet.Data
     public class EfReadOnlyRepository<T> : EfRepositoryAbstract<T> where T : class
     {
         /// <inheritdoc/>
-        public EfReadOnlyRepository(DbContext context) : base(context) { }
+        public EfReadOnlyRepository(DbContext context, ILoggingStrategy loggingStrategy) : base(context, loggingStrategy) { }
 
         /// <inheritdoc/>
         protected override IQueryable<T> GetBaseQuery() => Context.Set<T>();

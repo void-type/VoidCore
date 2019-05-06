@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using VoidCore.Model.Data;
+using VoidCore.Model.Logging;
 
 namespace VoidCore.AspNet.Data
 {
@@ -13,7 +14,7 @@ namespace VoidCore.AspNet.Data
     public class EfWritableRepository<T> : EfReadOnlyRepository<T>, IWritableRepository<T> where T : class
     {
         /// <inheritdoc/>
-        public EfWritableRepository(DbContext context) : base(context) { }
+        public EfWritableRepository(DbContext context, ILoggingStrategy loggingStrategy) : base(context, loggingStrategy) { }
 
         /// <inheritdoc/>
         public virtual async Task<T> Add(T entity, CancellationToken cancellationToken = default)

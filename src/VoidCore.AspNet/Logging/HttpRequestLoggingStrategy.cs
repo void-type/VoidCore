@@ -32,7 +32,7 @@ namespace VoidCore.AspNet.Logging
         /// </summary>
         /// <param name="messages">Array of messages to log</param>
         /// <returns>The enriched log entry</returns>
-        public string Log(IEnumerable<string> messages)
+        public string Log(params string[] messages)
         {
             var request = _httpContextAccessor.HttpContext.Request;
             var traceId = _httpContextAccessor.HttpContext.TraceIdentifier;
@@ -50,18 +50,18 @@ namespace VoidCore.AspNet.Logging
         /// <param name="ex">The exception to log</param>
         /// <param name="messages">Array of messages to log</param>
         /// <returns>The enriched log entry</returns>
-        public string Log(Exception ex, IEnumerable<string> messages)
+        public string Log(Exception ex, params string[] messages)
         {
-            var eventArray = messages.Concat(FlattenExceptionMessages(ex));
+            var eventArray = messages.Concat(FlattenExceptionMessages(ex)).ToArray();
 
             return Log(eventArray);
         }
 
-        private static IEnumerable<string> FlattenExceptionMessages(Exception exception)
+        private static string[] FlattenExceptionMessages(Exception exception)
         {
             if (exception == null)
             {
-                return new List<string>();
+                return new string[0];
             }
 
             var exceptionMessages = new List<string> { "Threw Exception:" };
@@ -74,7 +74,7 @@ namespace VoidCore.AspNet.Logging
             }
 
             exceptionMessages.Add($"Stack Trace: {stackTrace}");
-            return exceptionMessages;
+            return exceptionMessages.ToArray();
         }
     }
 }

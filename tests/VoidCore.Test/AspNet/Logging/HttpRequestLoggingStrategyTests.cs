@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Http;
 using Moq;
 using System;
-using System.Collections.Generic;
 using VoidCore.AspNet.Logging;
 using VoidCore.Model.Auth;
 using Xunit;
@@ -38,9 +37,8 @@ namespace VoidCore.Test.AspNet.Logging
                 .Returns(new DomainUser("userName", new string[] { }));
 
             var strategy = new HttpRequestLoggingStrategy(httpContextAccessorMock.Object, currentUserAccessorMock.Object);
-            var messages = new List<string> { "added12", "added23" };
 
-            var logText = strategy.Log(exception, messages);
+            var logText = strategy.Log(exception, "added12", "added23");
 
             const string expectedPrefix = "identifier:userName:GET:/path/to/here";
             const string expectedPayload = "added12 added23 Threw Exception: System.Exception: 1 System.Exception: 2 System.Exception: 3";
@@ -73,9 +71,9 @@ namespace VoidCore.Test.AspNet.Logging
                 .Returns(new DomainUser("userName", new string[] { }));
 
             var strategy = new HttpRequestLoggingStrategy(httpContextAccessorMock.Object, currentUserAccessorMock.Object);
-            var messages = new List<string> { "added12", "added23" };
+            Exception exception = null;
 
-            var logText = strategy.Log(null, messages);
+            var logText = strategy.Log(exception, "added12", "added23");
 
             const string expectedPrefix = "identifier:userName:GET:/path/to/here";
             const string expectedPayload = "added12 added23";

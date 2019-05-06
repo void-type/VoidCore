@@ -24,7 +24,7 @@ namespace VoidCore.AspNet.Settings
         {
             if (!root)
             {
-                var sectionName = ConventionHelpers.StripEndingFromType(typeof(TSettings), "settings");
+                var sectionName = typeof(TSettings).GetTypeNameWithoutEnding("settings");
                 configuration = configuration.GetSection(sectionName);
             }
 
@@ -51,7 +51,7 @@ namespace VoidCore.AspNet.Settings
         {
             if (!root)
             {
-                var sectionName = ConventionHelpers.StripEndingFromType(typeof(TSettings), "settings");
+                var sectionName = typeof(TSettings).GetTypeNameWithoutEnding("settings");
                 configuration = configuration.GetSection(sectionName);
             }
 

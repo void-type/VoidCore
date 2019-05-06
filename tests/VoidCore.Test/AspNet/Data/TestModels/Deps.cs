@@ -3,6 +3,7 @@ using Moq;
 using System;
 using System.Threading.Tasks;
 using VoidCore.Model.Auth;
+using VoidCore.Model.Logging;
 using VoidCore.Model.Time;
 using VoidCore.Test.AspNet.Data.TestModels.Data;
 
@@ -39,7 +40,9 @@ namespace VoidCore.Test.AspNet.Data.TestModels
 
         public static FoodStuffsEfData FoodStuffsData(this FoodStuffsContext context)
         {
-            return new FoodStuffsEfData(context, DateTimeServiceLate, CurrentUserAccessor);
+            var loggingStrategyMock = new Mock<ILoggingStrategy>();
+            loggingStrategyMock.Setup(x => x.Log(It.IsAny<string[]>())).Returns("test request");
+            return new FoodStuffsEfData(context, loggingStrategyMock.Object, DateTimeServiceLate, CurrentUserAccessor);
         }
 
         public static async Task<FoodStuffsEfData> Seed(this FoodStuffsEfData data)
