@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using VoidCore.Domain;
 using VoidCore.Model.Data;
-using VoidCore.Model.Queries;
 
 namespace VoidCore.AspNet.Data
 {

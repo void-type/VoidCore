@@ -9,7 +9,6 @@ using VoidCore.Domain.RuleValidator;
 using VoidCore.Model.Logging;
 using VoidCore.Model.Responses.Messages;
 using VoidCore.Test.AspNet.Data.TestModels.Data;
-using VoidCore.Test.AspNet.Data.TestModels.Queries;
 
 namespace VoidCore.Test.AspNet.Data.TestModels.Events
 {
@@ -89,7 +88,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                         .Select(c => new CategoryRecipe
                         {
                             RecipeId = recipe.Id,
-                                CategoryId = c.Id
+                            CategoryId = c.Id
                         }))
                     .TeeAsync(r => _data.CategoryRecipes.AddRange(r));
             }

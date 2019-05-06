@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using VoidCore.Model.Queries;
+using VoidCore.Model.Data;
 using Xunit;
 
-namespace VoidCore.Test.Model.Queries
+namespace VoidCore.Test.Model.Data
 {
     public class SearchCriteriaPropertiesContainAnyTests
     {

@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using VoidCore.Domain;
-using VoidCore.Model.Queries;
 
 namespace VoidCore.Model.Data
 {

@@ -30,7 +30,7 @@ namespace VoidCore.AspNet.Data
                 if (environment.IsDevelopment())
                 {
                     // TODO: .Net Core 3.0 will have a new way of doing this. Can ignore CS0618 warning for now.
-                    var consoleLoggerFactory = new LoggerFactory(new []
+                    var consoleLoggerFactory = new LoggerFactory(new[]
                     {
                         new ConsoleLoggerProvider(
                             (category, level) => category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information,

@@ -12,7 +12,8 @@ namespace VoidCore.Test.AspNet.ClientApp
     public class GetWebApplicationInfoTests
     {
         [Fact]
-        public void ApplicationSettingsHasParameterlessConstructorForAspNetOptions(){
+        public void ApplicationSettingsHasParameterlessConstructorForAspNetOptions()
+        {
             var appSettings = new ApplicationSettings();
 
             Assert.IsType<ApplicationSettings>(appSettings);

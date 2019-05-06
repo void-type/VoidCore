@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace VoidCore.Model.Queries
+namespace VoidCore.Model.Data
 {
     /// <summary>
     /// A specification describing a query such as shape and content of entities. Can be used against repositories.
