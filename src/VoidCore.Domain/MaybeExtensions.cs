@@ -116,8 +116,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Asynchronously map the inner value to a Maybe of a new type by specifying the new Maybe. The new value will
-        /// be implicitly converted to a Maybe.
+        /// Asynchronously map the inner value to a Maybe of a new type by specifying the new Maybe.
         /// </summary>
         /// <param name="maybe">The Maybe to transform</param>
         /// <param name="selectorTask">
@@ -134,8 +133,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Asynchronously map the inner value to a Maybe of a new type by specifying the new Maybe. The new value will
-        /// be implicitly converted to a Maybe.
+        /// Asynchronously map the inner value to a Maybe of a new type by specifying the new Maybe.
         /// </summary>
         /// <param name="maybeTask">An asynchronous task representing the Maybe to transform</param>
         /// <param name="selector">The transforming map function that returns a Maybe</param>
@@ -150,8 +148,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Asynchronously map the inner value to a Maybe of a new type by specifying the new Maybe. The new value will
-        /// be implicitly converted to a Maybe.
+        /// Asynchronously map the inner value to a Maybe of a new type by specifying the new Maybe.
         /// </summary>
         /// <param name="maybeTask">An asynchronous task representing the Maybe to transform</param>
         /// <param name="selectorTask">
