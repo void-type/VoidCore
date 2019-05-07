@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using VoidCore.Domain;
-using VoidCore.Model.Queries;
 
 namespace VoidCore.Model.Data
 {
@@ -21,7 +20,7 @@ namespace VoidCore.Model.Data
         /// Create a new repository decorator.
         /// </summary>
         /// <param name="innerRepository">The inner repository</param>
-        public RepositoryDecoratorAbstract(IWritableRepository<T> innerRepository)
+        protected RepositoryDecoratorAbstract(IWritableRepository<T> innerRepository)
         {
             InnerRepository = innerRepository;
         }

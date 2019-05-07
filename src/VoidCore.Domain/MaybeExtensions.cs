@@ -101,14 +101,14 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Map the inner value to a Maybe of a new type by specifying the new Maybe.
+        /// If the last maybe has a value, map the inner value to a Maybe of a new type by specifying the Maybe.
         /// </summary>
         /// <param name="maybe">The Maybe to transform</param>
         /// <param name="selector">The transforming map function that returns a Maybe</param>
         /// <typeparam name="TIn">The type of the original value</typeparam>
         /// <typeparam name="TOut">The type of the new value</typeparam>
         /// <returns>A new Maybe</returns>
-        public static Maybe<TOut> SelectMaybe<TIn, TOut>(this Maybe<TIn> maybe, Func<TIn, Maybe<TOut>> selector)
+        public static Maybe<TOut> Then<TIn, TOut>(this Maybe<TIn> maybe, Func<TIn, Maybe<TOut>> selector)
         {
             return maybe.HasValue ?
                 selector(maybe.Value) :
@@ -116,8 +116,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Asynchronously map the inner value to a Maybe of a new type by specifying the new Maybe. The new value will
-        /// be implicitly converted to a Maybe.
+        /// If the last maybe has a value, asynchronously map the inner value to a Maybe of a new type by specifying the new Maybe.
         /// </summary>
         /// <param name="maybe">The Maybe to transform</param>
         /// <param name="selectorTask">
@@ -126,7 +125,7 @@ namespace VoidCore.Domain
         /// <typeparam name="TIn">The type of the original value</typeparam>
         /// <typeparam name="TOut">The type of the new value</typeparam>
         /// <returns>A new Maybe</returns>
-        public static async Task<Maybe<TOut>> SelectMaybeAsync<TIn, TOut>(this Maybe<TIn> maybe, Func<TIn, Task<Maybe<TOut>>> selectorTask)
+        public static async Task<Maybe<TOut>> ThenAsync<TIn, TOut>(this Maybe<TIn> maybe, Func<TIn, Task<Maybe<TOut>>> selectorTask)
         {
             return maybe.HasValue ?
                 await selectorTask(maybe.Value).ConfigureAwait(false) :
@@ -134,24 +133,22 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Asynchronously map the inner value to a Maybe of a new type by specifying the new Maybe. The new value will
-        /// be implicitly converted to a Maybe.
+        /// If the last maybe has a value, asynchronously map the inner value to a Maybe of a new type by specifying the new Maybe.
         /// </summary>
         /// <param name="maybeTask">An asynchronous task representing the Maybe to transform</param>
         /// <param name="selector">The transforming map function that returns a Maybe</param>
         /// <typeparam name="TIn">The type of the original value</typeparam>
         /// <typeparam name="TOut">The type of the new value</typeparam>
         /// <returns>A new Maybe</returns>
-        public static async Task<Maybe<TOut>> SelectMaybeAsync<TIn, TOut>(this Task<Maybe<TIn>> maybeTask, Func<TIn, Maybe<TOut>> selector)
+        public static async Task<Maybe<TOut>> ThenAsync<TIn, TOut>(this Task<Maybe<TIn>> maybeTask, Func<TIn, Maybe<TOut>> selector)
         {
             var maybe = await maybeTask.ConfigureAwait(false);
 
-            return maybe.SelectMaybe(selector);
+            return maybe.Then(selector);
         }
 
         /// <summary>
-        /// Asynchronously map the inner value to a Maybe of a new type by specifying the new Maybe. The new value will
-        /// be implicitly converted to a Maybe.
+        /// If the last maybe has a value, asynchronously map the inner value to a Maybe of a new type by specifying the new Maybe.
         /// </summary>
         /// <param name="maybeTask">An asynchronous task representing the Maybe to transform</param>
         /// <param name="selectorTask">
@@ -160,11 +157,11 @@ namespace VoidCore.Domain
         /// <typeparam name="TIn">The type of the original value</typeparam>
         /// <typeparam name="TOut">The type of the new value</typeparam>
         /// <returns>A new Maybe</returns>
-        public static async Task<Maybe<TOut>> SelectMaybeAsync<TIn, TOut>(this Task<Maybe<TIn>> maybeTask, Func<TIn, Task<Maybe<TOut>>> selectorTask)
+        public static async Task<Maybe<TOut>> ThenAsync<TIn, TOut>(this Task<Maybe<TIn>> maybeTask, Func<TIn, Task<Maybe<TOut>>> selectorTask)
         {
             var maybe = await maybeTask.ConfigureAwait(false);
 
-            return await maybe.SelectMaybeAsync(selectorTask).ConfigureAwait(false);
+            return await maybe.ThenAsync(selectorTask).ConfigureAwait(false);
         }
 
         /// <summary>

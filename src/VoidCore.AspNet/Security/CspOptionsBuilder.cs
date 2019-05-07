@@ -14,11 +14,6 @@ namespace VoidCore.AspNet.Security
         private bool _isReportOnly;
 
         /// <summary>
-        /// Construct a new CspOptionsBuilder.
-        /// </summary>
-        public CspOptionsBuilder() { }
-
-        /// <summary>
         /// Set the default fallback policy for sources that don't match any other set policy.
         /// </summary>
         /// <returns>The builder for chaining.</returns>

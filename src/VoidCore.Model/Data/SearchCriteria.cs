@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace VoidCore.Model.Queries
+namespace VoidCore.Model.Data
 {
     /// <summary>
     /// Build expressions for searching.

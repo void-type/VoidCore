@@ -7,7 +7,7 @@ namespace VoidCore.Domain
     /// <summary>
     /// Extensions for the Result class. Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
-    public static class ResultExtensionsTee
+    public static partial class ResultExtensions
     {
         /// <summary>
         /// If the result is failed, perform a side-effect action then pass the original result through to the next step

@@ -1,9 +1,8 @@
 using System;
 using System.Linq.Expressions;
-using VoidCore.Model.Queries;
-using VoidCore.Test.AspNet.Data.TestModels.Data;
+using VoidCore.Model.Data;
 
-namespace VoidCore.Test.AspNet.Data.TestModels.Queries
+namespace VoidCore.Test.AspNet.Data.TestModels.Data
 {
     public class UserSpecification : QuerySpecificationAbstract<User>
     {

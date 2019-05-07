@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace VoidCore.Model.Queries
+namespace VoidCore.Model.Data
 {
     /// <inheritdoc/>
     public abstract class QuerySpecificationAbstract<T> : IQuerySpecification<T>

@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
-using VoidCore.Model.Queries;
+using VoidCore.Model.Data;
 using Xunit;
 
-namespace VoidCore.Test.Model.Queries
+namespace VoidCore.Test.Model.Data
 {
     public class QuerySpecificationAbstractTests
     {

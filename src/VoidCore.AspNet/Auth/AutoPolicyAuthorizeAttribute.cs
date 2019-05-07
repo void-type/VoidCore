@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Authorization;
-using VoidCore.AspNet.Settings;
 
 namespace VoidCore.AspNet.Auth
 {
@@ -14,7 +13,7 @@ namespace VoidCore.AspNet.Auth
         /// </summary>
         protected AutoPolicyAuthorizeAttribute()
         {
-            Policy = ConventionHelpers.StripEndingFromType(GetType(), "only");
+            Policy = GetType().GetTypeNameWithoutEnding("only");
         }
     }
 }

@@ -6,7 +6,6 @@ using VoidCore.Model.Auth;
 using VoidCore.Test.AspNet.Data.TestModels;
 using VoidCore.Test.AspNet.Data.TestModels.Data;
 using VoidCore.Test.AspNet.Data.TestModels.Events;
-using VoidCore.Test.AspNet.Data.TestModels.Queries;
 using Xunit;
 
 namespace VoidCore.Test.AspNet.Data
@@ -16,9 +15,9 @@ namespace VoidCore.Test.AspNet.Data
         [Fact]
         public async Task GetRecipeFound()
         {
-            using(var context = Deps.FoodStuffsContext())
+            using (var context = Deps.FoodStuffsContext())
             {
-                var data = await context.FoodStuffsData().Seed();
+                var data = context.Seed().FoodStuffsData();
 
                 var byId = new RecipesByIdWithCategoriesSpecification(11);
 
@@ -32,9 +31,9 @@ namespace VoidCore.Test.AspNet.Data
         [Fact]
         public async Task GetRecipeNotFound()
         {
-            using(var context = Deps.FoodStuffsContext())
+            using (var context = Deps.FoodStuffsContext())
             {
-                var data = await context.FoodStuffsData().Seed();
+                var data = context.Seed().FoodStuffsData();
 
                 var byId = new RecipesByIdWithCategoriesSpecification(1000);
 
@@ -47,9 +46,9 @@ namespace VoidCore.Test.AspNet.Data
         [Fact]
         public async Task ListAllRecipes()
         {
-            using(var context = Deps.FoodStuffsContext())
+            using (var context = Deps.FoodStuffsContext())
             {
-                var data = await context.FoodStuffsData().Seed();
+                var data = context.Seed().FoodStuffsData();
 
                 var recipes = await data.Recipes.ListAll();
 
@@ -63,9 +62,9 @@ namespace VoidCore.Test.AspNet.Data
         [Fact]
         public async Task ListRecipesWithoutPaging()
         {
-            using(var context = Deps.FoodStuffsContext())
+            using (var context = Deps.FoodStuffsContext())
             {
-                var data = await context.FoodStuffsData().Seed();
+                var data = context.Seed().FoodStuffsData();
 
                 var result = await new ListRecipes.Handler(data)
                     .Handle(new ListRecipes.Request(null, null, null, false, 0, 0));
@@ -82,9 +81,9 @@ namespace VoidCore.Test.AspNet.Data
         [Fact]
         public async Task ListRecipesSortDesc()
         {
-            using(var context = Deps.FoodStuffsContext())
+            using (var context = Deps.FoodStuffsContext())
             {
-                var data = await context.FoodStuffsData().Seed();
+                var data = context.Seed().FoodStuffsData();
 
                 var result = await new ListRecipes.Handler(data)
                     .Handle(new ListRecipes.Request(null, null, "descending", true, 1, 1));
@@ -101,9 +100,9 @@ namespace VoidCore.Test.AspNet.Data
         [Fact]
         public async Task ListRecipesSortAscend()
         {
-            using(var context = Deps.FoodStuffsContext())
+            using (var context = Deps.FoodStuffsContext())
             {
-                var data = await context.FoodStuffsData().Seed();
+                var data = context.Seed().FoodStuffsData();
 
                 await data.Recipes.Add(new Recipe { Name = "ANewRecipe" });
 
@@ -122,9 +121,9 @@ namespace VoidCore.Test.AspNet.Data
         [Fact]
         public async Task ListRecipesNameSearch()
         {
-            using(var context = Deps.FoodStuffsContext())
+            using (var context = Deps.FoodStuffsContext())
             {
-                var data = await context.FoodStuffsData().Seed();
+                var data = context.Seed().FoodStuffsData();
 
                 var result = await new ListRecipes.Handler(data)
                     .Handle(new ListRecipes.Request("recipe 2", null, null, true, 1, 2));
@@ -141,9 +140,9 @@ namespace VoidCore.Test.AspNet.Data
         [Fact]
         public async Task ListRecipesCategorySearch()
         {
-            using(var context = Deps.FoodStuffsContext())
+            using (var context = Deps.FoodStuffsContext())
             {
-                var data = await context.FoodStuffsData().Seed();
+                var data = context.Seed().FoodStuffsData();
 
                 var result = await new ListRecipes.Handler(data)
                     .Handle(new ListRecipes.Request(null, "cat 1 2", null, true, 1, 4));
@@ -162,9 +161,9 @@ namespace VoidCore.Test.AspNet.Data
         [Fact]
         public async Task ListRecipesNoneFoundByNameSearch()
         {
-            using(var context = Deps.FoodStuffsContext())
+            using (var context = Deps.FoodStuffsContext())
             {
-                var data = await context.FoodStuffsData().Seed();
+                var data = context.Seed().FoodStuffsData();
 
                 var result = await new ListRecipes.Handler(data)
                     .Handle(new ListRecipes.Request("nothing matches", null, null, true, 1, 2));
@@ -178,9 +177,9 @@ namespace VoidCore.Test.AspNet.Data
         [Fact]
         public async Task ListRecipesNoneFoundByCategorySearch()
         {
-            using(var context = Deps.FoodStuffsContext())
+            using (var context = Deps.FoodStuffsContext())
             {
-                var data = await context.FoodStuffsData().Seed();
+                var data = context.Seed().FoodStuffsData();
 
                 var result = await new ListRecipes.Handler(data)
                     .Handle(new ListRecipes.Request(null, "nothing matches", null, true, 1, 2));
@@ -194,9 +193,9 @@ namespace VoidCore.Test.AspNet.Data
         [Fact]
         public async Task DeleteRecipeFound()
         {
-            using(var context = Deps.FoodStuffsContext())
+            using (var context = Deps.FoodStuffsContext())
             {
-                var data = await context.FoodStuffsData().Seed();
+                var data = context.Seed().FoodStuffsData();
 
                 var byId = new RecipesByIdWithCategoriesSpecification(11);
 
@@ -214,9 +213,9 @@ namespace VoidCore.Test.AspNet.Data
         [Fact]
         public async Task SaveNewRecipe()
         {
-            using(var context = Deps.FoodStuffsContext())
+            using (var context = Deps.FoodStuffsContext())
             {
-                var data = await context.FoodStuffsData().Seed();
+                var data = context.Seed().FoodStuffsData();
 
                 var user = new DomainUser("SingleUser", new string[0]);
 
@@ -224,7 +223,7 @@ namespace VoidCore.Test.AspNet.Data
                 userAccessorMock.Setup(a => a.User).Returns(user);
 
                 var result = await new SaveRecipe.Handler(data)
-                    .Handle(new SaveRecipe.Request(0, "New", "New", "New", null, 20, new [] { "Category2", "Category3", "Category4" }));
+                    .Handle(new SaveRecipe.Request(0, "New", "New", "New", null, 20, new[] { "Category2", "Category3", "Category4" }));
 
                 Assert.True(result.IsSuccess);
                 Assert.True(result.Value.Id > 0);
@@ -250,9 +249,9 @@ namespace VoidCore.Test.AspNet.Data
         [Fact]
         public async Task SaveExistingRecipe()
         {
-            using(var context = Deps.FoodStuffsContext())
+            using (var context = Deps.FoodStuffsContext())
             {
-                var data = await context.FoodStuffsData().Seed();
+                var data = context.Seed().FoodStuffsData();
 
                 var user = new DomainUser("SingleUser", new string[0]);
 
@@ -263,14 +262,14 @@ namespace VoidCore.Test.AspNet.Data
                 Assert.True(maybeRecipe.HasValue);
 
                 var result = await new SaveRecipe.Handler(data)
-                    .Handle(new SaveRecipe.Request(11, "New", "New", "New", null, 20, new [] { "Category2", "Category3", "Category4" }));
+                    .Handle(new SaveRecipe.Request(11, "New", "New", "New", null, 20, new[] { "Category2", "Category3", "Category4" }));
 
                 Assert.True(result.IsSuccess);
                 Assert.Equal(11, result.Value.Id);
 
                 maybeRecipe = await data.Recipes.Get(new RecipesByIdWithCategoriesSpecification(11));
                 Assert.True(maybeRecipe.HasValue);
-                Assert.Equal(Deps.DateTimeServiceLate.Moment, maybeRecipe.Value.CreatedOn);
+                Assert.Equal(Deps.DateTimeServiceEarly.Moment, maybeRecipe.Value.CreatedOn);
                 Assert.Equal(Deps.DateTimeServiceLate.Moment, maybeRecipe.Value.ModifiedOn);
                 Assert.DoesNotContain("Category1", maybeRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
                 Assert.Contains("Category2", maybeRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
@@ -289,9 +288,9 @@ namespace VoidCore.Test.AspNet.Data
         [Fact]
         public async Task UpdateRangeOfRecipes()
         {
-            using(var context = Deps.FoodStuffsContext())
+            using (var context = Deps.FoodStuffsContext())
             {
-                var data = await context.FoodStuffsData().Seed();
+                var data = context.Seed().FoodStuffsData();
 
                 var recipes = await data.Recipes.ListAll();
 
@@ -315,7 +314,7 @@ namespace VoidCore.Test.AspNet.Data
         [Fact]
         public async Task QueryViewWithSpecification()
         {
-            using(var context = Deps.FoodStuffsContext())
+            using (var context = Deps.FoodStuffsContext())
             {
                 var data = context.FoodStuffsData();
 
