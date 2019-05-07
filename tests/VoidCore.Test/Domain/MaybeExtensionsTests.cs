@@ -100,47 +100,47 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void MaybeSelectMaybeWithoutValueReturnsNone()
+        public void MaybeThenWithoutValueReturnsNone()
         {
             var maybe = Maybe<string>.None
-                .SelectMaybe(v => Maybe.From(2));
+                .Then(v => Maybe.From(2));
 
             Assert.IsType<Maybe<int>>(maybe);
             Assert.True(maybe.HasNoValue);
         }
 
         [Fact]
-        public async Task MaybeSelectMaybeAsyncWithoutValueReturnsNone()
+        public async Task MaybeThenAsyncWithoutValueReturnsNone()
         {
             var t = new TestTransformerService();
 
             var maybe = await Maybe<string>.None
-                .SelectMaybeAsync(a => t.TransformMaybeAsync(a, 1))
-                .SelectMaybeAsync(a => t.TransformMaybe(a, 2))
-                .SelectMaybeAsync(a => t.TransformMaybeAsync(a, 3));
+                .ThenAsync(a => t.TransformMaybeAsync(a, 1))
+                .ThenAsync(a => t.TransformMaybe(a, 2))
+                .ThenAsync(a => t.TransformMaybeAsync(a, 3));
 
             Assert.True(maybe.HasNoValue);
         }
 
         [Fact]
-        public void MaybeSelectMaybeWithValueReturnsTransformation()
+        public void MaybeThenWithValueReturnsTransformation()
         {
             var maybe = Maybe.From("some value")
-                .SelectMaybe(v => Maybe.From(2));
+                .Then(v => Maybe.From(2));
 
             Assert.IsType<Maybe<int>>(maybe);
             Assert.Equal(2, maybe.Value);
         }
 
         [Fact]
-        public async Task MaybeSelectMaybeAsyncWithValueReturnsTransformation()
+        public async Task MaybeThenAsyncWithValueReturnsTransformation()
         {
             var t = new TestTransformerService();
 
             var maybe = await Maybe.From(TestTransformerService.Start)
-                .SelectMaybeAsync(a => t.TransformMaybeAsync(a, 1))
-                .SelectMaybeAsync(a => t.TransformMaybe(a, 2))
-                .SelectMaybeAsync(a => t.TransformMaybeAsync(a, 3));
+                .ThenAsync(a => t.TransformMaybeAsync(a, 1))
+                .ThenAsync(a => t.TransformMaybe(a, 2))
+                .ThenAsync(a => t.TransformMaybeAsync(a, 3));
 
             Assert.True(maybe.HasValue);
             Assert.Equal("Hello World!!!", maybe.Value);
