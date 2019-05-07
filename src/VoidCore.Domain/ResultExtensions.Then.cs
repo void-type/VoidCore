@@ -6,7 +6,7 @@ namespace VoidCore.Domain
     /// <summary>
     /// Extensions for the Result class. Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions
     /// </summary>
-    public static class ResultExtensionsThen
+    public static partial class ResultExtensions
     {
         /// <summary>
         /// If the last result was successful, perform another fallible function. Failures are passed through.
