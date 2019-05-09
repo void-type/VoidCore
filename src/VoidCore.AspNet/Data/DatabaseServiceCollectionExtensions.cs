@@ -23,7 +23,7 @@ namespace VoidCore.AspNet.Data
         {
             connectionString.EnsureNotNullOrEmpty(nameof(connectionString), "Connection string not found in application configuration.");
 
-            services.AddDbContext<TDbContext>(options =>
+            services.AddDbContextPool<TDbContext>(options =>
             {
                 options.UseSqlServer(connectionString);
 
