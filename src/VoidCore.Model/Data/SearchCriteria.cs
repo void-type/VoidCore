@@ -15,6 +15,7 @@ namespace VoidCore.Model.Data
         /// <param name="searchTerms">Terms to search for</param>
         /// <param name="propertySelectors">Selectors for the properties to be searched</param>
         /// <typeparam name="T">The type of entity to search</typeparam>
+        [Obsolete("Search Criteria will be removed in the next version.")]
         public static Expression<Func<T, bool>> PropertiesContainAll<T>(SearchTerms searchTerms, params Func<T, string>[] propertySelectors)
         {
             return entity =>
@@ -30,6 +31,7 @@ namespace VoidCore.Model.Data
         /// <param name="searchTerms">Terms to search for</param>
         /// <param name="propertySelectors">Selectors for the properties to be searched</param>
         /// <typeparam name="T">The type of entity to search</typeparam>
+        [Obsolete("Search Criteria will be removed in the next version.")]
         public static Expression<Func<T, bool>> PropertiesContainAny<T>(SearchTerms searchTerms, params Func<T, string>[] propertySelectors)
         {
             if (!searchTerms.Terms.Any())
