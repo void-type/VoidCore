@@ -6,6 +6,7 @@ namespace VoidCore.Model.Data
     /// <summary>
     /// A series of strings to use in a text-based search.
     /// </summary>
+    [Obsolete("SearchTerms will be removed in the next version.")]
     public class SearchTerms
     {
         /// <summary>

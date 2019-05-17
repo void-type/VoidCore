@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
-using System.Threading.Tasks;
 using VoidCore.Model.Auth;
 using VoidCore.Model.Logging;
 using VoidCore.Model.Time;
