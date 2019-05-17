@@ -6,25 +6,23 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Data
 {
     public class RecipesSearchSpecification : QuerySpecificationAbstract<Recipe>
     {
-        public RecipesSearchSpecification(Expression<Func<Recipe, bool>>[] criteria, string nameSort, bool pagingEnabled = false, int page = 1, int take = 1) : base(criteria)
+        public RecipesSearchSpecification(Expression<Func<Recipe, bool>>[] criteria, string sort = null, bool isPagingEnabled = false, int page = 1, int take = 1) : base(criteria)
         {
             AddInclude($"{nameof(Recipe.CategoryRecipe)}.{nameof(CategoryRecipe.Category)}");
 
-            if (pagingEnabled)
+            if (isPagingEnabled)
             {
                 ApplyPaging(page, take);
             }
 
-            switch (nameSort?.ToLower())
+            switch (sort)
             {
-                case "ascending":
+                case "name":
                     ApplyOrderBy(recipe => recipe.Name);
-                    AddThenByDescending(recipe => recipe.CreatedOn);
                     break;
 
-                case "descending":
+                case "nameDesc":
                     ApplyOrderByDescending(recipe => recipe.Name);
-                    AddThenBy(recipe => recipe.CreatedOn);
                     break;
 
                 default:
