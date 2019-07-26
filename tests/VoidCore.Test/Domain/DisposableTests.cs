@@ -19,6 +19,8 @@ namespace VoidCore.Test.Domain
 
             Assert.Equal("Hello World", value);
             Assert.True(disposable.Disposed);
+
+            disposable.Dispose();
         }
 
         [Fact]
@@ -33,6 +35,8 @@ namespace VoidCore.Test.Domain
 
             Assert.Equal("Hello World", value);
             Assert.True(disposable.Disposed);
+
+            disposable.Dispose();
         }
 
         private class DisposableObject : IDisposable

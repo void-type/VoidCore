@@ -87,8 +87,8 @@ namespace VoidCore.Test.Model.Data
 
             await decoratedRepo.Update(entity);
 
-            Assert.Equal(default(string), entity.CreatedBy);
-            Assert.Equal(default(DateTime), entity.CreatedOn);
+            Assert.Equal(default, entity.CreatedBy);
+            Assert.Equal(default, entity.CreatedOn);
             Assert.Equal("userName", entity.ModifiedBy);
             Assert.Equal(date, entity.ModifiedOn);
 
@@ -115,8 +115,8 @@ namespace VoidCore.Test.Model.Data
 
             await decoratedRepo.UpdateRange(entities);
 
-            Assert.Equal(default(string), entities[0].CreatedBy);
-            Assert.Equal(default(DateTime), entities[0].CreatedOn);
+            Assert.Equal(default, entities[0].CreatedBy);
+            Assert.Equal(default, entities[0].CreatedOn);
             Assert.Equal("userName", entities[0].ModifiedBy);
             Assert.Equal(date, entities[0].ModifiedOn);
 
