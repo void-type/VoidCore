@@ -159,7 +159,7 @@ namespace VoidCore.Domain
         /// <inheritdoc/>
         public bool Equals(Maybe<T> other)
         {
-            if (ReferenceEquals(other, null))
+            if (other is null)
             {
                 return false;
             }

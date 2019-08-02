@@ -11,12 +11,14 @@ namespace VoidCore.Test.Domain
 
         public void Do(string a, int currentStep)
         {
+            Console.WriteLine(a);
             CheckStep(currentStep);
             _lastStep = currentStep;
         }
 
         public async Task DoAsync(string a, int currentStep)
         {
+            Console.WriteLine(a);
             CheckStep(currentStep);
             await Task.Delay(10);
             _lastStep = currentStep;

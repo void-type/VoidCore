@@ -17,12 +17,12 @@ namespace VoidCore.Domain
         /// <returns>The boolean result of equality</returns>
         public static bool operator ==(ValueObject first, ValueObject second)
         {
-            if (ReferenceEquals(first, null) && ReferenceEquals(second, null))
+            if (first is null && second is null)
             {
                 return true;
             }
 
-            if (ReferenceEquals(first, null) || ReferenceEquals(second, null))
+            if (first is null || second is null)
             {
                 return false;
             }

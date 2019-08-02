@@ -8,7 +8,7 @@ namespace VoidCore.Model.Logging
     /// </summary>
     /// <typeparam name="TRequest">The request type</typeparam>
     /// <typeparam name="TId">The type of the entity id</typeparam>
-    public class UserMessageWithEntityIdEventLogger<TRequest, TId> : FallibleEventLogger<TRequest, UserMessageWithEntityId<TId>>
+    public class UserMessageWithEntityIdEventLogger<TRequest, TId> : FallibleEventLogger<TRequest, UserMessage<TId>>
     {
         /// <summary>
         /// Construct a new logger.
@@ -17,7 +17,7 @@ namespace VoidCore.Model.Logging
         public UserMessageWithEntityIdEventLogger(ILoggingService logger) : base(logger) { }
 
         /// <inheritdoc/>
-        protected override void OnSuccess(TRequest request, UserMessageWithEntityId<TId> response)
+        protected override void OnSuccess(TRequest request, UserMessage<TId> response)
         {
             Logger.Info(
                 $"Message: {response.Message}",

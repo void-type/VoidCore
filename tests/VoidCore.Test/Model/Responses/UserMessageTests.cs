@@ -9,31 +9,31 @@ namespace VoidCore.Test.Model.Responses
         [Fact]
         public void UserMessageProperties()
         {
-            var message = new UserMessage("hi");
+            var message = UserMessage.Create("hi");
             Assert.Equal("hi", message.Message);
         }
 
         [Fact]
-        public void UserMessageWithEntityIdIntegerProperties()
+        public void UserMessageIntegerProperties()
         {
-            var message = UserMessageWithEntityId.Create("hi", 2);
+            var message = UserMessage.Create("hi", 2);
             Assert.Equal("hi", message.Message);
             Assert.Equal(2, message.Id);
         }
 
         [Fact]
-        public void UserMessageWithEntityIdStringProperties()
+        public void UserMessageStringProperties()
         {
-            var message = UserMessageWithEntityId.Create("hi", "2");
+            var message = UserMessage.Create("hi", "2");
             Assert.Equal("hi", message.Message);
             Assert.Equal("2", message.Id);
         }
 
         [Fact]
-        public void UserMessageWithEntityIdGuidProperties()
+        public void UserMessageGuidProperties()
         {
             var guid = Guid.NewGuid();
-            var message = UserMessageWithEntityId.Create("hi", guid);
+            var message = UserMessage.Create("hi", guid);
             Assert.Equal("hi", message.Message);
             Assert.IsType<Guid>(message.Id);
             Assert.Equal(guid, message.Id);
