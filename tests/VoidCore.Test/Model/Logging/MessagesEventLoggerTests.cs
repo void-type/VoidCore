@@ -11,7 +11,7 @@ namespace VoidCore.Test.Model.Logging
         [Fact]
         public void LogUserMessageWithEntityIdInteger()
         {
-            var result = Result.Ok(UserMessageWithEntityId.Create("Good stuff happened", 7));
+            var result = Result.Ok(UserMessage.Create("Good stuff happened", 7));
 
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
@@ -26,7 +26,7 @@ namespace VoidCore.Test.Model.Logging
         [Fact]
         public void LogUserMessageWithEntityIdString()
         {
-            var result = Result.Ok(UserMessageWithEntityId.Create("Good stuff happened", "7"));
+            var result = Result.Ok(UserMessage.Create("Good stuff happened", "7"));
 
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
@@ -41,7 +41,7 @@ namespace VoidCore.Test.Model.Logging
         [Fact]
         public void LogUserMessage()
         {
-            var result = Result.Ok(new UserMessage("good"));
+            var result = Result.Ok(UserMessage.Create("good"));
 
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));

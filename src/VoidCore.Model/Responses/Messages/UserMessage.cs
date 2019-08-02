@@ -3,13 +3,13 @@
     /// <summary>
     /// A UI-friendly message.
     /// </summary>
-    public class UserMessage
+    public partial class UserMessage
     {
         /// <summary>
         /// Create a new message.
         /// </summary>
         /// <param name="message">The user message to display</param>
-        public UserMessage(string message)
+        internal UserMessage(string message)
         {
             Message = message;
         }

@@ -35,7 +35,7 @@ namespace VoidCore.AspNet.Routing
 
             const string message = "There was a problem processing your request.";
             _logger.Fatal(context.Exception, message);
-            context.Result = new ObjectResult(new UserMessage(message)) { StatusCode = 500 };
+            context.Result = new ObjectResult(UserMessage.Create(message)) { StatusCode = 500 };
         }
     }
 }
