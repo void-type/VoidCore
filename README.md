@@ -4,13 +4,11 @@
 [![Build Status](https://img.shields.io/azure-devops/build/void-type/VoidCore/1.svg?style=flat-square)](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=1&branchName=master)
 [![Test Coverage](https://img.shields.io/azure-devops/coverage/void-type/VoidCore/1.svg?style=flat-square)](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=1&branchName=master)
 
-A set of core libraries for building domain-driven business applications. Includes opinionated support for Asp.Net Core applications.
+A set of core libraries for building domain-driven business applications.
+
+The current major version of VoidCore includes opinionated support for Asp.Net Core 2.1 and 2.2 applications.
 
 [FoodStuffs](https://github.com/void-type/foodstuffs) is a comprehensive example of how applications can be built using VoidCore.
-
-| Warning |
-| --- |
-| This project is still in the design phase as a personal project. The API is subject to change and the version numbers may fluctuate. I will remove this warning when the project reaches a stable state. |
 
 ## Documentation
 

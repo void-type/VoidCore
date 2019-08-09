@@ -30,11 +30,18 @@ namespace VoidCore.Test.AspNet.Data.TestModels
 
         public static FoodStuffsContext FoodStuffsContext(string dbName = null)
         {
-            return new FoodStuffsContext(
+            var data = new FoodStuffsContext(
                 new DbContextOptionsBuilder<FoodStuffsContext>()
                 .UseInMemoryDatabase(dbName ?? Guid.NewGuid().ToString())
                 .Options
             );
+
+            data.User.Add(new User { Name = "Joe Food", JoinedOn = Deps.DateTimeServiceEarly.Moment });
+            data.User.Add(new User { Name = "Jose Comida", JoinedOn = Deps.DateTimeServiceEarly.Moment });
+            data.User.Add(new User { Name = "Josef Lebensmittel", JoinedOn = Deps.DateTimeServiceLate.Moment });
+
+            data.SaveChanges();
+            return data;
         }
 
         public static FoodStuffsEfData FoodStuffsData(this FoodStuffsContext context)

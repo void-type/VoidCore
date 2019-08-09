@@ -13,7 +13,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Data
             Categories = new EfWritableRepository<Category>(context, loggingStrategy);
             CategoryRecipes = new EfWritableRepository<CategoryRecipe>(context, loggingStrategy);
             Recipes = new EfWritableRepository<Recipe>(context, loggingStrategy).AddAuditability(now, currentUserAccessor);
-            Users = new EfQueryRepository<User>(context, loggingStrategy);
+            Users = new EfReadOnlyRepository<User>(context, loggingStrategy);
         }
 
         public IWritableRepository<Category> Categories { get; }
