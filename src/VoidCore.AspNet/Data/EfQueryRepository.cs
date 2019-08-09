@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using VoidCore.Model.Logging;
 
@@ -9,6 +10,7 @@ namespace VoidCore.AspNet.Data
     /// Contexts. Adapted from https://github.com/dotnet-architecture/eShopOnWeb
     /// </summary>
     /// <typeparam name="T">The type of entity stored in the repository</typeparam>
+    [Obsolete("Query sets are obsolete in .Net Core 3.0. Use DbSet<> with .HasNoKey() in your context to map a view.")]
     public class EfQueryRepository<T> : EfRepositoryAbstract<T> where T : class
     {
         /// <inheritdoc/>
