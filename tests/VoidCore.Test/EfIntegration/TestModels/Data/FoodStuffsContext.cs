@@ -57,6 +57,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Data
             modelBuilder.Entity<User>(entity =>
             {
                 entity.Property(e => e.JoinedOn).HasColumnType("datetime");
+                // We need a key (typically an artificial ViewRow column) for views
                 entity.HasKey(e => e.Name);
             });
         }

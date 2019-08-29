@@ -14,7 +14,16 @@ namespace VoidCore.AspNet.Routing
         /// <param name="services">The services collection</param>
         public static void AddApiExceptionFilter(this IServiceCollection services)
         {
-            services.AddMvc(options => options.Filters.Add(new TypeFilterAttribute(typeof(ApiRouteExceptionFilterAttribute))));
+            static void config(MvcOptions options)
+            {
+                options.Filters.Add(new TypeFilterAttribute(typeof(ApiRouteExceptionFilterAttribute)));
+            }
+
+#if NETCOREAPP3_0
+            services.AddControllers(config);
+#else
+            services.AddMvc(config);
+#endif
         }
     }
 }

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using VoidCore.AspNet;
 using VoidCore.Domain;
 using VoidCore.Model.Data;
 using VoidCore.Model.Logging;
 
-namespace VoidCore.AspNet.Data
+namespace VoidCore.EntityFramework
 {
     /// <summary>
     /// A base class for repositories that use specifications to define queries.
@@ -21,7 +22,7 @@ namespace VoidCore.AspNet.Data
         /// </summary>
         protected readonly DbContext Context;
 
-#if NETCOREAPP2_2
+#if !NETCOREAPP2_1
         private string _repoTypeName;
         private ILoggingStrategy _loggingStrategy;
 #endif
@@ -30,7 +31,7 @@ namespace VoidCore.AspNet.Data
         protected EfRepositoryAbstract(DbContext context, ILoggingStrategy loggingStrategy)
         {
             Context = context;
-#if NETCOREAPP2_2
+#if !NETCOREAPP2_1
             _repoTypeName = this.GetType().GetFriendlyTypeName();
             _loggingStrategy = loggingStrategy;
 #endif
@@ -40,7 +41,7 @@ namespace VoidCore.AspNet.Data
         public virtual async Task<Maybe<T>> Get(IQuerySpecification<T> spec, CancellationToken cancellationToken = default)
         {
             return await GetBaseQuery()
-#if NETCOREAPP2_2
+#if !NETCOREAPP2_1
                 .TagWith(GetTag(nameof(Get), spec))
 #endif
                 .ApplyEfSpecification(spec)
@@ -51,7 +52,7 @@ namespace VoidCore.AspNet.Data
         public virtual async Task<IReadOnlyList<T>> ListAll(CancellationToken cancellationToken = default)
         {
             return await GetBaseQuery()
-#if NETCOREAPP2_2
+#if !NETCOREAPP2_1
                 .TagWith(GetTag(nameof(ListAll)))
 #endif
                 .ToListAsync(cancellationToken);
@@ -61,7 +62,7 @@ namespace VoidCore.AspNet.Data
         public virtual async Task<IReadOnlyList<T>> List(IQuerySpecification<T> spec, CancellationToken cancellationToken = default)
         {
             return await GetBaseQuery()
-#if NETCOREAPP2_2
+#if !NETCOREAPP2_1
                 .TagWith(GetTag(nameof(List), spec))
 #endif
                 .ApplyEfSpecification(spec)
@@ -72,7 +73,7 @@ namespace VoidCore.AspNet.Data
         public virtual async Task<int> Count(IQuerySpecification<T> spec, CancellationToken cancellationToken = default)
         {
             return await GetBaseQuery()
-#if NETCOREAPP2_2
+#if !NETCOREAPP2_1
                 .TagWith(GetTag(nameof(Count), spec))
 #endif
                 .ApplyEfSpecification(spec)
@@ -84,7 +85,7 @@ namespace VoidCore.AspNet.Data
         /// </summary>
         protected abstract IQueryable<T> GetBaseQuery();
 
-#if NETCOREAPP2_2
+#if !NETCOREAPP2_1
         private string GetTag(string method, IQuerySpecification<T> spec = null)
         {
             var specName = spec != null ?

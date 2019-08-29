@@ -45,7 +45,7 @@ public IResult<Person> GetPersonById(int id)
 {
     var person = _data.Persons.GetById(id);
 
-    if (person == null)
+    if (person is null)
     {
         return Result.Fail(new Failure("Person is not found.", "personIdField"));
     }

@@ -22,13 +22,7 @@ namespace VoidCore.AspNet.Settings
         public static TSettings AddSettingsSingleton<TSettings>(this IServiceCollection services, IConfiguration configuration, bool root = false)
         where TSettings : class, new()
         {
-            if (!root)
-            {
-                var sectionName = typeof(TSettings).GetTypeNameWithoutEnding("settings");
-                configuration = configuration.GetSection(sectionName);
-            }
-
-            var settings = configuration.Get<TSettings>(options => options.BindNonPublicProperties = true);
+            var settings = GetSettings<TSettings>(configuration, root);
             services.AddSingleton(settings);
             return settings;
         }
@@ -49,15 +43,20 @@ namespace VoidCore.AspNet.Settings
         where TSettings : class, TService, new()
         where TService : class
         {
+            var settings = GetSettings<TSettings>(configuration, root);
+            services.AddSingleton<TService>(x => settings);
+            return settings;
+        }
+
+        private static TSettings GetSettings<TSettings>(IConfiguration configuration, bool root)
+        {
             if (!root)
             {
                 var sectionName = typeof(TSettings).GetTypeNameWithoutEnding("settings");
                 configuration = configuration.GetSection(sectionName);
             }
 
-            var settings = configuration.Get<TSettings>(options => options.BindNonPublicProperties = true);
-            services.AddSingleton<TService>(x => settings);
-            return settings;
+            return configuration.Get<TSettings>(options => options.BindNonPublicProperties = true);
         }
     }
 }

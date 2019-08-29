@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <PackageId>VoidCore.AspNet</PackageId>
-    <Title>VoidCore.AspNet</Title>
-    <Description>Configure an Asp.Net Core web application with enterprise SPA conventions.</Description>
-    <PackageTags>asp.net;aspnet;opinionated;spa;single page;logging;configuration;</PackageTags>
+    <PackageId>VoidCore.EntityFramework</PackageId>
+    <Title>VoidCore.EntityFramework</Title>
+    <Description>Add opinionated Entity Framework Core data access to an application.</Description>
+    <PackageTags>asp.net;aspnet;opinionated;entity framework;configuration;</PackageTags>
     <Authors>Jeff Schreiner and contributors</Authors>
     <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
@@ -14,7 +14,6 @@
     <LangVersion>Latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-    <CodeAnalysisRuleSet>..\..\.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +22,7 @@
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' != 'netcoreapp3.0'">
@@ -32,12 +32,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19367-01" PrivateAssets="all" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.0.25" PrivateAssets="all" />
-    <PackageReference Include="Serilog.AspNetCore" Version="3.0.0" />
-    <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
-    <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VoidCore.Model\VoidCore.Model.csproj" />
+    <ProjectReference Include="..\VoidCore.AspNet\VoidCore.AspNet.csproj" />
   </ItemGroup>
 </Project>

@@ -18,6 +18,9 @@ Remove-Item -Path "../testResults" -Recurse -ErrorAction SilentlyContinue
 # Build solution
 Push-Location -Path "../"
 
+# Restore local dotnet tools
+dotnet tool restore
+
 if (-not $SkipFormat) {
   dotnet format --check
   Stop-OnError
@@ -42,7 +45,7 @@ if (-not $SkipTest) {
     --no-build `
     --logger 'trx' `
     --results-directory '../../testResults' `
-    /p:Exclude="[xunit.*]*%2c[$projectName.Test]*" `
+    /p:Exclude="[xunit.*]*%2c[$projectName.Test]*%2c[*]ThisAssembly" `
     /p:CollectCoverage=true `
     /p:CoverletOutputFormat=cobertura `
     /p:CoverletOutput="../../coverage/coverage.cobertura.xml"
@@ -53,7 +56,7 @@ if (-not $SkipTest) {
   if (-not $SkipTestReport) {
     # Generate code coverage report
     Push-Location -Path "../coverage"
-    reportgenerator "-reports:coverage.cobertura.xml" "-targetdir:." "-reporttypes:HtmlInline_AzurePipelines"
+    dotnet reportgenerator "-reports:coverage.cobertura.xml" "-targetdir:." "-reporttypes:HtmlInline_AzurePipelines"
     Stop-OnError
     Pop-Location
   }
@@ -66,7 +69,7 @@ if (-not $SkipPack) {
     Select-Object -ExpandProperty Name |
     ForEach-Object {
       Push-Location -Path "../src/$_"
-      InheritDoc --base "./bin/$Configuration/" --overwrite
+      dotnet InheritDoc --base "./bin/$Configuration/" --overwrite
       Stop-OnError
       dotnet pack --configuration "$Configuration" --no-build --output "../../artifacts/pre-release" /p:PublicRelease=false
       dotnet pack --configuration "$Configuration" --no-build --output "../../artifacts"

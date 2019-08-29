@@ -36,9 +36,9 @@ namespace VoidCore.Test.AspNet.Data.TestModels
                 .Options
             );
 
-            data.User.Add(new User { Name = "Joe Food", JoinedOn = Deps.DateTimeServiceEarly.Moment });
-            data.User.Add(new User { Name = "Jose Comida", JoinedOn = Deps.DateTimeServiceEarly.Moment });
-            data.User.Add(new User { Name = "Josef Lebensmittel", JoinedOn = Deps.DateTimeServiceLate.Moment });
+            data.User.Add(new User { Name = "Joe Food", JoinedOn = DateTimeServiceEarly.Moment });
+            data.User.Add(new User { Name = "Jose Comida", JoinedOn = DateTimeServiceEarly.Moment });
+            data.User.Add(new User { Name = "Josef Lebensmittel", JoinedOn = DateTimeServiceLate.Moment });
 
             data.SaveChanges();
             return data;
@@ -53,13 +53,12 @@ namespace VoidCore.Test.AspNet.Data.TestModels
 
         public static FoodStuffsContext Seed(this FoodStuffsContext data)
         {
-            data.Category.Add(new Category { Id = 11, Name = "Category1" });
-            data.Category.Add(new Category { Id = 12, Name = "Category2" });
-            data.Category.Add(new Category { Id = 13, Name = "Category3" });
+            var category1 = data.Category.Add(new Category { Name = "Category1" }).Entity.Id;
+            var category2 = data.Category.Add(new Category { Name = "Category2" }).Entity.Id;
+            var category3 = data.Category.Add(new Category { Name = "Category3" }).Entity.Id;
 
-            data.Recipe.Add(new Recipe
+            var recipe1 = data.Recipe.Add(new Recipe
             {
-                Id = 11,
                 Name = "Recipe1",
                 Ingredients = "ing",
                 Directions = "dir",
@@ -69,11 +68,10 @@ namespace VoidCore.Test.AspNet.Data.TestModels
                 ModifiedOn = DateTimeServiceLate.Moment,
                 CreatedBy = "11",
                 ModifiedBy = "12"
-            });
+            }).Entity.Id;
 
-            data.Recipe.Add(new Recipe
+            var recipe2 = data.Recipe.Add(new Recipe
             {
-                Id = 12,
                 Name = "Recipe2",
                 CookTimeMinutes = 2,
                 PrepTimeMinutes = 2,
@@ -81,11 +79,10 @@ namespace VoidCore.Test.AspNet.Data.TestModels
                 ModifiedOn = DateTimeServiceLate.Moment,
                 CreatedBy = "11",
                 ModifiedBy = "11"
-            });
+            }).Entity.Id;
 
             data.Recipe.Add(new Recipe
             {
-                Id = 13,
                 Name = "Recipe3",
                 CookTimeMinutes = 2,
                 PrepTimeMinutes = 2,
@@ -95,9 +92,9 @@ namespace VoidCore.Test.AspNet.Data.TestModels
                 ModifiedBy = "11"
             });
 
-            data.CategoryRecipe.Add(new CategoryRecipe { RecipeId = 11, CategoryId = 11 });
-            data.CategoryRecipe.Add(new CategoryRecipe { RecipeId = 11, CategoryId = 12 });
-            data.CategoryRecipe.Add(new CategoryRecipe { RecipeId = 12, CategoryId = 11 });
+            data.CategoryRecipe.Add(new CategoryRecipe { RecipeId = recipe1, CategoryId = category1 });
+            data.CategoryRecipe.Add(new CategoryRecipe { RecipeId = recipe1, CategoryId = category2 });
+            data.CategoryRecipe.Add(new CategoryRecipe { RecipeId = recipe2, CategoryId = category3 });
 
             data.SaveChanges();
             return data;
