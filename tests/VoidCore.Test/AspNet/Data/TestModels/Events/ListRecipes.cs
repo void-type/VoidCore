@@ -46,7 +46,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                         name: recipe.Name,
                         categories: recipe.CategoryRecipe.Select(cr => cr.Category.Name)))
                     .ToItemSet(request.Page, request.Take, totalCount, request.IsPagingEnabled)
-                    .Map(page => Result.Ok(page));
+                    .Map(page => Ok(page));
             }
 
             private Expression<Func<Recipe, bool>>[] GetSearchCriteria(Request request)

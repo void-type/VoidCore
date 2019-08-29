@@ -59,7 +59,7 @@ namespace VoidCore.AspNet.Logging
 
         private static string[] FlattenExceptionMessages(Exception exception)
         {
-            if (exception == null)
+            if (exception is null)
             {
                 return new string[0];
             }

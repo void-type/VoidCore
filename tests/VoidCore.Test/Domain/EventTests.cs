@@ -191,7 +191,7 @@ namespace VoidCore.Test.Domain
             public override async Task<IResult<TestResponse>> Handle(TestRequest validRequest, CancellationToken cancellationToken = default)
             {
                 await Task.Delay(1, cancellationToken);
-                return Result.Fail<TestResponse>(new Failure("event failed"));
+                return Fail(new Failure("event failed"));
             }
         }
 
@@ -200,7 +200,7 @@ namespace VoidCore.Test.Domain
             public override async Task<IResult<TestResponse>> Handle(TestRequest validRequest, CancellationToken cancellationToken = default)
             {
                 await Task.Delay(1, cancellationToken);
-                return Result.Ok(new TestResponse { Name = "success" });
+                return Ok(new TestResponse { Name = "success" });
             }
         }
 
@@ -208,7 +208,7 @@ namespace VoidCore.Test.Domain
         {
             protected override IResult<TestResponse> HandleSync(TestRequest request)
             {
-                return Result.Ok(new TestResponse { Name = "success" });
+                return Ok(new TestResponse { Name = "success" });
             }
         }
     }

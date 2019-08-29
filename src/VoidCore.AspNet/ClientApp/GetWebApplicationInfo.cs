@@ -44,7 +44,7 @@ namespace VoidCore.AspNet.ClientApp
                     _antiForgery.GetAndStoreTokens(_httpContextAccessor.HttpContext).HeaderName,
                     _currentUser);
 
-                return Result.Ok(applicationInfo);
+                return Ok(applicationInfo);
             }
         }
 
