@@ -9,6 +9,7 @@ namespace VoidCore.AspNet.Logging
     /// <summary>
     /// A factory for obtaining a new Serilog logger.
     /// </summary>
+    [Obsolete("SerilogFileLoggerFactory is deprecated and will be removed in a future release. Use Serilog.Configuration with Defaults.FilePath instead.")]
     public class SerilogFileLoggerFactory
     {
         /// <summary>

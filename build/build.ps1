@@ -26,7 +26,7 @@ if (-not $SkipFormat) {
 dotnet restore
 
 if (-not $SkipOutdated) {
-  dotnet list package --outdated
+  dotnet outdated
 }
 
 dotnet build --configuration "$Configuration" --no-restore

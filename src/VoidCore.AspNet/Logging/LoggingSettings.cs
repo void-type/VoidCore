@@ -1,8 +1,11 @@
+using System;
+
 namespace VoidCore.AspNet.Logging
 {
     /// <summary>
     /// Settings for the logger
     /// </summary>
+    [Obsolete("LoggingSettings is deprecated and will be removed in a future release. Use Serilog.Configuration with Defaults.FilePath instead.")]
     public class LoggingSettings
     {
         /// <summary>

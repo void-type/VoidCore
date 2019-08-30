@@ -28,5 +28,25 @@ namespace VoidCore.Domain.Events
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
         /// <returns>A Task of Result of TResponse</returns>
         public abstract Task<IResult<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Create a new successful result for the event.
+        /// </summary>
+        /// <param name="value">The result value</param>
+        /// <returns>A new result</returns>
+        protected static IResult<TResponse> Ok(TResponse value)
+        {
+            return Result.Ok(value);
+        }
+
+        /// <summary>
+        /// Create a failed result for the event.
+        /// </summary>
+        /// <param name="failures">A set of failures</param>
+        /// <returns>A new result</returns>
+        protected static IResult<TResponse> Fail(params IFailure[] failures)
+        {
+            return Result.Fail<TResponse>(failures);
+        }
     }
 }
