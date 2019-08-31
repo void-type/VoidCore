@@ -17,7 +17,7 @@ namespace VoidCore.AspNet.ClientApp
         {
             private readonly IAntiforgery _antiForgery;
             private readonly ApplicationSettings _applicationSettings;
-            private readonly ICurrentUserAccessor _currentUser;
+            private readonly ICurrentUserAccessor _currentUserAccessor;
             private readonly IHttpContextAccessor _httpContextAccessor;
 
             /// <summary>
@@ -26,13 +26,13 @@ namespace VoidCore.AspNet.ClientApp
             /// <param name="applicationSettings">Application settings pulled from configuration</param>
             /// <param name="httpContextAccessor">Accessor for the current httpContext</param>
             /// <param name="antiforgery">The ASP.NET antiForgery object</param>
-            /// <param name="currentUser">UI-friendly user name</param>
-            public Handler(ApplicationSettings applicationSettings, IHttpContextAccessor httpContextAccessor, IAntiforgery antiforgery, ICurrentUserAccessor currentUser)
+            /// <param name="currentUserAccessor">UI-friendly user name</param>
+            public Handler(ApplicationSettings applicationSettings, IHttpContextAccessor httpContextAccessor, IAntiforgery antiforgery, ICurrentUserAccessor currentUserAccessor)
             {
                 _applicationSettings = applicationSettings;
                 _httpContextAccessor = httpContextAccessor;
                 _antiForgery = antiforgery;
-                _currentUser = currentUser;
+                _currentUserAccessor = currentUserAccessor;
             }
 
             /// <inheritdoc/>
@@ -42,7 +42,7 @@ namespace VoidCore.AspNet.ClientApp
                     _applicationSettings.Name,
                     _antiForgery.GetAndStoreTokens(_httpContextAccessor.HttpContext).RequestToken,
                     _antiForgery.GetAndStoreTokens(_httpContextAccessor.HttpContext).HeaderName,
-                    _currentUser);
+                    _currentUserAccessor);
 
                 return Ok(applicationInfo);
             }
