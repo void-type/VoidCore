@@ -9,14 +9,14 @@ namespace VoidCore.Test.Model.Responses
         [Fact]
         public void UserMessageProperties()
         {
-            var message = UserMessage.Create("hi");
+            var message = new UserMessage("hi");
             Assert.Equal("hi", message.Message);
         }
 
         [Fact]
         public void UserMessageIntegerProperties()
         {
-            var message = UserMessage.Create("hi", 2);
+            var message = EntityMessage.Create("hi", 2);
             Assert.Equal("hi", message.Message);
             Assert.Equal(2, message.Id);
         }
@@ -24,7 +24,7 @@ namespace VoidCore.Test.Model.Responses
         [Fact]
         public void UserMessageStringProperties()
         {
-            var message = UserMessage.Create("hi", "2");
+            var message = EntityMessage.Create("hi", "2");
             Assert.Equal("hi", message.Message);
             Assert.Equal("2", message.Id);
         }
@@ -33,7 +33,7 @@ namespace VoidCore.Test.Model.Responses
         public void UserMessageGuidProperties()
         {
             var guid = Guid.NewGuid();
-            var message = UserMessage.Create("hi", guid);
+            var message = EntityMessage.Create("hi", guid);
             Assert.Equal("hi", message.Message);
             Assert.IsType<Guid>(message.Id);
             Assert.Equal(guid, message.Id);
