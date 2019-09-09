@@ -18,16 +18,21 @@ VoidCore.Domain is a basic framework for building domain-driven, event-based app
 Write more functional code with generic functions that help pipe objects into each other.
 
 ```csharp
-// Get output from an IDisposable "using block" in a way that can be piped.
-// There is also an async variant.
-var employee = Disposable
-    .Using(DbContextFactory.Create, context => context.Persons.Find("Joe"))
+// Build functional pipelines from any object to reduce noisy intermediate variables.
+var employee = database.GetPerson("Joe")
 
     // Perform side-effects in your pipe while ensuring the input is passed as output.
     .Tee(p => Log(p))
 
     // Transform one entity into another. Much like LINQ's Select for single objects rather than collections.
     .Map(p => new Employee(p.Name, p.Email));
+
+// There are variants for building async pipelines.
+// If the function passed to the method returns an Async Task, it will be automatically awaited.
+var employee = database.GetPersonAsync("Joe")
+    .TeeAsync(p => Log(p))
+    .TeeAsync(p => AuthorizeAsync(p))
+    .MapAsync(p => new Employee(p.Name, p.Email));
 ```
 
 ### Results for fallible operations
