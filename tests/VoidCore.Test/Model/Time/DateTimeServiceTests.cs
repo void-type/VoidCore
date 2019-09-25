@@ -7,7 +7,7 @@ namespace VoidCore.Test.Model.Time
     public class DateTimeServiceTests
     {
         [Fact]
-        public void NowDateTimeServiceTest()
+        public void Now_returns_now_in_local_time()
         {
             var service = new NowDateTimeService();
 
@@ -20,7 +20,7 @@ namespace VoidCore.Test.Model.Time
         }
 
         [Fact]
-        public void UtcNowDateTimeServiceTest()
+        public void UtcNow_returns_now_in_utc()
         {
             var service = new UtcNowDateTimeService();
 
@@ -33,7 +33,7 @@ namespace VoidCore.Test.Model.Time
         }
 
         [Fact]
-        public void DiscreteDateTimeServiceTest()
+        public void Discrete_returns_the_specified_time()
         {
             var service = new DiscreteDateTimeService(new DateTime(2000, 4, 2));
 

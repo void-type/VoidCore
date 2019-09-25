@@ -9,7 +9,7 @@
         /// Create a new message.
         /// </summary>
         /// <param name="message">The user message to display</param>
-        internal UserMessage(string message)
+        public UserMessage(string message)
         {
             Message = message;
         }

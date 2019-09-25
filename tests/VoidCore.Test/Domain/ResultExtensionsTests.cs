@@ -9,7 +9,7 @@ namespace VoidCore.Test.Domain
     public class ResultExtensionsTests
     {
         [Fact]
-        public void CombineWithNoFailuresGivesSuccess()
+        public void Combine_with_no_failures_is_success()
         {
             var result = new List<IResult>
             {
@@ -23,7 +23,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void CombineWithFailuresGivesFailures()
+        public void Combine_with_failures_is_failed()
         {
             var result = new List<IResult>
             {
@@ -40,7 +40,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public async Task CombineAsyncWithNoFailuresGivesSuccess()
+        public async Task CombineAsync_with_no_failures_is_success()
         {
             var result = await new List<IResult>
                 {
@@ -56,7 +56,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public async Task CombineAsyncWithFailuresGivesFailures()
+        public async Task CombineAsync_with_failures_is_failed()
         {
             var result = await new List<IResult>
                 {
@@ -75,36 +75,38 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void SelectTests()
+        public void Select_from_ok_returns_transformation()
         {
             var okResult = Result.Ok();
 
             var newOkResult = okResult
                 .Select(() => "new value")
-                .Select(r => "new value")
-                .Select(() => "new value");
+                .Select(r => r + "!");
 
             Assert.True(newOkResult.IsSuccess);
-            Assert.Equal("new value", newOkResult.Value);
+            Assert.Equal("new value!", newOkResult.Value);
+        }
 
+        [Fact]
+        public void Select_from_fail_returns_failure()
+        {
             var failResult = Result.Fail(new Failure("oops"));
 
             var newFailResult = failResult
                 .Select(() => "new value")
-                .Select(r => "new value")
-                .Select(() => "new value");
+                .Select(r => "new value");
 
             Assert.True(newFailResult.IsFailed);
             Assert.Equal("oops", newFailResult.Failures.First().Message);
         }
 
         [Fact]
-        public async Task SelectAsyncTests()
+        public async Task SelectAsync_from_ok_returns_transformation()
         {
             var t = new TestTransformerService();
 
             var newOkResult = await Result.Ok()
-                .SelectAsync(() => t.TransformAsync(TestTransformerService.Start, 1))
+                .SelectAsync(() => t.TransformAsync(t.Start, 1))
                 .SelectAsync(r => t.Transform(r, 2))
                 .SelectAsync(r => t.TransformAsync(r, 3));
 
@@ -112,20 +114,26 @@ namespace VoidCore.Test.Domain
             Assert.Equal("Hello World!!!", newOkResult.Value);
 
             newOkResult = await Task.FromResult(Result.Ok())
-                .SelectAsync(() => t.Transform(TestTransformerService.Start, 4));
+                .SelectAsync(() => t.Transform(t.Start, 4));
 
             Assert.True(newOkResult.IsSuccess);
             Assert.Equal("Hello World!", newOkResult.Value);
 
             newOkResult = await Task.FromResult(Result.Ok())
-                .SelectAsync(() => t.TransformAsync(TestTransformerService.Start, 5))
+                .SelectAsync(() => t.TransformAsync(t.Start, 5))
                 .SelectAsync(r => t.TransformAsync(r, 6));
 
             Assert.True(newOkResult.IsSuccess);
             Assert.Equal("Hello World!!", newOkResult.Value);
+        }
+
+        [Fact]
+        public async Task SelectAsync_from_failure_returns_failure()
+        {
+            var t = new TestTransformerService();
 
             var newFailResult = await Result.Fail(new Failure("oops"))
-                .SelectAsync(() => t.TransformAsync(TestTransformerService.Start, 1))
+                .SelectAsync(() => t.TransformAsync(t.Start, 1))
                 .SelectAsync(r => t.Transform(r, 2))
                 .SelectAsync(r => t.TransformAsync(r, 3));
 
@@ -134,7 +142,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void ThenTests()
+        public void Then_from_ok_runs_function()
         {
             var newOkResult = Result.Ok()
                 .Then(Result.Ok)
@@ -148,7 +156,11 @@ namespace VoidCore.Test.Domain
 
             Assert.True(newOkResult.IsSuccess);
             Assert.Equal(2, newOkResult.Value);
+        }
 
+        [Fact]
+        public void Then_from_failure_doesnt_run_function()
+        {
             var newFailResult = Result.Fail<int>(new Failure("oops"))
                 .Then(() => Result.Ok())
                 .Then(() => Result.Ok(string.Empty))
@@ -164,7 +176,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public async Task ThenAsyncTests()
+        public async Task ThenAsync_from_ok_runs_function()
         {
             var t = new TestTransformerService();
 
@@ -182,8 +194,12 @@ namespace VoidCore.Test.Domain
 
             Assert.True(newOkResult.IsSuccess);
             Assert.Equal(2, newOkResult.Value);
+        }
 
-            t = new TestTransformerService();
+        [Fact]
+        public async Task ThenAsync_from_failure_doesnt_run_function()
+        {
+            var t = new TestTransformerService();
 
             var newFailResult = await Result.Fail<int>(new Failure("oops"))
                 .ThenAsync(r => t.GetResultAsync(string.Empty, 1))

@@ -9,14 +9,14 @@ namespace VoidCore.Test.Model.Logging
     public class MessagesEventLoggerTests
     {
         [Fact]
-        public void LogUserMessageWithEntityIdInteger()
+        public void EntityMessage_logs_properties_and_handles_non_string_ids()
         {
-            var result = Result.Ok(UserMessage.Create("Good stuff happened", 7));
+            var result = Result.Ok(EntityMessage.Create("Good stuff happened", 7));
 
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
 
-            var processor = new UserMessageWithEntityIdEventLogger<string, int>(loggerMock.Object);
+            var processor = new EntityMessageEventLogger<string, int>(loggerMock.Object);
 
             processor.Process(string.Empty, result);
 
@@ -24,14 +24,14 @@ namespace VoidCore.Test.Model.Logging
         }
 
         [Fact]
-        public void LogUserMessageWithEntityIdString()
+        public void EntityMessage_logs_properties()
         {
-            var result = Result.Ok(UserMessage.Create("Good stuff happened", "7"));
+            var result = Result.Ok(EntityMessage.Create("Good stuff happened", "7"));
 
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));
 
-            var processor = new UserMessageWithEntityIdEventLogger<string, string>(loggerMock.Object);
+            var processor = new EntityMessageEventLogger<string, string>(loggerMock.Object);
 
             processor.Process(string.Empty, result);
 
@@ -39,9 +39,9 @@ namespace VoidCore.Test.Model.Logging
         }
 
         [Fact]
-        public void LogUserMessage()
+        public void UserMessage_logs_properties()
         {
-            var result = Result.Ok(UserMessage.Create("good"));
+            var result = Result.Ok(new UserMessage("good"));
 
             var loggerMock = new Mock<ILoggingService>();
             loggerMock.Setup(l => l.Info(It.IsAny<string[]>()));

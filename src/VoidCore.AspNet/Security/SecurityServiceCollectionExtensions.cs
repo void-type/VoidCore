@@ -1,8 +1,12 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+#if NETCOREAPP3_0
+using Microsoft.Extensions.Hosting;
+#else
+using Microsoft.AspNetCore.Hosting;
+#endif
 
 namespace VoidCore.AspNet.Security
 {
@@ -11,26 +15,25 @@ namespace VoidCore.AspNet.Security
     /// </summary>
     public static class SecurityServiceCollectionExtensions
     {
+#if NETCOREAPP3_0
         /// <summary>
+        /// Setup HttpsRedirection and HSTS for secure transport.
         /// Setup Antiforgery token and filters for all non-GET requests.
         /// </summary>
         /// <param name="services">This service collection</param>
-        public static void AddApiAntiforgery(this IServiceCollection services)
-        {
-            services.AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
-            services.AddAntiforgery(options => { options.HeaderName = "X-Csrf-Token"; });
-        }
-
-        /// <summary>
-        /// Setup HttpsRedirection with a port if not already set. Port will be detected from the ASPNETCORE_HTTPS_PORT
-        /// env var, sslPort or Https URL in launchSettings.json. If no port is detected, this method will use the
-        /// override supplied or 443.
-        /// </summary>
-        /// <param name="services">This service collection</param>
         /// <param name="environment">The hosting environment</param>
-        /// <param name="httpsPortOverride">The HTTPS port to override anything configured before this point</param>
-        public static void AddSecureTransport(this IServiceCollection services, IHostingEnvironment environment, int httpsPortOverride = 443)
+        public static void AddSpaSecurityServices(this IServiceCollection services, IHostEnvironment environment)
         {
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
+
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "X-Csrf-Token";
+            });
+
             if (!environment.IsDevelopment())
             {
                 services.AddHsts(options =>
@@ -39,14 +42,35 @@ namespace VoidCore.AspNet.Security
                     options.IncludeSubDomains = true;
                 });
             }
-
-            services.AddHttpsRedirection(options =>
-            {
-                if (options.HttpsPort == null)
-                {
-                    options.HttpsPort = httpsPortOverride;
-                }
-            });
         }
+#else
+        /// <summary>
+        /// Setup HttpsRedirection and HSTS for secure transport.
+        /// Setup Antiforgery token and filters for all non-GET requests.
+        /// </summary>
+        /// <param name="services">This service collection</param>
+        /// <param name="environment">The hosting environment</param>
+        public static void AddSpaSecurityServices(this IServiceCollection services, IHostingEnvironment environment)
+        {
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
+
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "X-Csrf-Token";
+            });
+
+            if (!environment.IsDevelopment())
+            {
+                services.AddHsts(options =>
+                {
+                    options.MaxAge = TimeSpan.FromDays(365);
+                    options.IncludeSubDomains = true;
+                });
+            }
+        }
+#endif
     }
 }

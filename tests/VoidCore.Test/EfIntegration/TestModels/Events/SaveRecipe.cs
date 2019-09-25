@@ -14,7 +14,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
 {
     public class SaveRecipe
     {
-        public class Handler : EventHandlerAbstract<Request, UserMessage<int>>
+        public class Handler : EventHandlerAbstract<Request, EntityMessage<int>>
         {
             private readonly IFoodStuffsData _data;
 
@@ -23,7 +23,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                 _data = data;
             }
 
-            public override async Task<IResult<UserMessage<int>>> Handle(Request request, CancellationToken cancellationToken = default)
+            public override async Task<IResult<EntityMessage<int>>> Handle(Request request, CancellationToken cancellationToken = default)
             {
                 var byId = new RecipesByIdWithCategoriesSpecification(request.Id);
 
@@ -32,20 +32,20 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                 if (maybeRecipe.HasValue)
                 {
                     return await maybeRecipe.Value
-                        .Tee(r => TransferProperties(request, r))
+                        .Tee(r => Transfer(request, r))
                         .TeeAsync(r => _data.Recipes.Update(r, cancellationToken))
                         .TeeAsync(r => ManageCategories(request, r))
-                        .MapAsync(r => Result.Ok(UserMessage.Create("Recipe updated.", r.Id)));
+                        .MapAsync(r => Ok(EntityMessage.Create("Recipe updated.", r.Id)));
                 }
 
                 return await new Recipe()
-                    .Tee(r => TransferProperties(request, r))
+                    .Tee(r => Transfer(request, r))
                     .TeeAsync(r => _data.Recipes.Add(r, cancellationToken))
                     .TeeAsync(r => ManageCategories(request, r))
-                    .MapAsync(r => Result.Ok(UserMessage.Create("Recipe added.", r.Id)));
+                    .MapAsync(r => Ok(EntityMessage.Create("Recipe added.", r.Id)));
             }
 
-            private void TransferProperties(Request request, Recipe recipe)
+            private void Transfer(Request request, Recipe recipe)
             {
                 recipe.Name = request.Name;
                 recipe.Ingredients = request.Ingredients;
@@ -61,7 +61,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                     .Select(n => n.ToLower().Trim())
                     .ToArray();
 
-                var categoriesThatMatchRequestedSpec = new CategorySpecification(
+                var categoriesThatMatchRequestedSpec = new CategoriesSpecification(
                     c => requested.Contains(c.Name.ToLower().Trim()));
 
                 var categoriesExist = (await _data.Categories.List(categoriesThatMatchRequestedSpec))
@@ -137,7 +137,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
             }
         }
 
-        public class Logger : UserMessageWithEntityIdEventLogger<Request, int>
+        public class Logger : EntityMessageEventLogger<Request, int>
         {
             public Logger(ILoggingService logger) : base(logger) { }
         }

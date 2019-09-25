@@ -10,7 +10,7 @@ namespace VoidCore.Test.AspNet.Logging
     public class HttpRequestLoggingStrategyTests
     {
         [Fact]
-        public void LogEventWithNestedExceptions()
+        public void Log_event_with_nested_exception()
         {
             var exception = new Exception("1",
                 new Exception("2",
@@ -48,7 +48,7 @@ namespace VoidCore.Test.AspNet.Logging
         }
 
         [Fact]
-        public void LogEventWithNullExceptions()
+        public void Log_event_with_null_exceptions()
         {
             var httpRequestMock = new Mock<HttpRequest>();
             httpRequestMock.Setup(request => request.Method)

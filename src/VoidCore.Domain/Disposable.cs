@@ -19,10 +19,8 @@ namespace VoidCore.Domain
         public static TOut Using<TDisposable, TOut>(Func<TDisposable> factory, Func<TDisposable, TOut> selector)
         where TDisposable : IDisposable
         {
-            using (var disposable = factory())
-            {
-                return selector(disposable);
-            }
+            using var disposable = factory();
+            return selector(disposable);
         }
 
         /// <summary>
@@ -36,10 +34,8 @@ namespace VoidCore.Domain
         public static async Task<TOut> UsingAsync<TDisposable, TOut>(Func<TDisposable> factory, Func<TDisposable, Task<TOut>> selector)
         where TDisposable : IDisposable
         {
-            using (var disposable = factory())
-            {
-                return await selector(disposable).ConfigureAwait(false);
-            }
+            using var disposable = factory();
+            return await selector(disposable).ConfigureAwait(false);
         }
     }
 }

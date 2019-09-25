@@ -8,14 +8,14 @@ namespace VoidCore.Test.AspNet
     public class ConventionHelpersTests
     {
         [Fact]
-        public void TypeNameWithoutEndingStripsEnding()
+        public void Strip_type_name_ending()
         {
             var typeName = typeof(MyBaseSettings).GetTypeNameWithoutEnding("Settings");
             Assert.Equal("MyBase", typeName);
         }
 
         [Fact]
-        public void TypeNameWithoutEndingIsCaseInsensitive()
+        public void Strip_type_name_ending_is_case_insensitive()
         {
             var typeName2 = typeof(MyBaseSettings).GetTypeNameWithoutEnding("settings");
             Assert.Equal("MyBase", typeName2);
@@ -25,42 +25,42 @@ namespace VoidCore.Test.AspNet
         }
 
         [Fact]
-        public void TypeNameWithoutEndingWithoutMatchReturnsWholeName()
+        public void No_match_in_type_name_returns_whole_name()
         {
             var typeName = typeof(Other).GetTypeNameWithoutEnding("Settings");
             Assert.Equal("Other", typeName);
         }
 
         [Fact]
-        public void TypeNameWithoutEndingWithNullEndingReturnsWholeName()
+        public void Null_search_in_type_name_returns_whole_name()
         {
             var sectionName = typeof(MyBaseSettings).GetTypeNameWithoutEnding(null);
             Assert.Equal("MyBaseSettings", sectionName);
         }
 
         [Fact]
-        public void FriendlyTypeNameWithoutGenericParameters()
+        public void Friendly_type_name_returns_correct_name()
         {
             var typeName = ConventionHelpers.GetFriendlyTypeName(typeof(String));
             Assert.Equal("String", typeName);
         }
 
         [Fact]
-        public void FriendlyTypeNameWithOneGenericParameter()
+        public void Friendly_type_name_with_one_generic_parameter_returns_correct_name()
         {
             var typeName = ConventionHelpers.GetFriendlyTypeName(typeof(List<string>));
             Assert.Equal("List<String>", typeName);
         }
 
         [Fact]
-        public void FriendlyTypeNameWithTwoGenericParameters()
+        public void Friendly_type_name_with_two_generic_parameters_returns_correct_name()
         {
             var typeName = ConventionHelpers.GetFriendlyTypeName(typeof(Dictionary<string, MyBaseSettings>));
             Assert.Equal("Dictionary<String, MyBaseSettings>", typeName);
         }
 
         [Fact]
-        public void FriendlyTypeNameWithNestedGenericParameters()
+        public void Friendly_type_name_with_nested_generic_parameters_returns_correct_name()
         {
             var typeName = ConventionHelpers.GetFriendlyTypeName(typeof(Dictionary<string, Dictionary<string, Dictionary<string, MyBaseSettings>>>));
             Assert.Equal("Dictionary<String, Dictionary<String, Dictionary<String, MyBaseSettings>>>", typeName);

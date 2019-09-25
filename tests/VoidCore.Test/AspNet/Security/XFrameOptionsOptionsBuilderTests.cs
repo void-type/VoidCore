@@ -6,7 +6,7 @@ namespace VoidCore.Test.AspNet.Security
     public class XFrameOptionsOptionsBuilderTests
     {
         [Fact]
-        public void EmptyOptionsIsDeny()
+        public void Empty_options_is_deny()
         {
             var builder = new XFrameOptionsOptionsBuilder();
 
@@ -17,7 +17,7 @@ namespace VoidCore.Test.AspNet.Security
         }
 
         [Fact]
-        public void DenyOptions()
+        public void Deny_option_is_deny()
         {
             var builder = new XFrameOptionsOptionsBuilder();
 
@@ -30,7 +30,7 @@ namespace VoidCore.Test.AspNet.Security
         }
 
         [Fact]
-        public void SameOriginOptions()
+        public void SameOrigin_option_is_sameorigin()
         {
             var builder = new XFrameOptionsOptionsBuilder();
 
@@ -43,7 +43,7 @@ namespace VoidCore.Test.AspNet.Security
         }
 
         [Fact]
-        public void AllowFromOptions()
+        public void AllowFrom_option_is_allow_with_uri()
         {
             var builder = new XFrameOptionsOptionsBuilder();
 

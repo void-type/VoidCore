@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using VoidCore.Model.Data;
 
-namespace VoidCore.AspNet.Data
+namespace VoidCore.EntityFramework
 {
     /// <summary>
     /// Build queries from specifications. Adapted from https://github.com/dotnet-architecture/eShopOnWeb

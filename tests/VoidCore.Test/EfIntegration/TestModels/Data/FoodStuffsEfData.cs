@@ -1,4 +1,4 @@
-﻿using VoidCore.AspNet.Data;
+﻿using VoidCore.EntityFramework;
 using VoidCore.Model.Auth;
 using VoidCore.Model.Data;
 using VoidCore.Model.Logging;

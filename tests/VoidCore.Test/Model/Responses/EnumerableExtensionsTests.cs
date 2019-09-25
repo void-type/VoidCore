@@ -8,7 +8,7 @@ namespace VoidCore.Test.Model.Responses
     public class EnumerableExtensionsTests
     {
         [Fact]
-        public void FromIQueryableToItemSet()
+        public void ItemSet_can_be_created_from_IQueryable()
         {
             var queryable = new List<string> { "1", "2", "3", "4" }.AsQueryable();
 
@@ -19,7 +19,7 @@ namespace VoidCore.Test.Model.Responses
         }
 
         [Fact]
-        public void FromIQueryableToItemSetPage()
+        public void Paged_ItemSet_can_be_created_from_IQueryable()
         {
             var queryable = new List<string> { "1", "2", "3", "4", "5" }.AsQueryable();
 
@@ -33,7 +33,7 @@ namespace VoidCore.Test.Model.Responses
         }
 
         [Fact]
-        public void FromListToItemSet()
+        public void ItemSet_can_be_created_from_list()
         {
             var list = new List<string> { "1", "2", "3", "4" };
 
@@ -44,7 +44,7 @@ namespace VoidCore.Test.Model.Responses
         }
 
         [Fact]
-        public void FromListToItemSetPage()
+        public void Paged_ItemSet_can_be_created_from_list()
         {
             var list = new List<string> { "1", "2", "3", "4", "5" };
 
@@ -58,7 +58,7 @@ namespace VoidCore.Test.Model.Responses
         }
 
         [Fact]
-        public void FromPagedListToItemSet()
+        public void Paged_ItemSet_can_be_created_from_page_of_a_list()
         {
             var list = new List<string> { "2", "3", "4" };
 

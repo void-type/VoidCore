@@ -31,15 +31,6 @@
             ]
         },
         {
-            "label": "installAndUpdateTools",
-            "command": "./installAndUpdateTools.ps1",
-            "options": {
-                "cwd": "./build"
-            },
-            "type": "shell",
-            "group": "test"
-        },
-        {
             "label": "test",
             "command": "./build.ps1 -Configuration Debug -SkipFormat -SkipOutdated -SkipPack",
             "options": {

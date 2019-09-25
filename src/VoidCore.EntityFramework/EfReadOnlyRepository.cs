@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using VoidCore.Model.Logging;
 
-namespace VoidCore.AspNet.Data
+namespace VoidCore.EntityFramework
 {
     /// <summary>
     /// A generic read-only repository. Optimized for Entity Framework Contexts. Adapted from https://github.com/dotnet-architecture/eShopOnWeb

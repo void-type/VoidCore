@@ -13,7 +13,7 @@ namespace VoidCore.Test.Model.Data
     public class SoftDeletableRepositoryDecorator
     {
         [Fact]
-        public async Task SoftDeleteEntity()
+        public async Task Soft_delete_entity_sets_DeletedOn_and_IsDeleted()
         {
             var entity = new TestEntity();
 
@@ -43,7 +43,7 @@ namespace VoidCore.Test.Model.Data
         }
 
         [Fact]
-        public async Task SoftDeleteEntities()
+        public async Task Soft_delete_entities_sets_DeletedOn_and_IsDeleted()
         {
             var entities = new List<TestEntity>() { new TestEntity() };
 

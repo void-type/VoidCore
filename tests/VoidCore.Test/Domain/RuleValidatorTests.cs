@@ -7,24 +7,9 @@ namespace VoidCore.Test.Domain
 {
     public class RuleValidatorTests
     {
-        [Fact]
-        public void FailuresAreBuiltProperly()
-        {
-            var result = new FailureBuilderValidator().Validate(new Failure("message", "uiHandle"));
-
-            Assert.Equal(2, result.Failures.Select(f => f.Message).Count(m => m == "message"));
-            Assert.Equal(2, result.Failures.Select(f => f.Message).Count(m => m == "hardCodedMessage"));
-            Assert.Equal(2, result.Failures.Select(f => f.UiHandle).Count(m => m == "uiHandle"));
-            Assert.Equal(2, result.Failures.Select(f => f.UiHandle).Count(m => m == "hardCodedUiHandle"));
-        }
-
-        [Fact]
-        public void ProperFailureIsReturnedOnFailure()
-        {
-            var result = new ValidatorLogicTestValidator().Validate("match");
-
-            Assert.Equal("violated", result.Failures.Single().Message);
-        }
+        private static readonly TruthTableValidator _truthTableValidator = new TruthTableValidator();
+        private static readonly FailureBuilderValidator _failureBuilderValidator = new FailureBuilderValidator();
+        private static readonly NoInvalidConditionsValidator _noInvalidConditionsValidator = new NoInvalidConditionsValidator();
 
         [Theory]
         [InlineData(false, false, false, true, false)]
@@ -41,9 +26,9 @@ namespace VoidCore.Test.Domain
         [InlineData(true, true, false, false, true)]
         [InlineData(true, true, false, true, false)]
         [InlineData(true, true, true, true, false)]
-        public void RuleViolatesAndSuppressesProperly(bool invalidWhen1, bool invalidWhen2, bool isSuppressed1, bool isSuppressed2, bool failureExpected)
+        public void Validation_satisfies_truth_table(bool isInvalid1, bool isInValid2, bool isSuppressed1, bool isSuppressed2, bool failureExpected)
         {
-            var result = new RuleLogicTestValidator(invalidWhen2, isSuppressed1, isSuppressed2).Validate(invalidWhen1);
+            var result = _truthTableValidator.Validate(new TruthTableParams(isInvalid1, isInValid2, isSuppressed1, isSuppressed2));
 
             Assert.NotEqual(failureExpected, result.IsSuccess);
             Assert.Equal(failureExpected, result.IsFailed);
@@ -51,27 +36,36 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void ValidationSuccessWhenNoInvalidConditionAdded()
+        public void Failures_can_be_constructed_from_the_entity_properties()
         {
-            var result = new NoValidConditionTestValidator().Validate(1);
+            var result = _failureBuilderValidator.Validate(new Entity("invalid"));
+
+            Assert.Single(result.Failures);
+
+            var failure = result.Failures.Single();
+
+            Assert.Equal("invalid", failure.Message);
+            Assert.Equal("SomeProperty", failure.UiHandle);
+        }
+
+        [Fact]
+        public void Derived_classes_can_be_validated()
+        {
+            var result = _failureBuilderValidator.Validate(new DerivedEntity("invalid"));
+
+            Assert.True(result.IsFailed);
+            Assert.True(result.Failures.Any());
+
+            result = _failureBuilderValidator.Validate(new DerivedEntity("valid"));
 
             Assert.True(result.IsSuccess);
             Assert.False(result.Failures.Any());
         }
 
         [Fact]
-        public void ValidatorWorksOnDerivedTypesFailure()
+        public void Validation_success_when_no_invalid_conditions()
         {
-            var result = new InheritedEntityValidator().Validate(new DerivedEntity { SomeProperty = string.Empty });
-
-            Assert.True(result.IsFailed);
-            Assert.True(result.Failures.Any());
-        }
-
-        [Fact]
-        public void ValidatorWorksOnDerivedTypesSuccess()
-        {
-            var result = new InheritedEntityValidator().Validate(new DerivedEntity { SomeProperty = "valid" });
+            var result = _noInvalidConditionsValidator.Validate(new Entity("valid"));
 
             Assert.True(result.IsSuccess);
             Assert.False(result.Failures.Any());
@@ -79,73 +73,61 @@ namespace VoidCore.Test.Domain
 
         private class Entity
         {
-            public string SomeProperty { get; set; }
+            public Entity(string someProperty)
+            {
+                SomeProperty = someProperty;
+            }
+
+            public string SomeProperty { get; }
         }
 
-        private class DerivedEntity : Entity { }
-
-        private class ValidatorLogicTestValidator : RuleValidatorAbstract<string>
+        private class DerivedEntity : Entity
         {
-            public ValidatorLogicTestValidator()
-            {
-                CreateRule(new Failure("violated", "violated field name"))
-                    .InvalidWhen(stg => stg != "not match");
+            public DerivedEntity(string someProperty) : base(someProperty) { }
+        }
 
-                CreateRule(new Failure("valid", "validField"))
-                    .InvalidWhen(stg => stg != "match");
+        private class TruthTableParams
+        {
+            public TruthTableParams(bool isInvalid1, bool isInvalid2, bool isSuppressed1, bool isSuppressed2)
+            {
+                IsInvalid1 = isInvalid1;
+                IsInvalid2 = isInvalid2;
+                IsSuppressed1 = isSuppressed1;
+                IsSuppressed2 = isSuppressed2;
+            }
+
+            public bool IsInvalid1 { get; }
+            public bool IsInvalid2 { get; }
+            public bool IsSuppressed1 { get; }
+            public bool IsSuppressed2 { get; }
+        }
+
+        private class TruthTableValidator : RuleValidatorAbstract<TruthTableParams>
+        {
+            public TruthTableValidator()
+            {
+                CreateRule(new Failure("validation invalid", "someField"))
+                    .InvalidWhen(p => p.IsInvalid1)
+                    .InvalidWhen(p => p.IsInvalid2)
+                    .ExceptWhen(p => p.IsSuppressed1)
+                    .ExceptWhen(p => p.IsSuppressed2);
             }
         }
 
-        private class RuleLogicTestValidator : RuleValidatorAbstract<bool>
-        {
-            public RuleLogicTestValidator(bool isValid2, bool isSuppressed1, bool isSuppressed2)
-            {
-                CreateRule(new Failure("test is invalid", "testField"))
-                    .InvalidWhen(isValid1 => isValid1)
-                    .InvalidWhen(isValid1 => isValid2)
-                    .ExceptWhen(isValid1 => isSuppressed1)
-                    .ExceptWhen(isValid1 => isSuppressed2);
-            }
-        }
-
-        private class NoValidConditionTestValidator : RuleValidatorAbstract<int>
-        {
-            public NoValidConditionTestValidator()
-            {
-                CreateRule(new Failure("implicit success", "implicit success"));
-
-                CreateRule(new Failure("implicit success", "implicit success"))
-                    .ExceptWhen(number => false);
-
-                CreateRule(new Failure("implicit success", "implicit success"))
-                    .ExceptWhen(number => true);
-            }
-        }
-
-        private class InheritedEntityValidator : RuleValidatorAbstract<Entity>
-        {
-            public InheritedEntityValidator()
-            {
-                CreateRule(new Failure("invalid", "someProperty"))
-                    .InvalidWhen(v => string.IsNullOrWhiteSpace(v.SomeProperty));
-            }
-        }
-
-        private class FailureBuilderValidator : RuleValidatorAbstract<Failure>
+        private class FailureBuilderValidator : RuleValidatorAbstract<Entity>
         {
             public FailureBuilderValidator()
             {
-                CreateRule(v => new Failure($"{v.Message}", "hardCodedUiHandle"))
-                    .InvalidWhen(v => true);
+                CreateRule(v => new Failure($"{v.SomeProperty}", $"{nameof(v.SomeProperty)}"))
+                    .InvalidWhen(v => v.SomeProperty == "invalid");
+            }
+        }
 
-                CreateRule(v => new Failure("hardCodedMessage", $"{v.UiHandle}"))
-                    .InvalidWhen(v => true);
-
-                CreateRule(v => new Failure($"{v.Message}", $"{v.UiHandle}"))
-                    .InvalidWhen(v => true);
-
-                CreateRule(v => new Failure("hardCodedMessage", "hardCodedUiHandle"))
-                    .InvalidWhen(v => true);
+        private class NoInvalidConditionsValidator : RuleValidatorAbstract<Entity>
+        {
+            public NoInvalidConditionsValidator()
+            {
+                CreateRule(v => new Failure($"{v.SomeProperty}", $"{nameof(v.SomeProperty)}"));
             }
         }
     }

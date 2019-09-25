@@ -9,7 +9,7 @@ namespace VoidCore.Test.Model.Data
     public class QuerySpecificationAbstractTests
     {
         [Fact]
-        public void SpecificationBaseSetsProperties()
+        public void QuerySpecificationAbstract_sets_properties_from_methods()
         {
             Expression<Func<MyObject, object>> include = o => o.Include;
             const string includeString = "include me";

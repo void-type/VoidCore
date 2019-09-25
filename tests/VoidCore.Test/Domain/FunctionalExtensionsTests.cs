@@ -7,11 +7,11 @@ namespace VoidCore.Test.Domain
     public class FunctionalExtensionsTests
     {
         [Fact]
-        public void MapReturnsMappedValue()
+        public void Map_runs_function_against_input_and_returns_output()
         {
             var t = new TestTransformerService();
 
-            var actual = TestTransformerService.Start
+            var actual = t.Start
                 .Map(i => t.Transform(i, 1))
                 .Map(i => t.Transform(i, 2));
 
@@ -19,11 +19,11 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public async Task MapAsyncReturnsMappedValue()
+        public async Task MapAsync_awaits_as_needed()
         {
             var t = new TestTransformerService();
 
-            var actual = await TestTransformerService.Start
+            var actual = await t.Start
                 .MapAsync(i => t.TransformAsync(i, 1))
                 .MapAsync(i => t.Transform(i, 2))
                 .MapAsync(i => t.TransformAsync(i, 3));
@@ -32,35 +32,34 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void TeeReturnsInput()
+        public void Tee_runs_function_and_returns_input()
         {
             var p = new TestPerformerService();
 
-            var actual = TestPerformerService.Start
-                .Tee(a => p.Do(a, 1))
-                .Tee(() => p.Go(2));
+            var actual = p.Start
+                .Tee(a => p.Do(1))
+                .Tee(() => p.Do(2));
 
             Assert.Same("Hello World", actual);
         }
 
         [Fact]
-        public async Task TeeAsyncReturnsInput()
+        public async Task TeeAsync_awaits_as_needed_and_runs_functions_in_order()
         {
             var p = new TestPerformerService();
 
-            var actual = await TestPerformerService.Start
-                .TeeAsync(i => p.DoAsync(i, 1))
-                .TeeAsync(() => p.GoAsync(2))
-                .TeeAsync(i => p.DoAsync(i, 3))
-                .TeeAsync(() => p.Go(4))
-                .TeeAsync(i => p.Do(i, 5));
+            var actual = await p.Start
+                .TeeAsync(i => p.DoAsync(1))
+                .TeeAsync(() => p.DoAsync(2))
+                .TeeAsync(() => p.Do(3))
+                .TeeAsync(i => p.Do(4));
 
             Assert.Equal("Hello World", actual);
 
-            var p2 = new TestPerformerService();
+            p.Reset();
 
-            var actual2 = await TestPerformerService.Start
-                .TeeAsync(() => p2.GoAsync(1));
+            var actual2 = await p.Start
+                .TeeAsync(() => p.DoAsync(1));
 
             Assert.Equal("Hello World", actual2);
         }

@@ -8,35 +8,39 @@ namespace VoidCore.Test.Domain
     public class DisposableTests
     {
         [Fact]
-        public void UsingReturnsExpectedValueAndDisposes()
+        public void Using_returns_expected_value_and_disposes_resource()
         {
-            var disposable = new DisposableObject();
+            DisposableObject disposable = null;
 
             var value = Disposable.Using(
-                () => disposable,
-                d => d.GetValue()
+                () => new DisposableObject(),
+                d =>
+                {
+                    disposable = d;
+                    return d.GetValue();
+                }
             );
 
             Assert.Equal("Hello World", value);
             Assert.True(disposable.Disposed);
-
-            disposable.Dispose();
         }
 
         [Fact]
-        public async Task UsingAsyncReturnsExpectedValueAndDisposes()
+        public async Task UsingAsync_returns_expected_value_and_disposes_resource()
         {
-            var disposable = new DisposableObject();
+            DisposableObject disposable = null;
 
             var value = await Disposable.UsingAsync(
-                () => disposable,
-                d => d.GetValueAsync()
+                () => new DisposableObject(),
+                d =>
+                {
+                    disposable = d;
+                    return d.GetValueAsync();
+                }
             );
 
             Assert.Equal("Hello World", value);
             Assert.True(disposable.Disposed);
-
-            disposable.Dispose();
         }
 
         private class DisposableObject : IDisposable
