@@ -3,38 +3,32 @@ using System.Threading.Tasks;
 
 namespace VoidCore.Test.Domain
 {
+    /// <summary>
+    /// This class gives something for our functional extensions to act on.
+    /// This class also ensures that each prior step is performed in order (or awaited) by keeping a lastStep count.
+    /// </summary>
     internal class TestPerformerService
     {
         private int _lastStep;
 
-        public static string Start => "Hello World";
+        public string Start => "Hello World";
 
-        public void Do(string a, int currentStep)
+        public void Do(int currentStep)
         {
-            Console.WriteLine(a);
             CheckStep(currentStep);
             _lastStep = currentStep;
         }
 
-        public async Task DoAsync(string a, int currentStep)
+        public async Task DoAsync(int currentStep)
         {
-            Console.WriteLine(a);
             CheckStep(currentStep);
             await Task.Delay(10);
             _lastStep = currentStep;
         }
 
-        public void Go(int currentStep)
+        public void Reset()
         {
-            CheckStep(currentStep);
-            _lastStep = currentStep;
-        }
-
-        public async Task GoAsync(int currentStep)
-        {
-            CheckStep(currentStep);
-            await Task.Delay(10);
-            _lastStep = currentStep;
+            _lastStep = default;
         }
 
         private void CheckStep(int currentStep)

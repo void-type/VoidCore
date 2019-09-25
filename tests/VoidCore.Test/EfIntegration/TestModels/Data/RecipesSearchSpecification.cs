@@ -19,10 +19,12 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Data
             {
                 case "name":
                     ApplyOrderBy(recipe => recipe.Name);
+                    AddThenBy(recipe => recipe.CreatedOn);
                     break;
 
                 case "nameDesc":
                     ApplyOrderByDescending(recipe => recipe.Name);
+                    AddThenByDescending(recipe => recipe.CreatedOn);
                     break;
 
                 default:

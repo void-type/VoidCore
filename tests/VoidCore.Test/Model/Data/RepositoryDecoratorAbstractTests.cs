@@ -10,7 +10,7 @@ namespace VoidCore.Test.Model.Data
     public class RepositoryDecoratorAbstractTests
     {
         [Fact]
-        public async Task AddEntity()
+        public async Task RepositoryDecoratorAbstract_adds_entity()
         {
             var entity = new TestEntity();
 
@@ -26,7 +26,7 @@ namespace VoidCore.Test.Model.Data
         }
 
         [Fact]
-        public async Task AddEntities()
+        public async Task RepositoryDecoratorAbstract_adds_entities()
         {
             var entities = new List<TestEntity>() { new TestEntity() };
 
@@ -42,7 +42,7 @@ namespace VoidCore.Test.Model.Data
         }
 
         [Fact]
-        public async Task UpdateEntity()
+        public async Task RepositoryDecoratorAbstract_updates_entity()
         {
             var entity = new TestEntity();
 
@@ -58,7 +58,7 @@ namespace VoidCore.Test.Model.Data
         }
 
         [Fact]
-        public async Task UpdateEntities()
+        public async Task RepositoryDecoratorAbstract_updates_entities()
         {
             var entities = new List<TestEntity>() { new TestEntity() };
 
@@ -74,7 +74,7 @@ namespace VoidCore.Test.Model.Data
         }
 
         [Fact]
-        public async Task RemoveEntity()
+        public async Task RepositoryDecoratorAbstract_removes_entity()
         {
             var entity = new TestEntity();
 
@@ -90,7 +90,7 @@ namespace VoidCore.Test.Model.Data
         }
 
         [Fact]
-        public async Task RemoveEntities()
+        public async Task RepositoryDecoratorAbstract_removes_entities()
         {
             var entities = new List<TestEntity>() { new TestEntity() };
 

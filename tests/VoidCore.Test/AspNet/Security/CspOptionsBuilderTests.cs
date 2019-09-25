@@ -7,7 +7,7 @@ namespace VoidCore.Test.AspNet.Security
     public class CspOptionsBuilderTests
     {
         [Fact]
-        public void AllOptions()
+        public void All_options_builds_correct_header()
         {
             var builder = new CspOptionsBuilder();
 
@@ -56,7 +56,7 @@ namespace VoidCore.Test.AspNet.Security
         }
 
         [Fact]
-        public void EmptyOptions()
+        public void Empty_options_builds_correct_header()
         {
             var builder = new CspOptionsBuilder();
 
@@ -73,7 +73,7 @@ namespace VoidCore.Test.AspNet.Security
         }
 
         [Fact]
-        public void ReportOnlyWithUriOptions()
+        public void ReportOnly_with_uri_options_builds_correct_header()
         {
             var builder = new CspOptionsBuilder();
 
@@ -90,7 +90,7 @@ namespace VoidCore.Test.AspNet.Security
         }
 
         [Fact]
-        public void SettingMoreThanOneUriThrowInvalidOperationException()
+        public void Setting_more_than_one_uri_throws_InvalidOperationException()
         {
             var builder = new CspOptionsBuilder();
 

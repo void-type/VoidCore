@@ -9,7 +9,7 @@ namespace VoidCore.Test.Model.Logging
     public class FilesEventLoggerTest
     {
         [Fact]
-        public void LogSimpleFile()
+        public void SimpleFile_logs_properties()
         {
             var file = new SimpleFile("your content here", "filename.txt");
             var result = Result.Ok(file);

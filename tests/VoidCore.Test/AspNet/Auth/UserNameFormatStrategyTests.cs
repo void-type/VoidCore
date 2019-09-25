@@ -9,7 +9,7 @@ namespace VoidCore.Test.AspNet.Auth
         [InlineData("Domain1\\Name", "Name")]
         [InlineData("Name", "Name")]
         [InlineData(null, "Unknown")]
-        public void FormatNameFromAdLogin(string input, string expected)
+        public void Format_name_from_login(string input, string expected)
         {
             var formatter = new AdLoginUserNameFormatStrategy();
             var userName = formatter.Format(input);
@@ -20,7 +20,7 @@ namespace VoidCore.Test.AspNet.Auth
         [InlineData("Name@contoso.com", "Name")]
         [InlineData("Name", "Name")]
         [InlineData(null, "Unknown")]
-        public void FormatNameFromEmail(string input, string expected)
+        public void Format_name_from_email(string input, string expected)
         {
             var formatter = new EmailUserNameFormatStrategy();
             var userName = formatter.Format(input);

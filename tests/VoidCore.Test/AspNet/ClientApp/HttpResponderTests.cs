@@ -11,7 +11,7 @@ namespace VoidCore.Test.AspNet.ClientApp
     public class HttpResponderTests
     {
         [Fact]
-        public void RespondWithData()
+        public void Respond_with_data()
         {
             var response = HttpResponder.Respond(EntityMessage.Create("success", 2));
             Assert.Equal(200, ((ObjectResult)response).StatusCode);
@@ -20,7 +20,7 @@ namespace VoidCore.Test.AspNet.ClientApp
         }
 
         [Fact]
-        public void RespondWithFailure()
+        public void Respond_with_failure()
         {
             var result = Result.Fail(new Failure("some fail", "some fail"));
             var response = HttpResponder.Respond(result);
@@ -29,7 +29,7 @@ namespace VoidCore.Test.AspNet.ClientApp
         }
 
         [Fact]
-        public void RespondWithFileFailure()
+        public void Respond_with_file_failure()
         {
             var result = Result.Fail<SimpleFile>(new Failure("some fail", "some fail"), new Failure("some fail", "some fail"));
             var response = HttpResponder.RespondWithFile(result);
@@ -38,7 +38,7 @@ namespace VoidCore.Test.AspNet.ClientApp
         }
 
         [Fact]
-        public void RespondWithFileSuccess()
+        public void Respond_with_file_success()
         {
             var file = new SimpleFile("fileContent", "fileName");
             var result = Result.Ok(file);
@@ -49,7 +49,7 @@ namespace VoidCore.Test.AspNet.ClientApp
         }
 
         [Fact]
-        public void RespondWithSuccess()
+        public void Respond_with_success()
         {
             var result = Result.Ok();
             var response = HttpResponder.Respond(result);
@@ -58,7 +58,7 @@ namespace VoidCore.Test.AspNet.ClientApp
         }
 
         [Fact]
-        public void RespondWithTypedFailure()
+        public void Respond_with_typed_failure()
         {
             var result = Result.Fail<string>(new Failure("some fail", "some fail"));
             var response = HttpResponder.Respond(result);
@@ -67,7 +67,7 @@ namespace VoidCore.Test.AspNet.ClientApp
         }
 
         [Fact]
-        public void RespondWithTypedSuccess()
+        public void Respond_with_typed_success()
         {
             var result = Result.Ok("Success Object");
             var response = HttpResponder.Respond(result);

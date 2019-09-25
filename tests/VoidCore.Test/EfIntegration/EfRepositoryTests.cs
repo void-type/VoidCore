@@ -1,8 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
-using Moq;
 using VoidCore.Domain;
-using VoidCore.Model.Auth;
 using VoidCore.Test.AspNet.Data.TestModels;
 using VoidCore.Test.AspNet.Data.TestModels.Data;
 using VoidCore.Test.AspNet.Data.TestModels.Events;
@@ -13,7 +11,7 @@ namespace VoidCore.Test.AspNet.Data
     public class EfRepositoryTests
     {
         [Fact]
-        public async Task GetRecipeFound()
+        public async Task Get_recipe_returns_recipe_by_id_when_found()
         {
             using var context = Deps.FoodStuffsContext();
             var data = context.Seed().FoodStuffsData();
@@ -30,7 +28,7 @@ namespace VoidCore.Test.AspNet.Data
         }
 
         [Fact]
-        public async Task GetRecipeNotFound()
+        public async Task Get_recipe_returns_failure_when_recipe_not_found()
         {
             using var context = Deps.FoodStuffsContext();
             var data = context.Seed().FoodStuffsData();
@@ -43,20 +41,23 @@ namespace VoidCore.Test.AspNet.Data
         }
 
         [Fact]
-        public async Task ListAllRecipes()
+        public async Task ListRecipes_returns_a_page_of_recipes()
         {
             using var context = Deps.FoodStuffsContext();
             var data = context.Seed().FoodStuffsData();
 
-            var recipes = await data.Recipes.ListAll();
+            var result = await new ListRecipes.Handler(data)
+                .Handle(new ListRecipes.Request(null, null, null, true, 2, 1));
 
-            Assert.Equal(3, recipes.Count);
-            Assert.Contains("Recipe2", recipes.Select(r => r.Name));
-            Assert.Contains("Category1", recipes.SelectMany(r => r.CategoryRecipe.Select(cr => cr.Category.Name)));
+            Assert.True(result.IsSuccess);
+            Assert.Equal(1, result.Value.Count);
+            Assert.Equal(3, result.Value.TotalCount);
+            Assert.Equal(2, result.Value.Page);
+            Assert.Equal(1, result.Value.Take);
         }
 
         [Fact]
-        public async Task ListRecipesWithoutPaging()
+        public async Task ListRecipe_returns_all_recipes_when_paging_is_disabled()
         {
             using var context = Deps.FoodStuffsContext();
             var data = context.Seed().FoodStuffsData();
@@ -67,12 +68,14 @@ namespace VoidCore.Test.AspNet.Data
             Assert.True(result.IsSuccess);
             Assert.Equal(3, result.Value.Count);
             Assert.Equal(3, result.Value.TotalCount);
+            Assert.Contains("Recipe1", result.Value.Items.Select(r => r.Name));
             Assert.Contains("Recipe2", result.Value.Items.Select(r => r.Name));
+            Assert.Contains("Recipe3", result.Value.Items.Select(r => r.Name));
             Assert.Contains("Category1", result.Value.Items.SelectMany(r => r.Categories));
         }
 
         [Fact]
-        public async Task ListRecipesSortDesc()
+        public async Task ListRecipes_can_sort_by_descending()
         {
             using var context = Deps.FoodStuffsContext();
             var data = context.Seed().FoodStuffsData();
@@ -89,26 +92,24 @@ namespace VoidCore.Test.AspNet.Data
         }
 
         [Fact]
-        public async Task ListRecipesSortAscend()
+        public async Task ListRecipes_can_sort_by_ascending()
         {
             using var context = Deps.FoodStuffsContext();
             var data = context.Seed().FoodStuffsData();
-
-            await data.Recipes.Add(new Recipe { Name = "ANewRecipe" });
 
             var result = await new ListRecipes.Handler(data)
                 .Handle(new ListRecipes.Request(null, null, "name", true, 1, 1));
 
             Assert.True(result.IsSuccess);
             Assert.Equal(1, result.Value.Count);
-            Assert.Equal(4, result.Value.TotalCount);
+            Assert.Equal(3, result.Value.TotalCount);
             Assert.Equal(1, result.Value.Page);
             Assert.Equal(1, result.Value.Take);
-            Assert.Contains("ANewRecipe", result.Value.Items.First().Name);
+            Assert.Contains("Recipe1", result.Value.Items.First().Name);
         }
 
         [Fact]
-        public async Task ListRecipesNameSearch()
+        public async Task ListRecipes_can_search_by_recipe_name()
         {
             using var context = Deps.FoodStuffsContext();
             var data = context.Seed().FoodStuffsData();
@@ -125,7 +126,7 @@ namespace VoidCore.Test.AspNet.Data
         }
 
         [Fact]
-        public async Task ListRecipesCategorySearch()
+        public async Task ListRecipes_can_search_by_category_name()
         {
             using var context = Deps.FoodStuffsContext();
             var data = context.Seed().FoodStuffsData();
@@ -144,7 +145,7 @@ namespace VoidCore.Test.AspNet.Data
         }
 
         [Fact]
-        public async Task ListRecipesNoneFoundByNameSearch()
+        public async Task ListRecipes_returns_empty_item_set_when_name_search_matches_zero_items()
         {
             using var context = Deps.FoodStuffsContext();
             var data = context.Seed().FoodStuffsData();
@@ -158,7 +159,7 @@ namespace VoidCore.Test.AspNet.Data
         }
 
         [Fact]
-        public async Task ListRecipesNoneFoundByCategorySearch()
+        public async Task ListRecipes_returns_empty_item_set_when_category_search_matches_zero_items()
         {
             using var context = Deps.FoodStuffsContext();
             var data = context.Seed().FoodStuffsData();
@@ -172,7 +173,35 @@ namespace VoidCore.Test.AspNet.Data
         }
 
         [Fact]
-        public async Task DeleteRecipeFound()
+        public async Task ListRecipes_returns_empty_list_when_none_found_by_name_search()
+        {
+            using var context = Deps.FoodStuffsContext();
+            var data = context.Seed().FoodStuffsData();
+
+            var result = await new ListRecipes.Handler(data)
+                .Handle(new ListRecipes.Request("nothing matches", null, null, true, 1, 2));
+
+            Assert.True(result.IsSuccess);
+            Assert.Equal(0, result.Value.Count);
+            Assert.Equal(0, result.Value.TotalCount);
+        }
+
+        [Fact]
+        public async Task ListRecipes_returns_empty_list_when_none_found_by_category_search()
+        {
+            using var context = Deps.FoodStuffsContext();
+            var data = context.Seed().FoodStuffsData();
+
+            var result = await new ListRecipes.Handler(data)
+                .Handle(new ListRecipes.Request(null, "nothing matches", null, true, 1, 2));
+
+            Assert.True(result.IsSuccess);
+            Assert.Equal(0, result.Value.Count);
+            Assert.Equal(0, result.Value.TotalCount);
+        }
+
+        [Fact]
+        public async Task DeleteRecipe_deletes_recipe_if_found()
         {
             using var context = Deps.FoodStuffsContext();
             var data = context.Seed().FoodStuffsData();
@@ -193,49 +222,54 @@ namespace VoidCore.Test.AspNet.Data
         }
 
         [Fact]
-        public async Task SaveNewRecipe()
+        public async Task SaveRecipe_creates_new_recipe_when_id_0_is_specified()
         {
             using var context = Deps.FoodStuffsContext();
             var data = context.Seed().FoodStuffsData();
 
-            var user = new DomainUser("SingleUser", new string[0]);
-
-            var userAccessorMock = new Mock<ICurrentUserAccessor>();
-            userAccessorMock.Setup(a => a.User).Returns(user);
-
-            var newResult = await new SaveRecipe.Handler(data)
+            var result = await new SaveRecipe.Handler(data)
                 .Handle(new SaveRecipe.Request(0, "New", "New", "New", null, 20, new[] { "Category2", "Category3", "Category4" }));
 
-            Assert.True(newResult.IsSuccess);
-            Assert.True(newResult.Value.Id > 0);
+            Assert.True(result.IsSuccess);
+            Assert.True(result.Value.Id > 0);
 
-            var maybeNewRecipe = await data.Recipes.Get(new RecipesByIdWithCategoriesSpecification(newResult.Value.Id));
+            var maybeRecipe = await data.Recipes.Get(new RecipesByIdWithCategoriesSpecification(result.Value.Id));
 
-            Assert.True(maybeNewRecipe.HasValue);
-            Assert.Equal(Deps.DateTimeServiceLate.Moment, maybeNewRecipe.Value.CreatedOn);
-            Assert.Equal(Deps.DateTimeServiceLate.Moment, maybeNewRecipe.Value.ModifiedOn);
-            Assert.DoesNotContain("Category1", maybeNewRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
-            Assert.Contains("Category2", maybeNewRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
-            Assert.Contains("Category3", maybeNewRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
-            Assert.Contains("Category4", maybeNewRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
-
-            var existingResult = await new SaveRecipe.Handler(data)
-                                .Handle(new SaveRecipe.Request(newResult.Value.Id, "New", "New", "New", null, 20, new[] { "Category2", "Category3", "Category1" }));
-
-            Assert.True(existingResult.IsSuccess);
-            Assert.Equal(existingResult.Value.Id, newResult.Value.Id);
-
-            var maybeExistingRecipe = await data.Recipes.Get(new RecipesByIdWithCategoriesSpecification(existingResult.Value.Id));
-
-            Assert.True(maybeExistingRecipe.HasValue);
-            Assert.Contains("Category1", maybeExistingRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
-            Assert.Contains("Category2", maybeExistingRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
-            Assert.Contains("Category3", maybeExistingRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
-            Assert.DoesNotContain("Category4", maybeExistingRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
+            Assert.True(maybeRecipe.HasValue);
+            Assert.Equal(Deps.DateTimeServiceLate.Moment, maybeRecipe.Value.CreatedOn);
+            Assert.Equal(Deps.DateTimeServiceLate.Moment, maybeRecipe.Value.ModifiedOn);
+            Assert.DoesNotContain("Category1", maybeRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
+            Assert.Contains("Category2", maybeRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
+            Assert.Contains("Category3", maybeRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
+            Assert.Contains("Category4", maybeRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
         }
 
         [Fact]
-        public async Task UpdateRangeOfRecipes()
+        public async Task SaveRecipe_updates_existing_recipe_when_exists()
+        {
+            using var context = Deps.FoodStuffsContext();
+            var data = context.Seed().FoodStuffsData();
+
+            var existingRecipeId = (await data.Recipes.ListAll()).First().Id;
+
+            var result = await new SaveRecipe.Handler(data)
+                .Handle(new SaveRecipe.Request(existingRecipeId, "New", "New", "New", null, 20, new[] { "Category2", "Category3", "Category4" }));
+
+            Assert.True(result.IsSuccess);
+            Assert.Equal(existingRecipeId, result.Value.Id);
+
+            var updatedRecipe = await data.Recipes.Get(new RecipesByIdWithCategoriesSpecification(existingRecipeId));
+            Assert.True(updatedRecipe.HasValue);
+            Assert.Equal(Deps.DateTimeServiceEarly.Moment, updatedRecipe.Value.CreatedOn);
+            Assert.Equal(Deps.DateTimeServiceLate.Moment, updatedRecipe.Value.ModifiedOn);
+            Assert.DoesNotContain("Category1", updatedRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
+            Assert.Contains("Category2", updatedRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
+            Assert.Contains("Category3", updatedRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
+            Assert.Contains("Category4", updatedRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
+        }
+
+        [Fact]
+        public async Task Range_of_recipes_can_be_updated()
         {
             using var context = Deps.FoodStuffsContext();
             var data = context.Seed().FoodStuffsData();
@@ -253,24 +287,6 @@ namespace VoidCore.Test.AspNet.Data
                 .MapAsync(recs => recs.Where(r => r.Name == "changeMe").ToList());
 
             Assert.Equal(3, updatedRecipes.Count);
-            Assert.Contains(1, recipes.Select(r => r.Id));
-            Assert.Contains(2, recipes.Select(r => r.Id));
-            Assert.Contains(3, recipes.Select(r => r.Id));
-        }
-
-        [Fact]
-        public async Task QueryViewWithSpecification()
-        {
-            using var context = Deps.FoodStuffsContext();
-            var data = context.FoodStuffsData();
-
-            var users1 = await data.Users.List(new UserSpecification(u => u.JoinedOn < Deps.DateTimeServiceLate.Moment));
-
-            Assert.Equal(2, users1.Count);
-
-            var users2 = await data.Users.ListAll();
-
-            Assert.Equal(3, users2.Count);
         }
     }
 }

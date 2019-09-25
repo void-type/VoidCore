@@ -12,7 +12,7 @@ namespace VoidCore.Test.AspNet.ClientApp
     public class GetWebApplicationInfoTests
     {
         [Fact]
-        public void ApplicationSettingsHasParameterlessConstructorForAspNetOptions()
+        public void Application_settings_has_parameterless_constructor_for_aspnet_options()
         {
             var appSettings = new ApplicationSettings();
 
@@ -20,7 +20,7 @@ namespace VoidCore.Test.AspNet.ClientApp
         }
 
         [Fact]
-        public async Task ApplicationInfoIsCreatedWithAndLogsProperInfo()
+        public async Task ApplicationInfo_is_created_with_and_logs_proper_info()
         {
             var appSettings = new ApplicationSettings("AppName");
 

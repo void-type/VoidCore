@@ -7,7 +7,7 @@ namespace VoidCore.Test.Domain
     public class ValueObjectTests
     {
         [Fact]
-        public void CompareValueObjectsOfDifferentTypesReturnsFalse()
+        public void ValueObjects_of_different_types_are_not_equal()
         {
             var temp1 = new Address("a", "b");
             var dist1 = new DerivedAddress("a", "b");
@@ -16,14 +16,14 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void NullComparedToNullValueObjectIsEqual()
+        public void Null_is_equal_to_null()
         {
             Assert.True((Address)null == null);
             Assert.True(null == (Address)null);
         }
 
         [Fact]
-        public void ValueObjectsComparedToNullAreNotEqual()
+        public void ValueObject_is_not_equal_to_null()
         {
             var temp1 = new Address("a", "b");
 
@@ -33,7 +33,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void ValueObjectsWithDifferentValuesAreNotEqual()
+        public void ValueObject_is_not_equal_to_ValueObject_with_different_value()
         {
             var temp1 = new Address("a", "b");
             var temp2 = new Address("b", "a");
@@ -45,7 +45,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void ValueObjectsWithSameValuesAreEqual()
+        public void ValueObjects_are_equal_if_values_are_same()
         {
             var temp1 = new Address("a", "b");
             var temp2 = new Address("a", "b");

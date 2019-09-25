@@ -6,13 +6,13 @@ namespace VoidCore.Test.AspNet.Routing
     public class ApiRouteAttributeTests
     {
         [Fact]
-        public void BaseRouteIsCorrect()
+        public void Base_api_path_is_correct()
         {
             Assert.Equal("/api", ApiRouteAttribute.BasePath);
         }
 
         [Fact]
-        public void RoutePathTemplateIsCorrect()
+        public void Base_api_path_template_is_correct()
         {
             var route = new ApiRouteAttribute("controller");
 

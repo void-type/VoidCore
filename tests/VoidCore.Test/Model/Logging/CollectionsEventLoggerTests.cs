@@ -9,7 +9,7 @@ namespace VoidCore.Test.Model.Logging
     public class CollectionsEventLoggerTests
     {
         [Fact]
-        public void LogItemSet()
+        public void ItemSet_logs_properties()
         {
             var itemSetMock = new Mock<IItemSet<string>>();
             itemSetMock.SetupGet(set => set.Count).Returns(7);

@@ -13,7 +13,7 @@ namespace VoidCore.Test.Model.Data
     public class AuditableRepositoryDecoratorTests
     {
         [Fact]
-        public async Task AddEntity()
+        public async Task Add_entity_sets_auditable_created_and_updated_properties()
         {
             var entity = new TestEntity();
 
@@ -41,7 +41,7 @@ namespace VoidCore.Test.Model.Data
         }
 
         [Fact]
-        public async Task AddEntities()
+        public async Task Add_entities_sets_auditable_created_and_updated_properties()
         {
             var entities = new List<TestEntity>() { new TestEntity() };
 
@@ -69,7 +69,7 @@ namespace VoidCore.Test.Model.Data
         }
 
         [Fact]
-        public async Task UpdateEntity()
+        public async Task Update_entity_sets_auditable_updated_properties()
         {
             var entity = new TestEntity();
 
@@ -97,7 +97,7 @@ namespace VoidCore.Test.Model.Data
         }
 
         [Fact]
-        public async Task UpdateEntities()
+        public async Task Update_entities_sets_auditable_updated_properties()
         {
             var entities = new List<TestEntity>() { new TestEntity() };
 

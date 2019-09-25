@@ -9,42 +9,43 @@ namespace VoidCore.Test.Domain
 {
     public class ResultTests
     {
+        // TODO: Lets give all tests better names.
         [Fact]
-        public void ResultThrowsErrorWithNullFailures()
+        public void Creating_Result_with_null_failures_throws_ArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => Result.Fail((List<IFailure>)null));
             Assert.Throws<ArgumentNullException>(() => Result.Fail(null));
         }
 
         [Fact]
-        public void TypedResultThrowsErrorWithNullFailures()
+        public void Creating_typed_Result_with_null_failures_throws_ArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => Result.Fail<string>((List<IFailure>)null));
             Assert.Throws<ArgumentNullException>(() => Result.Fail<string>(null));
         }
 
         [Fact]
-        public void ResultThrowsErrorWithEmptyFailures()
+        public void Creating_Result_with_empty_failures_throws_ArgumentException()
         {
             Assert.Throws<ArgumentException>(() => Result.Fail(new List<IFailure>()));
             Assert.Throws<ArgumentException>(() => Result.Fail());
         }
 
         [Fact]
-        public void TypedResultThrowsErrorWithEmptyFailures()
+        public void Creating_typed_Result_with_empty_failures_throws_ArgumentException()
         {
             Assert.Throws<ArgumentException>(() => Result.Fail<string>(new List<IFailure>()));
             Assert.Throws<ArgumentException>(() => Result.Fail<string>());
         }
 
         [Fact]
-        public void TypedResultThrowsErrorWithEmptySuccess()
+        public void Creating_typed_Result_with_empty_success_throws_ArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => Result.Ok((string)null));
         }
 
         [Fact]
-        public void TypedResultAccessingFailedResultValueThrowInvalidOperationException()
+        public void Accessing_failed_typed_Result_value_throws_InvalidOperationException()
         {
             Assert.Throws<InvalidOperationException>(() =>
             {
@@ -53,7 +54,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void CombineWithFailuresGivesFailures()
+        public void Combine_with_any_failures_gives_a_failed_result()
         {
             var result = Result.Combine(
                 Result.Ok(),
@@ -70,7 +71,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void CombineWithNoFailuresGivesSuccess()
+        public void Combine_with_no_failures_gives_a_success_result()
         {
             var result = Result.Combine(
                 Result.Ok(),
@@ -84,7 +85,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public async Task CombineAsyncWithFailuresGivesFailures()
+        public async Task CombineAsync_with_any_failures_gives_a_failed_result()
         {
             var results = new List<IResult>
                 {
@@ -105,7 +106,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public async Task CombineAsyncWithNoFailuresGivesSuccess()
+        public async Task CombineAsync_with_no_failures_gives_a_success_result()
         {
             var results = new List<IResult>
                 {
@@ -123,7 +124,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void ImplicitConversionFromTypedToUntypedProvidesCorrectVariant()
+        public void ImplicitConversion_from_typed_to_untyped_Result_doesnt_change_result_status()
         {
             IResult source1 = Result.Ok("good");
             Assert.True(source1.IsSuccess);
@@ -133,7 +134,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void ResultIsSuccess()
+        public void Result_is_success()
         {
             var result = Result.Ok();
 
@@ -143,18 +144,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void TypedResultIsSuccess()
-        {
-            var result = Result.Ok("success");
-
-            Assert.True(result.IsSuccess);
-            Assert.False(result.IsFailed);
-            Assert.Empty(result.Failures);
-            Assert.Equal("success", result.Value);
-        }
-
-        [Fact]
-        public void ResultIsFailedFailure()
+        public void Result_is_failed_single_failure()
         {
             var result = Result.Fail(new Failure("Some error", "someHandle"));
 
@@ -166,7 +156,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void ResultIsFailedFailures()
+        public void Result_is_failed_list_failures()
         {
             var result = Result.Fail(new List<IFailure>
             {
@@ -183,19 +173,33 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void ResultIsFailedFailureConstructor()
+        public void Result_is_failed_params_failures()
         {
-            var result = Result.Fail(new Failure("Some error", "someHandle"));
+            var result = Result.Fail(
+                new Failure("Some error", "someHandle"),
+                new Failure("Some error", "someHandle"));
 
             Assert.False(result.IsSuccess);
             Assert.True(result.IsFailed);
             Assert.NotEmpty(result.Failures);
-            Assert.Equal("Some error", result.Failures.Single().Message);
-            Assert.Equal("someHandle", result.Failures.Single().UiHandle);
+            Assert.Equal("Some error", result.Failures.First().Message);
+            Assert.Equal("someHandle", result.Failures.First().UiHandle);
+            Assert.Equal(2, result.Failures.Count());
         }
 
         [Fact]
-        public void TypedResultIsFailedFailure()
+        public void Typed_Result_is_success()
+        {
+            var result = Result.Ok("success");
+
+            Assert.True(result.IsSuccess);
+            Assert.False(result.IsFailed);
+            Assert.Empty(result.Failures);
+            Assert.Equal("success", result.Value);
+        }
+
+        [Fact]
+        public void Typed_Result_is_failed_single_failure()
         {
             var result = Result.Fail<string>(new Failure("Some error", "someHandle"));
 
@@ -207,7 +211,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void TypedResultIsFailedFailures()
+        public void Typed_Result_is_failed_list_failures()
         {
             var result = Result.Fail<string>(new List<IFailure>
             {
@@ -224,15 +228,18 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void TypedResultIsFailedFailureConstructor()
+        public void Typed_Result_is_failed_params_failures()
         {
-            var result = Result.Fail<string>(new Failure("Some error", "someHandle"));
+            var result = Result.Fail<string>(
+                new Failure("Some error", "someHandle"),
+                new Failure("Some error", "someHandle"));
 
             Assert.False(result.IsSuccess);
             Assert.True(result.IsFailed);
             Assert.NotEmpty(result.Failures);
-            Assert.Equal("Some error", result.Failures.Single().Message);
-            Assert.Equal("someHandle", result.Failures.Single().UiHandle);
+            Assert.Equal("Some error", result.Failures.First().Message);
+            Assert.Equal("someHandle", result.Failures.First().UiHandle);
+            Assert.Equal(2, result.Failures.Count());
         }
     }
 }

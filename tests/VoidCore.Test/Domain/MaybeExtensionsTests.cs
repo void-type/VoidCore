@@ -8,7 +8,7 @@ namespace VoidCore.Test.Domain
     public class MaybeExtensionsTests
     {
         [Fact]
-        public void MaybeToResultWithoutValueIsFailed()
+        public void ToResult_from_Maybe_without_value_is_failed()
         {
             var maybe = Maybe<string>.None;
             var result = maybe.ToResult(new Failure("no value", "uiField"));
@@ -20,7 +20,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void MaybeToResultWithValueIsSuccessful()
+        public void ToResult_from_Maybe_with_value_is_success()
         {
             var result = Maybe.From("some value").ToResult(new Failure("no value"));
 
@@ -29,7 +29,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public async Task MaybeToResultAsyncWithoutValueIsFailed()
+        public async Task ToResultAsync_from_Maybe_without_value_is_failed()
         {
             var maybeTask = Task.FromResult(Maybe<string>.None);
 
@@ -42,7 +42,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public async Task MaybeToResultAsyncWithValueIsSuccessful()
+        public async Task ToResultAsync_from_Maybe_with_value_is_success()
         {
             var maybeTask = Task.FromResult(Maybe.From("some value"));
 
@@ -53,7 +53,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void MaybeSelectWithoutValueReturnsNone()
+        public void Select_from_none_returns_none()
         {
             var maybe = Maybe<string>.None
                 .Select(v => 2);
@@ -63,7 +63,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public async Task MaybeSelectAsyncWithoutValueReturnsNone()
+        public async Task SelectAsync_from_none_returns_none()
         {
             var t = new TestTransformerService();
 
@@ -76,7 +76,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void MaybeSelectWithValueReturnsTransformation()
+        public void Select_from_maybe_with_value_returns_transformation()
         {
             var maybe = Maybe.From("some value")
                 .Select(v => 2);
@@ -86,11 +86,11 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public async Task MaybeSelectAsyncWithValueReturnsTransformation()
+        public async Task SelectAsync_from_maybe_with_value_returns_transformation()
         {
             var t = new TestTransformerService();
 
-            var maybe = await Maybe.From(TestTransformerService.Start)
+            var maybe = await Maybe.From(t.Start)
                 .SelectAsync(a => t.TransformAsync(a, 1))
                 .SelectAsync(a => t.Transform(a, 2))
                 .SelectAsync(a => t.TransformAsync(a, 3));
@@ -100,7 +100,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void MaybeThenWithoutValueReturnsNone()
+        public void Then_from_none_returns_none()
         {
             var maybe = Maybe<string>.None
                 .Then(v => Maybe.From(2));
@@ -110,7 +110,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public async Task MaybeThenAsyncWithoutValueReturnsNone()
+        public async Task ThenAsync_from_none_returns_none()
         {
             var t = new TestTransformerService();
 
@@ -123,7 +123,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void MaybeThenWithValueReturnsTransformation()
+        public void Then_from_Maybe_with_value_returns_new_maybe()
         {
             var maybe = Maybe.From("some value")
                 .Then(v => Maybe.From(2));
@@ -133,11 +133,11 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public async Task MaybeThenAsyncWithValueReturnsTransformation()
+        public async Task ThenAsync_from_Maybe_with_value_returns_new_maybe()
         {
             var t = new TestTransformerService();
 
-            var maybe = await Maybe.From(TestTransformerService.Start)
+            var maybe = await Maybe.From(t.Start)
                 .ThenAsync(a => t.TransformMaybeAsync(a, 1))
                 .ThenAsync(a => t.TransformMaybe(a, 2))
                 .ThenAsync(a => t.TransformMaybeAsync(a, 3));
@@ -147,7 +147,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void MaybeUnwrapWithoutValue()
+        public void Unwrap_none_returns_default()
         {
             var maybe = Maybe<string>.None;
 
@@ -162,7 +162,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public async Task MaybeUnwrapAsyncWithoutValue()
+        public async Task UnwrapAsync_none_returns_default()
         {
             var maybe = Task.FromResult(Maybe<string>.None);
 
@@ -177,7 +177,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void MaybeUnwrapWithValue()
+        public void Unwrap_with_value_returns_value()
         {
             Maybe<string> maybe = "some value";
 
@@ -192,7 +192,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public async Task MaybeUnwrapAsyncWithValue()
+        public async Task UnwrapAsync_with_value_returns_value()
         {
             var maybe = Task.FromResult(Maybe.From("some value"));
 
@@ -207,7 +207,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void WhereWithValueAndFalsePredicateReturnsNone()
+        public void Where_with_value_and_false_predicate_returns_none()
         {
             Maybe<string> maybe = "some value";
             var queried = maybe.Where(v => false);
@@ -216,7 +216,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void WhereWithoutValueAndTruePredicateReturnsNone()
+        public void Where_without_value_and_true_predicate_returns_none()
         {
             var maybe = Maybe<string>.None;
             var queried = maybe.Where(v => true);
@@ -225,7 +225,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public void WhereWithValueAndTruePredicateReturnsMaybe()
+        public void Where_with_value_and_true_predicate_returns_maybe()
         {
             Maybe<string> maybe = "some value";
             var queried = maybe.Where(v => true);
@@ -235,7 +235,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public async Task WhereAsyncWithValueAndFalsePredicateReturnsNone()
+        public async Task WhereAsync_with_value_and_false_predicate_returns_none()
         {
             var maybe = Task.FromResult(Maybe.From("some value"));
             var queried = await maybe.WhereAsync(v => false);
@@ -244,7 +244,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public async Task WhereAsyncWithoutValueAndTruePredicateReturnsNone()
+        public async Task WhereAsync_without_value_and_true_predicate_returns_none()
         {
             var maybe = Task.FromResult(Maybe<string>.None);
             var queried = await maybe.WhereAsync(v => true);
@@ -253,7 +253,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public async Task WhereAsyncWithValueAndTruePredicateReturnsMaybe()
+        public async Task WhereAsync_with_value_and_true_predicate_returns_maybe()
         {
             var maybe = Task.FromResult(Maybe.From("some value"));
             var queried = await maybe.WhereAsync(v => true);

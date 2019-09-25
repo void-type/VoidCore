@@ -9,7 +9,7 @@ namespace VoidCore.Test.Model.Emailing
     public class EmailTests
     {
         [Fact]
-        public void EmailCreation()
+        public void Email_can_be_created()
         {
             var email = new Email("RE: Testing", "Please test.", new List<string> { "vt@example.com", "vt2@example.com" });
 
@@ -21,7 +21,7 @@ namespace VoidCore.Test.Model.Emailing
         }
 
         [Fact]
-        public void EmailCreationWithNoRecipients()
+        public void Email_can_be_created_with_empty_recipients_list()
         {
             var email = new Email("RE: Testing", "Please test.", new List<string>());
 
@@ -31,19 +31,19 @@ namespace VoidCore.Test.Model.Emailing
         }
 
         [Fact]
-        public void EmailCreationWithNullSubjectThrowsArgumentNullException()
+        public void Email_creation_with_null_subject_throws_ArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => new Email(null, "Please test.", new List<string> { "vt@example.com", "vt2@example.com" }));
         }
 
         [Fact]
-        public void EmailCreationWithNullMessageThrowsArgumentNullException()
+        public void Email_creation_with_null_message_throws_ArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => new Email("RE: Testing", null, new List<string> { "vt@example.com", "vt2@example.com" }));
         }
 
         [Fact]
-        public void EmailCreationWithNullRecipientsThrowsArgumentNullException()
+        public void Email_creation_with_null_recipients_throws_ArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => new Email("RE: Testing", "Please test.", null));
         }

@@ -8,7 +8,7 @@ namespace VoidCore.Test.Domain
     public class DisposableTests
     {
         [Fact]
-        public void UsingReturnsExpectedValueAndDisposes()
+        public void Using_returns_expected_value_and_disposes_resource()
         {
             DisposableObject disposable = null;
 
@@ -26,7 +26,7 @@ namespace VoidCore.Test.Domain
         }
 
         [Fact]
-        public async Task UsingAsyncReturnsExpectedValueAndDisposes()
+        public async Task UsingAsync_returns_expected_value_and_disposes_resource()
         {
             DisposableObject disposable = null;
 

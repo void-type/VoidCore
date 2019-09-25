@@ -9,7 +9,7 @@ namespace VoidCore.Test.Model.Logging
     public class MessagesEventLoggerTests
     {
         [Fact]
-        public void LogUserMessageWithEntityIdInteger()
+        public void EntityMessage_logs_properties_and_handles_non_string_ids()
         {
             var result = Result.Ok(EntityMessage.Create("Good stuff happened", 7));
 
@@ -24,7 +24,7 @@ namespace VoidCore.Test.Model.Logging
         }
 
         [Fact]
-        public void LogUserMessageWithEntityIdString()
+        public void EntityMessage_logs_properties()
         {
             var result = Result.Ok(EntityMessage.Create("Good stuff happened", "7"));
 
@@ -39,7 +39,7 @@ namespace VoidCore.Test.Model.Logging
         }
 
         [Fact]
-        public void LogUserMessage()
+        public void UserMessage_logs_properties()
         {
             var result = Result.Ok(new UserMessage("good"));
 

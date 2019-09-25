@@ -8,7 +8,7 @@ namespace VoidCore.Test.Model.Logging
     public class FallibleEventLoggerTests
     {
         [Fact]
-        public void LogFailures()
+        public void Failures_can_be_logged()
         {
             var result = Result.Fail<string>(
                 new Failure("oops1", "uiHandle"),

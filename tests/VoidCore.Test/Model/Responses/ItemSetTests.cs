@@ -9,7 +9,7 @@ namespace VoidCore.Test.Model.Responses
     public class ItemSetTests
     {
         [Fact]
-        public void CountEmptyItemsIsZero()
+        public void Empty_ItemSet_count_is_zero()
         {
             var set = new ItemSet<string>(new List<string>().AsEnumerable());
             Assert.Equal(0, set.Count);
@@ -19,7 +19,7 @@ namespace VoidCore.Test.Model.Responses
         }
 
         [Fact]
-        public void ExplicitCreationWithoutPagingIgnoresPageTakeAndTotalCount()
+        public void Explicit_creation_without_paging_ignores_page_take_and_totalCount()
         {
             var items = new List<string> { string.Empty, string.Empty, string.Empty }.AsEnumerable();
             var set = new ItemSet<string>(items, 2, 3, 4, false);
@@ -31,7 +31,7 @@ namespace VoidCore.Test.Model.Responses
         }
 
         [Fact]
-        public void ExplicitCreationWithoutPagingAndNoItemsSetsTakeAsOne()
+        public void Explicit_creation_without_paging_and_empty_items_sets_take_as_one()
         {
             var items = new List<string>().AsEnumerable();
             var set = new ItemSet<string>(items, 2, 3, 4, false);
@@ -43,7 +43,7 @@ namespace VoidCore.Test.Model.Responses
         }
 
         [Fact]
-        public void ExplicitPageCreationSetsPropertiesCorrectly()
+        public void Explicit_creation_sets_properties_correctly()
         {
             var items = new List<string> { string.Empty, string.Empty, string.Empty }.AsEnumerable();
             var set = new ItemSet<string>(items, 2, 3, 4, true);
@@ -55,7 +55,7 @@ namespace VoidCore.Test.Model.Responses
         }
 
         [Fact]
-        public void NullItemsThrowsExceptions()
+        public void Null_items_throws_ArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null));
             Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null, 1, 1));
@@ -72,7 +72,7 @@ namespace VoidCore.Test.Model.Responses
         [InlineData(15, -1, 5, 5)]
         [InlineData(15, 2, 0, 0)]
         [InlineData(15, 2, -1, 0)]
-        public void PagePropertiesChecks(int totalCount, int page, int take, int expectedCount)
+        public void Paged_ItemSet_property_checks(int totalCount, int page, int take, int expectedCount)
         {
             var set = new List<string>();
 
@@ -91,7 +91,7 @@ namespace VoidCore.Test.Model.Responses
         }
 
         [Fact]
-        public void PaginateStringsReturnsProperItems()
+        public void Pagination_returns_correct_range_of_items()
         {
             var set = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 

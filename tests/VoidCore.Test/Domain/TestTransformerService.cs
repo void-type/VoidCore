@@ -4,11 +4,15 @@ using VoidCore.Domain;
 
 namespace VoidCore.Test.Domain
 {
+    /// <summary>
+    /// This class gives something for our functional extensions to act on.
+    /// This class also ensures that each prior step is performed in order (or awaited) by keeping a lastStep count.
+    /// </summary>
     internal class TestTransformerService
     {
         private int _lastStep;
 
-        public static string Start => "Hello World";
+        public string Start => "Hello World";
 
         public string Transform(string input, int currentStep)
         {
@@ -63,6 +67,11 @@ namespace VoidCore.Test.Domain
             await Task.Delay(10);
             _lastStep = currentStep;
             return success ? Result.Ok(obj) : Result.Fail<T>(new Failure("oops"));
+        }
+
+        public void Reset()
+        {
+            _lastStep = default;
         }
 
         private void CheckStep(int currentStep)
