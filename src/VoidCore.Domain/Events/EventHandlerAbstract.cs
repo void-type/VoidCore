@@ -13,7 +13,7 @@ namespace VoidCore.Domain.Events
                 .AddPostProcessor(processor);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc/>/
         public EventHandlerDecorator<TRequest, TResponse> AddRequestValidator(IRequestValidator<TRequest> validator)
         {
             return new EventHandlerDecorator<TRequest, TResponse>(this)
