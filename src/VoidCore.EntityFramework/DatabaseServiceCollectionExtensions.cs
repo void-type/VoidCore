@@ -32,11 +32,6 @@ namespace VoidCore.EntityFramework
             services.AddDbContextPool<TDbContext>(options =>
             {
                 options.UseSqlServer(connectionString);
-
-                if (environment.IsDevelopment())
-                {
-                    // TODO: Log SQL in development
-                }
             });
         }
 #else
