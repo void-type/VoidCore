@@ -21,7 +21,7 @@ namespace VoidCore.Model.Logging
         {
             Logger.Info(
                 $"Message: {response.Message}",
-                $"EntityId: {response.Id.ToString()}"
+                $"EntityId: {response.Id}"
             );
 
             base.OnSuccess(request, response);

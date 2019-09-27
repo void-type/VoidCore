@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using VoidCore.AspNet;
 using VoidCore.Domain;
+using VoidCore.Model;
 using VoidCore.Model.Data;
 using VoidCore.Model.Logging;
 

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using VoidCore.Model;
 
 namespace VoidCore.AspNet.Settings
 {

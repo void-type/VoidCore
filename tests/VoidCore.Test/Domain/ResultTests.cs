@@ -9,7 +9,6 @@ namespace VoidCore.Test.Domain
 {
     public class ResultTests
     {
-        // TODO: Lets give all tests better names.
         [Fact]
         public void Creating_Result_with_null_failures_throws_ArgumentNullException()
         {

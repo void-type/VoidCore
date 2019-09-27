@@ -1,6 +1,6 @@
 using System;
 
-namespace VoidCore.AspNet
+namespace VoidCore.Model
 {
     /// <summary>
     /// Helpers to assist in configuring the application through class naming conventions.
