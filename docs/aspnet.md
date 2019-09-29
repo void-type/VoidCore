@@ -13,13 +13,11 @@ dotnet add package VoidCore.AspNet
 
 VoidCore.AspNet includes helpers for configuring an ASP.NET Core web application:
 
-* Serilog multi-platform file logging.
 * Active Directory group authorization via Windows authentication.
 * HTTPS with redirection and HSTS headers.
 * Antiforgery for SPAs.
 * Exception handling (SPA and MVC) with logging.
-  * API endpoints return a JSON {message: ""} object.
+  * API endpoints return a JSON {message: ""} object for the client.
   * MVC will redirect to secure error or forbidden pages in non-development.
 * Routing for SPA and Web API.
-* Entity Framework Core asynchronous repositories implementation.
-* HttpResponder for converting Domain Event Responses to IActionResult with appropriate status codes.
+* HttpResponder for converting Domain Event responses to IActionResult with appropriate status codes.
