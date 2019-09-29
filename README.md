@@ -30,4 +30,9 @@ To work on VoidCore, you will need the [.Net Core SDK](https://dotnet.microsoft.
 
 See the /build folder for scripts used to test and build this project. Run build.ps1 to make a production build.
 
+```powershell
+cd build
+./build.ps1
+```
+
 There are [VSCode](https://code.visualstudio.com/) tasks for each script. The build task (ctrl + shift + b) performs the standard CI build.

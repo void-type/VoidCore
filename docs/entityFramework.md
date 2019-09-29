@@ -11,6 +11,16 @@ dotnet add package VoidCore.EntityFramework
 
 ## Features
 
-VoidCore.EntityFramework implements the asynchronous specification pattern repository model from VoidCore.Model using Entity Framework.
+### Async Database Abstractions
 
-It also includes configuration helpers for SQL Server that enable development logging of translated SQL commands.
+Included are EntityFramework implementations of the specification and repository patterns from VoidCore.Model. These patterns defer the heavy lifting of sorting, search, pagination, and joining to the SQL Server. All calls are asynchronous.
+
+### Query Tagging
+
+For apps targeting .Net Core 2.2 and higher, queries are tagged with information about their repository and specification. Tags help match a SQL command in SQL profiler or logs to the application code. When paired with VoidCore.AspNet's logging strategy, the SQL statement is also tagged with the web request trace ID.
+
+### SQL Logging
+
+.Net Core 3.0 apps will use the default behavior of logging EF SQL commands through the ILoggingFactory defined in your Startup.cs.
+
+Apps targeting .Net Core 2.2 and lower will log SQL statements to the console for development environments.
