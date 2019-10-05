@@ -2,8 +2,8 @@
   <PropertyGroup>
     <PackageId>VoidCore.Domain</PackageId>
     <Title>VoidCore.Domain</Title>
-    <Description>Domain-driven, functional and event-based development.</Description>
-    <PackageTags>domain;request;response;events;validation;pipeline;functional;</PackageTags>
+    <Description>Core for building domain-driven, functional and event-based applications.</Description>
+    <PackageTags>events;validation;pipeline;functional;domain;netstandard;</PackageTags>
     <Authors>Jeff Schreiner and contributors</Authors>
     <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>

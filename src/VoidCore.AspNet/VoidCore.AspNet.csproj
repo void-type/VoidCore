@@ -2,8 +2,8 @@
   <PropertyGroup>
     <PackageId>VoidCore.AspNet</PackageId>
     <Title>VoidCore.AspNet</Title>
-    <Description>Configure an Asp.Net Core web application with enterprise SPA conventions.</Description>
-    <PackageTags>asp.net;aspnet;opinionated;spa;single page;logging;configuration;</PackageTags>
+    <Description>Configure Asp.Net Core web applications based on VoidCore.Model. Includes single-page front end support.</Description>
+    <PackageTags>authorization;logging;security;headers;routing;configuration;opinionated;spa;single-page;asp.net;aspnet;aspnetcore;netcore;</PackageTags>
     <Authors>Jeff Schreiner and contributors</Authors>
     <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
