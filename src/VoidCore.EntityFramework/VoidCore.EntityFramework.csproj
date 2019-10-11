@@ -2,8 +2,8 @@
   <PropertyGroup>
     <PackageId>VoidCore.EntityFramework</PackageId>
     <Title>VoidCore.EntityFramework</Title>
-    <Description>Add opinionated Entity Framework Core data access to an application.</Description>
-    <PackageTags>asp.net;aspnet;opinionated;entity framework;configuration;</PackageTags>
+    <Description>Entity Framework Core data access for applications based on VoidCore.Model.</Description>
+    <PackageTags>efcore;entity;framework;opinionated;configuration;asp.net;aspnet;aspnetcore;netcore;</PackageTags>
     <Authors>Jeff Schreiner and contributors</Authors>
     <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
