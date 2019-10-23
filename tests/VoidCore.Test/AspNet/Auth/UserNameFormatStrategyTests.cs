@@ -1,4 +1,4 @@
-using VoidCore.AspNet.Auth;
+using VoidCore.Model.Auth;
 using Xunit;
 
 namespace VoidCore.Test.AspNet.Auth
