@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace VoidCore.AspNet.Auth
+namespace VoidCore.Model.Auth
 {
     /// <summary>
     /// Get the samAccountName from a fully-qualified Active Directory login.
@@ -11,10 +11,10 @@ namespace VoidCore.AspNet.Auth
         /// Get the user name from a fully-qualified AD login.
         /// Eg: UserName@Contoso.com returns UserName
         /// </summary>
-        /// <param name="adLogin">A fully-qualified AD login like DOMAIN1\UserName</param>
+        /// <param name="adLogin">A fully-qualified AD login like UserName@Contoso.com</param>
         public string Format(string adLogin)
         {
-            var userName = adLogin?.Split("@").FirstOrDefault();
+            var userName = adLogin?.Split('@').FirstOrDefault();
 
             return string.IsNullOrWhiteSpace(userName) ? "Unknown" : userName;
         }
