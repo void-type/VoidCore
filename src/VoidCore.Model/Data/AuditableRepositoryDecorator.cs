@@ -27,14 +27,14 @@ namespace VoidCore.Model.Data
         }
 
         /// <inheritdoc/>
-        public override Task<T> Add(T entity, CancellationToken cancellationToken = default)
+        public override Task<T> Add(T entity, CancellationToken cancellationToken)
         {
             SetCreated(entity);
             return InnerRepository.Add(entity, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public override Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken = default)
+        public override Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken)
         {
             foreach (var entity in entities)
             {
@@ -45,14 +45,14 @@ namespace VoidCore.Model.Data
         }
 
         /// <inheritdoc/>
-        public override Task Update(T entity, CancellationToken cancellationToken = default)
+        public override Task Update(T entity, CancellationToken cancellationToken)
         {
             SetModified(entity);
             return InnerRepository.Update(entity, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public override Task UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken = default)
+        public override Task UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken)
         {
             foreach (var entity in entities)
             {
