@@ -36,7 +36,7 @@ namespace VoidCore.AspNet.Logging
         {
             var request = _httpContextAccessor.HttpContext.Request;
             var traceId = _httpContextAccessor.HttpContext.TraceIdentifier;
-            var userName = _currentUserAccessor.User.Name;
+            var userName = _currentUserAccessor.User.Login;
 
             var prefix = $"{traceId}:{userName}:{request.Method}:{request.Path.Value}".PadRight(60);
             var payload = string.Join(" ", messages.Where(message => !string.IsNullOrWhiteSpace(message)));

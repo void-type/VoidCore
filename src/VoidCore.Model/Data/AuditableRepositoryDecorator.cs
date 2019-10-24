@@ -65,7 +65,7 @@ namespace VoidCore.Model.Data
         private void SetCreated(IAuditable entity)
         {
             var now = _now.Moment;
-            var userName = _currentUserAccessor.User.Name;
+            var userName = _currentUserAccessor.User.Login;
 
             entity.CreatedOn = now;
             entity.CreatedBy = userName;
@@ -76,7 +76,7 @@ namespace VoidCore.Model.Data
         private void SetModified(IAuditable entity)
         {
             entity.ModifiedOn = _now.Moment;
-            entity.ModifiedBy = _currentUserAccessor.User.Name;
+            entity.ModifiedBy = _currentUserAccessor.User.Login;
         }
     }
 }

@@ -104,7 +104,7 @@ namespace VoidCore.AspNet.ClientApp
             {
                 Logger.Info(
                     $"AppName: {response.ApplicationName}",
-                    $"UserName: {response.User.Name}",
+                    $"UserName: {response.User.Login}",
                     $"UserAuthorizedAs: {string.Join(", ", response.User.AuthorizedAs)}");
 
                 base.OnSuccess(request, response);
