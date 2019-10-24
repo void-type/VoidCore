@@ -32,7 +32,7 @@ namespace VoidCore.Test.Model.Data
 
             var decoratedRepo = repoMock.Object.AddSoftDeletability(dateTimeService, currentUserAccessorMock.Object);
 
-            await decoratedRepo.Remove(entity);
+            await decoratedRepo.Remove(entity, default);
 
             Assert.Equal("userName", entity.DeletedBy);
             Assert.Equal(date, entity.DeletedOn);
@@ -62,7 +62,7 @@ namespace VoidCore.Test.Model.Data
 
             var decoratedRepo = repoMock.Object.AddSoftDeletability(dateTimeService, currentUserAccessorMock.Object);
 
-            await decoratedRepo.RemoveRange(entities);
+            await decoratedRepo.RemoveRange(entities, default);
 
             Assert.Equal("userName", entities[0].DeletedBy);
             Assert.Equal(date, entities[0].DeletedOn);

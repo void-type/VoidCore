@@ -13,6 +13,6 @@ namespace VoidCore.Model.Emailing
         /// </summary>
         /// <param name="email">The email to send</param>
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-        Task SendEmail(Email email, CancellationToken cancellationToken = default);
+        Task SendEmail(Email email, CancellationToken cancellationToken);
     }
 }

@@ -38,7 +38,7 @@ namespace VoidCore.EntityFramework
         }
 
         /// <inheritdoc/>
-        public virtual async Task<Maybe<T>> Get(IQuerySpecification<T> spec, CancellationToken cancellationToken = default)
+        public virtual async Task<Maybe<T>> Get(IQuerySpecification<T> spec, CancellationToken cancellationToken)
         {
             return await GetBaseQuery()
 #if !NETCOREAPP2_1
@@ -49,7 +49,7 @@ namespace VoidCore.EntityFramework
         }
 
         /// <inheritdoc/>
-        public virtual async Task<IReadOnlyList<T>> ListAll(CancellationToken cancellationToken = default)
+        public virtual async Task<IReadOnlyList<T>> ListAll(CancellationToken cancellationToken)
         {
             return await GetBaseQuery()
 #if !NETCOREAPP2_1
@@ -59,7 +59,7 @@ namespace VoidCore.EntityFramework
         }
 
         /// <inheritdoc/>
-        public virtual async Task<IReadOnlyList<T>> List(IQuerySpecification<T> spec, CancellationToken cancellationToken = default)
+        public virtual async Task<IReadOnlyList<T>> List(IQuerySpecification<T> spec, CancellationToken cancellationToken)
         {
             return await GetBaseQuery()
 #if !NETCOREAPP2_1
@@ -70,7 +70,7 @@ namespace VoidCore.EntityFramework
         }
 
         /// <inheritdoc/>
-        public virtual async Task<int> Count(IQuerySpecification<T> spec, CancellationToken cancellationToken = default)
+        public virtual async Task<int> Count(IQuerySpecification<T> spec, CancellationToken cancellationToken)
         {
             return await GetBaseQuery()
 #if !NETCOREAPP2_1

@@ -34,14 +34,14 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                     return await maybeRecipe.Value
                         .Tee(r => Transfer(request, r))
                         .TeeAsync(r => _data.Recipes.Update(r, cancellationToken))
-                        .TeeAsync(r => ManageCategories(request, r))
+                        .TeeAsync(r => ManageCategories(request, r, cancellationToken))
                         .MapAsync(r => Ok(EntityMessage.Create("Recipe updated.", r.Id)));
                 }
 
                 return await new Recipe()
                     .Tee(r => Transfer(request, r))
                     .TeeAsync(r => _data.Recipes.Add(r, cancellationToken))
-                    .TeeAsync(r => ManageCategories(request, r))
+                    .TeeAsync(r => ManageCategories(request, r, cancellationToken))
                     .MapAsync(r => Ok(EntityMessage.Create("Recipe added.", r.Id)));
             }
 
@@ -54,7 +54,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                 recipe.PrepTimeMinutes = request.PrepTimeMinutes;
             }
 
-            private async Task ManageCategories(Request request, Recipe recipe)
+            private async Task ManageCategories(Request request, Recipe recipe, CancellationToken cancellationToken)
             {
                 var requested = request.Categories
                     .Where(n => !string.IsNullOrWhiteSpace(n))
@@ -64,23 +64,23 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                 var categoriesThatMatchRequestedSpec = new CategoriesSpecification(
                     c => requested.Contains(c.Name.ToLower().Trim()));
 
-                var categoriesExist = (await _data.Categories.List(categoriesThatMatchRequestedSpec))
+                var categoriesExist = (await _data.Categories.List(categoriesThatMatchRequestedSpec, cancellationToken))
                     .Select(c => c.Name.ToLower().Trim());
 
                 // Add categories that don't exist
                 await requested
                     .Where(n => !categoriesExist.Contains(n))
                     .Select(n => new Category { Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(n) })
-                    .TeeAsync(r => _data.Categories.AddRange(r));
+                    .TeeAsync(r => _data.Categories.AddRange(r, cancellationToken));
 
                 // Remove relations that are no longer needed
                 await recipe.CategoryRecipe
                     .Where(r => !requested.Contains(r.Category.Name.ToLower().Trim()))
-                    .TeeAsync(r => _data.CategoryRecipes.RemoveRange(r));
+                    .TeeAsync(r => _data.CategoryRecipes.RemoveRange(r, cancellationToken));
 
                 // Add relations that don't exist
                 await _data.Categories
-                    .List(categoriesThatMatchRequestedSpec)
+                    .List(categoriesThatMatchRequestedSpec, cancellationToken)
                     .MapAsync(categories => categories
                         .Where(c => !recipe.CategoryRecipe
                             .Select(r => r.Category.Name.ToLower().Trim())
@@ -90,7 +90,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                             RecipeId = recipe.Id,
                             CategoryId = c.Id
                         }))
-                    .TeeAsync(r => _data.CategoryRecipes.AddRange(r));
+                    .TeeAsync(r => _data.CategoryRecipes.AddRange(r, cancellationToken));
             }
         }
 

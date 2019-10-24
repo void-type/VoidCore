@@ -26,61 +26,61 @@ namespace VoidCore.Model.Data
         }
 
         /// <inheritdoc/>
-        public virtual Task<T> Add(T entity, CancellationToken cancellationToken = default)
+        public virtual Task<T> Add(T entity, CancellationToken cancellationToken)
         {
             return InnerRepository.Add(entity, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public virtual Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken = default)
+        public virtual Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken)
         {
             return InnerRepository.AddRange(entities, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public virtual Task<int> Count(IQuerySpecification<T> spec, CancellationToken cancellationToken = default)
+        public virtual Task<int> Count(IQuerySpecification<T> spec, CancellationToken cancellationToken)
         {
             return InnerRepository.Count(spec, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public virtual Task<Maybe<T>> Get(IQuerySpecification<T> spec, CancellationToken cancellationToken = default)
+        public virtual Task<Maybe<T>> Get(IQuerySpecification<T> spec, CancellationToken cancellationToken)
         {
             return InnerRepository.Get(spec, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public virtual Task<IReadOnlyList<T>> List(IQuerySpecification<T> spec, CancellationToken cancellationToken = default)
+        public virtual Task<IReadOnlyList<T>> List(IQuerySpecification<T> spec, CancellationToken cancellationToken)
         {
             return InnerRepository.List(spec, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public virtual Task<IReadOnlyList<T>> ListAll(CancellationToken cancellationToken = default)
+        public virtual Task<IReadOnlyList<T>> ListAll(CancellationToken cancellationToken)
         {
             return InnerRepository.ListAll(cancellationToken);
         }
 
         /// <inheritdoc/>
-        public virtual Task Remove(T entity, CancellationToken cancellationToken = default)
+        public virtual Task Remove(T entity, CancellationToken cancellationToken)
         {
             return InnerRepository.Remove(entity, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public virtual Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken = default)
+        public virtual Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken)
         {
             return InnerRepository.RemoveRange(entities, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public virtual Task Update(T entity, CancellationToken cancellationToken = default)
+        public virtual Task Update(T entity, CancellationToken cancellationToken)
         {
             return InnerRepository.Update(entity, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public virtual Task UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken = default)
+        public virtual Task UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken)
         {
             return InnerRepository.UpdateRange(entities, cancellationToken);
         }
