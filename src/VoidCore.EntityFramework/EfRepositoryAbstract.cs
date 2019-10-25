@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using VoidCore.Domain;
+#if !NETCOREAPP2_1
+using VoidCore.Model;
+#endif
 using VoidCore.Model.Data;
 using VoidCore.Model.Logging;
 
