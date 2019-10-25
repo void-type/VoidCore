@@ -19,7 +19,7 @@ namespace VoidCore.Test.Model.Data
 
             var decorator = new EmptyDecorator(repoMock.Object);
 
-            await decorator.Add(entity, default);
+            await decorator.Add(entity);
 
             repoMock.Verify(r => r.Add(It.IsAny<TestEntity>(), It.IsAny<CancellationToken>()), Times.Once);
             repoMock.VerifyNoOtherCalls();
@@ -35,7 +35,7 @@ namespace VoidCore.Test.Model.Data
 
             var decorator = new EmptyDecorator(repoMock.Object);
 
-            await decorator.AddRange(entities, default);
+            await decorator.AddRange(entities);
 
             repoMock.Verify(r => r.AddRange(It.IsAny<List<TestEntity>>(), It.IsAny<CancellationToken>()), Times.Once);
             repoMock.VerifyNoOtherCalls();
@@ -51,7 +51,7 @@ namespace VoidCore.Test.Model.Data
 
             var decorator = new EmptyDecorator(repoMock.Object);
 
-            await decorator.Update(entity, default);
+            await decorator.Update(entity);
 
             repoMock.Verify(r => r.Update(It.IsAny<TestEntity>(), It.IsAny<CancellationToken>()), Times.Once);
             repoMock.VerifyNoOtherCalls();
@@ -67,7 +67,7 @@ namespace VoidCore.Test.Model.Data
 
             var decorator = new EmptyDecorator(repoMock.Object);
 
-            await decorator.UpdateRange(entities, default);
+            await decorator.UpdateRange(entities);
 
             repoMock.Verify(r => r.UpdateRange(It.IsAny<List<TestEntity>>(), It.IsAny<CancellationToken>()), Times.Once);
             repoMock.VerifyNoOtherCalls();
@@ -83,7 +83,7 @@ namespace VoidCore.Test.Model.Data
 
             var decorator = new EmptyDecorator(repoMock.Object);
 
-            await decorator.Remove(entity, default);
+            await decorator.Remove(entity);
 
             repoMock.Verify(r => r.Remove(It.IsAny<TestEntity>(), It.IsAny<CancellationToken>()), Times.Once);
             repoMock.VerifyNoOtherCalls();
@@ -99,7 +99,7 @@ namespace VoidCore.Test.Model.Data
 
             var decorator = new EmptyDecorator(repoMock.Object);
 
-            await decorator.RemoveRange(entities, default);
+            await decorator.RemoveRange(entities);
 
             repoMock.Verify(r => r.RemoveRange(It.IsAny<List<TestEntity>>(), It.IsAny<CancellationToken>()), Times.Once);
             repoMock.VerifyNoOtherCalls();

@@ -27,14 +27,14 @@ namespace VoidCore.Model.Data
         }
 
         /// <inheritdoc/>
-        public override Task Remove(T entity, CancellationToken cancellationToken)
+        public override Task Remove(T entity, CancellationToken cancellationToken = default)
         {
             SetDeleted(entity);
             return InnerRepository.Update(entity, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public override Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+        public override Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken = default)
         {
             foreach (var entity in entities)
             {
@@ -47,7 +47,7 @@ namespace VoidCore.Model.Data
         private void SetDeleted(ISoftDeletable entity)
         {
             entity.DeletedOn = _now.Moment;
-            entity.DeletedBy = _currentUserAccessor.User.Login;
+            entity.DeletedBy = _currentUserAccessor.User.Name;
             entity.IsDeleted = true;
         }
     }

@@ -16,12 +16,12 @@ namespace VoidCore.Test.AspNet.Data
             using var context = Deps.FoodStuffsContext();
             var data = context.Seed().FoodStuffsData();
 
-            var recipes = await data.Recipes.ListAll(default);
+            var recipes = await data.Recipes.ListAll();
             var recipeToFind = recipes.First();
 
             var byId = new RecipesByIdWithCategoriesSpecification(recipeToFind.Id);
 
-            var recipe = await data.Recipes.Get(byId, default);
+            var recipe = await data.Recipes.Get(byId);
 
             Assert.True(recipe.HasValue);
             Assert.Equal(recipeToFind.Id, recipe.Value.Id);
@@ -35,7 +35,7 @@ namespace VoidCore.Test.AspNet.Data
 
             var byId = new RecipesByIdWithCategoriesSpecification(-22);
 
-            var recipe = await data.Recipes.Get(byId, default);
+            var recipe = await data.Recipes.Get(byId);
 
             Assert.True(recipe.HasNoValue);
         }
@@ -206,17 +206,17 @@ namespace VoidCore.Test.AspNet.Data
             using var context = Deps.FoodStuffsContext();
             var data = context.Seed().FoodStuffsData();
 
-            var recipes = await data.Recipes.ListAll(default);
+            var recipes = await data.Recipes.ListAll();
             var recipeToDelete = recipes.First();
 
             var byId = new RecipesByIdWithCategoriesSpecification(recipeToDelete.Id);
 
-            var recipe = await data.Recipes.Get(byId, default).UnwrapAsync();
+            var recipe = await data.Recipes.Get(byId).UnwrapAsync();
 
-            await data.CategoryRecipes.RemoveRange(recipe.CategoryRecipe.AsReadOnly(), default);
-            await data.Recipes.Remove(recipe, default);
+            await data.CategoryRecipes.RemoveRange(recipe.CategoryRecipe.AsReadOnly());
+            await data.Recipes.Remove(recipe);
 
-            var recipeMaybe = await data.Recipes.Get(byId, default);
+            var recipeMaybe = await data.Recipes.Get(byId);
 
             Assert.True(recipeMaybe.HasNoValue);
         }
@@ -233,7 +233,7 @@ namespace VoidCore.Test.AspNet.Data
             Assert.True(result.IsSuccess);
             Assert.True(result.Value.Id > 0);
 
-            var maybeRecipe = await data.Recipes.Get(new RecipesByIdWithCategoriesSpecification(result.Value.Id), default);
+            var maybeRecipe = await data.Recipes.Get(new RecipesByIdWithCategoriesSpecification(result.Value.Id));
 
             Assert.True(maybeRecipe.HasValue);
             Assert.Equal(Deps.DateTimeServiceLate.Moment, maybeRecipe.Value.CreatedOn);
@@ -250,7 +250,7 @@ namespace VoidCore.Test.AspNet.Data
             using var context = Deps.FoodStuffsContext();
             var data = context.Seed().FoodStuffsData();
 
-            var existingRecipeId = (await data.Recipes.ListAll(default)).First().Id;
+            var existingRecipeId = (await data.Recipes.ListAll()).First().Id;
 
             var result = await new SaveRecipe.Handler(data)
                 .Handle(new SaveRecipe.Request(existingRecipeId, "New", "New", "New", null, 20, new[] { "Category2", "Category3", "Category4" }));
@@ -258,7 +258,7 @@ namespace VoidCore.Test.AspNet.Data
             Assert.True(result.IsSuccess);
             Assert.Equal(existingRecipeId, result.Value.Id);
 
-            var updatedRecipe = await data.Recipes.Get(new RecipesByIdWithCategoriesSpecification(existingRecipeId), default);
+            var updatedRecipe = await data.Recipes.Get(new RecipesByIdWithCategoriesSpecification(existingRecipeId));
             Assert.True(updatedRecipe.HasValue);
             Assert.Equal(Deps.DateTimeServiceEarly.Moment, updatedRecipe.Value.CreatedOn);
             Assert.Equal(Deps.DateTimeServiceLate.Moment, updatedRecipe.Value.ModifiedOn);
@@ -274,16 +274,16 @@ namespace VoidCore.Test.AspNet.Data
             using var context = Deps.FoodStuffsContext();
             var data = context.Seed().FoodStuffsData();
 
-            var recipes = await data.Recipes.ListAll(default);
+            var recipes = await data.Recipes.ListAll();
 
             foreach (var recipe in recipes)
             {
                 recipe.Name = "changeMe";
             }
 
-            await data.Recipes.UpdateRange(recipes, default);
+            await data.Recipes.UpdateRange(recipes);
 
-            var updatedRecipes = await data.Recipes.ListAll(default)
+            var updatedRecipes = await data.Recipes.ListAll()
                 .MapAsync(recs => recs.Where(r => r.Name == "changeMe").ToList());
 
             Assert.Equal(3, updatedRecipes.Count);

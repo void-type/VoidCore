@@ -29,7 +29,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
 
                 var allSearch = new RecipesSearchSpecification(searchCriteria);
 
-                var totalCount = await _data.Recipes.Count(allSearch, cancellationToken);
+                var totalCount = await _data.Recipes.Count(allSearch);
 
                 var pagedSearch = new RecipesSearchSpecification(
                     criteria: searchCriteria,
@@ -38,7 +38,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                     page: request.Page,
                     take: request.Take);
 
-                var recipes = await _data.Recipes.List(pagedSearch, cancellationToken);
+                var recipes = await _data.Recipes.List(pagedSearch);
 
                 return recipes
                     .Select(recipe => new RecipeListItemDto(

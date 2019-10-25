@@ -29,7 +29,7 @@ namespace VoidCore.Test.Model.Data
 
             var decorator = repoMock.Object.AddAuditability(dateTimeService, currentUserAccessorMock.Object);
 
-            await decorator.Add(entity, default);
+            await decorator.Add(entity);
 
             Assert.Equal("userName", entity.CreatedBy);
             Assert.Equal(date, entity.CreatedOn);
@@ -57,7 +57,7 @@ namespace VoidCore.Test.Model.Data
 
             var decoratedRepo = repoMock.Object.AddAuditability(dateTimeService, currentUserAccessorMock.Object);
 
-            await decoratedRepo.AddRange(entities, default);
+            await decoratedRepo.AddRange(entities);
 
             Assert.Equal("userName", entities[0].CreatedBy);
             Assert.Equal(date, entities[0].CreatedOn);
@@ -85,7 +85,7 @@ namespace VoidCore.Test.Model.Data
 
             var decoratedRepo = repoMock.Object.AddAuditability(dateTimeService, currentUserAccessorMock.Object);
 
-            await decoratedRepo.Update(entity, default);
+            await decoratedRepo.Update(entity);
 
             Assert.Equal(default, entity.CreatedBy);
             Assert.Equal(default, entity.CreatedOn);
@@ -113,7 +113,7 @@ namespace VoidCore.Test.Model.Data
 
             var decoratedRepo = repoMock.Object.AddAuditability(dateTimeService, currentUserAccessorMock.Object);
 
-            await decoratedRepo.UpdateRange(entities, default);
+            await decoratedRepo.UpdateRange(entities);
 
             Assert.Equal(default, entities[0].CreatedBy);
             Assert.Equal(default, entities[0].CreatedOn);

@@ -10,18 +10,18 @@ namespace VoidCore.Model.Auth
         /// <summary>
         /// Construct a new domain user
         /// </summary>
-        /// <param name="login">UI-Friendly name for the current user</param>
+        /// <param name="name">UI-Friendly name for the current user</param>
         /// <param name="authorizedAs">Authorization policies that the user fulfills</param>
-        public DomainUser(string login, IEnumerable<string> authorizedAs)
+        public DomainUser(string name, IEnumerable<string> authorizedAs)
         {
-            Login = login;
+            Name = name;
             AuthorizedAs = authorizedAs;
         }
 
         /// <summary>
         /// UI-friendly name for the current user
         /// </summary>
-        public string Login { get; }
+        public string Name { get; }
 
         /// <summary>
         /// Names of the authorization policies that the user fulfills.

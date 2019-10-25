@@ -55,7 +55,7 @@ namespace VoidCore.Test.AspNet.ClientApp
             var appInfo = result.Value;
 
             Assert.Equal("AppName", appInfo.ApplicationName);
-            Assert.Equal("UserName", appInfo.User.Login);
+            Assert.Equal("UserName", appInfo.User.Name);
             Assert.Equal(new[] { "policy1", "policy2" }, appInfo.User.AuthorizedAs);
             Assert.Equal("header-name", appInfo.AntiforgeryTokenHeaderName);
             Assert.Equal("request-token", appInfo.AntiforgeryToken);
