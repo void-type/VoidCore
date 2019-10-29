@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using VoidCore.Model.Data;
+using VoidCore.Model.Responses.Collections;
 using Xunit;
 
 namespace VoidCore.Test.Model.Data
@@ -36,9 +37,9 @@ namespace VoidCore.Test.Model.Data
             Assert.Equal(orderByDesc, spec.OrderByDescending);
             Assert.Equal(thenBy, spec.SecondaryOrderings.Single(s => s.IsDescending == false).ThenBy);
             Assert.Equal(thenByDesc, spec.SecondaryOrderings.Single(s => s.IsDescending).ThenBy);
-            Assert.True(spec.IsPagingEnabled);
-            Assert.Equal(2, spec.Page);
-            Assert.Equal(3, spec.Take);
+            Assert.True(spec.PaginationOptions.IsPagingEnabled);
+            Assert.Equal(2, spec.PaginationOptions.Page);
+            Assert.Equal(3, spec.PaginationOptions.Take);
         }
 
         private class TestQuerySpecification : QuerySpecificationAbstract<MyObject>
@@ -58,7 +59,7 @@ namespace VoidCore.Test.Model.Data
                 ApplyOrderByDescending(orderByDesc);
                 AddThenBy(thenBy);
                 AddThenByDescending(thenByDesc);
-                ApplyPaging(2, 3);
+                ApplyPaging(new PaginationOptions(2, 3));
             }
         }
 

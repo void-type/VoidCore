@@ -1,19 +1,21 @@
 using System;
 using System.Linq.Expressions;
 using VoidCore.Model.Data;
+using VoidCore.Model.Responses.Collections;
 
 namespace VoidCore.Test.AspNet.Data.TestModels.Data
 {
     public class RecipesSearchSpecification : QuerySpecificationAbstract<Recipe>
     {
-        public RecipesSearchSpecification(Expression<Func<Recipe, bool>>[] criteria, string sort = null, bool isPagingEnabled = false, int page = 1, int take = 1) : base(criteria)
+        public RecipesSearchSpecification(Expression<Func<Recipe, bool>>[] criteria, string sort = null) : this(criteria, PaginationOptions.None, sort)
+        {
+        }
+
+        public RecipesSearchSpecification(Expression<Func<Recipe, bool>>[] criteria, PaginationOptions paginationOptions, string sort = null) : base(criteria)
         {
             AddInclude($"{nameof(Recipe.CategoryRecipe)}.{nameof(CategoryRecipe.Category)}");
 
-            if (isPagingEnabled)
-            {
-                ApplyPaging(page, take);
-            }
+            ApplyPaging(paginationOptions);
 
             switch (sort)
             {

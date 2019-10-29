@@ -14,64 +14,31 @@ namespace VoidCore.Model.Responses.Collections
         /// Create an non-paged item set.
         /// </summary>
         /// <param name="items">The full set of items</param>
-        public ItemSet(IEnumerable<T> items) : this(items, 0, 0, false) { }
+        public ItemSet(IEnumerable<T> items) : this(items, PaginationOptions.None, null) { }
 
         /// <summary>
         /// Create an optionally paginated itemset.
         /// </summary>
-        /// <param name="items">The full set of items</param>
-        /// <param name="page">What page number to take from the set</param>
-        /// <param name="take">How many items to include in each page</param>
-        /// <param name="isPagingEnabled">If paging is enabled in this set. Default of pagination enabled</param>
-        public ItemSet(IEnumerable<T> items, int page, int take, bool isPagingEnabled = true)
+        /// <param name="items">The set of items. If paging is enabled and total count is not supplied, this set will be paged.</param>
+        /// <param name="options">Options for pagination. Use PaginationOptions.None if pagination should not be performed.</param>
+        /// <param name="totalCount">Optionally pass the count of the total set if pagination was already performed.</param>
+        public ItemSet(IEnumerable<T> items, PaginationOptions options, int? totalCount = null)
         {
             items.EnsureNotNull(nameof(items));
 
             var allItems = items.ToList();
-            IsPagingEnabled = isPagingEnabled;
-            TotalCount = allItems.Count;
+            IsPagingEnabled = options.IsPagingEnabled;
 
-            if (isPagingEnabled)
+            if (IsPagingEnabled)
             {
-                Page = page;
-                Take = take;
-                Items = allItems
-                    .Skip((page - 1) * take)
-                    .Take(take);
+                TotalCount = totalCount ?? allItems.Count;
+                Items = totalCount.HasValue ? allItems : allItems.Skip((options.Page - 1) * options.Take).Take(options.Take);
+                Page = options.Page;
+                Take = options.Take;
             }
             else
             {
-                Page = 1;
-                Take = TotalCount > 1 ? TotalCount : 1;
                 Items = allItems;
-            }
-        }
-
-        /// <summary>
-        /// Create an item set from explicit properties. This extension bypasses pagination logic. This is useful if
-        /// another service performed the pagination and the total count is known.
-        /// </summary>
-        /// <param name="items">The page from set of items</param>
-        /// <param name="isPagingEnabled">Mark the set as paged or not paged</param>
-        /// <param name="page">What page number to take from the set. Ignored if pagination is disabled</param>
-        /// <param name="take">How many items to include in each page. Ignored if pagination is disabled</param>
-        /// <param name="totalCount">The total count. Ignored if pagination is disabled</param>
-        public ItemSet(IEnumerable<T> items, int page, int take, int totalCount, bool isPagingEnabled = true)
-        {
-            items.EnsureNotNull(nameof(items));
-
-            var allItems = items.ToList();
-            IsPagingEnabled = isPagingEnabled;
-            Items = allItems;
-
-            if (isPagingEnabled)
-            {
-                TotalCount = totalCount;
-                Page = page;
-                Take = take;
-            }
-            else
-            {
                 TotalCount = allItems.Count;
                 Page = 1;
                 Take = TotalCount > 1 ? TotalCount : 1;

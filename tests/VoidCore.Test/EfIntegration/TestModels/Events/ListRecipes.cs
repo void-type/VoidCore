@@ -25,6 +25,8 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
 
             public override async Task<IResult<IItemSet<RecipeListItemDto>>> Handle(Request request, CancellationToken cancellationToken = default)
             {
+                var paginationOptions = new PaginationOptions(request.Page, request.Take, request.IsPagingEnabled);
+
                 var searchCriteria = GetSearchCriteria(request);
 
                 var allSearch = new RecipesSearchSpecification(searchCriteria);
@@ -33,10 +35,8 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
 
                 var pagedSearch = new RecipesSearchSpecification(
                     criteria: searchCriteria,
-                    sort: request.Sort,
-                    isPagingEnabled: request.IsPagingEnabled,
-                    page: request.Page,
-                    take: request.Take);
+                    paginationOptions: paginationOptions,
+                    sort: request.Sort);
 
                 var recipes = await _data.Recipes.List(pagedSearch, cancellationToken);
 
@@ -45,7 +45,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                         id: recipe.Id,
                         name: recipe.Name,
                         categories: recipe.CategoryRecipe.Select(cr => cr.Category.Name)))
-                    .ToItemSet(request.Page, request.Take, totalCount, request.IsPagingEnabled)
+                    .ToItemSet(paginationOptions, totalCount)
                     .Map(page => Ok(page));
             }
 
