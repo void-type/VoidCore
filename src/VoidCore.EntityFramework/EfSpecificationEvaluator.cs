@@ -39,11 +39,13 @@ namespace VoidCore.EntityFramework
                     .ApplySecondaryOrderings(specification);
             }
 
-            if (specification.IsPagingEnabled)
+            var paginationOptions = specification.PaginationOptions;
+
+            if (paginationOptions.IsPagingEnabled)
             {
                 query = query
-                    .Skip((specification.Page - 1) * specification.Take)
-                    .Take(specification.Take);
+                    .Skip((paginationOptions.Page - 1) * paginationOptions.Take)
+                    .Take(paginationOptions.Take);
             }
 
             return query;

@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using VoidCore.Model.Responses.Collections;
 
 namespace VoidCore.Model.Data
 {
     /// <summary>
     /// A specification describing a query such as shape and content of entities. Can be used against repositories.
     /// </summary>
-    /// <typeparam name="T">The type of entity in the specification</typeparam>
+    /// <typeparam name="T">The type of entity requested in the specification</typeparam>
     public interface IQuerySpecification<T>
     {
         /// <summary>
@@ -41,18 +42,8 @@ namespace VoidCore.Model.Data
         IReadOnlyList<(Expression<Func<T, object>> ThenBy, bool IsDescending)> SecondaryOrderings { get; }
 
         /// <summary>
-        /// The page number if paging is enabled.
+        /// Options to paginate the query from the repository
         /// </summary>
-        int Page { get; }
-
-        /// <summary>
-        /// The page size if paging is enabled.
-        /// </summary>
-        int Take { get; }
-
-        /// <summary>
-        /// Enable pagination on the query.
-        /// </summary>
-        bool IsPagingEnabled { get; }
+        PaginationOptions PaginationOptions { get; }
     }
 }

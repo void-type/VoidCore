@@ -14,7 +14,9 @@ namespace VoidCore.Test.Model.Responses
             var set = new ItemSet<string>(new List<string>().AsEnumerable());
             Assert.Equal(0, set.Count);
 
-            var setPaged = new ItemSet<string>(new List<string>(), 2, 2);
+            var options = new PaginationOptions(2, 2);
+
+            var setPaged = new ItemSet<string>(new List<string>(), options);
             Assert.Equal(0, setPaged.Count);
         }
 
@@ -22,7 +24,10 @@ namespace VoidCore.Test.Model.Responses
         public void Explicit_creation_without_paging_ignores_page_take_and_totalCount()
         {
             var items = new List<string> { string.Empty, string.Empty, string.Empty }.AsEnumerable();
-            var set = new ItemSet<string>(items, 2, 3, 4, false);
+
+            var options = new PaginationOptions(2, 3, false);
+
+            var set = new ItemSet<string>(items, options, 4);
             Assert.Equal(3, set.Count);
             Assert.Equal(1, set.Page);
             Assert.Equal(3, set.Take);
@@ -34,7 +39,10 @@ namespace VoidCore.Test.Model.Responses
         public void Explicit_creation_without_paging_and_empty_items_sets_take_as_one()
         {
             var items = new List<string>().AsEnumerable();
-            var set = new ItemSet<string>(items, 2, 3, 4, false);
+
+            var options = new PaginationOptions(2, 3, false);
+
+            var set = new ItemSet<string>(items, options, 4);
             Assert.Equal(0, set.Count);
             Assert.Equal(1, set.Page);
             Assert.Equal(1, set.Take);
@@ -46,7 +54,10 @@ namespace VoidCore.Test.Model.Responses
         public void Explicit_creation_sets_properties_correctly()
         {
             var items = new List<string> { string.Empty, string.Empty, string.Empty }.AsEnumerable();
-            var set = new ItemSet<string>(items, 2, 3, 4, true);
+
+            var options = new PaginationOptions(2, 3);
+
+            var set = new ItemSet<string>(items, options, 4);
             Assert.Equal(3, set.Count);
             Assert.Equal(2, set.Page);
             Assert.Equal(3, set.Take);
@@ -58,8 +69,8 @@ namespace VoidCore.Test.Model.Responses
         public void Null_items_throws_ArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null));
-            Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null, 1, 1));
-            Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null, 1, 1, 1, true));
+            Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null, new PaginationOptions(1, 1)));
+            Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null, new PaginationOptions(1, 1), 1));
         }
 
         [Theory]
@@ -81,7 +92,7 @@ namespace VoidCore.Test.Model.Responses
                 set.Add(i.ToString());
             }
 
-            var itemSetPage = new ItemSet<string>(set, page, take);
+            var itemSetPage = new ItemSet<string>(set, new PaginationOptions(page, take));
 
             Assert.Equal(expectedCount, itemSetPage.Count);
             Assert.Equal(expectedCount, itemSetPage.Items.Count());
@@ -95,7 +106,7 @@ namespace VoidCore.Test.Model.Responses
         {
             var set = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 
-            var itemSetPage = new ItemSet<int>(set, 2, 5);
+            var itemSetPage = new ItemSet<int>(set, new PaginationOptions(2, 5));
 
             Assert.Contains(6, itemSetPage.Items);
             Assert.Contains(7, itemSetPage.Items);

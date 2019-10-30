@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using VoidCore.Model.Responses.Collections;
 
 namespace VoidCore.Model.Data
 {
@@ -39,13 +40,7 @@ namespace VoidCore.Model.Data
         public IReadOnlyList<(Expression<Func<T, object>> ThenBy, bool IsDescending)> SecondaryOrderings => _secondaryOrderings;
 
         /// <inheritdoc/>
-        public int Page { get; private set; }
-
-        /// <inheritdoc/>
-        public int Take { get; private set; }
-
-        /// <inheritdoc/>
-        public bool IsPagingEnabled { get; private set; }
+        public PaginationOptions PaginationOptions { get; private set; } = PaginationOptions.None;
 
         /// <summary>
         /// Add an include expression.
@@ -104,13 +99,10 @@ namespace VoidCore.Model.Data
         /// <summary>
         /// Enable pagination on the query
         /// </summary>
-        /// <param name="page">The page number</param>
-        /// <param name="take">The size of the pages</param>
-        protected void ApplyPaging(int page, int take)
+        /// <param name="paginationOptions">Options to control pagination</param>
+        protected void ApplyPaging(PaginationOptions paginationOptions)
         {
-            Page = page;
-            Take = take;
-            IsPagingEnabled = true;
+            PaginationOptions = paginationOptions;
         }
     }
 }

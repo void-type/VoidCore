@@ -268,8 +268,8 @@ public class GetPerson
 
             // Persons.Get returns a Maybe<Person> from the IReadOnlyRepository interface
             return await _data.Persons.Get(personById)
-                .SelectAsync(p => new PersonDto(p.Name, p.Email))
-                .ToResultAsync(new PersonNotFoundFailure());
+                .ToResultAsync(new PersonNotFoundFailure())
+                .SelectAsync(p => new PersonDto(p.Name, p.Email));
         }
 
         private readonly CompanyData _data;
