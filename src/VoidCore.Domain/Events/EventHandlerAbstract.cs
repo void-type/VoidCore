@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -45,6 +46,16 @@ namespace VoidCore.Domain.Events
         /// <param name="failures">A set of failures</param>
         /// <returns>A new result</returns>
         protected static IResult<TResponse> Fail(params IFailure[] failures)
+        {
+            return Result.Fail<TResponse>(failures);
+        }
+
+        /// <summary>
+        /// Create a failed result for the event.
+        /// </summary>
+        /// <param name="failures">A set of failures</param>`
+        /// <returns>A new result</returns>
+        protected static IResult<TResponse> Fail(IEnumerable<IFailure> failures)
         {
             return Result.Fail<TResponse>(failures);
         }
