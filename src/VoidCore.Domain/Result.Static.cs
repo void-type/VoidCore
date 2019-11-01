@@ -17,6 +17,17 @@ namespace VoidCore.Domain
         /// <returns>A new result</returns>
         public static IResult Combine(params IResult[] results)
         {
+            return Combine(results.AsEnumerable());
+        }
+
+        /// <summary>
+        /// Combine an IEnumerable of results. If any have failed, this will return a new aggregate failed result. If none have
+        /// failed, this will return a successful result. The returned result has no type.
+        /// </summary>
+        /// <param name="results">Results to combine</param>
+        /// <returns>A new result</returns>
+        public static IResult Combine(IEnumerable<IResult> results)
+        {
             var failures = results
                 .Where(result => result.IsFailed)
                 .SelectMany(result => result.Failures)
@@ -33,6 +44,17 @@ namespace VoidCore.Domain
         /// <returns>A new result</returns>
         public static async Task<IResult> CombineAsync(params Task<IResult>[] tasks)
         {
+            return await CombineAsync(tasks.AsEnumerable()).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Combine an array of asynchronous results. If any have failed, this will return a new aggregate failed result.
+        /// If none have failed, this will return a successful result. The returned result has no type.
+        /// </summary>
+        /// <param name="tasks">Task of IResult to combine</param>
+        /// <returns>A new result</returns>
+        public static async Task<IResult> CombineAsync(IEnumerable<Task<IResult>> tasks)
+        {
             var results = await Task.WhenAll(tasks).ConfigureAwait(false);
 
             return Combine(results);
@@ -45,7 +67,7 @@ namespace VoidCore.Domain
         /// <returns>A new result</returns>
         public static IResult Fail(params IFailure[] failures)
         {
-            return new Result(failures);
+            return Fail(failures.AsEnumerable());
         }
 
         /// <summary>
@@ -55,7 +77,7 @@ namespace VoidCore.Domain
         /// <returns>A new result</returns>
         public static IResult<T> Fail<T>(params IFailure[] failures)
         {
-            return new Result<T>(failures);
+            return Fail<T>(failures.AsEnumerable());
         }
 
         /// <summary>

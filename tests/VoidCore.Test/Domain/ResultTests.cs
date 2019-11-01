@@ -12,28 +12,24 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void Creating_Result_with_null_failures_throws_ArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => Result.Fail((List<IFailure>)null));
             Assert.Throws<ArgumentNullException>(() => Result.Fail(null));
         }
 
         [Fact]
         public void Creating_typed_Result_with_null_failures_throws_ArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => Result.Fail<string>((List<IFailure>)null));
             Assert.Throws<ArgumentNullException>(() => Result.Fail<string>(null));
         }
 
         [Fact]
         public void Creating_Result_with_empty_failures_throws_ArgumentException()
         {
-            Assert.Throws<ArgumentException>(() => Result.Fail(new List<IFailure>()));
             Assert.Throws<ArgumentException>(() => Result.Fail());
         }
 
         [Fact]
         public void Creating_typed_Result_with_empty_failures_throws_ArgumentException()
         {
-            Assert.Throws<ArgumentException>(() => Result.Fail<string>(new List<IFailure>()));
             Assert.Throws<ArgumentException>(() => Result.Fail<string>());
         }
 
