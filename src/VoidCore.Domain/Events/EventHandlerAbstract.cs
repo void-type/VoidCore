@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -47,7 +48,7 @@ namespace VoidCore.Domain.Events
         /// <returns>A new result</returns>
         protected static IResult<TResponse> Fail(params IFailure[] failures)
         {
-            return Result.Fail<TResponse>(failures);
+            return Fail(failures.AsEnumerable());
         }
 
         /// <summary>
