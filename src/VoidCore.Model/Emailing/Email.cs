@@ -22,6 +22,19 @@ namespace VoidCore.Model.Emailing
         }
 
         /// <summary>
+        /// Construct a new email
+        /// </summary>
+        /// <param name="subject">The subject line of the email</param>
+        /// <param name="message">The message content of the email</param>
+        /// <param name="recipients">The recipients of the email.</param>
+        public Email(string subject, string message, params string[] recipients)
+        {
+            Subject = subject.EnsureNotNullOrEmpty(nameof(subject));
+            Message = message.EnsureNotNullOrEmpty(nameof(message));
+            Recipients = recipients.EnsureNotNull(nameof(recipients));
+        }
+
+        /// <summary>
         /// The message content of the email.
         /// </summary>
         public string Message { get; }
