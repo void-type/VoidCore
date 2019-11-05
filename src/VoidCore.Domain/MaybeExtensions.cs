@@ -38,7 +38,7 @@ namespace VoidCore.Domain
 
         /// <summary>
         /// Map the inner value to a Maybe of a new type by specifying the new value. The new value will be implicitly
-        /// converted to a Maybe.
+        /// converted to a Maybe. If the original maybe has no value, then Maybe.None is passed through.
         /// </summary>
         /// <param name="maybe">The Maybe to transform</param>
         /// <param name="selector">The transforming map function</param>
@@ -54,7 +54,7 @@ namespace VoidCore.Domain
 
         /// <summary>
         /// Asynchronously map the inner value to a Maybe of a new type by specifying the new value. The new value will
-        /// be implicitly converted to a Maybe.
+        /// be implicitly converted to a Maybe. If the original maybe has no value, then Maybe.None is passed through.
         /// </summary>
         /// <param name="maybe">The Maybe to transform</param>
         /// <param name="selectorTask">An asynchronous task representing the transforming map function</param>
@@ -70,7 +70,7 @@ namespace VoidCore.Domain
 
         /// <summary>
         /// Asynchronously map the inner value to a Maybe of a new type by specifying the new value. The new value will
-        /// be implicitly converted to a Maybe.
+        /// be implicitly converted to a Maybe. If the original maybe has no value, then Maybe.None is passed through.
         /// </summary>
         /// <param name="maybeTask">An asynchronous task representing the Maybe to transform</param>
         /// <param name="selector">The transforming map function</param>
@@ -86,7 +86,7 @@ namespace VoidCore.Domain
 
         /// <summary>
         /// Asynchronously map the inner value to a Maybe of a new type by specifying the new value. The new value will
-        /// be implicitly converted to a Maybe.
+        /// be implicitly converted to a Maybe. If the original maybe has no value, then Maybe.None is passed through.
         /// </summary>
         /// <param name="maybeTask">An asynchronous task representing the Maybe to transform</param>
         /// <param name="selectorTask">An asynchronous task representing the transforming map function</param>
@@ -101,7 +101,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last maybe has a value, map the inner value to a Maybe of a new type by specifying the Maybe.
+        /// If the last maybe has a value, bind it into a new maybe without nesting Maybes.
+        /// If the original maybe has no value, then Maybe.None is passed through.
         /// </summary>
         /// <param name="maybe">The Maybe to transform</param>
         /// <param name="selector">The transforming map function that returns a Maybe</param>
@@ -116,7 +117,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last maybe has a value, asynchronously map the inner value to a Maybe of a new type by specifying the new Maybe.
+        /// If the last maybe has a value, asynchronously bind it into a new maybe without nesting Maybes.
+        /// If the original maybe has no value, then Maybe.None is passed through.
         /// </summary>
         /// <param name="maybe">The Maybe to transform</param>
         /// <param name="selectorTask">
@@ -133,7 +135,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last maybe has a value, asynchronously map the inner value to a Maybe of a new type by specifying the new Maybe.
+        /// If the last maybe has a value, asynchronously bind it into a new maybe without nesting Maybes.
+        /// If the original maybe has no value, then Maybe.None is passed through.
         /// </summary>
         /// <param name="maybeTask">An asynchronous task representing the Maybe to transform</param>
         /// <param name="selector">The transforming map function that returns a Maybe</param>
@@ -148,7 +151,8 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last maybe has a value, asynchronously map the inner value to a Maybe of a new type by specifying the new Maybe.
+        /// If the last maybe has a value, asynchronously bind it into a new maybe without nesting Maybes.
+        /// If the original maybe has no value, then Maybe.None is passed through.
         /// </summary>
         /// <param name="maybeTask">An asynchronous task representing the Maybe to transform</param>
         /// <param name="selectorTask">
