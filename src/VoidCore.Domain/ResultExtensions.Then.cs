@@ -9,7 +9,7 @@ namespace VoidCore.Domain
     public static partial class ResultExtensions
     {
         /// <summary>
-        /// If the last result was successful, perform another fallible function. Failures are passed through.
+        /// If the last result was successful, bind it to another fallible function. Failures are passed through.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="next">The map function to transform input value to output value</param>
@@ -22,7 +22,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last result was successful, perform another fallible function. Failures are passed through.
+        /// If the last result was successful, bind it to another fallible function. Failures are passed through.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="nextTask">An asynchronous map function to transform input value to output value</param>
@@ -35,7 +35,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last result was successful, perform another fallible function. Failures are passed through.
+        /// If the last result was successful, bind it to another fallible function. Failures are passed through.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="next">The map function to transform input value to output value</param>
@@ -48,7 +48,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last result was successful, perform another fallible function. Failures are passed through.
+        /// If the last result was successful, bind it to another fallible function. Failures are passed through.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="nextTask">An asynchronous map function to transform input value to output value</param>
@@ -61,7 +61,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last result was successful, perform another fallible function. Failures are passed through.
+        /// If the last result was successful, bind it to another fallible function. Failures are passed through.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="next">The map function to transform input value to output value</param>
@@ -75,7 +75,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last result was successful, asynchronously perform another fallible function. Failures are passed through.
+        /// If the last result was successful, asynchronously bind it to another fallible function. Failures are passed through.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="nextTask">An asynchronous map function to transform input value to output value</param>
@@ -89,7 +89,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last result was successful, asynchronously perform another fallible function. Failures are passed through.
+        /// If the last result was successful, asynchronously bind it to another fallible function. Failures are passed through.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="next">The map function to transform input value to output value</param>
@@ -103,7 +103,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last result was successful, asynchronously perform another fallible function. Failures are passed through.
+        /// If the last result was successful, asynchronously bind it to another fallible function. Failures are passed through.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="nextTask">An asynchronous map function to transform input value to output value</param>
@@ -117,7 +117,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last result was successful, perform another fallible function. Failures are passed through.
+        /// If the last result was successful, bind it to another fallible function. Failures are passed through.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="next">The map function to transform input value to output value</param>
@@ -132,7 +132,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last result was successful, asynchronously perform another fallible function. Failures are passed through.
+        /// If the last result was successful, asynchronously bind it to another fallible function. Failures are passed through.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="nextTask">The map function to transform input value to output value</param>
@@ -147,7 +147,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last result was successful, asynchronously perform another fallible function. Failures are passed through.
+        /// If the last result was successful, asynchronously bind it to another fallible function. Failures are passed through.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="next">The map function to transform input value to output value</param>
@@ -162,7 +162,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last result was successful, asynchronously perform another fallible function. Failures are passed through.
+        /// If the last result was successful, asynchronously bind it to another fallible function. Failures are passed through.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="nextTask">The map function to transform input value to output value</param>
@@ -177,7 +177,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last result was successful, perform another fallible function. Failures are passed through.
+        /// If the last result was successful, bind it to another fallible function. Failures are passed through.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="next">The map function to transform input value to output value</param>
@@ -191,7 +191,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last result was successful, asynchronously perform another fallible function. Failures are passed through.
+        /// If the last result was successful, asynchronously bind it to another fallible function. Failures are passed through.
         /// </summary>
         /// <param name="result">The result</param>
         /// <param name="nextTask">The map function to transform input value to output value</param>
@@ -205,7 +205,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last result was successful, asynchronously perform another fallible function. Failures are passed through.
+        /// If the last result was successful, asynchronously bind it to another fallible function. Failures are passed through.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="next">The map function to transform input value to output value</param>
@@ -219,7 +219,7 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the last result was successful, asynchronously perform another fallible function. Failures are passed through.
+        /// If the last result was successful, asynchronously bind it to another fallible function. Failures are passed through.
         /// </summary>
         /// <param name="resultTask">An asynchronous task representing the the result</param>
         /// <param name="nextTask">The map function to transform input value to output value</param>

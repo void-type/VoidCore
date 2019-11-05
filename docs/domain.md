@@ -73,25 +73,26 @@ There are many extension methods for making a pipeline of results.
 ```csharp
 // Combine lots of results into a single result. Note that this always returns an untyped result.
 IEnumerable<IResult> results = CheckLotsOfThings();
-var singleResult = results.Combine();
+IResult singleResult = results.Combine();
 
-// Asynchronous tasks of IResult can be run in parallel if not awaited.
-var result = await Result.CombineAsync(
-    DoSomeTaskAsync(),
-    DoAnotherTaskAsync()
-);
+// There are async versions of all extensions.
+// Note, asynchronous tasks of IResult can be run in parallel if not awaited.
+IResult result = await Result.CombineAsync(await DoSomeFallibleTaskAsync(), await CheckSomethingAsync());
 
-// Transform your result into a typed one, or transform typed results to other types.
-// If the original result is failed, the selector is not invoked and the failures are copied over.
 var newResult = singleResult
+    // Transform your result into a typed one, or transform typed results to other types.
+    // If the original result is failed, the selector is not invoked and the failures are copied over.
     .Select(() => "Everything went well.");
 
     // Perform side-effect actions depending on result success. The original result is passed down the pipeline.
     .TeeOnSuccess(value => DoSomethingOnSuccess(value))
     .TeeOnFailure(result => Log(result.Failures))
 
-    // You can also do something on both using the functional extensions.
-    .Tee(result => DoSomethingNoMatterWhat(result));
+    // You can also do something on both using the generic functional extensions.
+    .Tee(result => DoSomethingNoMatterWhat(result))
+
+    // Then is call "bind" in other programming languages. We can call another result-returning function without wrapping it a nested result.
+    .Then(result => CheckSomethingElse(result);
 ```
 
 ### Maybe for explicit nulls
@@ -116,7 +117,7 @@ public IResult<Person> GetPersonById(int id)
 }
 ```
 
-There are useful extension methods to make pipelines of Maybes and even convert them to Results.
+There are useful extension methods to make pipelines of Maybes and even convert them to Results. There are also async variants of all extensions.
 
 ```csharp
 // Create a maybe from anything.
@@ -125,14 +126,18 @@ var maybePerson = Maybe.From(_data.Persons.GetById(id))
     // Filter on a predicate. A maybe that doesn't match will be replaced with Maybe<Person>.None.
     .Where(p => p.Name == "Patrick Stewart")
 
+    // Then will bind your maybe into another maybe-returning function.
+    // This allows you to use the output of one maybe function as input for another and prevents nested maybes.
+    .Then(p => _data.Actors.GetFromPerson(p))
+
     // Safe mappings. If there is no value, it will return a Maybe<Person>.None.
     .Select(p => p.Name = "Sir " + p.Name);
 
 // Safely extract the inner value. If there is no value, unwrap will return the default value of that type, or the optionally specified value.
-var captain = maybePerson.Unwrap(new Person {Name = "James Kirk" }); // We will either have Sir Patrick Stewart or James Kirk at this point.
+Person captain = maybePerson.Unwrap(new Person {Name = "James Kirk" }); // We will either have Sir Patrick Stewart or James Kirk at this point.
 
 // Alternatively, we can return a Result based on the value of the Maybe.
-var result = maybePerson.ToResult(new PersonNotFoundFailure());
+IResult result = maybePerson.ToResult(new PersonNotFoundFailure());
 ```
 
 ### Value Objects to alleviate primitive obsession

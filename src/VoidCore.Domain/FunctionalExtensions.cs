@@ -135,7 +135,7 @@ namespace VoidCore.Domain
         /// <typeparam name="T">The type of input.</typeparam>
         public static async Task<T> TeeAsync<T>(this T input, Func<Task> action)
         {
-            await action();
+            await action().ConfigureAwait(false);
 
             return input;
         }

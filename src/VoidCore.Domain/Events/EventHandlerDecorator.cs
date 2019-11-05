@@ -45,7 +45,8 @@ namespace VoidCore.Domain.Events
             var result = await _requestValidators
                 .Select(validator => validator.Validate(request))
                 .Combine()
-                .ThenAsync(() => _innerEvent.Handle(request, cancellationToken));
+                .ThenAsync(() => _innerEvent.Handle(request, cancellationToken))
+                .ConfigureAwait(false);
 
             foreach (var postProcessor in _postProcessors)
             {
