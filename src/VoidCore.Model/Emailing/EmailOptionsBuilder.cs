@@ -3,42 +3,48 @@ using VoidCore.Domain.Guards;
 
 namespace VoidCore.Model.Emailing
 {
+    /// <summary>
+    /// A builder to configure options for an email.
+    /// </summary>
     public sealed class EmailOptionsBuilder
     {
-        private readonly IAppVariables _variables;
-
-        public EmailOptionsBuilder(IAppVariables variables)
-        {
-            _variables = variables;
-        }
+        internal EmailOptionsBuilder() { }
 
         private string _subject = string.Empty;
-        private readonly List<string> _bodyLines = new List<string>();
+        private readonly List<string> _messageLines = new List<string>();
         private readonly List<string> _recipients = new List<string>();
 
-        public void SetSubject(string subject, bool includeAppNamePrefix = false)
+        /// <summary>
+        /// Set the subject of the email. Will override any previously set subjects.
+        /// </summary>
+        /// <param name="subject">The email subject</param>
+        public void SetSubject(string subject)
         {
-            subject.EnsureNotNullOrEmpty(nameof(subject));
-
-            _subject = includeAppNamePrefix ?
-                $"{_variables.AppName}: {subject}" :
-                subject;
+            _subject = subject.EnsureNotNullOrEmpty(nameof(subject));
         }
 
+        /// <summary>
+        /// Add a line to the body of the email. New line delimiters are added automatically upon building the email.
+        /// </summary>
+        /// <param name="line">The line to add to the email.</param>
         public void AddLine(string line = "")
         {
-            _bodyLines.Add(line);
+            _messageLines.Add(line);
         }
 
+        /// <summary>
+        /// Add a recipient email address to the email.
+        /// </summary>
+        /// <param name="recipient">The email address of the recipient</param>
         public void AddRecipient(string recipient)
         {
             recipient.EnsureNotNullOrEmpty(nameof(recipient));
             _recipients.Add(recipient);
         }
 
-        public EmailOptions Build()
+        internal EmailOptions Build()
         {
-            return new EmailOptions(_subject, _bodyLines, _recipients);
+            return new EmailOptions(_subject, _messageLines, _recipients);
         }
     }
 }

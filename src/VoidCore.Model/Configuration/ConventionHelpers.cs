@@ -1,6 +1,6 @@
 using System;
 
-namespace VoidCore.Model
+namespace VoidCore.Model.Configuration
 {
     /// <summary>
     /// Helpers to assist in configuring the application through class naming conventions.

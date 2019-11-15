@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using VoidCore.Model;
+using VoidCore.Model.Configuration;
 using Xunit;
 
-namespace VoidCore.Test.Model
+namespace VoidCore.Test.Model.Configuration
 {
     public class ConventionHelpersTests
     {

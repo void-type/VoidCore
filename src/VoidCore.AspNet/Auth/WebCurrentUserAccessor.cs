@@ -38,7 +38,7 @@ namespace VoidCore.AspNet.Auth
                 var currentUser = _httpContextAccessor.HttpContext.User;
 
                 var authorizedAs = _authorizationSettings.Policies
-                    .Where(policy => _authorizationService.AuthorizeAsync(currentUser, policy.Key).Result.Succeeded)
+                    .Where(policy => _authorizationService.AuthorizeAsync(currentUser, null, policy.Key).GetAwaiter().GetResult().Succeeded)
                     .Select(policy => policy.Key);
 
                 var name = _userNameFormatter.Format(currentUser.Identity.Name);

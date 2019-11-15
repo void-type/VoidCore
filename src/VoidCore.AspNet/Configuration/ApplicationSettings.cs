@@ -1,4 +1,4 @@
-namespace VoidCore.AspNet.ClientApp
+namespace VoidCore.AspNet.Configuration
 {
     /// <summary>
     /// General application settings that are pulled from configuration.

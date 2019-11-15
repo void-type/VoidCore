@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using VoidCore.Model;
+using VoidCore.Model.Configuration;
 
-namespace VoidCore.AspNet.Settings
+namespace VoidCore.AspNet.Configuration
 {
     /// <summary>
     /// Settings configuration extension methods for service collections.

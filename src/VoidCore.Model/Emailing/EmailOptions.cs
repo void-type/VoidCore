@@ -2,17 +2,31 @@ using System.Collections.Generic;
 
 namespace VoidCore.Model.Emailing
 {
+    /// <summary>
+    /// Options for building and email.
+    /// </summary>
     public sealed class EmailOptions
     {
-        internal EmailOptions(string subject, IReadOnlyList<string> bodyLines, IReadOnlyList<string> recipients)
+        internal EmailOptions(string subject, IReadOnlyList<string> messageLines, IReadOnlyList<string> recipients)
         {
             Subject = subject;
-            BodyLines = bodyLines;
+            MessageLines = messageLines;
             Recipients = recipients;
         }
 
-        public string Subject { get; }
-        public IReadOnlyList<string> BodyLines { get; }
-        public IReadOnlyList<string> Recipients { get; }
+        /// <summary>
+        /// The subject of the email.
+        /// </summary>
+        internal string Subject { get; }
+
+        /// <summary>
+        /// The lines of the body of the email.
+        /// </summary>
+        internal IReadOnlyList<string> MessageLines { get; }
+
+        /// <summary>
+        /// The addresses that the email will be sent to.
+        /// </summary>
+        internal IReadOnlyList<string> Recipients { get; }
     }
 }

@@ -4,25 +4,19 @@ using Moq;
 using System.Threading.Tasks;
 using VoidCore.AspNet.ClientApp;
 using VoidCore.Model.Auth;
+using VoidCore.Model.Configuration;
 using VoidCore.Model.Logging;
 using Xunit;
 
 namespace VoidCore.Test.AspNet.ClientApp
 {
-    public class GetWebApplicationInfoTests
+    public class GetWebClientInfoTests
     {
         [Fact]
-        public void Application_settings_has_parameterless_constructor_for_aspnet_options()
+        public async Task GetWebClientInfo_return_client_app_info()
         {
-            var appSettings = new ApplicationSettings();
-
-            Assert.IsType<ApplicationSettings>(appSettings);
-        }
-
-        [Fact]
-        public async Task ApplicationInfo_is_created_with_and_logs_proper_info()
-        {
-            var appSettings = new ApplicationSettings("AppName");
+            var wepAppVariablesMock = new Mock<IWebAppVariables>();
+            wepAppVariablesMock.Setup(v => v.AppName).Returns("AppName");
 
             var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
             currentUserAccessorMock
@@ -45,9 +39,9 @@ namespace VoidCore.Test.AspNet.ClientApp
             loggingServiceMock
                 .Setup(l => l.Info(It.IsAny<string[]>()));
 
-            var result = await new GetWebApplicationInfo.Handler(appSettings, contextAccessorMock.Object, antiforgeryMock.Object, currentUserAccessorMock.Object)
-                .AddPostProcessor(new GetWebApplicationInfo.Logger(loggingServiceMock.Object))
-                .Handle(new GetWebApplicationInfo.Request());
+            var result = await new GetWebClientInfo.Handler(wepAppVariablesMock.Object, contextAccessorMock.Object, antiforgeryMock.Object, currentUserAccessorMock.Object)
+                .AddPostProcessor(new GetWebClientInfo.Logger(loggingServiceMock.Object))
+                .Handle(new GetWebClientInfo.Request());
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Value);

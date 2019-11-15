@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using VoidCore.Domain;
 using VoidCore.Domain.Events;
 using VoidCore.Model.Auth;
+using VoidCore.Model.Configuration;
 using VoidCore.Model.Logging;
 
 namespace VoidCore.AspNet.ClientApp
@@ -10,55 +11,55 @@ namespace VoidCore.AspNet.ClientApp
     /// <summary>
     /// A domain event group for getting information to bootstrap a web SPA client.
     /// </summary>
-    public class GetWebApplicationInfo
+    public class GetWebClientInfo
     {
         /// <inheritdoc/>
-        public class Handler : EventHandlerSyncAbstract<Request, WebApplicationInfo>
+        public class Handler : EventHandlerSyncAbstract<Request, WebClientInfo>
         {
             private readonly IAntiforgery _antiForgery;
-            private readonly ApplicationSettings _applicationSettings;
+            private readonly IWebAppVariables _webAppVariables;
             private readonly ICurrentUserAccessor _currentUserAccessor;
             private readonly IHttpContextAccessor _httpContextAccessor;
 
             /// <summary>
-            /// Construct a new handler for GetApplicationInfo
+            /// Construct a new handler for GetWebClientInfo
             /// </summary>
-            /// <param name="applicationSettings">Application settings pulled from configuration</param>
+            /// <param name="webAppVariables">Application settings pulled from configuration</param>
             /// <param name="httpContextAccessor">Accessor for the current httpContext</param>
             /// <param name="antiforgery">The ASP.NET antiForgery object</param>
             /// <param name="currentUserAccessor">UI-friendly user name</param>
-            public Handler(ApplicationSettings applicationSettings, IHttpContextAccessor httpContextAccessor, IAntiforgery antiforgery, ICurrentUserAccessor currentUserAccessor)
+            public Handler(IWebAppVariables webAppVariables, IHttpContextAccessor httpContextAccessor, IAntiforgery antiforgery, ICurrentUserAccessor currentUserAccessor)
             {
-                _applicationSettings = applicationSettings;
+                _webAppVariables = webAppVariables;
                 _httpContextAccessor = httpContextAccessor;
                 _antiForgery = antiforgery;
                 _currentUserAccessor = currentUserAccessor;
             }
 
             /// <inheritdoc/>
-            protected override IResult<WebApplicationInfo> HandleSync(Request request)
+            protected override IResult<WebClientInfo> HandleSync(Request request)
             {
-                var applicationInfo = new WebApplicationInfo(
-                    _applicationSettings.Name,
+                var clientInfo = new WebClientInfo(
+                    _webAppVariables.AppName,
                     _antiForgery.GetAndStoreTokens(_httpContextAccessor.HttpContext).RequestToken,
                     _antiForgery.GetAndStoreTokens(_httpContextAccessor.HttpContext).HeaderName,
                     _currentUserAccessor);
 
-                return Ok(applicationInfo);
+                return Ok(clientInfo);
             }
         }
 
         /// <summary>
-        /// Request for GetApplicationInfo handler
+        /// Request for GetWebClientInfo handler
         /// </summary>
         public class Request { }
 
         /// <summary>
         /// Information for bootstrapping a web client.
         /// </summary>
-        public class WebApplicationInfo
+        public class WebClientInfo
         {
-            internal WebApplicationInfo(string applicationName, string antiforgeryToken, string antiforgeryTokenHeaderName, ICurrentUserAccessor currentUserAccessor)
+            internal WebClientInfo(string applicationName, string antiforgeryToken, string antiforgeryTokenHeaderName, ICurrentUserAccessor currentUserAccessor)
             {
                 ApplicationName = applicationName;
                 AntiforgeryToken = antiforgeryToken;
@@ -88,9 +89,9 @@ namespace VoidCore.AspNet.ClientApp
         }
 
         /// <summary>
-        /// Log the GetApplicationInfo result.
+        /// Log the GetWebClientInfo result.
         /// </summary>
-        public class Logger : FallibleEventLogger<Request, WebApplicationInfo>
+        public class Logger : FallibleEventLogger<Request, WebClientInfo>
         {
             /// <inheritdoc/>
             public Logger(ILoggingService logger) : base(logger) { }
@@ -100,7 +101,7 @@ namespace VoidCore.AspNet.ClientApp
             /// </summary>
             /// <param name="request">The request of the event</param>
             /// <param name="response">The successful result of the event</param>
-            protected override void OnSuccess(Request request, WebApplicationInfo response)
+            protected override void OnSuccess(Request request, WebClientInfo response)
             {
                 Logger.Info(
                     $"AppName: {response.ApplicationName}",

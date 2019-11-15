@@ -1,24 +1,15 @@
-using System;
-using VoidCore.Domain;
-
 namespace VoidCore.Model.Emailing
 {
-    public sealed class HtmlEmailBuilder : IEmailBuilder
+    /// <summary>
+    /// Build an HTML-based email. Note that the content of the email will be parsed as raw html.
+    /// Interpolated strings are NOT escaped. Please be cautious of XSS and CSRF vulnerabilities when building the email.
+    /// </summary>
+    public sealed class HtmlEmailBuilder : EmailBuilderAbstract
     {
-        private readonly IAppVariables _variables;
-
-        public HtmlEmailBuilder(IAppVariables variables)
+        /// <inheritdoc/>
+        protected override Email CreateEmail(EmailOptions options)
         {
-            _variables = variables;
-        }
-
-        public Email Build(Action<EmailOptionsBuilder> configure)
-        {
-            var options = new EmailOptionsBuilder(_variables)
-                .Tee(builder => configure(builder))
-                .Map(builder => builder.Build());
-
-            var content = "<html><body>" + string.Join("<br>", options.BodyLines) + "</body></html>";
+            var content = "<html><body>" + string.Join("<br>", options.MessageLines) + "</body></html>";
 
             return new Email(options.Subject, content, options.Recipients);
         }
