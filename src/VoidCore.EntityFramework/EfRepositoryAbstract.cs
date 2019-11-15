@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using VoidCore.Domain;
 #if !NETCOREAPP2_1
-using VoidCore.Model;
+using VoidCore.Model.Configuration;
 #endif
 using VoidCore.Model.Data;
 using VoidCore.Model.Logging;

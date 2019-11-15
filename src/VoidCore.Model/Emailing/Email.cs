@@ -17,8 +17,8 @@ namespace VoidCore.Model.Emailing
         /// <param name="recipients">The recipients of the email.</param>
         public Email(string subject, string message, IEnumerable<string> recipients)
         {
-            Subject = subject.EnsureNotNullOrEmpty(nameof(subject));
-            Message = message.EnsureNotNullOrEmpty(nameof(message));
+            Subject = subject.EnsureNotNull(nameof(subject));
+            Message = message.EnsureNotNull(nameof(message));
             Recipients = recipients.EnsureNotNull(nameof(recipients));
         }
 
