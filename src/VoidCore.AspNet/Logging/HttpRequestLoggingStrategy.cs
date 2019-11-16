@@ -8,7 +8,7 @@ using VoidCore.Model.Logging;
 namespace VoidCore.AspNet.Logging
 {
     /// <summary>
-    /// A strategy to log within HTTP Requests. This enriches the entries with information about the request such as
+    /// A strategy to log within HTTP Requests. This enriches log entries with information about the request such as
     /// current user name and request trace.
     /// </summary>
     public class HttpRequestLoggingStrategy : ILoggingStrategy

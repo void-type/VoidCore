@@ -2,7 +2,6 @@ namespace VoidCore.Model.Configuration
 {
     /// <summary>
     /// Variables that can be used to make the domain layer aware of it's environment and it's URL.
-    /// implementation
     /// </summary>
     public interface IWebAppVariables
     {

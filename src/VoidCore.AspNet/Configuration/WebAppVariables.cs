@@ -20,7 +20,7 @@ namespace VoidCore.AspNet.Configuration
 #endif
 
         /// <summary>
-        /// Construct a new WebAppVariables object
+        /// Construct a new WebAppVariables object.
         /// </summary>
         /// <param name="contextAccessor">The HttpContextAccessor</param>
         /// <param name="host">The host environment</param>

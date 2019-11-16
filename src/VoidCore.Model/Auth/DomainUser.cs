@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace VoidCore.Model.Auth
 {
     /// <summary>
-    /// A user for use in the domain layer for model services.
+    /// A user for use in the domain layer and model services.
     /// </summary>
     public class DomainUser
     {

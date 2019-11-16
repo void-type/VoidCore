@@ -29,6 +29,11 @@ Make predictable data APIs.
 * Soft delete on entities.
 * Auditable entities via Created and Modified names/dates.
 
+### Emailing
+
+* Service interface for sending emails from the domain layer.
+* Template emails using the builder pattern. Templates can be implemented with html or text emails.
+
 ### Logging
 
 * Domain-safe, platform-agnostic interfaces for logging services.

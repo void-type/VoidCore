@@ -3,7 +3,7 @@ using System.Linq;
 namespace VoidCore.Model.Auth
 {
     /// <summary>
-    /// Get the samAccountName from a fully-qualified Active Directory login.
+    /// Get the samAccountName from an email address.
     /// </summary>
     public class EmailUserNameFormatStrategy : IUserNameFormatStrategy
     {

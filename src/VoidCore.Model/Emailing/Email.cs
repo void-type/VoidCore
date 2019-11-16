@@ -5,7 +5,7 @@ using VoidCore.Domain.Guards;
 namespace VoidCore.Model.Emailing
 {
     /// <summary>
-    /// A simple, text-based email that can be sent via an emailing service.
+    /// An email that can be sent via an emailing service.
     /// </summary>
     public class Email
     {

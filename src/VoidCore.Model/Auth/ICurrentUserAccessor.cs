@@ -1,7 +1,7 @@
 namespace VoidCore.Model.Auth
 {
     /// <summary>
-    /// Access the current user's properties.
+    /// A singleton to access the current user.
     /// </summary>
     public interface ICurrentUserAccessor
     {
