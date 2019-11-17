@@ -7,10 +7,10 @@ namespace VoidCore.Model.Emailing
     /// A base class for building emails using a builder action.
     /// The implementation of the class controls how the parts of the email are constructed.
     /// </summary>
-    public abstract class EmailBuilderAbstract : IEmailBuilder
+    public abstract class EmailFactoryAbstract : IEmailFactory
     {
         /// <inheritdoc/>
-        public Email Build(Action<EmailOptionsBuilder> configure)
+        public Email Create(Action<EmailOptionsBuilder> configure)
         {
             return new EmailOptionsBuilder()
                 .Tee(builder => configure(builder))
@@ -19,8 +19,7 @@ namespace VoidCore.Model.Emailing
         }
 
         /// <summary>
-        /// The implementation of this class will override this method with the details
-        /// of constructing the email from the options configured.
+        /// Override this method with the details of constructing the email from the options configured.
         /// </summary>
         /// <param name="options">The options configured by the Build method caller</param>
         protected abstract Email CreateEmail(EmailOptions options);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace VoidCore.Model.Emailing
 {
     /// <summary>
-    /// Options for building and email.
+    /// Options for building an email.
     /// </summary>
     public sealed class EmailOptions
     {

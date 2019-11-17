@@ -5,24 +5,24 @@ using Xunit;
 
 namespace VoidCore.Test.Model.Emailing
 {
-    public class EmailBuilderTests
+    public class EmailFactoryTests
     {
         [Fact]
-        public void TextEmailBuilder_makes_text_based_emails()
+        public void TextEmailFactory_makes_text_based_emails()
         {
-            var emailBuilder = new TextEmailBuilder();
+            var emailFactory = new TextEmailFactory();
 
-            var email = emailBuilder.Build(options =>
+            var email = emailFactory.Create(email =>
             {
-                options.SetSubject("my subject");
+                email.SetSubject("my subject");
 
-                options.AddLine("line 1");
-                options.AddLine("line 2");
-                options.AddLine("line 3");
-                options.AddLine("line 4");
+                email.AddLine("line 1");
+                email.AddLine("line 2");
+                email.AddLine("line 3");
+                email.AddLine("line 4");
 
-                options.AddRecipient("recipient1");
-                options.AddRecipient("recipient2");
+                email.AddRecipient("recipient1");
+                email.AddRecipient("recipient2");
             });
 
             Assert.Equal("my subject", email.Subject);
@@ -33,21 +33,21 @@ namespace VoidCore.Test.Model.Emailing
         }
 
         [Fact]
-        public void HtmlEmailBuilder_makes_text_based_emails()
+        public void HtmlEmailFactory_makes_text_based_emails()
         {
-            var emailBuilder = new HtmlEmailBuilder();
+            var emailFactory = new HtmlEmailFactory();
 
-            var email = emailBuilder.Build(options =>
+            var email = emailFactory.Create(email =>
             {
-                options.SetSubject("my subject");
+                email.SetSubject("my subject");
 
-                options.AddLine("line 1");
-                options.AddLine("line 2");
-                options.AddLine("line 3");
-                options.AddLine("line 4");
+                email.AddLine("line 1");
+                email.AddLine("line 2");
+                email.AddLine("line 3");
+                email.AddLine("line 4");
 
-                options.AddRecipient("recipient1");
-                options.AddRecipient("recipient2");
+                email.AddRecipient("recipient1");
+                email.AddRecipient("recipient2");
             });
 
             Assert.Equal("my subject", email.Subject);
@@ -60,19 +60,19 @@ namespace VoidCore.Test.Model.Emailing
         [Fact]
         public void HtmlEm34ailBuilder_makes_text_based_emails()
         {
-            var emailBuilder = new HtmlEmailBuilder();
+            var emailFactory = new HtmlEmailFactory();
 
-            var email = emailBuilder.Build(options =>
+            var email = emailFactory.Create(email =>
             {
-                options.SetSubject("my subject");
+                email.SetSubject("my subject");
 
-                options.AddLine("line 1");
-                options.AddLine("line 2");
-                options.AddLine("line 3");
-                options.AddLine("line 4");
+                email.AddLine("line 1");
+                email.AddLine("line 2");
+                email.AddLine("line 3");
+                email.AddLine("line 4");
 
-                options.AddRecipient("recipient1");
-                options.AddRecipient("recipient2");
+                email.AddRecipient("recipient1");
+                email.AddRecipient("recipient2");
             });
 
             Assert.Equal("my subject", email.Subject);
@@ -85,9 +85,9 @@ namespace VoidCore.Test.Model.Emailing
         [Fact]
         public void EmailOptionsBuilder_returns_non_null_parameters_if_nothing_configured()
         {
-            var emailBuilder = new TextEmailBuilder();
+            var emailFactory = new TextEmailFactory();
 
-            var email = emailBuilder.Build(options => { });
+            var email = emailFactory.Create(email => { });
 
             Assert.NotNull(email.Subject);
             Assert.NotNull(email.Message);
@@ -101,44 +101,44 @@ namespace VoidCore.Test.Model.Emailing
         [Fact]
         public void EmailOptionsBuilder_throws_argument_exception_if_subject_or_recipient_is_null_or_empty()
         {
-            var emailBuilder = new HtmlEmailBuilder();
+            var emailFactory = new HtmlEmailFactory();
 
             Assert.Throws<ArgumentException>(() =>
-                emailBuilder.Build(options =>
-                {
-                    options.SetSubject("");
-                }));
+               emailFactory.Create(email =>
+               {
+                   email.SetSubject("");
+               }));
 
             Assert.Throws<ArgumentException>(() =>
-                emailBuilder.Build(options =>
-                {
-                    options.AddRecipient("");
-                }));
+               emailFactory.Create(email =>
+               {
+                   email.AddRecipient("");
+               }));
 
             Assert.Throws<ArgumentNullException>(() =>
-                emailBuilder.Build(options =>
-                {
-                    options.SetSubject(null);
-                }));
+               emailFactory.Create(email =>
+               {
+                   email.SetSubject(null);
+               }));
 
             Assert.Throws<ArgumentNullException>(() =>
-                emailBuilder.Build(options =>
-                {
-                    options.AddRecipient(null);
-                }));
+               emailFactory.Create(email =>
+               {
+                   email.AddRecipient(null);
+               }));
         }
 
         [Fact]
         public void EmailOptionsBuilder_accepts_null_or_empty_body_lines_as_extra_line_breaks()
         {
-            var emailBuilder = new HtmlEmailBuilder();
+            var emailFactory = new HtmlEmailFactory();
 
-            var email = emailBuilder.Build(options =>
+            var email = emailFactory.Create(email =>
             {
-                options.AddLine("");
-                options.AddLine();
-                options.AddLine(null);
-                options.AddLine("line 4");
+                email.AddLine("");
+                email.AddLine();
+                email.AddLine(null);
+                email.AddLine("line 4");
             });
 
             Assert.Equal("<html><body><br><br><br>line 4</body></html>", email.Message);

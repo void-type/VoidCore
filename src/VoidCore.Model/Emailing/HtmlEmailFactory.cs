@@ -4,7 +4,7 @@ namespace VoidCore.Model.Emailing
     /// Build an HTML-based email. Note that the content of the email will be parsed as raw html.
     /// Interpolated strings are NOT escaped. Please be cautious of XSS and CSRF vulnerabilities when building the email.
     /// </summary>
-    public sealed class HtmlEmailBuilder : EmailBuilderAbstract
+    public sealed class HtmlEmailFactory : EmailFactoryAbstract
     {
         /// <inheritdoc/>
         protected override Email CreateEmail(EmailOptions options)
@@ -15,4 +15,3 @@ namespace VoidCore.Model.Emailing
         }
     }
 }
-

@@ -3,7 +3,7 @@ namespace VoidCore.Model.Emailing
     /// <summary>
     /// Build a text-only email.
     /// </summary>
-    public sealed class TextEmailBuilder : EmailBuilderAbstract
+    public sealed class TextEmailFactory : EmailFactoryAbstract
     {
         /// <inheritdoc/>
         protected override Email CreateEmail(EmailOptions options)
@@ -14,4 +14,3 @@ namespace VoidCore.Model.Emailing
         }
     }
 }
-
