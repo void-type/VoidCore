@@ -33,6 +33,15 @@ namespace VoidCore.Model.Emailing
         }
 
         /// <summary>
+        /// Add a line to the body of the email. New line delimiters are added automatically upon building the email.
+        /// </summary>
+        /// <param name="lines">The lines to add to the email.</param>
+        public void AddLines(params string[] lines)
+        {
+            _messageLines.AddRange(lines);
+        }
+
+        /// <summary>
         /// Add a recipient email address to the email.
         /// </summary>
         /// <param name="recipient">The email address of the recipient</param>
@@ -40,6 +49,30 @@ namespace VoidCore.Model.Emailing
         {
             recipient.EnsureNotNullOrEmpty(nameof(recipient));
             _recipients.Add(recipient);
+        }
+
+        /// <summary>
+        /// Add multiple recipients to the email.
+        /// </summary>
+        /// <param name="recipients">The email addresses of the recipients</param>
+        public void AddRecipients(params string[] recipients)
+        {
+            foreach (var recipient in recipients)
+            {
+                AddRecipient(recipient);
+            }
+        }
+
+        /// <summary>
+        /// Add multiple recipients to the email.
+        /// </summary>
+        /// <param name="recipients">The email addresses of the recipients</param>
+        public void AddRecipients(IEnumerable<string> recipients)
+        {
+            foreach (var recipient in recipients)
+            {
+                AddRecipient(recipient);
+            }
         }
 
         internal EmailOptions Build()
