@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Moq;
 using VoidCore.AspNet.Configuration;
 using Xunit;
@@ -16,8 +16,6 @@ namespace VoidCore.Test.AspNet.Configuration
         public void Variables_return_all_properties()
         {
             var appSettings = new ApplicationSettings("AppName");
-
-            var contextMock = new Mock<HttpContext>();
 
             var httpRequestMock = new Mock<HttpRequest>();
             httpRequestMock.Setup(request => request.Scheme)

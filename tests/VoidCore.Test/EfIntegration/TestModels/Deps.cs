@@ -1,12 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Moq;
-using System;
 using VoidCore.Model.Auth;
 using VoidCore.Model.Logging;
 using VoidCore.Model.Time;
-using VoidCore.Test.AspNet.Data.TestModels.Data;
+using VoidCore.Test.EfIntegration.TestModels.Data;
 
-namespace VoidCore.Test.AspNet.Data.TestModels
+namespace VoidCore.Test.EfIntegration.TestModels
 {
     /// <summary>
     /// Test Dependencies

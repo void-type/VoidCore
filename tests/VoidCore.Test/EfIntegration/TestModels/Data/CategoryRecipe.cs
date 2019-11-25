@@ -1,4 +1,4 @@
-﻿namespace VoidCore.Test.AspNet.Data.TestModels.Data
+﻿namespace VoidCore.Test.EfIntegration.TestModels.Data
 {
     public class CategoryRecipe
     {

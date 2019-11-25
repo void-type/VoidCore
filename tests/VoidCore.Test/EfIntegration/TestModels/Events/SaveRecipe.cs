@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -8,9 +8,9 @@ using VoidCore.Domain.Events;
 using VoidCore.Domain.RuleValidator;
 using VoidCore.Model.Logging;
 using VoidCore.Model.Responses.Messages;
-using VoidCore.Test.AspNet.Data.TestModels.Data;
+using VoidCore.Test.EfIntegration.TestModels.Data;
 
-namespace VoidCore.Test.AspNet.Data.TestModels.Events
+namespace VoidCore.Test.EfIntegration.TestModels.Events
 {
     public class SaveRecipe
     {

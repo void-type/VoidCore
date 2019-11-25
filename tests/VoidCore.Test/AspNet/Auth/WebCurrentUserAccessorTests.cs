@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -45,7 +45,7 @@ namespace VoidCore.Test.AspNet.Auth
                 .Returns(Task.FromResult(AuthorizationResult.Failed()));
 
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
-            httpContextAccessorMock.Setup(accessor => accessor.HttpContext)
+            httpContextAccessorMock.Setup(a => a.HttpContext)
                 .Returns(httpContextMock.Object);
 
             var accessor = new WebCurrentUserAccessor(httpContextAccessorMock.Object, new EmailUserNameFormatStrategy(), authServiceMock.Object, authSettings);

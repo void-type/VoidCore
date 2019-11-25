@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using VoidCore.Model.Auth;
@@ -36,12 +37,14 @@ namespace VoidCore.Model.Data
         /// <inheritdoc/>
         public override Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken)
         {
-            foreach (var entity in entities)
+            var entitiesList = entities.ToList();
+
+            foreach (var entity in entitiesList)
             {
                 SetCreated(entity);
             }
 
-            return InnerRepository.AddRange(entities, cancellationToken);
+            return InnerRepository.AddRange(entitiesList, cancellationToken);
         }
 
         /// <inheritdoc/>
@@ -54,12 +57,14 @@ namespace VoidCore.Model.Data
         /// <inheritdoc/>
         public override Task UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken)
         {
-            foreach (var entity in entities)
+            var entitiesList = entities.ToList();
+
+            foreach (var entity in entitiesList)
             {
                 SetModified(entity);
             }
 
-            return InnerRepository.UpdateRange(entities, cancellationToken);
+            return InnerRepository.UpdateRange(entitiesList, cancellationToken);
         }
 
         private void SetCreated(IAuditable entity)

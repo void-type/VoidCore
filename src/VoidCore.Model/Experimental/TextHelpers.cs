@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -14,7 +14,7 @@ namespace VoidCore.Model.Experimental
     /// </summary>
     public static class TextHelpers
     {
-        private const string _dateFormat = "s";
+        private const string DateFormat = "s";
 
         /// <summary>
         /// Split a string on any newline character.
@@ -42,7 +42,7 @@ namespace VoidCore.Model.Experimental
         /// <param name="dateTime">The date to format</param>
         /// <param name="dateFormat">The date format. ISO 8601 by default</param>
         /// <returns></returns>
-        public static string Print(DateTime dateTime, string dateFormat = _dateFormat)
+        public static string Print(DateTime dateTime, string dateFormat = DateFormat)
         {
             dateFormat ??= "s";
             return dateTime.ToString(dateFormat, CultureInfo.InvariantCulture);
@@ -64,7 +64,7 @@ namespace VoidCore.Model.Experimental
         /// </summary>
         /// <param name="obj">The object to print</param>
         /// <param name="dateFormat">The date format. ISO 8601 by default</param>
-        public static IEnumerable<string> PrintObject(object obj, string dateFormat = _dateFormat)
+        public static IEnumerable<string> PrintObject(object obj, string dateFormat = DateFormat)
         {
             foreach (var property in obj.GetType().GetTypeInfo().GetProperties())
             {
@@ -95,7 +95,7 @@ namespace VoidCore.Model.Experimental
                         break;
 
                     default:
-                        yield return $"{property.Name}: {value.ToString()}";
+                        yield return $"{property.Name}: {value}";
                         break;
                 }
             }

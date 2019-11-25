@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Linq.Expressions;
 using VoidCore.Model.Data;
 using VoidCore.Model.Responses.Collections;
 
-namespace VoidCore.Test.AspNet.Data.TestModels.Data
+namespace VoidCore.Test.EfIntegration.TestModels.Data
 {
     public class RecipesSearchSpecification : QuerySpecificationAbstract<Recipe>
     {

@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using VoidCore.Domain.Guards;
-using Microsoft.Extensions.Logging.Console;
 #if NETCOREAPP3_0
 using Microsoft.Extensions.Hosting;
 #else
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 #endif
 
 namespace VoidCore.EntityFramework

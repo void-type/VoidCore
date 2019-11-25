@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using VoidCore.Model.Configuration;
 using Xunit;
@@ -41,28 +41,28 @@ namespace VoidCore.Test.Model.Configuration
         [Fact]
         public void Friendly_type_name_returns_correct_name()
         {
-            var typeName = ConventionHelpers.GetFriendlyTypeName(typeof(String));
+            var typeName = typeof(String).GetFriendlyTypeName();
             Assert.Equal("String", typeName);
         }
 
         [Fact]
         public void Friendly_type_name_with_one_generic_parameter_returns_correct_name()
         {
-            var typeName = ConventionHelpers.GetFriendlyTypeName(typeof(List<string>));
+            var typeName = typeof(List<string>).GetFriendlyTypeName();
             Assert.Equal("List<String>", typeName);
         }
 
         [Fact]
         public void Friendly_type_name_with_two_generic_parameters_returns_correct_name()
         {
-            var typeName = ConventionHelpers.GetFriendlyTypeName(typeof(Dictionary<string, MyBaseSettings>));
+            var typeName = typeof(Dictionary<string, MyBaseSettings>).GetFriendlyTypeName();
             Assert.Equal("Dictionary<String, MyBaseSettings>", typeName);
         }
 
         [Fact]
         public void Friendly_type_name_with_nested_generic_parameters_returns_correct_name()
         {
-            var typeName = ConventionHelpers.GetFriendlyTypeName(typeof(Dictionary<string, Dictionary<string, Dictionary<string, MyBaseSettings>>>));
+            var typeName = typeof(Dictionary<string, Dictionary<string, Dictionary<string, MyBaseSettings>>>).GetFriendlyTypeName();
             Assert.Equal("Dictionary<String, Dictionary<String, Dictionary<String, MyBaseSettings>>>", typeName);
         }
     }

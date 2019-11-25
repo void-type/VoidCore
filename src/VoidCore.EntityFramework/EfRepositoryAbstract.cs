@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -25,8 +25,8 @@ namespace VoidCore.EntityFramework
         protected readonly DbContext Context;
 
 #if !NETCOREAPP2_1
-        private string _repoTypeName;
-        private ILoggingStrategy _loggingStrategy;
+        private readonly string _repoTypeName;
+        private readonly ILoggingStrategy _loggingStrategy;
 #endif
 
         /// <inheritdoc/>

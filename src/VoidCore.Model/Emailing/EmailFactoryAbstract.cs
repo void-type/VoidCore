@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using VoidCore.Domain;
 
 namespace VoidCore.Model.Emailing
@@ -13,7 +13,7 @@ namespace VoidCore.Model.Emailing
         public Email Create(Action<EmailOptionsBuilder> configure)
         {
             return new EmailOptionsBuilder()
-                .Tee(builder => configure(builder))
+                .Tee(configure)
                 .Map(builder => builder.Build())
                 .Map(CreateEmail);
         }

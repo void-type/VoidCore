@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace VoidCore.AspNet.Routing
@@ -14,15 +14,15 @@ namespace VoidCore.AspNet.Routing
         /// <param name="services">The services collection</param>
         public static void AddApiExceptionFilter(this IServiceCollection services)
         {
-            static void config(MvcOptions options)
+            static void Config(MvcOptions options)
             {
                 options.Filters.Add(new TypeFilterAttribute(typeof(ApiRouteExceptionFilterAttribute)));
             }
 
 #if NETCOREAPP3_0
-            services.AddControllers(config);
+            services.AddControllers(Config);
 #else
-            services.AddMvc(config);
+            services.AddMvc(Config);
 #endif
         }
     }

@@ -4,7 +4,7 @@ using VoidCore.Model.Data;
 using VoidCore.Model.Logging;
 using VoidCore.Model.Time;
 
-namespace VoidCore.Test.AspNet.Data.TestModels.Data
+namespace VoidCore.Test.EfIntegration.TestModels.Data
 {
     public class FoodStuffsEfData : IFoodStuffsData
     {

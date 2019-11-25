@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using VoidCore.Domain;
 using VoidCore.Domain.Events;
@@ -34,11 +34,13 @@ namespace VoidCore.Model.Logging
         /// <param name="failures">The failures of the event</param>
         protected override void OnFailure(TRequest request, IEnumerable<IFailure> failures)
         {
-            Logger.Warn(
-                $"Count: {failures.Count()}",
-                $"Failures: {string.Join(" ", failures.Select(failure => failure.Message))}");
+            var failuresList = failures.ToList();
 
-            base.OnFailure(request, failures);
+            Logger.Warn(
+                $"Count: {failuresList.Count}",
+                $"Failures: {string.Join(" ", failuresList.Select(failure => failure.Message))}");
+
+            base.OnFailure(request, failuresList);
         }
     }
 }

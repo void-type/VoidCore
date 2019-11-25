@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using VoidCore.Model.Emailing;
 using Xunit;
@@ -12,17 +13,15 @@ namespace VoidCore.Test.Model.Emailing
         {
             var emailFactory = new TextEmailFactory();
 
-            var email = emailFactory.Create(email =>
+            var email = emailFactory.Create(builder =>
             {
-                email.SetSubject("my subject");
+                builder.SetSubject("my subject");
 
-                email.AddLine("line 1");
-                email.AddLine("line 2");
-                email.AddLine("line 3");
-                email.AddLine("line 4");
+                builder.AddLine("line 1");
+                builder.AddLine("line 2");
+                builder.AddLines("line 3", "line 4");
 
-                email.AddRecipient("recipient1");
-                email.AddRecipient("recipient2");
+                builder.AddRecipients("recipient1", "recipient2");
             });
 
             Assert.Equal("my subject", email.Subject);
@@ -37,17 +36,15 @@ namespace VoidCore.Test.Model.Emailing
         {
             var emailFactory = new HtmlEmailFactory();
 
-            var email = emailFactory.Create(email =>
+            var email = emailFactory.Create(builder =>
             {
-                email.SetSubject("my subject");
+                builder.SetSubject("my subject");
 
-                email.AddLine("line 1");
-                email.AddLine("line 2");
-                email.AddLine("line 3");
-                email.AddLine("line 4");
+                builder.AddLine("line 1");
+                builder.AddLine("line 2");
+                builder.AddLines("line 3", "line 4");
 
-                email.AddRecipient("recipient1");
-                email.AddRecipient("recipient2");
+                builder.AddRecipients(new List<string> { "recipient1", "recipient2" });
             });
 
             Assert.Equal("my subject", email.Subject);
@@ -62,17 +59,15 @@ namespace VoidCore.Test.Model.Emailing
         {
             var emailFactory = new HtmlEmailFactory();
 
-            var email = emailFactory.Create(email =>
+            var email = emailFactory.Create(builder =>
             {
-                email.SetSubject("my subject");
+                builder.SetSubject("my subject");
 
-                email.AddLine("line 1");
-                email.AddLine("line 2");
-                email.AddLine("line 3");
-                email.AddLine("line 4");
+                builder.AddLine("line 1");
+                builder.AddLine("line 2");
+                builder.AddLines("line 3", "line 4");
 
-                email.AddRecipient("recipient1");
-                email.AddRecipient("recipient2");
+                builder.AddRecipients("recipient1", "recipient2");
             });
 
             Assert.Equal("my subject", email.Subject);
@@ -87,7 +82,7 @@ namespace VoidCore.Test.Model.Emailing
         {
             var emailFactory = new TextEmailFactory();
 
-            var email = emailFactory.Create(email => { });
+            var email = emailFactory.Create(builder => { });
 
             Assert.NotNull(email.Subject);
             Assert.NotNull(email.Message);
@@ -133,12 +128,12 @@ namespace VoidCore.Test.Model.Emailing
         {
             var emailFactory = new HtmlEmailFactory();
 
-            var email = emailFactory.Create(email =>
+            var email = emailFactory.Create(builder =>
             {
-                email.AddLine("");
-                email.AddLine();
-                email.AddLine(null);
-                email.AddLine("line 4");
+                builder.AddLine(string.Empty);
+                builder.AddLine();
+                builder.AddLine(null);
+                builder.AddLine("line 4");
             });
 
             Assert.Equal("<html><body><br><br><br>line 4</body></html>", email.Message);

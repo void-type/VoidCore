@@ -1,6 +1,6 @@
 ﻿using VoidCore.Model.Data;
 
-namespace VoidCore.Test.AspNet.Data.TestModels.Data
+namespace VoidCore.Test.EfIntegration.TestModels.Data
 {
     public interface IFoodStuffsData
     {

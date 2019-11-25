@@ -14,10 +14,10 @@ namespace VoidCore.Model.Responses.Collections
         /// Create an non-paged item set.
         /// </summary>
         /// <param name="items">The full set of items</param>
-        public ItemSet(IEnumerable<T> items) : this(items, PaginationOptions.None, null) { }
+        public ItemSet(IEnumerable<T> items) : this(items, PaginationOptions.None) { }
 
         /// <summary>
-        /// Create an optionally paginated itemset.
+        /// Create an optionally paginated item set.
         /// </summary>
         /// <param name="items">The set of items. If paging is enabled and total count is not supplied, this set will be paged.</param>
         /// <param name="options">Options for pagination. Use PaginationOptions.None if pagination should not be performed.</param>

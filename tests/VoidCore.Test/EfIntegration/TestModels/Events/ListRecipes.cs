@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,9 +8,9 @@ using VoidCore.Domain;
 using VoidCore.Domain.Events;
 using VoidCore.Model.Logging;
 using VoidCore.Model.Responses.Collections;
-using VoidCore.Test.AspNet.Data.TestModels.Data;
+using VoidCore.Test.EfIntegration.TestModels.Data;
 
-namespace VoidCore.Test.AspNet.Data.TestModels.Events
+namespace VoidCore.Test.EfIntegration.TestModels.Events
 {
     public class ListRecipes
     {
@@ -46,7 +46,7 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                         name: recipe.Name,
                         categories: recipe.CategoryRecipe.Select(cr => cr.Category.Name)))
                     .ToItemSet(paginationOptions, totalCount)
-                    .Map(page => Ok(page));
+                    .Map(Ok);
             }
 
             private Expression<Func<Recipe, bool>>[] GetSearchCriteria(Request request)
@@ -56,12 +56,12 @@ namespace VoidCore.Test.AspNet.Data.TestModels.Events
                 if (!string.IsNullOrWhiteSpace(request.NameSearch))
                 {
                     searchCriteria.Add(recipe => recipe.Name.ToLower().Contains(request.NameSearch.ToLower()));
-                };
+                }
 
                 if (!string.IsNullOrWhiteSpace(request.CategorySearch))
                 {
                     searchCriteria.Add(recipe => recipe.CategoryRecipe.Any(cr => cr.Category.Name.ToLower().Contains(request.CategorySearch.ToLower())));
-                };
+                }
 
                 return searchCriteria.ToArray();
             }

@@ -1,12 +1,12 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using VoidCore.Domain;
-using VoidCore.Test.AspNet.Data.TestModels;
-using VoidCore.Test.AspNet.Data.TestModels.Data;
-using VoidCore.Test.AspNet.Data.TestModels.Events;
+using VoidCore.Test.EfIntegration.TestModels;
+using VoidCore.Test.EfIntegration.TestModels.Data;
+using VoidCore.Test.EfIntegration.TestModels.Events;
 using Xunit;
 
-namespace VoidCore.Test.AspNet.Data
+namespace VoidCore.Test.EfIntegration
 {
     public class EfRepositoryTests
     {

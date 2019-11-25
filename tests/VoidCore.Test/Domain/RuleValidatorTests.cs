@@ -7,10 +7,6 @@ namespace VoidCore.Test.Domain
 {
     public class RuleValidatorTests
     {
-        private static readonly TruthTableValidator _truthTableValidator = new TruthTableValidator();
-        private static readonly FailureBuilderValidator _failureBuilderValidator = new FailureBuilderValidator();
-        private static readonly NoInvalidConditionsValidator _noInvalidConditionsValidator = new NoInvalidConditionsValidator();
-
         [Theory]
         [InlineData(false, false, false, true, false)]
         [InlineData(false, false, true, false, false)]
@@ -28,7 +24,7 @@ namespace VoidCore.Test.Domain
         [InlineData(true, true, true, true, false)]
         public void Validation_satisfies_truth_table(bool isInvalid1, bool isInValid2, bool isSuppressed1, bool isSuppressed2, bool failureExpected)
         {
-            var result = _truthTableValidator.Validate(new TruthTableParams(isInvalid1, isInValid2, isSuppressed1, isSuppressed2));
+            var result = new TruthTableValidator().Validate(new TruthTableParams(isInvalid1, isInValid2, isSuppressed1, isSuppressed2));
 
             Assert.NotEqual(failureExpected, result.IsSuccess);
             Assert.Equal(failureExpected, result.IsFailed);
@@ -38,7 +34,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void Failures_can_be_constructed_from_the_entity_properties()
         {
-            var result = _failureBuilderValidator.Validate(new Entity("invalid"));
+            var result = new FailureBuilderValidator().Validate(new Entity("invalid"));
 
             Assert.Single(result.Failures);
 
@@ -51,12 +47,12 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void Derived_classes_can_be_validated()
         {
-            var result = _failureBuilderValidator.Validate(new DerivedEntity("invalid"));
+            var result = new FailureBuilderValidator().Validate(new DerivedEntity("invalid"));
 
             Assert.True(result.IsFailed);
             Assert.True(result.Failures.Any());
 
-            result = _failureBuilderValidator.Validate(new DerivedEntity("valid"));
+            result = new FailureBuilderValidator().Validate(new DerivedEntity("valid"));
 
             Assert.True(result.IsSuccess);
             Assert.False(result.Failures.Any());
@@ -65,7 +61,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void Validation_success_when_no_invalid_conditions()
         {
-            var result = _noInvalidConditionsValidator.Validate(new Entity("valid"));
+            var result = new NoInvalidConditionsValidator().Validate(new Entity("valid"));
 
             Assert.True(result.IsSuccess);
             Assert.False(result.Failures.Any());

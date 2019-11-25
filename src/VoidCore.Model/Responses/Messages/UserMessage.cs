@@ -3,7 +3,7 @@
     /// <summary>
     /// A UI-friendly message.
     /// </summary>
-    public partial class UserMessage
+    public class UserMessage
     {
         /// <summary>
         /// Create a new message.
