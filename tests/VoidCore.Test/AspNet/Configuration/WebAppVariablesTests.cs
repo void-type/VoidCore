@@ -2,11 +2,7 @@
 using Moq;
 using VoidCore.AspNet.Configuration;
 using Xunit;
-#if NETCOREAPP3_0
 using Microsoft.Extensions.Hosting;
-#else
-using Microsoft.AspNetCore.Hosting;
-#endif
 
 namespace VoidCore.Test.AspNet.Configuration
 {
@@ -33,11 +29,7 @@ namespace VoidCore.Test.AspNet.Configuration
             httpContextAccessorMock.Setup(accessor => accessor.HttpContext)
                 .Returns(httpContextMock.Object);
 
-#if NETCOREAPP3_0
             var hostMock = new Mock<IHostEnvironment>();
-#else
-            var hostMock = new Mock<IHostingEnvironment>();
-#endif
             hostMock.Setup(h => h.EnvironmentName).Returns("TestingEnvironment");
 
             var variables = new WebAppVariables(httpContextAccessorMock.Object, hostMock.Object, appSettings);

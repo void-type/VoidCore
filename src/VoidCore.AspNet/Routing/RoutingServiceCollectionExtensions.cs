@@ -19,11 +19,7 @@ namespace VoidCore.AspNet.Routing
                 options.Filters.Add(new TypeFilterAttribute(typeof(ApiRouteExceptionFilterAttribute)));
             }
 
-#if NETCOREAPP3_0
             services.AddControllers(Config);
-#else
-            services.AddMvc(Config);
-#endif
         }
     }
 }

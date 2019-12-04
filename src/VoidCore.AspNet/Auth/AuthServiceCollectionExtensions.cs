@@ -3,11 +3,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using VoidCore.Domain.Guards;
 using VoidCore.Model.Auth;
-#if NETCOREAPP3_0
 using Microsoft.Extensions.Hosting;
-#else
-using Microsoft.AspNetCore.Hosting;
-#endif
 
 namespace VoidCore.AspNet.Auth
 {
@@ -44,12 +40,7 @@ namespace VoidCore.AspNet.Auth
         /// <param name="policy">The policy name</param>
         public static void AddGlobalAuthorizeFilter(this IServiceCollection services, string policy)
         {
-
-#if NETCOREAPP3_0
             services.AddControllers(options => options.Filters.Add(new AuthorizeFilter(policy)));
-#else
-            services.AddMvc(options => options.Filters.Add(new AuthorizeFilter(policy)));
-#endif
         }
 
         /// <summary>
@@ -68,7 +59,6 @@ namespace VoidCore.AspNet.Auth
         /// </summary>
         /// <param name="services">This service collection</param>
         /// <param name="environment">The hosting environment</param>
-#if NETCOREAPP3_0
         public static void AddWindowsAuthentication(this IServiceCollection services, IHostEnvironment environment)
         {
             services.AddAuthentication(HttpSysDefaults.AuthenticationScheme);
@@ -78,16 +68,5 @@ namespace VoidCore.AspNet.Auth
                 services.AddControllers(options => { options.Filters.Add(new AllowAnonymousFilter()); });
             }
         }
-#else
-        public static void AddWindowsAuthentication(this IServiceCollection services, IHostingEnvironment environment)
-        {
-            services.AddAuthentication(HttpSysDefaults.AuthenticationScheme);
-
-            if (environment.IsDevelopment())
-            {
-                services.AddMvc(options => { options.Filters.Add(new AllowAnonymousFilter()); });
-            }
-        }
-#endif
     }
 }

@@ -1,10 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using System;
-#if NETCOREAPP3_0
 using Microsoft.Extensions.Hosting;
-#else
-using Microsoft.AspNetCore.Hosting;
-#endif
 
 namespace VoidCore.AspNet.Security
 {
@@ -20,7 +16,6 @@ namespace VoidCore.AspNet.Security
         /// <param name="app">This IApplicationBuilder</param>
         /// <param name="environment">The hosting environment</param>
         /// <returns>The ApplicationBuilder for chaining.</returns>
-#if NETCOREAPP3_0
         public static IApplicationBuilder UseSecureTransport(this IApplicationBuilder app, IHostEnvironment environment)
         {
             if (!environment.IsDevelopment())
@@ -30,17 +25,6 @@ namespace VoidCore.AspNet.Security
 
             return app.UseHttpsRedirection();
         }
-#else
-        public static IApplicationBuilder UseSecureTransport(this IApplicationBuilder app, IHostingEnvironment environment)
-        {
-            if (!environment.IsDevelopment())
-            {
-                app.UseHsts();
-            }
-
-            return app.UseHttpsRedirection();
-        }
-#endif
 
         /// <summary>
         /// Set a Content Security Policy header on the HTTP response. See
