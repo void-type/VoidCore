@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using VoidCore.Domain.Guards;
-using Microsoft.Extensions.Hosting;
 
 namespace VoidCore.EntityFramework
 {
@@ -14,10 +13,9 @@ namespace VoidCore.EntityFramework
         /// Add a DbContext to the DI container using SQL server settings.
         /// </summary>
         /// <param name="services">The service collection</param>
-        /// <param name="environment">The hosting environment</param>
         /// <param name="connectionString">The connection string to send to the DbContext</param>
         /// <typeparam name="TDbContext">The concrete type of DbContext to add to the DI container</typeparam>
-        public static void AddSqlServerDbContext<TDbContext>(this IServiceCollection services, IHostEnvironment environment, string connectionString) where TDbContext : DbContext
+        public static void AddSqlServerDbContext<TDbContext>(this IServiceCollection services, string connectionString) where TDbContext : DbContext
         {
             connectionString.EnsureNotNullOrEmpty(nameof(connectionString), "Connection string not found in application configuration.");
 
