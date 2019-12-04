@@ -6,7 +6,7 @@
 
 A set of core libraries for building domain-driven business applications.
 
-The current major version of VoidCore includes opinionated support for Asp.Net Core 2.1, 2.2, and 3.0 applications.
+The current major version of VoidCore includes opinionated support for Asp.Net Core 3.0 and 3.1 applications.
 
 [FoodStuffs](https://github.com/void-type/foodstuffs) is a comprehensive example of how applications can be built using VoidCore.
 
