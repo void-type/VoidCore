@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using VoidCore.Domain.Guards;
 
@@ -41,7 +42,7 @@ namespace VoidCore.Model.Responses.Collections
                 Items = allItems;
                 TotalCount = allItems.Count;
                 Page = 1;
-                Take = TotalCount > 1 ? TotalCount : 1;
+                Take = Math.Max(1, TotalCount);
             }
         }
 
