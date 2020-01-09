@@ -42,7 +42,7 @@ namespace VoidCore.Test.Model.Emailing
 
                 builder.AddLine("line 1");
                 builder.AddLine("line 2");
-                builder.AddLines("line 3", "line 4");
+                builder.AddLines(new List<string>() { "line 3", "line 4" });
 
                 builder.AddRecipients(new List<string> { "recipient1", "recipient2" });
             });

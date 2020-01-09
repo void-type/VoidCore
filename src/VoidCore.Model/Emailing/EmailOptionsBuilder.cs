@@ -42,6 +42,15 @@ namespace VoidCore.Model.Emailing
         }
 
         /// <summary>
+        /// Add a line to the body of the email. New line delimiters are added automatically upon building the email.
+        /// </summary>
+        /// <param name="lines">The lines to add to the email.</param>
+        public void AddLines(IEnumerable<string> lines)
+        {
+            _messageLines.AddRange(lines);
+        }
+
+        /// <summary>
         /// Add a recipient email address to the email.
         /// </summary>
         /// <param name="recipient">The email address of the recipient</param>
