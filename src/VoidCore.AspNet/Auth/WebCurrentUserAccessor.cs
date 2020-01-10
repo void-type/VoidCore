@@ -35,6 +35,11 @@ namespace VoidCore.AspNet.Auth
         {
             get
             {
+                if (_httpContextAccessor.HttpContext == null)
+                {
+                    return new DomainUser(_userNameFormatter.Format(null), new string[0]);
+                }
+
                 var currentUser = _httpContextAccessor.HttpContext.User;
 
                 var authorizedAs = _authorizationSettings.Policies

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using VoidCore.Model.Configuration;
+using VoidCore.Domain.Guards;
 
 namespace VoidCore.AspNet.Configuration
 {
@@ -32,6 +33,7 @@ namespace VoidCore.AspNet.Configuration
         {
             get
             {
+                _contextAccessor.HttpContext.EnsureNotNull(nameof(_contextAccessor.HttpContext));
                 var request = _contextAccessor.HttpContext.Request;
                 return $"{request.Scheme}://{request.Host}{request.PathBase}";
             }
