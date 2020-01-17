@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using VoidCore.Model.Text;
 
 namespace VoidCore.Model.Logging
 {
@@ -27,7 +28,7 @@ namespace VoidCore.Model.Logging
         /// <returns>The enriched log entry</returns>
         public virtual string Log(Exception ex, params string[] messages)
         {
-            var eventArray = messages.Concat(FlattenExceptionMessages(ex)).ToArray();
+            var eventArray = messages.Concat(TextHelpers.FlattenExceptionMessages(ex)).ToArray();
 
             return Log(eventArray);
         }
@@ -39,30 +40,6 @@ namespace VoidCore.Model.Logging
         protected string BuildPayload(IEnumerable<string> messages)
         {
             return string.Join(" ", messages.Where(message => !string.IsNullOrWhiteSpace(message)));
-        }
-
-        /// <summary>
-        /// Flatten nested exceptions to a set of strings.
-        /// </summary>
-        /// <param name="exception">The outer exception</param>
-        protected static IEnumerable<string> FlattenExceptionMessages(Exception exception)
-        {
-            if (exception is null)
-            {
-                return new string[0];
-            }
-
-            var exceptionMessages = new List<string> { "Threw Exception:" };
-            var stackTrace = exception.ToString();
-
-            while (exception != null)
-            {
-                exceptionMessages.Add($"{exception.GetType()}: {exception.Message}");
-                exception = exception.InnerException;
-            }
-
-            exceptionMessages.Add($"Stack Trace: {stackTrace}");
-            return exceptionMessages;
         }
     }
 }

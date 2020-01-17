@@ -1,8 +1,8 @@
 using System;
-using VoidCore.Model.Experimental;
+using VoidCore.Model.Text;
 using Xunit;
 
-namespace VoidCore.Test.Model.Experimental
+namespace VoidCore.Test.Model.Text
 {
     public class TextHelpersTests
     {
@@ -19,7 +19,6 @@ namespace VoidCore.Test.Model.Experimental
                 "MyDateTime: 12/01/2018 9:09 AM",
                 "MyDate: 09/10/2008 12:00 AM",
                 "MyDateTimes: 09/10/2008 12:00 AM, 12/01/2018 9:09 AM, 09/10/2008 12:00 AM",
-
                 }, strings);
         }
 
@@ -36,7 +35,6 @@ namespace VoidCore.Test.Model.Experimental
                 "MyDateTime: 2018-12-01T09:09:08",
                 "MyDate: 2008-09-10T00:00:00",
                 "MyDateTimes: 2008-09-10T00:00:00, 2018-12-01T09:09:08, 2008-09-10T00:00:00",
-
                 }, strings);
         }
 

@@ -5,36 +5,15 @@ using System.Globalization;
 using System.Reflection;
 using System.Linq;
 
-#warning This namespace contains experimental features that are subject to change outside of semver.
-namespace VoidCore.Model.Experimental
+namespace VoidCore.Model.Text
 {
     // TODO: these are experimental
     /// <summary>
     /// Helpers useful for logging or emailing.
     /// </summary>
-    public static class TextHelpers
+    public static partial class TextHelpers
     {
         private const string DateFormat = "s";
-
-        /// <summary>
-        /// Split a string on any newline character.
-        /// </summary>
-        /// <param name="str">The string to split</param>
-        public static string[] SplitOnNewLine(string str)
-        {
-            return str.Split(new[] { "\n", "\r\n" }, StringSplitOptions.None);
-        }
-
-        /// <summary>
-        /// Make an anchor tag string.
-        /// </summary>
-        /// <param name="caption">The text shown to the user</param>
-        /// <param name="urlSegments">A series of url segments to be joined with "/"</param>
-        /// <returns></returns>
-        public static string Link(string caption, params string[] urlSegments)
-        {
-            return $"<a href=\"{string.Join("/", urlSegments)}\">{caption}</a>";
-        }
 
         /// <summary>
         /// Print a DateTime to a string.
