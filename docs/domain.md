@@ -378,3 +378,43 @@ Post Processors fire after the handling of an event or after validation failure.
 * Inherit from IPostProcessor for a single channel that fires on both types of Result.
 
 There are default logging Post Processor implementations in the VoidCore.Model library. See above for an example.
+
+### Workflow State Management
+
+Using a finite state machine, control valid transitions between states in a workflow.
+
+```csharp
+public partial class Workflow : WorkflowAbstract<Workflow.State, Workflow.Command>
+{
+    // Build valid state transitions using fluent syntax
+    public Workflow() : base(optionsBuilder =>
+        optionsBuilder
+            // Not Started
+            .AddTransition(State.NotStarted, Command.Start, State.ApprovalRequested)
+            .AddTransition(State.NotStarted, Command.Cancel, State.Cancelled)
+
+            // Approval Requested
+            .AddTransition(State.ApprovalRequested, Command.Approve, State.Approved)
+            .AddTransition(State.ApprovalRequested, Command.Reject, State.NotStarted)
+            .AddTransition(State.ApprovalRequested, Command.Cancel, State.Cancelled)
+
+            // Approved
+            .AddTransition(State.Approved, Command.Revoke, State.Revoked)
+            .AddTransition(State.Approved, Command.Expire, State.Expired))
+    { }
+
+    public enum State { NotStarted, ApprovalRequested, Approved, Cancelled, Revoked, Expired }
+
+    public enum Command { Start, Approve, Reject, Cancel, Revoke, Expire }
+
+    private IResult<State> MoveNext(Request request, Command command)
+    {
+        return GetNext(request.CurrentState, command)
+            .TeeOnSuccess(newState => request.CurrentState = newState);
+    }
+}
+
+// Using the move next command returns a result of if the state was successfully changed on the request.
+var result = workflow.MoveNext(request, Workflow.Command.Approve)
+    .TeeOnSuccess(AddApproval);
+```
