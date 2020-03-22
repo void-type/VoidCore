@@ -12,7 +12,7 @@ namespace VoidCore.Domain.Workflow
     {
         internal WorkflowOptionsBuilder() { }
 
-        private readonly Dictionary<Transition<TState, TCommand>, TState> _transitions = new Dictionary<Transition<TState, TCommand>, TState>();
+        private readonly Dictionary<TransitionKey<TState, TCommand>, TState> _transitions = new Dictionary<TransitionKey<TState, TCommand>, TState>();
 
         /// <summary>
         /// Add an allowed transition between states.
@@ -22,11 +22,11 @@ namespace VoidCore.Domain.Workflow
         /// <param name="endingState">The resultant state</param>
         public WorkflowOptionsBuilder<TState, TCommand> AddTransition(TState startingState, TCommand command, TState endingState)
         {
-            _transitions.Add(new Transition<TState, TCommand>(startingState, command), endingState);
+            _transitions.Add(new TransitionKey<TState, TCommand>(startingState, command), endingState);
             return this;
         }
 
-        internal Dictionary<Transition<TState, TCommand>, TState> Build()
+        internal Dictionary<TransitionKey<TState, TCommand>, TState> Build()
         {
             return _transitions;
         }

@@ -10,7 +10,7 @@ namespace VoidCore.Domain.Workflow
             where TState : Enum
             where TCommand : Enum
     {
-        private readonly Dictionary<Transition<TState, TCommand>, TState> _transitions = new Dictionary<Transition<TState, TCommand>, TState>();
+        private readonly Dictionary<TransitionKey<TState, TCommand>, TState> _transitions = new Dictionary<TransitionKey<TState, TCommand>, TState>();
 
         /// <summary>
         /// Constructor with an options builder action.
@@ -30,7 +30,7 @@ namespace VoidCore.Domain.Workflow
         /// <param name="command">The command used on the current state</param>
         public IResult<TState> GetNext(TState currentState, TCommand command)
         {
-            var requestedTransition = new Transition<TState, TCommand>(currentState, command);
+            var requestedTransition = new TransitionKey<TState, TCommand>(currentState, command);
 
             if (!_transitions.TryGetValue(requestedTransition, out TState nextState))
             {
