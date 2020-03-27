@@ -1,5 +1,10 @@
+using System;
+using System.Linq;
+using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using VoidCore.Domain.Events;
+using VoidCore.Domain.Guards;
 using VoidCore.Model.Configuration;
 
 namespace VoidCore.AspNet.Configuration
@@ -49,6 +54,38 @@ namespace VoidCore.AspNet.Configuration
             return settings;
         }
 
+        /// <summary>
+        /// Search assemblies for domain pipeline components and registers them with the DI container by concrete name.
+        /// This is a convenience method that has a cost of performance. Components are registered as transient which increases garbage collector pressure during heavy loads.
+        /// </summary>
+        /// <param name="services">This service collection</param>
+        /// <param name="assembliesToSearch">An array of assemblies to search for domain components in</param>
+        public static void FindAndRegisterDomainEvents(this IServiceCollection services, params Assembly[] assembliesToSearch)
+        {
+            assembliesToSearch.EnsureNotNullOrEmpty(nameof(assembliesToSearch));
+
+            var domainEventInterfaces = new[] {
+                typeof (IEventHandler<,>),
+                typeof (IRequestValidator<>),
+                typeof (IPostProcessor<,>)
+            };
+
+            foreach (var @interface in domainEventInterfaces)
+            {
+                var matchingConcretes = assembliesToSearch
+                    .Distinct()
+                    .SelectMany(assembly => assembly.DefinedTypes)
+                    .Where(type => type.IsConcrete())
+                    .Where(type => type.ImplementsGenericInterface(@interface))
+                    .ToList();
+
+                foreach (var type in matchingConcretes)
+                {
+                    services.AddTransient(type);
+                }
+            }
+        }
+
         private static TSettings GetSettings<TSettings>(IConfiguration configuration, bool root)
         {
             if (!root)
@@ -58,6 +95,20 @@ namespace VoidCore.AspNet.Configuration
             }
 
             return configuration.Get<TSettings>(options => options.BindNonPublicProperties = true);
+        }
+
+        private static bool IsConcrete(this TypeInfo type)
+        {
+            return !type.IsAbstract && !type.IsInterface;
+        }
+
+        private static bool ImplementsGenericInterface(this TypeInfo type, Type @interface)
+        {
+            return type.GetTypeInfo()
+                .GetInterfaces()
+                .Where(i => i.IsGenericType)
+                .Select(i => i.GetGenericTypeDefinition())
+                .Contains(@interface);
         }
     }
 }
