@@ -8,6 +8,7 @@ namespace VoidCore.Model.Data
     /// <inheritdoc/>
     public abstract class QuerySpecificationAbstract<T> : IQuerySpecification<T>
     {
+        private readonly List<Expression<Func<T, bool>>> _criteria = new List<Expression<Func<T, bool>>>();
         private readonly List<Expression<Func<T, object>>> _includes = new List<Expression<Func<T, object>>>();
         private readonly List<string> _includeStrings = new List<string>();
         private readonly List<(Expression<Func<T, object>> ThenBy, bool IsDescending)> _secondaryOrderings = new List<(Expression<Func<T, object>>, bool)>();
@@ -18,11 +19,11 @@ namespace VoidCore.Model.Data
         /// <param name="criteria">The filtering criteria</param>
         protected QuerySpecificationAbstract(params Expression<Func<T, bool>>[] criteria)
         {
-            Criteria = criteria;
+            AddCriteria(criteria);
         }
 
         /// <inheritdoc/>
-        public IReadOnlyList<Expression<Func<T, bool>>> Criteria { get; }
+        public IReadOnlyList<Expression<Func<T, bool>>> Criteria => _criteria;
 
         /// <inheritdoc/>
         public IReadOnlyList<Expression<Func<T, object>>> Includes => _includes;
@@ -103,6 +104,15 @@ namespace VoidCore.Model.Data
         protected void ApplyPaging(PaginationOptions paginationOptions)
         {
             PaginationOptions = paginationOptions;
+        }
+
+        /// <summary>
+        /// Add criteria that will be used everytime this specification is used
+        /// </summary>
+        /// <param name="criteria">The filtering criteria</param>
+        protected void AddCriteria(params Expression<Func<T, bool>>[] criteria)
+        {
+            _criteria.AddRange(criteria);
         }
     }
 }
