@@ -14,14 +14,21 @@ namespace VoidCore.AspNet.Configuration
         /// Construct a new settings.
         /// </summary>
         /// <param name="name">The UI-friendly name of the application.</param>
-        public ApplicationSettings(string name)
+        /// <param name="baseUrl">The base URL that the application is accessed from.</param>
+        public ApplicationSettings(string name, string baseUrl)
         {
             Name = name;
+            BaseUrl = baseUrl;
         }
 
         /// <summary>
-        /// The name of the application.
+        /// The UI-friendly name of the application.
         /// </summary>
         public string Name { get; private set; }
+
+        /// <summary>
+        /// The base URL that the application is accessed from.
+        /// </summary>
+        public string BaseUrl { get; private set; }
     }
 }
