@@ -56,11 +56,13 @@ namespace VoidCore.AspNet.Configuration
 
         /// <summary>
         /// Search assemblies for domain pipeline components and registers them with the DI container by concrete name.
-        /// This is a convenience method that has a cost of performance. Components are registered as transient which increases garbage collector pressure during heavy loads.
+        /// This is a convenience method that has a cost of uniformity. All components are registered with the specified lifetime.
+        /// You can override how a service gets registered by re-registering it under a different lifetime manually later in Startup.cs.
         /// </summary>
         /// <param name="services">This service collection</param>
+        /// <param name="lifetime">The ServiceLifetime to register the services for.</param>
         /// <param name="assembliesToSearch">An array of assemblies to search for domain components in</param>
-        public static void FindAndRegisterDomainEvents(this IServiceCollection services, params Assembly[] assembliesToSearch)
+        public static void FindAndRegisterDomainEvents(this IServiceCollection services, ServiceLifetime lifetime, params Assembly[] assembliesToSearch)
         {
             assembliesToSearch.EnsureNotNullOrEmpty(nameof(assembliesToSearch));
 
@@ -81,7 +83,18 @@ namespace VoidCore.AspNet.Configuration
 
                 foreach (var type in matchingConcretes)
                 {
-                    services.AddTransient(type);
+                    switch (lifetime)
+                    {
+                        case ServiceLifetime.Singleton:
+                            services.AddSingleton(type);
+                            break;
+                        case ServiceLifetime.Scoped:
+                            services.AddScoped(type);
+                            break;
+                        default:
+                            services.AddTransient(type);
+                            break;
+                    }
                 }
             }
         }
