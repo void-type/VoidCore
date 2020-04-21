@@ -11,7 +11,30 @@ namespace VoidCore.Test.AspNet.Configuration
         [Fact]
         public void Variables_return_all_properties()
         {
-            var appSettings = new ApplicationSettings("AppName");
+            var appSettings = new ApplicationSettings("AppName", "https://www.contoso.com/path/base");
+
+            var httpRequestMock = new Mock<HttpRequest>();
+
+            var httpContextMock = new Mock<HttpContext>();
+
+            var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
+            httpContextAccessorMock.Setup(accessor => accessor.HttpContext)
+                .Returns(httpContextMock.Object);
+
+            var hostMock = new Mock<IHostEnvironment>();
+            hostMock.Setup(h => h.EnvironmentName).Returns("TestingEnvironment");
+
+            var variables = new WebAppVariables(httpContextAccessorMock.Object, hostMock.Object, appSettings);
+
+            Assert.Equal("AppName", variables.AppName);
+            Assert.Equal("https://www.contoso.com/path/base", variables.BaseUrl);
+            Assert.Equal("TestingEnvironment", variables.Environment);
+        }
+
+        [Fact]
+        public void BaseUrl_returns_httpContext_url_when_settings_empty()
+        {
+            var appSettings = new ApplicationSettings("AppName", "");
 
             var httpRequestMock = new Mock<HttpRequest>();
             httpRequestMock.Setup(request => request.Scheme)
