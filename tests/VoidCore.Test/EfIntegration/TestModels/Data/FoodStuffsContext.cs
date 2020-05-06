@@ -9,7 +9,6 @@ namespace VoidCore.Test.EfIntegration.TestModels.Data
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<CategoryRecipe> CategoryRecipe { get; set; }
         public virtual DbSet<Recipe> Recipe { get; set; }
-        public virtual DbSet<User> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -52,13 +51,6 @@ namespace VoidCore.Test.EfIntegration.TestModels.Data
                 entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
 
                 entity.Property(e => e.Name).IsRequired();
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.Property(e => e.JoinedOn).HasColumnType("datetime");
-                // We need a key (typically an artificial ViewRow column) for views
-                entity.HasKey(e => e.Name);
             });
         }
     }

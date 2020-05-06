@@ -13,12 +13,10 @@ namespace VoidCore.Test.EfIntegration.TestModels.Data
             Categories = new EfWritableRepository<Category>(context, loggingStrategy);
             CategoryRecipes = new EfWritableRepository<CategoryRecipe>(context, loggingStrategy);
             Recipes = new EfWritableRepository<Recipe>(context, loggingStrategy).AddAuditability(now, currentUserAccessor);
-            Users = new EfReadOnlyRepository<User>(context, loggingStrategy);
         }
 
         public IWritableRepository<Category> Categories { get; }
         public IWritableRepository<CategoryRecipe> CategoryRecipes { get; }
         public IWritableRepository<Recipe> Recipes { get; }
-        public IReadOnlyRepository<User> Users { get; }
     }
 }
