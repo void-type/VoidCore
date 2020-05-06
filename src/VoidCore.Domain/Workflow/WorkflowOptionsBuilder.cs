@@ -12,21 +12,27 @@ namespace VoidCore.Domain.Workflow
     {
         internal WorkflowOptionsBuilder() { }
 
-        private readonly Dictionary<TransitionKey<TState, TCommand>, TState> _transitions = new Dictionary<TransitionKey<TState, TCommand>, TState>();
+        private readonly HashSet<WorkflowTransition<TState, TCommand>> _transitions = new HashSet<WorkflowTransition<TState, TCommand>>();
 
         /// <summary>
         /// Add an allowed transition between states.
         /// </summary>
-        /// <param name="startingState">The starting state</param>
+        /// <param name="currentState">The starting state</param>
         /// <param name="command">The requested command</param>
         /// <param name="endingState">The resultant state</param>
-        public WorkflowOptionsBuilder<TState, TCommand> AddTransition(TState startingState, TCommand command, TState endingState)
+        public WorkflowOptionsBuilder<TState, TCommand> AddTransition(TState currentState, TCommand command, TState endingState)
         {
-            _transitions.Add(new TransitionKey<TState, TCommand>(startingState, command), endingState);
+            var newTransition = new WorkflowTransition<TState, TCommand>(currentState, command, endingState);
+
+            if (!_transitions.Add(newTransition))
+            {
+                throw new InvalidOperationException($"Cannot add a duplicate transition of {currentState} => {command}.");
+            };
+
             return this;
         }
 
-        internal Dictionary<TransitionKey<TState, TCommand>, TState> Build()
+        internal IReadOnlyCollection<WorkflowTransition<TState, TCommand>> Build()
         {
             return _transitions;
         }

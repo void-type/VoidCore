@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -129,6 +131,27 @@ namespace VoidCore.Test.Domain.Workflow
 
             Assert.True(workflow.OnRevoke(request, "Bill").IsFailed);
             Assert.Equal(Workflow.State.Cancelled, request.State);
+        }
+
+        [Fact]
+        public void Workflow_demo_can_get_available_commands_from_state()
+        {
+            var workflow = new Workflow();
+
+            var actualStates = new HashSet<Workflow.Command>(workflow.GetAvailableCommands(Workflow.State.ApprovalRequested));
+            var expectedStates = new HashSet<Workflow.Command> {
+                Workflow.Command.Approve,
+                Workflow.Command.Reject,
+                Workflow.Command.Cancel
+            };
+
+            Assert.Equal(expectedStates, actualStates);
+        }
+
+        [Fact]
+        public void Workflow_demo_do_not_allow_duplicate_transitions()
+        {
+            Assert.Throws<InvalidOperationException>(() => new InvalidWorkflow());
         }
     }
 }

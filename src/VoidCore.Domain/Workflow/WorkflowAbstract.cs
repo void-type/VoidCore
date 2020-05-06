@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace VoidCore.Domain.Workflow
 {
@@ -10,7 +11,7 @@ namespace VoidCore.Domain.Workflow
             where TState : Enum
             where TCommand : Enum
     {
-        private readonly Dictionary<TransitionKey<TState, TCommand>, TState> _transitions = new Dictionary<TransitionKey<TState, TCommand>, TState>();
+        private readonly IReadOnlyCollection<WorkflowTransition<TState, TCommand>> _transitions = new HashSet<WorkflowTransition<TState, TCommand>>();
 
         /// <summary>
         /// Constructor with an options builder action.
@@ -30,14 +31,23 @@ namespace VoidCore.Domain.Workflow
         /// <param name="command">The command used on the current state</param>
         public IResult<TState> GetNext(TState currentState, TCommand command)
         {
-            var requestedTransition = new TransitionKey<TState, TCommand>(currentState, command);
+            var maybeValidTransition = Maybe.From(_transitions
+                .FirstOrDefault(t => t.CurrentState.Equals(currentState) && t.Command.Equals(command)));
 
-            if (!_transitions.TryGetValue(requestedTransition, out TState nextState))
-            {
-                return Result.Fail<TState>(new Failure($"Invalid transition: {currentState} => {command}"));
-            }
+            return maybeValidTransition
+                .ToResult(new Failure($"Invalid transition: {currentState} => {command}."))
+                .Select(t => t.NextState);
+        }
 
-            return Result.Ok(nextState);
+        /// <summary>
+        /// Get the available commands given the current state of the workflow.
+        /// </summary>
+        /// <param name="currentState">The current state of the flow</param>
+        public IEnumerable<TCommand> GetAvailableCommands(TState currentState)
+        {
+            return _transitions
+                .Where(t => t.CurrentState.Equals(currentState))
+                .Select(t => t.Command);
         }
     }
 }
