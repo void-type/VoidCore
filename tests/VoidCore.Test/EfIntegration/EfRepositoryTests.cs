@@ -288,5 +288,78 @@ namespace VoidCore.Test.EfIntegration
 
             Assert.Equal(3, updatedRecipes.Count);
         }
+
+        [Fact]
+        public async Task Get_can_tranform_entities()
+        {
+            using var context = Deps.FoodStuffsContext();
+            var data = context.Seed().FoodStuffsData();
+
+            var existingRecipe = (await data.Recipes.ListAll(default)).First();
+
+            var maybeDto = await data.Recipes.Get(new RecipesByIdWithCategoriesSpecification(existingRecipe.Id),
+                r => new RecipeTestDto
+                {
+                    RecipeName = r.Name,
+                    PrepTime = r.PrepTimeMinutes,
+                }, default);
+
+            Assert.True(maybeDto.HasValue);
+            Assert.Equal(existingRecipe.Name, maybeDto.Value.RecipeName);
+            Assert.Equal(existingRecipe.PrepTimeMinutes, maybeDto.Value.PrepTime);
+        }
+
+        [Fact]
+        public async Task List_can_tranform_entities()
+        {
+            using var context = Deps.FoodStuffsContext();
+            var data = context.Seed().FoodStuffsData();
+
+            var existingRecipe = (await data.Recipes.ListAll(default)).First();
+
+            var dtos = await data.Recipes.List(new RecipesByIdWithCategoriesSpecification(existingRecipe.Id),
+                r => new RecipeTestDto
+                {
+                    RecipeName = r.Name,
+                    PrepTime = r.PrepTimeMinutes,
+                }, default);
+
+            Assert.True(dtos.Any());
+
+            var dto = dtos.First();
+            Assert.Equal(existingRecipe.Name, dto.RecipeName);
+            Assert.Equal(existingRecipe.PrepTimeMinutes, dto.PrepTime);
+        }
+
+        [Fact]
+        public async Task ListAll_can_tranform_entities()
+        {
+            using var context = Deps.FoodStuffsContext();
+            var data = context.Seed().FoodStuffsData();
+
+            var existingRecipe = (await data.Recipes.ListAll(default)).First();
+
+            var dtos = await data.Recipes.ListAll(
+                r => new RecipeTestDto
+                {
+                    RecipeName = r.Name,
+                    PrepTime = r.PrepTimeMinutes,
+                }, default);
+
+
+            Assert.True(dtos.Any());
+
+            var dto = dtos.First();
+            Assert.Equal(existingRecipe.Name, dto.RecipeName);
+            Assert.Equal(existingRecipe.PrepTimeMinutes, dto.PrepTime);
+        }
+
+        public class RecipeTestDto
+        {
+            public RecipeTestDto() { }
+
+            public string RecipeName { get; set; }
+            public int? PrepTime { get; set; }
+        }
     }
 }

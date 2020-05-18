@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using VoidCore.Domain;
@@ -50,15 +52,33 @@ namespace VoidCore.Model.Data
         }
 
         /// <inheritdoc/>
+        public Task<Maybe<TNew>> Get<TNew>(IQuerySpecification<T> specification, Expression<Func<T, TNew>> transformation, CancellationToken cancellationToken)
+        {
+            return InnerRepository.Get(specification, transformation, cancellationToken);
+        }
+
+        /// <inheritdoc/>
         public virtual Task<IReadOnlyList<T>> List(IQuerySpecification<T> specification, CancellationToken cancellationToken)
         {
             return InnerRepository.List(specification, cancellationToken);
         }
 
         /// <inheritdoc/>
+        public Task<IReadOnlyList<TNew>> List<TNew>(IQuerySpecification<T> specification, Expression<Func<T, TNew>> transformation, CancellationToken cancellationToken)
+        {
+            return InnerRepository.List(specification, transformation, cancellationToken);
+        }
+
+        /// <inheritdoc/>
         public virtual Task<IReadOnlyList<T>> ListAll(CancellationToken cancellationToken)
         {
             return InnerRepository.ListAll(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public virtual Task<IReadOnlyList<TNew>> ListAll<TNew>(Expression<Func<T, TNew>> transformation, CancellationToken cancellationToken)
+        {
+            return InnerRepository.ListAll(transformation, cancellationToken);
         }
 
         /// <inheritdoc/>

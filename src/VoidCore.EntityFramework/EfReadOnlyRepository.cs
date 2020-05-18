@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -54,6 +55,16 @@ namespace VoidCore.EntityFramework
         }
 
         /// <inheritdoc/>
+        public virtual async Task<Maybe<TNew>> Get<TNew>(IQuerySpecification<T> specification, Expression<System.Func<T, TNew>> transformation, CancellationToken cancellationToken)
+        {
+            return await GetBaseQuery()
+                .TagWith(GetTag(nameof(Get), specification))
+                .ApplyEfSpecification(specification)
+                .Select(transformation)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
         public virtual async Task<IReadOnlyList<T>> List(IQuerySpecification<T> specification, CancellationToken cancellationToken)
         {
             return await GetBaseQuery()
@@ -64,12 +75,31 @@ namespace VoidCore.EntityFramework
         }
 
         /// <inheritdoc/>
+        public virtual async Task<IReadOnlyList<TNew>> List<TNew>(IQuerySpecification<T> specification, Expression<System.Func<T, TNew>> transformation, CancellationToken cancellationToken)
+        {
+            return await GetBaseQuery()
+                .TagWith(GetTag(nameof(List), specification))
+                .ApplyEfSpecification(specification)
+                .Select(transformation)
+                .ToListAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
         public virtual async Task<IReadOnlyList<T>> ListAll(CancellationToken cancellationToken)
         {
             return await GetBaseQuery()
                 .TagWith(GetTag(nameof(ListAll)))
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
+        }
+
+        /// <inheritdoc/>
+        public virtual async Task<IReadOnlyList<TNew>> ListAll<TNew>(Expression<System.Func<T, TNew>> transformation, CancellationToken cancellationToken)
+        {
+            return await GetBaseQuery()
+                .TagWith(GetTag(nameof(ListAll)))
+                .Select(transformation)
+                .ToListAsync(cancellationToken);
         }
 
         /// <summary>
