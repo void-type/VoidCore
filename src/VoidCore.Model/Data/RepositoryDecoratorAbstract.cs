@@ -38,21 +38,21 @@ namespace VoidCore.Model.Data
         }
 
         /// <inheritdoc/>
-        public virtual Task<int> Count(IQuerySpecification<T> spec, CancellationToken cancellationToken)
+        public virtual Task<int> Count(IQuerySpecification<T> specification, CancellationToken cancellationToken)
         {
-            return InnerRepository.Count(spec, cancellationToken);
+            return InnerRepository.Count(specification, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public virtual Task<Maybe<T>> Get(IQuerySpecification<T> spec, CancellationToken cancellationToken)
+        public virtual Task<Maybe<T>> Get(IQuerySpecification<T> specification, CancellationToken cancellationToken)
         {
-            return InnerRepository.Get(spec, cancellationToken);
+            return InnerRepository.Get(specification, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public virtual Task<IReadOnlyList<T>> List(IQuerySpecification<T> spec, CancellationToken cancellationToken)
+        public virtual Task<IReadOnlyList<T>> List(IQuerySpecification<T> specification, CancellationToken cancellationToken)
         {
-            return InnerRepository.List(spec, cancellationToken);
+            return InnerRepository.List(specification, cancellationToken);
         }
 
         /// <inheritdoc/>

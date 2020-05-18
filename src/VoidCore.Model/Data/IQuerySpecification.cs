@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using VoidCore.Domain;
 using VoidCore.Model.Responses.Collections;
 
 namespace VoidCore.Model.Data
@@ -29,12 +30,12 @@ namespace VoidCore.Model.Data
         /// <summary>
         /// Ascending primary sort on the query
         /// </summary>
-        Expression<Func<T, object>> OrderBy { get; }
+        Maybe<Expression<Func<T, object>>> OrderBy { get; }
 
         /// <summary>
         /// Descending primary sort on the query
         /// </summary>
-        Expression<Func<T, object>> OrderByDescending { get; }
+        Maybe<Expression<Func<T, object>>> OrderByDescending { get; }
 
         /// <summary>
         /// Secondary sorts on the query. If there is no primary sort, this is ignored.

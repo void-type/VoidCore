@@ -26,16 +26,16 @@ namespace VoidCore.EntityFramework
 
             query = specification.Criteria.Aggregate(query, (current, criteria) => current.Where(criteria));
 
-            if (specification.OrderBy != null)
+            if (specification.OrderBy.HasValue)
             {
                 query = query
-                    .OrderBy(specification.OrderBy)
+                    .OrderBy(specification.OrderBy.Value)
                     .ApplySecondaryOrderings(specification);
             }
-            else if (specification.OrderByDescending != null)
+            else if (specification.OrderByDescending.HasValue)
             {
                 query = query
-                    .OrderByDescending(specification.OrderByDescending)
+                    .OrderByDescending(specification.OrderByDescending.Value)
                     .ApplySecondaryOrderings(specification);
             }
 

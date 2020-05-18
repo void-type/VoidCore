@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using VoidCore.Model.Data;
@@ -8,7 +9,8 @@ using VoidCore.Model.Logging;
 namespace VoidCore.EntityFramework
 {
     /// <summary>
-    /// A generic read/write repository. Optimized for Entity Framework Contexts. Adapted from https://github.com/dotnet-architecture/eShopOnWeb
+    /// A generic read/write repository. Optimized for Entity Framework Contexts.
+    /// Adapted from https://github.com/dotnet-architecture/eShopOnWeb
     /// </summary>
     /// <typeparam name="T">The type of entity stored in the repository</typeparam>
     public class EfWritableRepository<T> : EfReadOnlyRepository<T>, IWritableRepository<T> where T : class
@@ -32,6 +34,20 @@ namespace VoidCore.EntityFramework
         }
 
         /// <inheritdoc/>
+        public virtual async Task Remove(T entity, CancellationToken cancellationToken)
+        {
+            Context.Set<T>().Remove(entity);
+            await Context.SaveChangesAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
+        public async Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+        {
+            Context.Set<T>().RemoveRange(entities);
+            await Context.SaveChangesAsync(cancellationToken);
+        }
+
+        /// <inheritdoc/>
         public virtual async Task Update(T entity, CancellationToken cancellationToken)
         {
             Context.Entry(entity).State = EntityState.Modified;
@@ -50,17 +66,6 @@ namespace VoidCore.EntityFramework
         }
 
         /// <inheritdoc/>
-        public virtual async Task Remove(T entity, CancellationToken cancellationToken)
-        {
-            Context.Set<T>().Remove(entity);
-            await Context.SaveChangesAsync(cancellationToken);
-        }
-
-        /// <inheritdoc/>
-        public async Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken)
-        {
-            Context.Set<T>().RemoveRange(entities);
-            await Context.SaveChangesAsync(cancellationToken);
-        }
+        protected override IQueryable<T> GetBaseQuery() => Context.Set<T>();
     }
 }

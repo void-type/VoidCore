@@ -12,30 +12,30 @@ namespace VoidCore.Model.Data
     public interface IReadOnlyRepository<T> where T : class
     {
         /// <summary>
+        /// Count entities that match a specification.
+        /// </summary>
+        /// <param name="specification">The specification that describes entities to count</param>
+        /// <param name="cancellationToken">The cancellation token to cancel the task</param>
+        Task<int> Count(IQuerySpecification<T> specification, CancellationToken cancellationToken);
+
+        /// <summary>
         /// Get the first entity that matches a specification.
         /// </summary>
-        /// <param name="spec">The specification that describes the entity to get</param>
+        /// <param name="specification">The specification that describes the entity to get</param>
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-        Task<Maybe<T>> Get(IQuerySpecification<T> spec, CancellationToken cancellationToken);
+        Task<Maybe<T>> Get(IQuerySpecification<T> specification, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// List all entities that match a specification.
+        /// </summary>
+        /// <param name="specification">The specification that describes entities to get</param>
+        /// <param name="cancellationToken">The cancellation token to cancel the task</param>
+        Task<IReadOnlyList<T>> List(IQuerySpecification<T> specification, CancellationToken cancellationToken);
 
         /// <summary>
         /// List all entities in the repository.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
         Task<IReadOnlyList<T>> ListAll(CancellationToken cancellationToken);
-
-        /// <summary>
-        /// List al entities that match a specification.
-        /// </summary>
-        /// <param name="spec">The specification that describes entities to get</param>
-        /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-        Task<IReadOnlyList<T>> List(IQuerySpecification<T> spec, CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Count entities that match a specification.
-        /// </summary>
-        /// <param name="spec">The specification that describes entities to count</param>
-        /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-        Task<int> Count(IQuerySpecification<T> spec, CancellationToken cancellationToken);
     }
 }

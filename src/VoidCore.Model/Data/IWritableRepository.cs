@@ -25,20 +25,6 @@ namespace VoidCore.Model.Data
         Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken);
 
         /// <summary>
-        /// The entity to update within the repository.
-        /// </summary>
-        /// <param name="entity">The altered entity to update</param>
-        /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-        Task Update(T entity, CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Update many entities in the repository.
-        /// </summary>
-        /// <param name="entities">The altered entities to update</param>
-        /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-        Task UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken);
-
-        /// <summary>
         /// Remove an entity from the repository.
         /// </summary>
         /// <param name="entity">The entity to remove</param>
@@ -51,5 +37,19 @@ namespace VoidCore.Model.Data
         /// <param name="entities">The entities to remove</param>
         /// <param name="cancellationToken">The cancellation token to cancel the task</param>
         Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// The entity to update within the repository.
+        /// </summary>
+        /// <param name="entity">The altered entity to update</param>
+        /// <param name="cancellationToken">The cancellation token to cancel the task</param>
+        Task Update(T entity, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Update many entities in the repository.
+        /// </summary>
+        /// <param name="entities">The altered entities to update</param>
+        /// <param name="cancellationToken">The cancellation token to cancel the task</param>
+        Task UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken);
     }
 }
