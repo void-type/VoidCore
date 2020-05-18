@@ -54,6 +54,16 @@ namespace VoidCore.Test.Model.Text
             Assert.Equal(new[] { "Click me", "https://www.contoso.com", "recipes\\1" }, strings);
         }
 
+        [Fact]
+        public void Print_date_uses_ISO8601_format_by_default()
+        {
+            var myDate = new DateTime(2008, 9, 10);
+
+            var myString = TextHelpers.Print(myDate);
+
+            Assert.Equal("2008-09-10T00:00:00", myString);
+        }
+
         public class TestObject
         {
             public string MyString { get; set; } = "Hello World";

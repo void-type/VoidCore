@@ -11,7 +11,7 @@ namespace VoidCore.Test.Model.Emailing
         [Fact]
         public void Email_can_be_created()
         {
-            var email = new Email("RE: Testing", "Please test.", new List<string> { "vt@example.com", "vt2@example.com" });
+            var email = new Email("RE: Testing", "Please test.", "vt@example.com", "vt2@example.com");
 
             Assert.Equal("RE: Testing", email.Subject);
             Assert.Equal("Please test.", email.Message);

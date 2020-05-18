@@ -23,7 +23,6 @@ namespace VoidCore.Model.Text
         /// <returns></returns>
         public static string Print(DateTime dateTime, string dateFormat = DateFormat)
         {
-            dateFormat ??= "s";
             return dateTime.ToString(dateFormat, CultureInfo.InvariantCulture);
         }
 

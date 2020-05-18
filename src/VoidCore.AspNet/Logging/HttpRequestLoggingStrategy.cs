@@ -35,7 +35,7 @@ namespace VoidCore.AspNet.Logging
         {
             if (_httpContextAccessor.HttpContext == null)
             {
-                return BuildPayload(messages);
+                return base.Log(messages);
             }
 
             var userName = _currentUserAccessor.User.Login;
@@ -43,7 +43,7 @@ namespace VoidCore.AspNet.Logging
             var traceId = _httpContextAccessor.HttpContext.TraceIdentifier;
             var prefix = $"{traceId}:{userName}:{request.Method}:{request.Path.Value}";
 
-            return BuildPayload(messages.Prepend(prefix));
+            return base.Log(messages.Prepend(prefix).ToArray());
         }
 
         /// <summary>
