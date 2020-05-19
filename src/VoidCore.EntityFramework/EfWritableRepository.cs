@@ -22,7 +22,8 @@ namespace VoidCore.EntityFramework
         public virtual async Task<T> Add(T entity, CancellationToken cancellationToken)
         {
             Context.Set<T>().Add(entity);
-            await Context.SaveChangesAsync(cancellationToken);
+            await Context.SaveChangesAsync(cancellationToken)
+                .ConfigureAwait(false);
             return entity;
         }
 
@@ -30,28 +31,32 @@ namespace VoidCore.EntityFramework
         public virtual async Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken)
         {
             Context.Set<T>().AddRange(entities);
-            await Context.SaveChangesAsync(cancellationToken);
+            await Context.SaveChangesAsync(cancellationToken)
+                .ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
         public virtual async Task Remove(T entity, CancellationToken cancellationToken)
         {
             Context.Set<T>().Remove(entity);
-            await Context.SaveChangesAsync(cancellationToken);
+            await Context.SaveChangesAsync(cancellationToken)
+                .ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
         public async Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken)
         {
             Context.Set<T>().RemoveRange(entities);
-            await Context.SaveChangesAsync(cancellationToken);
+            await Context.SaveChangesAsync(cancellationToken)
+                .ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
         public virtual async Task Update(T entity, CancellationToken cancellationToken)
         {
             Context.Entry(entity).State = EntityState.Modified;
-            await Context.SaveChangesAsync(cancellationToken);
+            await Context.SaveChangesAsync(cancellationToken)
+                .ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
@@ -62,7 +67,8 @@ namespace VoidCore.EntityFramework
                 Context.Entry(entity).State = EntityState.Modified;
             }
 
-            await Context.SaveChangesAsync(cancellationToken);
+            await Context.SaveChangesAsync(cancellationToken)
+                .ConfigureAwait(false);
         }
 
         /// <inheritdoc/>

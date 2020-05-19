@@ -63,7 +63,7 @@ namespace VoidCore.Model.Text
                         break;
 
                     case IEnumerable items:
-                        List<string> strings = new List<string>();
+                        var strings = new List<string>();
                         foreach (var item in items)
                         {
                             strings.Add(item.ToString());

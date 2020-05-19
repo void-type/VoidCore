@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using VoidCore.Domain.Guards;
@@ -29,7 +30,7 @@ namespace VoidCore.Domain
             IsFailed = false;
         }
 
-        public IEnumerable<IFailure> Failures { get; } = new IFailure[0];
+        public IEnumerable<IFailure> Failures { get; } = Array.Empty<IFailure>();
         public bool IsFailed { get; }
         public bool IsSuccess => !IsFailed;
     }

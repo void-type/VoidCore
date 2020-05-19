@@ -35,7 +35,6 @@ namespace VoidCore.Test.Model.Responses
             var guid = Guid.NewGuid();
             var message = EntityMessage.Create("hi", guid);
             Assert.Equal("hi", message.Message);
-            Assert.IsType<Guid>(message.Id);
             Assert.Equal(guid, message.Id);
         }
     }

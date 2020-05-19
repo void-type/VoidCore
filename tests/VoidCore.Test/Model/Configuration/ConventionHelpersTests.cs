@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using VoidCore.Model.Configuration;
 using Xunit;
 
@@ -41,7 +40,7 @@ namespace VoidCore.Test.Model.Configuration
         [Fact]
         public void Friendly_type_name_returns_correct_name()
         {
-            var typeName = typeof(String).GetFriendlyTypeName();
+            var typeName = typeof(string).GetFriendlyTypeName();
             Assert.Equal("String", typeName);
         }
 

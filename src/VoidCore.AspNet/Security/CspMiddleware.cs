@@ -32,7 +32,7 @@ namespace VoidCore.AspNet.Security
         {
             var header = new CspHeader(_options);
             context.Response.Headers.Add(header.Key, header.Value);
-            await _next(context);
+            await _next(context).ConfigureAwait(false);
         }
     }
 }

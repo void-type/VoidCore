@@ -5,7 +5,7 @@ namespace VoidCore.Test.Domain.Workflow
 {
     public partial class Workflow
     {
-        private static readonly IReadOnlyList<string> approverNames = new List<string> { "John", "Joe" };
+        private static readonly IReadOnlyList<string> _approverNames = new List<string> { "John", "Joe" };
 
         public IResult<State> OnRequestApprovals(Request request)
         {
@@ -31,7 +31,7 @@ namespace VoidCore.Test.Domain.Workflow
                 return canContinue;
             }
 
-            if (request.ApprovalsMet || approverNames.Count - request.Approvals.Count < 1)
+            if (request.ApprovalsMet || _approverNames.Count - request.Approvals.Count < 1)
             {
                 return MoveNext(request, Command.Approve);
             }
@@ -74,7 +74,7 @@ namespace VoidCore.Test.Domain.Workflow
             new Approval
             {
                 Id = request.Approvals.Count + 1,
-                Approver = approverNames[request.Approvals.Count],
+                Approver = _approverNames[request.Approvals.Count],
                 IsApproved = false
             }
                 .Tee(request.Approvals.Add);

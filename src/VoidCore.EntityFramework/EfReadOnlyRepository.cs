@@ -39,7 +39,8 @@ namespace VoidCore.EntityFramework
             return await GetBaseQuery()
                 .TagWith(GetTag(nameof(Count), specification))
                 .ApplyEfSpecification(specification)
-                .CountAsync(cancellationToken);
+                .CountAsync(cancellationToken)
+                .ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
@@ -48,7 +49,8 @@ namespace VoidCore.EntityFramework
             return await GetBaseQuery()
                 .TagWith(GetTag(nameof(Get), specification))
                 .ApplyEfSpecification(specification)
-                .FirstOrDefaultAsync(cancellationToken);
+                .FirstOrDefaultAsync(cancellationToken)
+                .ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
@@ -57,7 +59,8 @@ namespace VoidCore.EntityFramework
             return await GetBaseQuery()
                 .TagWith(GetTag(nameof(List), specification))
                 .ApplyEfSpecification(specification)
-                .ToListAsync(cancellationToken);
+                .ToListAsync(cancellationToken)
+                .ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
@@ -65,7 +68,8 @@ namespace VoidCore.EntityFramework
         {
             return await GetBaseQuery()
                 .TagWith(GetTag(nameof(ListAll)))
-                .ToListAsync(cancellationToken);
+                .ToListAsync(cancellationToken)
+                .ConfigureAwait(false);
         }
 
         /// <summary>

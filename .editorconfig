@@ -1,5 +1,6 @@
 # Schema: http://EditorConfig.org
 # Docs: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference
+# Adapted from: https://github.com/dotnet/efcore/blob/master/.editorconfig
 
 # top-most EditorConfig file
 root = true

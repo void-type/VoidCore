@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Linq;
 using VoidCore.Model.Auth;
 
@@ -37,7 +38,7 @@ namespace VoidCore.AspNet.Auth
             {
                 if (_httpContextAccessor.HttpContext == null)
                 {
-                    return new DomainUser(_userNameFormatter.Format(null), new string[0]);
+                    return new DomainUser(_userNameFormatter.Format(null), Array.Empty<string>());
                 }
 
                 var currentUser = _httpContextAccessor.HttpContext.User;

@@ -58,7 +58,7 @@ namespace VoidCore.Test.Domain
             var maybe = Maybe<string>.None
                 .Select(v => 2);
 
-            Assert.IsType<Maybe<int>>(maybe);
+            Assert.True(maybe is Maybe<int>);
             Assert.True(maybe.HasNoValue);
         }
 
@@ -81,7 +81,7 @@ namespace VoidCore.Test.Domain
             var maybe = Maybe.From("some value")
                 .Select(v => 2);
 
-            Assert.IsType<Maybe<int>>(maybe);
+            Assert.True(maybe is Maybe<int>);
             Assert.Equal(2, maybe.Value);
         }
 
@@ -105,7 +105,7 @@ namespace VoidCore.Test.Domain
             var maybe = Maybe<string>.None
                 .Then(v => Maybe.From(2));
 
-            Assert.IsType<Maybe<int>>(maybe);
+            Assert.True(maybe is Maybe<int>);
             Assert.True(maybe.HasNoValue);
         }
 
@@ -128,7 +128,7 @@ namespace VoidCore.Test.Domain
             var maybe = Maybe.From("some value")
                 .Then(v => Maybe.From(2));
 
-            Assert.IsType<Maybe<int>>(maybe);
+            Assert.True(maybe is Maybe<int>);
             Assert.Equal(2, maybe.Value);
         }
 

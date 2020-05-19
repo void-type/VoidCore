@@ -10,7 +10,7 @@ namespace VoidCore.Test.AspNet.Configuration
         {
             var appSettings = new ApplicationSettings();
 
-            Assert.IsType<ApplicationSettings>(appSettings);
+            Assert.True(appSettings is ApplicationSettings);
         }
     }
 }
