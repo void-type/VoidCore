@@ -1,4 +1,4 @@
-using VoidCore.Model.Responses.Messages;
+﻿using VoidCore.Model.Responses.Messages;
 
 namespace VoidCore.Model.Logging
 {

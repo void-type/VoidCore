@@ -1,4 +1,4 @@
-using VoidCore.Domain.Workflow;
+﻿using VoidCore.Domain.Workflow;
 
 namespace VoidCore.Test.Domain.Workflow
 {

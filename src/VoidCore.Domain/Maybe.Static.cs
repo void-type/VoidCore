@@ -1,4 +1,4 @@
-namespace VoidCore.Domain
+﻿namespace VoidCore.Domain
 {
     /// <summary>
     /// Provides convenient non-generic helpers of the generic Maybe class.

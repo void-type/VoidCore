@@ -1,4 +1,4 @@
-namespace VoidCore.Domain
+﻿namespace VoidCore.Domain
 {
     /// <summary>
     /// A domain logic failure with UI-friendly error message and optional field name or UI handle.

@@ -1,4 +1,4 @@
-using VoidCore.AspNet.Security;
+﻿using VoidCore.AspNet.Security;
 using Xunit;
 
 namespace VoidCore.Test.AspNet.Security

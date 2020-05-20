@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using VoidCore.Model.Configuration;
 
 namespace VoidCore.AspNet.Auth

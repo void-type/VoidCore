@@ -1,4 +1,4 @@
-namespace VoidCore.AspNet.Security
+﻿namespace VoidCore.AspNet.Security
 {
     /// <summary>
     /// A header for adding X-Frame-Options to a webpage.

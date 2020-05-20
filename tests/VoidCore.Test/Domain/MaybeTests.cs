@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using VoidCore.Domain;
 using Xunit;
 

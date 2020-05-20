@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Antiforgery;
+﻿using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using VoidCore.Domain;
 using VoidCore.Domain.Events;

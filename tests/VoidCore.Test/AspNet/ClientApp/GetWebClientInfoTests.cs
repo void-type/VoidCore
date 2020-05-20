@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Antiforgery;
+﻿using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using System.Threading.Tasks;

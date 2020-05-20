@@ -1,4 +1,4 @@
-namespace VoidCore.Model.Text
+﻿namespace VoidCore.Model.Text
 {
     public static partial class TextHelpers
     {

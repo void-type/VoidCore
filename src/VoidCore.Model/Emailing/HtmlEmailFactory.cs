@@ -1,4 +1,4 @@
-namespace VoidCore.Model.Emailing
+﻿namespace VoidCore.Model.Emailing
 {
     /// <summary>
     /// Build an HTML-based email. Note that the content of the email will be parsed as raw html.

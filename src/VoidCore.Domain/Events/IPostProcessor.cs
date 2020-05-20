@@ -1,4 +1,4 @@
-namespace VoidCore.Domain.Events
+﻿namespace VoidCore.Domain.Events
 {
     /// <summary>
     /// A device for processing after the domain event is tried. Processors run regardless if the domain event was

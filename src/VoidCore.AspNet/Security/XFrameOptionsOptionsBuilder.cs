@@ -1,4 +1,4 @@
-namespace VoidCore.AspNet.Security
+﻿namespace VoidCore.AspNet.Security
 {
     /// <summary>
     /// Builds the options to configure the X-Frame-Options header.

@@ -1,4 +1,4 @@
-namespace VoidCore.Model.Auth
+﻿namespace VoidCore.Model.Auth
 {
     /// <summary>
     /// Formatter for getting a UI-friendly user name.

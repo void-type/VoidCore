@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using VoidCore.Domain;
 using VoidCore.Domain.RuleValidator;
 using Xunit;

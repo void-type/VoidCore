@@ -1,4 +1,4 @@
-using Moq;
+﻿using Moq;
 using VoidCore.Domain;
 using VoidCore.Model.Logging;
 using VoidCore.Model.Responses.Files;

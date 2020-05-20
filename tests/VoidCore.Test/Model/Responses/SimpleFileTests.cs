@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Text;
 using VoidCore.Model.Responses.Files;
 using Xunit;

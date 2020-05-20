@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using VoidCore.Model.Configuration;
 using VoidCore.Domain.Guards;

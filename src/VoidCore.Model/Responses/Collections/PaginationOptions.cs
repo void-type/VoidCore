@@ -1,4 +1,4 @@
-namespace VoidCore.Model.Responses.Collections
+﻿namespace VoidCore.Model.Responses.Collections
 {
     /// <summary>
     /// Represents common options to control pagination.

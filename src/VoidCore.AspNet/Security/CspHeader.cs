@@ -1,4 +1,4 @@
-namespace VoidCore.AspNet.Security
+﻿namespace VoidCore.AspNet.Security
 {
     /// <summary>
     /// A header for adding Content Security Policy to a webpage.

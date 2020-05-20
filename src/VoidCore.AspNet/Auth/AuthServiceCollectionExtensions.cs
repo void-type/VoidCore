@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Server.HttpSys;
+﻿using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using VoidCore.Domain.Guards;

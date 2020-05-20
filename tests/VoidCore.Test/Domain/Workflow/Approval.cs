@@ -1,4 +1,4 @@
-namespace VoidCore.Test.Domain.Workflow
+﻿namespace VoidCore.Test.Domain.Workflow
 {
     public class Approval
     {

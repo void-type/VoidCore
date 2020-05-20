@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using VoidCore.Model.Responses.Messages;
 using Xunit;
 

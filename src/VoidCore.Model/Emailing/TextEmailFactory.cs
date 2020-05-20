@@ -1,4 +1,4 @@
-namespace VoidCore.Model.Emailing
+﻿namespace VoidCore.Model.Emailing
 {
     /// <summary>
     /// Build a text-only email.

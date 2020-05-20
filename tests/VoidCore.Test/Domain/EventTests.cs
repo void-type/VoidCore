@@ -1,4 +1,4 @@
-using Moq;
+﻿using Moq;
 using Moq.Protected;
 using System.Collections.Generic;
 using System.Linq;

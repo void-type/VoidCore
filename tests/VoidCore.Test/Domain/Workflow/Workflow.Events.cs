@@ -1,4 +1,4 @@
-using VoidCore.Domain;
+﻿using VoidCore.Domain;
 using System.Collections.Generic;
 
 namespace VoidCore.Test.Domain.Workflow
