@@ -26,7 +26,7 @@ namespace VoidCore.EntityFramework
         private readonly ILoggingStrategy _loggingStrategy;
 
         /// <inheritdoc/>
-        protected EfReadOnlyRepository(DbContext context, ILoggingStrategy loggingStrategy)
+        public EfReadOnlyRepository(DbContext context, ILoggingStrategy loggingStrategy)
         {
             Context = context;
             _repoTypeName = GetType().GetFriendlyTypeName();
