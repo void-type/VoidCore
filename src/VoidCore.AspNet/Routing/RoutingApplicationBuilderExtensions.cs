@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
 
 namespace VoidCore.AspNet.Routing
 {

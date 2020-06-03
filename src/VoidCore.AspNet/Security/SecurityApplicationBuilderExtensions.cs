@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using System;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace VoidCore.AspNet.Security
 {
