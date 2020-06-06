@@ -27,7 +27,7 @@ namespace VoidCore.Domain.Workflow
             if (!_transitions.Add(newTransition))
             {
                 throw new InvalidOperationException($"Cannot add a duplicate transition of {currentState} => {command}.");
-            };
+            }
 
             return this;
         }
