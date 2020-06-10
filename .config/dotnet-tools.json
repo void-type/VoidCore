@@ -25,6 +25,12 @@
       "commands": [
         "InheritDoc"
       ]
+    },
+    "nbgv": {
+      "version": "3.1.91",
+      "commands": [
+        "nbgv"
+      ]
     }
   }
 }
