@@ -1,16 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <PackageId>VoidCore.EntityFramework</PackageId>
-    <Title>VoidCore.EntityFramework</Title>
-    <Description>Entity Framework Core data access for applications based on VoidCore.Model.</Description>
-    <PackageTags>efcore;entity;framework;opinionated;configuration;asp.net;aspnet;aspnetcore;netcore;</PackageTags>
+    <PackageId>VoidCore.Finance</PackageId>
+    <Title>VoidCore.Finance</Title>
+    <Description>A financial library with primary focus on simple amortization and time-value of money.</Description>
+    <PackageTags>finance; financial; amortization; interest;</PackageTags>
     <Authors>Jeff Schreiner and contributors</Authors>
     <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <RepositoryUrl>https://github.com/void-type/VoidCore</RepositoryUrl>
     <ReleaseNotes>See commits since last release.</ReleaseNotes>
-    <TargetFrameworks>netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>Latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
@@ -21,13 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.1.91" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\VoidCore.Model\VoidCore.Model.csproj" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.1.91" PrivateAssets="all" />
   </ItemGroup>
 </Project>

@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Server.HttpSys;
-using Microsoft.AspNetCore.Mvc.Authorization;
+﻿using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using VoidCore.Domain.Guards;
 using VoidCore.Model.Auth;
-using Microsoft.Extensions.Hosting;
 
 namespace VoidCore.AspNet.Auth
 {

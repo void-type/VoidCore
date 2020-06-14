@@ -11,6 +11,8 @@ dotnet add package VoidCore.EntityFramework
 
 ## Features
 
+Add an Entity Framework data layer to your
+
 ### Async Database Abstractions
 
 Included are EntityFramework implementations of the specification and repository patterns from VoidCore.Model. These patterns defer the heavy lifting of sorting, search, pagination, and joining to the SQL Server. All calls are asynchronous.

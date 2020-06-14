@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Moq;
+using System;
 using VoidCore.Model.Auth;
 using VoidCore.Model.Logging;
 using VoidCore.Model.Time;

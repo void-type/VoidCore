@@ -11,7 +11,7 @@ dotnet add package VoidCore.AspNet
 
 ## Features
 
-VoidCore.AspNet includes helpers for configuring an ASP.NET Core web application:
+VoidCore.AspNet is an ASP.NET implementation of VoidCore.Model. It includes helpers for configuring an ASP.NET Core web application:
 
 * Active Directory group authorization via Windows authentication.
 * HTTPS with redirection and HSTS headers.

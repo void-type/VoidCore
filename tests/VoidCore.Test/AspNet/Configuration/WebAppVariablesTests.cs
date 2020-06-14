@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
 using Moq;
 using VoidCore.AspNet.Configuration;
 using Xunit;
-using Microsoft.Extensions.Hosting;
 
 namespace VoidCore.Test.AspNet.Configuration
 {

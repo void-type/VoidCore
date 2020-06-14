@@ -1,5 +1,5 @@
-﻿using VoidCore.Domain;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using VoidCore.Domain;
 
 namespace VoidCore.Test.Domain.Workflow
 {

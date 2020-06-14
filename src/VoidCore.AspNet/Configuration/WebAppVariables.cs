@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
-using VoidCore.Model.Configuration;
 using VoidCore.Domain.Guards;
+using VoidCore.Model.Configuration;
 
 namespace VoidCore.AspNet.Configuration
 {
