@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>VoidCore.Finance</PackageId>
+    <Title>VoidCore.Finance</Title>
+    <Description>A financial library with primary focus on simple amortization and time-value of money.</Description>
+    <PackageTags>finance; financial; amortization; interest;</PackageTags>
+    <Authors>Jeff Schreiner and contributors</Authors>
+    <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
+    <RepositoryUrl>https://github.com/void-type/VoidCore</RepositoryUrl>
+    <ReleaseNotes>See commits since last release.</ReleaseNotes>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>Latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)" CopyToPublishDirectory="Always" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.1.91" PrivateAssets="all" />
+  </ItemGroup>
+</Project>

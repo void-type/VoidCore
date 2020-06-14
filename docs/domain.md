@@ -11,7 +11,7 @@ dotnet add package VoidCore.Domain
 
 ## Features
 
-VoidCore.Domain is a basic framework for building domain-driven, event-based applications.
+VoidCore.Domain is a basic core library for building domain-driven, event-based applications.
 
 ### Functional Extensions
 

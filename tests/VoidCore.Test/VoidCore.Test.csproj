@@ -25,7 +25,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\VoidCore.AspNet\VoidCore.AspNet.csproj" />
     <ProjectReference Include="..\..\src\VoidCore.Domain\VoidCore.Domain.csproj" />
-    <ProjectReference Include="..\..\src\VoidCore.Model\VoidCore.Model.csproj" />
     <ProjectReference Include="..\..\src\VoidCore.EntityFramework\VoidCore.EntityFramework.csproj" />
+    <ProjectReference Include="..\..\src\VoidCore.Finance\VoidCore.Finance.csproj" />
+    <ProjectReference Include="..\..\src\VoidCore.Model\VoidCore.Model.csproj" />
   </ItemGroup>
 </Project>
