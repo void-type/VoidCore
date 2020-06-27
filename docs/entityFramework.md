@@ -1,7 +1,7 @@
 # VoidCore.EntityFramework
 
-[![NuGet package](https://img.shields.io/nuget/v/VoidCore.EntityFramework.svg?style=flat-square)](https://www.nuget.org/packages/VoidCore.EntityFramework/)
-[![MyGet package](https://img.shields.io/myget/voidcoredev/vpre/VoidCore.EntityFramework.svg?label=myget&style=flat-square)](https://www.myget.org/feed/voidcoredev/package/nuget/VoidCore.EntityFramework)
+[![NuGet package](https://img.shields.io/nuget/v/VoidCore.EntityFramework.svg)](https://www.nuget.org/packages/VoidCore.EntityFramework/)
+[![MyGet package](https://img.shields.io/myget/voidcoredev/vpre/VoidCore.EntityFramework.svg?label=myget)](https://www.myget.org/feed/voidcoredev/package/nuget/VoidCore.EntityFramework)
 
 ## Installation
 
