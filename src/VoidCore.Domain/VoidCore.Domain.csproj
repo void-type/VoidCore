@@ -9,6 +9,7 @@
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
     <RepositoryUrl>https://github.com/void-type/VoidCore</RepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <ReleaseNotes>See commits since last release.</ReleaseNotes>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>Latest</LangVersion>

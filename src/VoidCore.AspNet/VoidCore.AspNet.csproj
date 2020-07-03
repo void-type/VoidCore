@@ -8,6 +8,7 @@
     <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
+    <RepositoryUrl>https://github.com/void-type/VoidCore</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <ReleaseNotes>See commits since last release.</ReleaseNotes>
     <TargetFrameworks>netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
