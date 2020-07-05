@@ -78,10 +78,19 @@ namespace VoidCore.Model.Data
         /// Apply primary sorting to the query.
         /// </summary>
         /// <param name="sortPropertySelector">A selector for the property to sort by</param>
-        protected void ApplyOrderBy(Expression<Func<T, object>> sortPropertySelector)
+        /// <param name="isDescending">Toggle descending sort</param>
+        protected void ApplyOrderBy(Expression<Func<T, object>> sortPropertySelector, bool isDescending = false)
         {
             ValidateOrderBy(sortPropertySelector);
-            OrderBy = sortPropertySelector;
+
+            if (isDescending)
+            {
+                ApplyOrderByDescending(sortPropertySelector);
+            }
+            else
+            {
+                OrderBy = sortPropertySelector;
+            }
         }
 
         /// <summary>
@@ -108,10 +117,11 @@ namespace VoidCore.Model.Data
         /// Apply secondary sorting to the query.
         /// </summary>
         /// <param name="sortPropertySelector">A selector for the property to sort by</param>
-        protected void AddThenBy(Expression<Func<T, object>> sortPropertySelector)
+        /// <param name="isDescending">Toggle descending sort</param>
+        protected void AddThenBy(Expression<Func<T, object>> sortPropertySelector, bool isDescending = false)
         {
             ValidateThenBy(sortPropertySelector);
-            _secondaryOrderings.Add((sortPropertySelector, false));
+            _secondaryOrderings.Add((sortPropertySelector, isDescending));
         }
 
         /// <summary>
