@@ -26,17 +26,24 @@ namespace VoidCore.EntityFramework
 
             query = specification.Criteria.Aggregate(query, (current, criteria) => current.Where(criteria));
 
-            if (specification.OrderBy.HasValue)
+            if (specification.Orderings.Any())
             {
-                query = query
-                    .OrderBy(specification.OrderBy.Value)
-                    .ApplySecondaryOrderings(specification);
-            }
-            else if (specification.OrderByDescending.HasValue)
-            {
-                query = query
-                    .OrderByDescending(specification.OrderByDescending.Value)
-                    .ApplySecondaryOrderings(specification);
+                var (orderBy, orderByIsDescending) = specification.Orderings.First();
+
+                var orderedQuery = orderByIsDescending ?
+                    query.OrderByDescending(orderBy) :
+                    query.OrderBy(orderBy);
+
+                var secondaries = specification.Orderings.Skip(1);
+
+                foreach (var (thenBy, thenByIsDescending) in secondaries)
+                {
+                    orderedQuery = thenByIsDescending ?
+                        orderedQuery.ThenByDescending(thenBy) :
+                        orderedQuery.ThenBy(thenBy);
+                }
+
+                query = orderedQuery;
             }
 
             var paginationOptions = specification.PaginationOptions;
@@ -46,18 +53,6 @@ namespace VoidCore.EntityFramework
                 query = query
                     .Skip((paginationOptions.Page - 1) * paginationOptions.Take)
                     .Take(paginationOptions.Take);
-            }
-
-            return query;
-        }
-
-        private static IQueryable<T> ApplySecondaryOrderings<T>(this IOrderedQueryable<T> query, IQuerySpecification<T> specification) where T : class
-        {
-            foreach (var (thenBy, isDescending) in specification.SecondaryOrderings)
-            {
-                query = isDescending ?
-                    query.ThenByDescending(thenBy) :
-                    query.ThenBy(thenBy);
             }
 
             return query;
