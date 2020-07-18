@@ -11,7 +11,7 @@ namespace VoidCore.Test.EfIntegration.TestModels.Data
         {
         }
 
-        public RecipesSearchSpecification(Expression<Func<Recipe, bool>>[] criteria, PaginationOptions paginationOptions, string sort = null) : base(criteria)
+        public RecipesSearchSpecification(Expression<Func<Recipe, bool>>[] criteria, PaginationOptions paginationOptions, string sort = null, bool sortDesc = false) : base(criteria)
         {
             AddInclude($"{nameof(Recipe.CategoryRecipe)}.{nameof(CategoryRecipe.Category)}");
 
@@ -20,17 +20,12 @@ namespace VoidCore.Test.EfIntegration.TestModels.Data
             switch (sort)
             {
                 case "name":
-                    ApplyOrderBy(recipe => recipe.Name);
-                    AddThenBy(recipe => recipe.CreatedOn);
-                    break;
-
-                case "nameDesc":
-                    ApplyOrderByDescending(recipe => recipe.Name);
-                    AddThenByDescending(recipe => recipe.CreatedOn);
+                    AddOrderBy(recipe => recipe.Name, sortDesc);
+                    AddOrderBy(recipe => recipe.CreatedOn);
                     break;
 
                 default:
-                    ApplyOrderBy(recipe => recipe.Id);
+                    AddOrderBy(recipe => recipe.Id);
                     break;
             }
         }

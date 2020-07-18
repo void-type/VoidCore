@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using VoidCore.Domain;
 using VoidCore.Domain.Guards;
 using VoidCore.Model.Responses.Collections;
 
@@ -13,7 +12,7 @@ namespace VoidCore.Model.Data
         private readonly List<Expression<Func<T, bool>>> _criteria = new List<Expression<Func<T, bool>>>();
         private readonly List<Expression<Func<T, object>>> _includes = new List<Expression<Func<T, object>>>();
         private readonly List<string> _includeStrings = new List<string>();
-        private readonly List<(Expression<Func<T, object>> ThenBy, bool IsDescending)> _secondaryOrderings = new List<(Expression<Func<T, object>>, bool)>();
+        private readonly List<(Expression<Func<T, object>> OrderBy, bool IsDescending)> _orderings = new List<(Expression<Func<T, object>>, bool)>();
 
         /// <summary>
         /// Create a new query
@@ -34,13 +33,7 @@ namespace VoidCore.Model.Data
         public IEnumerable<string> IncludeStrings => _includeStrings;
 
         /// <inheritdoc/>
-        public Maybe<Expression<Func<T, object>>> OrderBy { get; private set; } = Maybe<Expression<Func<T, object>>>.None;
-
-        /// <inheritdoc/>
-        public Maybe<Expression<Func<T, object>>> OrderByDescending { get; private set; } = Maybe<Expression<Func<T, object>>>.None;
-
-        /// <inheritdoc/>
-        public IReadOnlyList<(Expression<Func<T, object>> ThenBy, bool IsDescending)> SecondaryOrderings => _secondaryOrderings;
+        public IReadOnlyList<(Expression<Func<T, object>> OrderBy, bool IsDescending)> Orderings => _orderings;
 
         /// <inheritdoc/>
         public PaginationOptions PaginationOptions { get; private set; } = PaginationOptions.None;
@@ -75,32 +68,14 @@ namespace VoidCore.Model.Data
         }
 
         /// <summary>
-        /// Apply primary sorting to the query.
+        /// Add a level of sorting to the query.
         /// </summary>
         /// <param name="sortPropertySelector">A selector for the property to sort by</param>
         /// <param name="isDescending">Toggle descending sort</param>
-        protected void ApplyOrderBy(Expression<Func<T, object>> sortPropertySelector, bool isDescending = false)
+        protected void AddOrderBy(Expression<Func<T, object>> sortPropertySelector, bool isDescending = false)
         {
             ValidateOrderBy(sortPropertySelector);
-
-            if (isDescending)
-            {
-                ApplyOrderByDescending(sortPropertySelector);
-            }
-            else
-            {
-                OrderBy = sortPropertySelector;
-            }
-        }
-
-        /// <summary>
-        /// Apply a descending primary sort to the query.
-        /// </summary>
-        /// <param name="sortPropertySelector">A selector for the property to sort by</param>
-        protected void ApplyOrderByDescending(Expression<Func<T, object>> sortPropertySelector)
-        {
-            ValidateOrderBy(sortPropertySelector);
-            OrderByDescending = sortPropertySelector;
+            _orderings.Add((sortPropertySelector, isDescending));
         }
 
         /// <summary>
@@ -113,45 +88,9 @@ namespace VoidCore.Model.Data
             PaginationOptions = paginationOptions;
         }
 
-        /// <summary>
-        /// Apply secondary sorting to the query.
-        /// </summary>
-        /// <param name="sortPropertySelector">A selector for the property to sort by</param>
-        /// <param name="isDescending">Toggle descending sort</param>
-        protected void AddThenBy(Expression<Func<T, object>> sortPropertySelector, bool isDescending = false)
-        {
-            ValidateThenBy(sortPropertySelector);
-            _secondaryOrderings.Add((sortPropertySelector, isDescending));
-        }
-
-        /// <summary>
-        /// Apply a secondary descending sort to the query.
-        /// </summary>
-        /// <param name="sortPropertySelector">A selector for the property to sort by</param>
-        protected void AddThenByDescending(Expression<Func<T, object>> sortPropertySelector)
-        {
-            ValidateThenBy(sortPropertySelector);
-            _secondaryOrderings.Add((sortPropertySelector, true));
-        }
-
         private void ValidateOrderBy(Expression<Func<T, object>> sortPropertySelector)
         {
             sortPropertySelector.EnsureNotNull(nameof(sortPropertySelector));
-
-            if (OrderBy.HasValue || OrderByDescending.HasValue)
-            {
-                throw new InvalidOperationException("Cannot apply multiple primary orderings to a specification.");
-            }
-        }
-
-        private void ValidateThenBy(Expression<Func<T, object>> sortPropertySelector)
-        {
-            sortPropertySelector.EnsureNotNull(nameof(sortPropertySelector));
-
-            if (!OrderBy.HasValue && !OrderByDescending.HasValue)
-            {
-                throw new InvalidOperationException("Cannot apply secondary orderings to a specification without a primary ordering.");
-            }
         }
     }
 }

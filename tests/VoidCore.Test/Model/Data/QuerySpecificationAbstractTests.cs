@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using VoidCore.Domain;
 using VoidCore.Model.Data;
 using VoidCore.Model.Responses.Collections;
 using Xunit;
@@ -29,10 +29,17 @@ namespace VoidCore.Test.Model.Data
             Assert.Equal(_criteria2, spec.Criteria[1]);
             Assert.Equal(_include, spec.Includes.Single());
             Assert.Equal(_includeString, spec.IncludeStrings.Single());
-            Assert.Equal(_orderBy, spec.OrderBy.Value);
-            Assert.Equal(Maybe<Expression<Func<MyObject, object>>>.None, spec.OrderByDescending);
-            Assert.Equal(_thenBy, spec.SecondaryOrderings[0].ThenBy);
-            Assert.Equal(_thenByDesc, spec.SecondaryOrderings[1].ThenBy);
+
+            var actualOrderings = new HashSet<(Expression<Func<MyObject, object>> OrderBy, bool IsDescending)>(spec.Orderings);
+            var expectedOrderings = new HashSet<(Expression<Func<MyObject, object>> OrderBy, bool IsDescending)>() {
+                (_orderBy, false),
+                (_orderByDesc, true),
+                (_thenBy, false),
+                (_thenByDesc, true)
+            };
+
+            Assert.Equal(expectedOrderings, actualOrderings);
+
             Assert.Equal(_paginationOptions, spec.PaginationOptions);
         }
 
@@ -43,63 +50,11 @@ namespace VoidCore.Test.Model.Data
                 AddCriteria(_criteria2);
                 AddInclude(_include);
                 AddInclude(_includeString);
-                ApplyOrderBy(_orderBy);
-                AddThenBy(_thenBy);
-                AddThenByDescending(_thenByDesc);
+                AddOrderBy(_orderBy);
+                AddOrderBy(_orderByDesc, true);
+                AddOrderBy(_thenBy);
+                AddOrderBy(_thenByDesc, true);
                 ApplyPaging(_paginationOptions);
-            }
-        }
-
-        [Fact]
-        public void QuerySpecificationAbstract_throws_exception_when_orderBy_and_orderByDescending_are_both_applied()
-        {
-            Assert.Throws<InvalidOperationException>(() => new TestQuerySpecificationInvalidOrderings1(_criteria1));
-        }
-
-        private class TestQuerySpecificationInvalidOrderings1 : QuerySpecificationAbstract<MyObject>
-        {
-            public TestQuerySpecificationInvalidOrderings1(params Expression<Func<MyObject, bool>>[] criteria) : base(criteria)
-            {
-                ApplyOrderBy(_orderBy);
-                ApplyOrderByDescending(_orderByDesc);
-            }
-        }
-
-        [Fact]
-        public void QuerySpecificationAbstract_throws_exception_when_orderBy_called_twice()
-        {
-            Assert.Throws<InvalidOperationException>(() => new TestQuerySpecificationInvalidOrderings2(_criteria1));
-        }
-
-        private class TestQuerySpecificationInvalidOrderings2 : QuerySpecificationAbstract<MyObject>
-        {
-            public TestQuerySpecificationInvalidOrderings2(params Expression<Func<MyObject, bool>>[] criteria) : base(criteria)
-            {
-                ApplyOrderBy(_orderBy);
-                ApplyOrderBy(_orderBy);
-            }
-        }
-
-        [Fact]
-        public void QuerySpecificationAbstract_throws_exception_when_thenBy_called_without_orderBy()
-        {
-            Assert.Throws<InvalidOperationException>(() => new TestQuerySpecificationInvalidOrderings3(_criteria1));
-            Assert.Throws<InvalidOperationException>(() => new TestQuerySpecificationInvalidOrderings4(_criteria1));
-        }
-
-        private class TestQuerySpecificationInvalidOrderings3 : QuerySpecificationAbstract<MyObject>
-        {
-            public TestQuerySpecificationInvalidOrderings3(params Expression<Func<MyObject, bool>>[] criteria) : base(criteria)
-            {
-                AddThenBy(_thenBy);
-            }
-        }
-
-        private class TestQuerySpecificationInvalidOrderings4 : QuerySpecificationAbstract<MyObject>
-        {
-            public TestQuerySpecificationInvalidOrderings4(params Expression<Func<MyObject, bool>>[] criteria) : base(criteria)
-            {
-                AddThenByDescending(_thenByDesc);
             }
         }
 

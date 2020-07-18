@@ -36,7 +36,8 @@ namespace VoidCore.Test.EfIntegration.TestModels.Events
                 var pagedSearch = new RecipesSearchSpecification(
                     criteria: searchCriteria,
                     paginationOptions: paginationOptions,
-                    sort: request.Sort);
+                    sort: request.Sort,
+                    sortDesc: request.SortDesc);
 
                 var recipes = await _data.Recipes.List(pagedSearch, cancellationToken);
 
@@ -69,11 +70,12 @@ namespace VoidCore.Test.EfIntegration.TestModels.Events
 
         public class Request
         {
-            public Request(string nameSearch, string categorySearch, string sort, bool isPagingEnabled, int page, int take)
+            public Request(string nameSearch, string categorySearch, string sort, bool sortDesc, bool isPagingEnabled, int page, int take)
             {
                 NameSearch = nameSearch;
                 CategorySearch = categorySearch;
                 Sort = sort;
+                SortDesc = sortDesc;
                 IsPagingEnabled = isPagingEnabled;
                 Page = page;
                 Take = take;
@@ -82,6 +84,7 @@ namespace VoidCore.Test.EfIntegration.TestModels.Events
             public string NameSearch { get; }
             public string CategorySearch { get; }
             public string Sort { get; }
+            public bool SortDesc { get; }
             public bool IsPagingEnabled { get; }
             public int Page { get; }
             public int Take { get; }

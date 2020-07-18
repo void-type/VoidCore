@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using VoidCore.Domain;
 using VoidCore.Model.Responses.Collections;
 
 namespace VoidCore.Model.Data
@@ -28,19 +27,9 @@ namespace VoidCore.Model.Data
         IEnumerable<string> IncludeStrings { get; }
 
         /// <summary>
-        /// Ascending primary sort on the query
+        /// Sort orderings and their directions
         /// </summary>
-        Maybe<Expression<Func<T, object>>> OrderBy { get; }
-
-        /// <summary>
-        /// Descending primary sort on the query
-        /// </summary>
-        Maybe<Expression<Func<T, object>>> OrderByDescending { get; }
-
-        /// <summary>
-        /// Secondary sorts on the query. If there is no primary sort, this is ignored.
-        /// </summary>
-        IReadOnlyList<(Expression<Func<T, object>> ThenBy, bool IsDescending)> SecondaryOrderings { get; }
+        IReadOnlyList<(Expression<Func<T, object>> OrderBy, bool IsDescending)> Orderings { get; }
 
         /// <summary>
         /// Options to paginate the query from the repository
