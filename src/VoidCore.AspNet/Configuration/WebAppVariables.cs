@@ -29,8 +29,10 @@ namespace VoidCore.AspNet.Configuration
         public string AppName => _appSettings.Name;
 
         /// <inheritdoc/>
+
         public string BaseUrl
         {
+            #warning BaseUrl will no longer auto-resolve from HttpContext in future versions. You must configure BaseUrl in ApplicationSettings. This is to prevent misuse and Host Header injection.
             get
             {
                 if (string.IsNullOrWhiteSpace(_appSettings.BaseUrl))
