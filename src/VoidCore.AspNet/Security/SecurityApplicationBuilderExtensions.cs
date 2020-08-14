@@ -28,8 +28,9 @@ namespace VoidCore.AspNet.Security
 
         /// <summary>
         /// Set a Content Security Policy header on the HTTP response. See
-        /// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy Denies unsafe content from
-        /// being rendered on the page.
+        /// See for directives and their uses: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
+        /// Recommend using https://csp-evaluator.withgoogle.com/ to evaluate your CSP.
+        /// Denies unsafe content from being rendered on the page.
         /// </summary>
         /// <param name="app">This IApplicationBuilder</param>
         /// <param name="builder">A callback to configure header options.</param>
@@ -45,7 +46,7 @@ namespace VoidCore.AspNet.Security
 
         /// <summary>
         /// Set an X-Frame-Options header on the HTTP response. Allows or denies this page from being shown in an
-        /// x-frame, i-frame, embed, or object tag.
+        /// x-frame, i-frame, embed, or object tag. Eventually Content Security Policy's frame-ancestors will obsolete this.
         /// </summary>
         /// <param name="app">This IApplicationBuilder</param>
         /// <param name="builder">A callback to configure header options.</param>
@@ -57,6 +58,21 @@ namespace VoidCore.AspNet.Security
             var options = newBuilder.Build();
 
             return app.UseMiddleware<XFrameOptionsMiddleware>(options);
+        }
+
+        /// <summary>
+        /// Set an X-Content-Type-Options header to nosniff on the HTTP response. Prevents browsers from sniffing MIME types and trying execute
+        /// content that should not be executable. This can prevent XSS in some browsers from malacious user-uploaded files such as images.
+        /// </summary>
+        /// <param name="app">This IApplicationBuilder</param>
+        /// <returns>The ApplicationBuilder for chaining.</returns>
+        public static IApplicationBuilder UseXContentTypeOptionsNoSniff(this IApplicationBuilder app)
+        {
+            return app.Use((context, next) =>
+            {
+                context.Response.Headers.Add("X-Content-Type-Options", new[] { "nosniff" });
+                return next.Invoke();
+            });
         }
     }
 }

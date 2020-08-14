@@ -5,7 +5,6 @@ namespace VoidCore.AspNet.Security
 {
     /// <summary>
     /// Middleware for adding CSP security headers to HTTP responses.
-    /// See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
     /// Adapted from https://www.c-sharpcorner.com/article/using-csp-header-in-asp-net-core-2-0/
     /// </summary>
     public sealed class CspMiddleware
