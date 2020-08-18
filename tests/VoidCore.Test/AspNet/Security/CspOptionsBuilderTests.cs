@@ -11,10 +11,10 @@ namespace VoidCore.Test.AspNet.Security
         {
             var builder = new CspOptionsBuilder();
 
-            builder.Defaults
+            builder.DefaultSources
                 .AllowSelf();
 
-            builder.Objects
+            builder.ObjectSources
                 .AllowNone();
 
             builder.FrameAncestors
@@ -28,19 +28,19 @@ namespace VoidCore.Test.AspNet.Security
                 .AllowHash("sha256", "hash1")
                 .AllowHash("sha256", "hash2");
 
-            builder.Fonts
+            builder.FontSources
                 .AllowAny();
 
-            builder.Images
+            builder.ImageSources
                 .AllowNonce("nonce");
 
-            builder.Media
+            builder.MediaSources
                 .AllowNone();
 
-            builder.Scripts
+            builder.ScriptSources
                 .AllowUnsafeEval();
 
-            builder.Styles
+            builder.StyleSources
                 .AllowUnsafeInline()
                 .Allow("data:");
 
@@ -92,7 +92,7 @@ namespace VoidCore.Test.AspNet.Security
 
             builder.ReportOnly("https://some.uri");
 
-            builder.Scripts
+            builder.ScriptSources
                 .AllowUnsafeEval();
 
             var header = new CspHeader(builder.Build());

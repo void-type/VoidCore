@@ -24,13 +24,13 @@ namespace VoidCore.AspNet.Security
         /// Set the default fallback policy for sources that don't match any other set policy.
         /// </summary>
         /// <returns>The builder for chaining.</returns>
-        public CspSourceDirectiveBuilder Defaults => Custom("default-src").ForSources();
+        public CspSourceDirectiveBuilder DefaultSources => Custom("default-src").ForSources();
 
         /// <summary>
         /// Set the policy for font sources.
         /// </summary>
         /// <returns>The builder for chaining.</returns>
-        public CspSourceDirectiveBuilder Fonts => Custom("font-src").ForSources();
+        public CspSourceDirectiveBuilder FontSources => Custom("font-src").ForSources();
 
         /// <summary>
         /// Set the policy for frame-ancestors.
@@ -44,32 +44,32 @@ namespace VoidCore.AspNet.Security
         /// Set the policy for img sources.
         /// </summary>
         /// <returns>The builder for chaining.</returns>
-        public CspSourceDirectiveBuilder Images => Custom("img-src").ForSources();
+        public CspSourceDirectiveBuilder ImageSources => Custom("img-src").ForSources();
 
         /// <summary>
         /// Set the policy for media sources like video and audio.
         /// </summary>
         /// <returns>The builder for chaining.</returns>
-        public CspSourceDirectiveBuilder Media => Custom("media-src").ForSources();
+        public CspSourceDirectiveBuilder MediaSources => Custom("media-src").ForSources();
 
         /// <summary>
         /// Set the policy for object sources. These include object, embed, and applet tags.
         /// It is strongly recommended to set this to 'none'.
         /// </summary>
         /// <returns>The builder for chaining.</returns>
-        public CspSourceDirectiveBuilder Objects => Custom("object-src").ForSources();
+        public CspSourceDirectiveBuilder ObjectSources => Custom("object-src").ForSources();
 
         /// <summary>
         /// Set the policy for script sources.
         /// </summary>
         /// <returns>The builder for chaining.</returns>
-        public CspSourceDirectiveBuilder Scripts => Custom("script-src").ForSources();
+        public CspSourceDirectiveBuilder ScriptSources => Custom("script-src").ForSources();
 
         /// <summary>
         /// Set the policy for stylesheet sources.
         /// </summary>
         /// <returns>The builder for chaining.</returns>
-        public CspSourceDirectiveBuilder Styles => Custom("style-src").ForSources();
+        public CspSourceDirectiveBuilder StyleSources => Custom("style-src").ForSources();
 
         private CspDirectiveBuilder ReportUri => Custom("report-uri");
 
