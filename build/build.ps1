@@ -36,6 +36,12 @@ if (-not $SkipOutdated) {
   dotnet outdated
 }
 
+# Run Analyzers through building debug
+if ($Configuration -ne "Debug") {
+  dotnet build --configuration "Debug" --no-restore #-warnaserror
+  Stop-OnError
+}
+
 dotnet build --configuration "$Configuration" --no-restore
 Stop-OnError
 Pop-Location
@@ -47,14 +53,15 @@ if (-not $SkipTest) {
   dotnet test `
     --configuration "$Configuration" `
     --no-build `
-    --logger 'trx' `
     --results-directory '../../testResults' `
-    /p:Exclude="[xunit.*]*%2c[$projectName.Test]*%2c[*]ThisAssembly" `
-    /p:CollectCoverage=true `
-    /p:CoverletOutputFormat=cobertura `
-    /p:CoverletOutput="../../coverage/coverage.cobertura.xml"
+    --logger 'trx' `
+    --collect:"XPlat Code Coverage"
 
   Stop-OnError
+
+  New-Item -ItemType Directory -Path "../../" -Name "coverage"
+  Move-Item -Path "../../testResults/*/coverage.cobertura.xml" -Destination "../../coverage/coverage.cobertura.xml"
+
   Pop-Location
 
   if (-not $SkipTestReport) {

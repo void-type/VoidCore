@@ -71,7 +71,7 @@ namespace VoidCore.AspNet.Security
             return app.Use((context, next) =>
             {
                 context.Response.Headers.Add("X-Content-Type-Options", new[] { "nosniff" });
-                return next.Invoke();
+                return next();
             });
         }
     }

@@ -79,6 +79,8 @@ namespace VoidCore.Domain.Guards
         [DebuggerStepThrough]
         public static T Ensure<T>(this T argumentValue, Func<T, bool> conditionExpression, string argumentName, string message = null)
         {
+            conditionExpression.EnsureNotNull(nameof(conditionExpression));
+
             return conditionExpression(argumentValue) ?
                 argumentValue :
                 throw new ArgumentException(message ?? ArgumentInvalidMessage, argumentName);
@@ -98,6 +100,8 @@ namespace VoidCore.Domain.Guards
         [DebuggerStepThrough]
         public static T Ensure<T>(this T argumentValue, Func<T, bool> conditionExpression, string argumentName, Func<T, string> messageBuilder)
         {
+            messageBuilder.EnsureNotNull(nameof(messageBuilder));
+
             return argumentValue.Ensure(conditionExpression, argumentName, messageBuilder(argumentValue));
         }
     }

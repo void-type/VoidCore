@@ -4,27 +4,9 @@
     <Title>VoidCore.Model</Title>
     <Description>Service interfaces for building opinionated business applications.</Description>
     <PackageTags>model;opinionated;services;interfaces;business logic;api;netstandard;</PackageTags>
-    <Authors>Jeff Schreiner and contributors</Authors>
-    <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
-    <RepositoryUrl>https://github.com/void-type/VoidCore</RepositoryUrl>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <ReleaseNotes>See commits since last release.</ReleaseNotes>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>Latest</LangVersion>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <!-- <Nullable>enable</Nullable> -->
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)" CopyToPublishDirectory="Always" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
-    <PackageReference Include="Nerdbank.GitVersioning" Version="3.2.31" PrivateAssets="all" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\VoidCore.Domain\VoidCore.Domain.csproj" />
