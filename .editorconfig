@@ -258,6 +258,9 @@ dotnet_naming_rule.everything_else_naming.symbols = everything_else
 dotnet_naming_rule.everything_else_naming.style = camel_case_style
 dotnet_naming_rule.everything_else_naming.severity = suggestion
 
+# Default severity for all code rules
+dotnet_analyzer_diagnostic.severity = warning
+
 # Javascript and Vue
 [*.{js,jsx,ts,tsx,vue}]
 indent_size = 2

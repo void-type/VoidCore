@@ -6,12 +6,15 @@ using VoidCore.Model.Auth;
 using VoidCore.Model.Configuration;
 using VoidCore.Model.Logging;
 
+// Allow single file events
+#pragma warning disable CA1034
+
 namespace VoidCore.AspNet.ClientApp
 {
     /// <summary>
     /// A domain event group for getting information to bootstrap a web SPA client.
     /// </summary>
-    public class GetWebClientInfo
+    public static class GetWebClientInfo
     {
         /// <inheritdoc/>
         public class Handler : EventHandlerSyncAbstract<Request, WebClientInfo>
@@ -113,3 +116,5 @@ namespace VoidCore.AspNet.ClientApp
         }
     }
 }
+
+#pragma warning restore CA1034

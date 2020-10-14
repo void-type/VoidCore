@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using VoidCore.Domain.Guards;
 
 namespace VoidCore.Domain
 {
@@ -17,6 +18,8 @@ namespace VoidCore.Domain
         /// <typeparam name="TOut">The output type</typeparam>
         public static TOut Map<TIn, TOut>(this TIn input, Func<TIn, TOut> selector)
         {
+            selector.EnsureNotNull(nameof(selector));
+
             return selector(input);
         }
 
@@ -29,6 +32,8 @@ namespace VoidCore.Domain
         /// <typeparam name="TOut">The output type</typeparam>
         public static async Task<TOut> MapAsync<TIn, TOut>(this TIn input, Func<TIn, Task<TOut>> selectorTask)
         {
+            selectorTask.EnsureNotNull(nameof(selectorTask));
+
             return await selectorTask(input).ConfigureAwait(false);
         }
 
@@ -41,7 +46,9 @@ namespace VoidCore.Domain
         /// <typeparam name="TOut">The output type</typeparam>
         public static async Task<TOut> MapAsync<TIn, TOut>(this Task<TIn> inputTask, Func<TIn, TOut> selector)
         {
-            return selector(await inputTask.ConfigureAwait(false));
+            selector.EnsureNotNull(nameof(selector));
+
+            return selector(await inputTask.EnsureNotNull(nameof(inputTask)).ConfigureAwait(false));
         }
 
         /// <summary>
@@ -53,7 +60,9 @@ namespace VoidCore.Domain
         /// <typeparam name="TOut">The output type</typeparam>
         public static async Task<TOut> MapAsync<TIn, TOut>(this Task<TIn> inputTask, Func<TIn, Task<TOut>> selectorTask)
         {
-            return await selectorTask(await inputTask.ConfigureAwait(false)).ConfigureAwait(false);
+            selectorTask.EnsureNotNull(nameof(selectorTask));
+
+            return await selectorTask(await inputTask.EnsureNotNull(nameof(inputTask)).ConfigureAwait(false)).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -65,6 +74,8 @@ namespace VoidCore.Domain
         /// <typeparam name="T">The type of input.</typeparam>
         public static T Tee<T>(this T input, Action<T> action)
         {
+            action.EnsureNotNull(nameof(action));
+
             action(input);
 
             return input;
@@ -79,6 +90,8 @@ namespace VoidCore.Domain
         /// <typeparam name="T">The type of input.</typeparam>
         public static async Task<T> TeeAsync<T>(this T input, Func<T, Task> actionTask)
         {
+            actionTask.EnsureNotNull(nameof(actionTask));
+
             await actionTask(input).ConfigureAwait(false);
 
             return input;
@@ -93,7 +106,9 @@ namespace VoidCore.Domain
         /// <typeparam name="T">The type of input.</typeparam>
         public static async Task<T> TeeAsync<T>(this Task<T> inputTask, Action<T> action)
         {
-            var input = await inputTask.ConfigureAwait(false);
+            action.EnsureNotNull(nameof(action));
+
+            var input = await inputTask.EnsureNotNull(nameof(inputTask)).ConfigureAwait(false);
             action(input);
 
             return input;
