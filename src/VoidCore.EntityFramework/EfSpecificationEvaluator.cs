@@ -26,9 +26,9 @@ namespace VoidCore.EntityFramework
 
             query = specification.Criteria.Aggregate(query, (current, criteria) => current.Where(criteria));
 
-            if (specification.Orderings.Any())
+            if (specification.Orderings.Count > 0)
             {
-                var (orderBy, orderByIsDescending) = specification.Orderings.First();
+                var (orderBy, orderByIsDescending) = specification.Orderings[0];
 
                 var orderedQuery = orderByIsDescending ?
                     query.OrderByDescending(orderBy) :

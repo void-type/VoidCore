@@ -148,7 +148,7 @@ namespace VoidCore.Test.Domain
         public void Maybe_is_not_equal_to_null()
         {
             var maybe = Maybe.From("some value");
-            Assert.False(maybe == null);
+            Assert.False(maybe is null);
             Assert.False(null == maybe);
             Assert.True(maybe != null);
             Assert.True(null != maybe);
@@ -186,7 +186,7 @@ namespace VoidCore.Test.Domain
         public void None_is_not_equal_to_null()
         {
             var maybe = Maybe<string>.None;
-            Assert.False(maybe == null);
+            Assert.False(maybe is null);
             Assert.False(null == maybe);
             Assert.True(maybe != null);
             Assert.True(null != maybe);
@@ -198,7 +198,7 @@ namespace VoidCore.Test.Domain
         {
             Maybe<string> nullMaybe = null;
 
-            Assert.True(nullMaybe == null);
+            Assert.True(nullMaybe is null);
             Assert.True(null == nullMaybe);
             Assert.True(nullMaybe is null);
 

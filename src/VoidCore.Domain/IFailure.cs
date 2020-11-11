@@ -15,6 +15,6 @@
         /// The name of the UI field corresponding to the invalid user input.
         /// </summary>
         /// <value>The name of the field</value>
-        string UiHandle { get; }
+        string? UiHandle { get; }
     }
 }

@@ -11,7 +11,7 @@ namespace VoidCore.Domain.Workflow
             where TState : Enum
             where TCommand : Enum
     {
-        private readonly IReadOnlyCollection<WorkflowTransition<TState, TCommand>> _transitions = new HashSet<WorkflowTransition<TState, TCommand>>();
+        private readonly IReadOnlyCollection<WorkflowTransition<TState, TCommand>> _transitions;
 
         /// <summary>
         /// Constructor with an options builder action.

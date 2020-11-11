@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using VoidCore.Domain.Guards;
 
 namespace VoidCore.Model.Text
 {
-    // TODO: these are experimental
     /// <summary>
     /// Helpers useful for logging or emailing.
     /// </summary>
@@ -26,7 +26,6 @@ namespace VoidCore.Model.Text
             return dateTime.ToString(dateFormat, CultureInfo.InvariantCulture);
         }
 
-
         /// <summary>
         /// Print an enumerable to a string.
         /// </summary>
@@ -44,7 +43,11 @@ namespace VoidCore.Model.Text
         /// <param name="dateFormat">The date format. ISO 8601 by default</param>
         public static IEnumerable<string> PrintObject(object obj, string dateFormat = DateFormat)
         {
-            foreach (var property in obj.GetType().GetTypeInfo().GetProperties())
+            var properties = obj
+                .EnsureNotNull(nameof(obj))
+                .GetType().GetTypeInfo().GetProperties();
+
+            foreach (var property in properties)
             {
                 var value = property.GetValue(obj);
 

@@ -30,11 +30,11 @@ namespace VoidCore.Domain
         /// <param name="selectorTask">The asynchronous map function to transform input to output</param>
         /// <typeparam name="TIn">The input type</typeparam>
         /// <typeparam name="TOut">The output type</typeparam>
-        public static async Task<TOut> MapAsync<TIn, TOut>(this TIn input, Func<TIn, Task<TOut>> selectorTask)
+        public static Task<TOut> MapAsync<TIn, TOut>(this TIn input, Func<TIn, Task<TOut>> selectorTask)
         {
             selectorTask.EnsureNotNull(nameof(selectorTask));
 
-            return await selectorTask(input).ConfigureAwait(false);
+            return selectorTask(input);
         }
 
         /// <summary>
@@ -77,6 +77,19 @@ namespace VoidCore.Domain
             action.EnsureNotNull(nameof(action));
 
             action(input);
+
+            return input;
+        }
+
+        /// <summary>
+        /// Perform a side-effect action, then pass the input through to the next step in the pipeline.
+        /// </summary>
+        /// <param name="input">The input to the tee.</param>
+        /// <param name="action">The action to perform.</param>
+        /// <typeparam name="T">The type of input.</typeparam>
+        public static T Tee<T>(this T input, Action action)
+        {
+            action();
 
             return input;
         }
@@ -125,19 +138,6 @@ namespace VoidCore.Domain
         {
             var input = await inputTask.ConfigureAwait(false);
             await actionTask(input).ConfigureAwait(false);
-
-            return input;
-        }
-
-        /// <summary>
-        /// Perform a side-effect action, then pass the input through to the next step in the pipeline.
-        /// </summary>
-        /// <param name="input">The input to the tee.</param>
-        /// <param name="action">The action to perform.</param>
-        /// <typeparam name="T">The type of input.</typeparam>
-        public static T Tee<T>(this T input, Action action)
-        {
-            action();
 
             return input;
         }

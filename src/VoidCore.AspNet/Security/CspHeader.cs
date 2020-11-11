@@ -12,7 +12,7 @@
         public CspHeader(CspOptions options)
         {
             Key = $"Content-Security-Policy{(options.IsReportOnly ? "-Report-Only" : string.Empty)}";
-            Value = string.Join(string.Empty, options.Directives);
+            Value = string.Concat(options.Directives);
         }
 
         /// <summary>

@@ -33,7 +33,7 @@ namespace VoidCore.Domain
                 .SelectMany(result => result.Failures)
                 .ToArray();
 
-            return failures.Any() ? Fail(failures) : Ok();
+            return failures.Length > 0 ? Fail(failures) : Ok();
         }
 
         /// <summary>
@@ -42,9 +42,9 @@ namespace VoidCore.Domain
         /// </summary>
         /// <param name="tasks">Task of IResult to combine</param>
         /// <returns>A new result</returns>
-        public static async Task<IResult> CombineAsync(params Task<IResult>[] tasks)
+        public static Task<IResult> CombineAsync(params Task<IResult>[] tasks)
         {
-            return await CombineAsync(tasks.AsEnumerable()).ConfigureAwait(false);
+            return CombineAsync(tasks.AsEnumerable());
         }
 
         /// <summary>

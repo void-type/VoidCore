@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace VoidCore.Domain.Guards
@@ -24,8 +25,10 @@ namespace VoidCore.Domain.Guards
         /// <param name="message">An option to override the default exception message.</param>
         /// <typeparam name="T">The type of argument.</typeparam>
         /// <returns>The argument for chaining guards or assignment.</returns>
+        /// <exception cref="ArgumentNullException">Throws when argumentValue null.</exception>
         [DebuggerStepThrough]
-        public static T EnsureNotNull<T>(this T argumentValue, string argumentName, string message = null)
+        [return: NotNull]
+        public static T EnsureNotNull<T>(this T? argumentValue, string argumentName, string? message = null)
         {
             return argumentValue ?? throw new ArgumentNullException(argumentName, message ?? ArgumentNullMessage);
         }
@@ -40,7 +43,8 @@ namespace VoidCore.Domain.Guards
         /// <param name="message">An option to override the default exception message.</param>
         /// <returns>The argument for chaining guards or assignment.</returns>
         [DebuggerStepThrough]
-        public static string EnsureNotNullOrEmpty(this string argumentValue, string argumentName, string message = null)
+        [return: NotNull]
+        public static string EnsureNotNullOrEmpty(this string? argumentValue, string argumentName, string? message = null)
         {
             return argumentValue
                 .EnsureNotNull(argumentName, message ?? ArgumentNullMessage)
@@ -58,7 +62,8 @@ namespace VoidCore.Domain.Guards
         /// <typeparam name="T">The type of argument.</typeparam>
         /// <returns>The argument for chaining guards or assignment.</returns>
         [DebuggerStepThrough]
-        public static IEnumerable<T> EnsureNotNullOrEmpty<T>(this IEnumerable<T> argumentValue, string argumentName, string message = null)
+        [return: NotNull]
+        public static IEnumerable<T> EnsureNotNullOrEmpty<T>(this IEnumerable<T>? argumentValue, string argumentName, string? message = null)
         {
             return argumentValue
                 .EnsureNotNull(argumentName, message ?? ArgumentNullMessage)
@@ -76,8 +81,9 @@ namespace VoidCore.Domain.Guards
         /// <param name="message">An option to override the default exception message.</param>
         /// <typeparam name="T">The type of argument.</typeparam>
         /// <returns>The argument for chaining guards or assignment.</returns>
+        /// <exception cref="ArgumentException">Throws when condition expression evaluates false against argumentValue.</exception>
         [DebuggerStepThrough]
-        public static T Ensure<T>(this T argumentValue, Func<T, bool> conditionExpression, string argumentName, string message = null)
+        public static T Ensure<T>(this T argumentValue, Func<T, bool> conditionExpression, string argumentName, string? message = null)
         {
             conditionExpression.EnsureNotNull(nameof(conditionExpression));
 

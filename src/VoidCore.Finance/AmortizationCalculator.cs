@@ -25,9 +25,13 @@ namespace VoidCore.Finance
         /// </summary>
         /// <param name="request">The request to calculate</param>
         /// <returns>A completed AmortizationResponse</returns>
+        /// <exception cref="ArgumentNullException">Throws when request is null.</exception>
         public AmortizationResponse Calculate(AmortizationRequest request)
         {
-            request = request ?? throw new ArgumentNullException(nameof(request), "Calculator request cannot be null.");
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request), "Calculator request cannot be null.");
+            }
 
             var ratePerPeriod = request.RatePerPeriod;
             var numberOfPeriods = request.NumberOfPeriods;
@@ -42,7 +46,7 @@ namespace VoidCore.Finance
                 var interestPayment = _financial.InterestPayment(ratePerPeriod, periodNumber, numberOfPeriods, -totalPrincipal);
 
                 var balanceLeft = ratePerPeriod == 0 ?
-                    totalPrincipal - principalPayment * periodNumber :
+                    totalPrincipal - (principalPayment * periodNumber) :
                     _financial.InterestPayment(ratePerPeriod, periodNumber + 1, numberOfPeriods, -totalPrincipal) / ratePerPeriod;
 
                 schedule[periodNumber - 1] = new AmortizationPeriod(periodNumber, interestPayment, principalPayment, balanceLeft);

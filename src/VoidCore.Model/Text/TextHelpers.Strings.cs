@@ -1,4 +1,5 @@
 ﻿using System;
+using VoidCore.Domain.Guards;
 
 namespace VoidCore.Model.Text
 {
@@ -10,7 +11,9 @@ namespace VoidCore.Model.Text
         /// <param name="str">The string to split</param>
         public static string[] SplitOnNewLine(string str)
         {
-            return str.Split(new[] { "\n", "\r\n" }, StringSplitOptions.None);
+            return str
+                .EnsureNotNull(nameof(str))
+                .Split(new[] { "\n", "\r\n" }, StringSplitOptions.None);
         }
     }
 }

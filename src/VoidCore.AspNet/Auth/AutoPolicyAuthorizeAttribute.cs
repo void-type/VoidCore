@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using VoidCore.Model.Configuration;
+using VoidCore.Model.Text;
 
 namespace VoidCore.AspNet.Auth
 {

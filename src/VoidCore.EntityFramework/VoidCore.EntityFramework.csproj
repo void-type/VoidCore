@@ -4,8 +4,7 @@
     <Title>VoidCore.EntityFramework</Title>
     <Description>Entity Framework Core data access for applications based on VoidCore.Model.</Description>
     <PackageTags>efcore;entity;framework;opinionated;configuration;asp.net;aspnet;aspnetcore;netcore;</PackageTags>
-    <TargetFrameworks>netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
-    <!-- <Nullable>enable</Nullable> -->
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

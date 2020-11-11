@@ -36,7 +36,7 @@ namespace VoidCore.AspNet.Auth
         {
             get
             {
-                if (_httpContextAccessor.HttpContext == null)
+                if (_httpContextAccessor.HttpContext is null)
                 {
                     return new DomainUser(_userNameFormatter.Format(null), Array.Empty<string>());
                 }

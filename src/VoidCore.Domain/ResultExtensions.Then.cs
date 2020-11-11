@@ -25,6 +25,49 @@ namespace VoidCore.Domain
         /// If the last result was successful, bind it to another fallible function. Failures are passed through.
         /// </summary>
         /// <param name="result">The result</param>
+        /// <param name="next">The map function to transform input value to output value</param>
+        /// <typeparam name="TOut">The value of the output result</typeparam>
+        /// <returns>The new result</returns>
+        public static IResult<TOut> Then<TOut>(this IResult result, Func<IResult<TOut>> next)
+        {
+            return result.IsSuccess ?
+                next() :
+                Result.Fail<TOut>(result.Failures);
+        }
+
+        /// <summary>
+        /// If the last result was successful, bind it to another fallible function. Failures are passed through.
+        /// </summary>
+        /// <param name="result">The result</param>
+        /// <param name="next">The map function to transform input value to output value</param>
+        /// <typeparam name="TIn">The value of the input result</typeparam>
+        /// <typeparam name="TOut">The value of the output result</typeparam>
+        /// <returns>The new result</returns>
+        public static IResult<TOut> Then<TIn, TOut>(this IResult<TIn> result, Func<TIn, IResult<TOut>> next)
+        {
+            return result.IsSuccess ?
+                next(result.Value) :
+                Result.Fail<TOut>(result.Failures);
+        }
+
+        /// <summary>
+        /// If the last result was successful, bind it to another fallible function. Failures are passed through.
+        /// </summary>
+        /// <param name="result">The result</param>
+        /// <param name="next">The map function to transform input value to output value</param>
+        /// <typeparam name="TIn">The value of the input result</typeparam>
+        /// <returns>The new result</returns>
+        public static IResult Then<TIn>(this IResult<TIn> result, Func<TIn, IResult> next)
+        {
+            return result.IsSuccess ?
+                next(result.Value) :
+                Result.Fail(result.Failures);
+        }
+
+        /// <summary>
+        /// If the last result was successful, bind it to another fallible function. Failures are passed through.
+        /// </summary>
+        /// <param name="result">The result</param>
         /// <param name="nextTask">An asynchronous map function to transform input value to output value</param>
         /// <returns>The new result</returns>
         public static async Task<IResult> ThenAsync(this IResult result, Func<Task<IResult>> nextTask)
@@ -37,7 +80,7 @@ namespace VoidCore.Domain
         /// <summary>
         /// If the last result was successful, bind it to another fallible function. Failures are passed through.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="next">The map function to transform input value to output value</param>
         /// <returns>The new result</returns>
         public static async Task<IResult> ThenAsync(this Task<IResult> resultTask, Func<IResult> next)
@@ -50,7 +93,7 @@ namespace VoidCore.Domain
         /// <summary>
         /// If the last result was successful, bind it to another fallible function. Failures are passed through.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="nextTask">An asynchronous map function to transform input value to output value</param>
         /// <returns>The new result</returns>
         public static async Task<IResult> ThenAsync(this Task<IResult> resultTask, Func<Task<IResult>> nextTask)
@@ -58,20 +101,6 @@ namespace VoidCore.Domain
             var result = await resultTask.ConfigureAwait(false);
 
             return await result.ThenAsync(nextTask).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// If the last result was successful, bind it to another fallible function. Failures are passed through.
-        /// </summary>
-        /// <param name="result">The result</param>
-        /// <param name="next">The map function to transform input value to output value</param>
-        /// <typeparam name="TOut">The value of the output result</typeparam>
-        /// <returns>The new result</returns>
-        public static IResult<TOut> Then<TOut>(this IResult result, Func<IResult<TOut>> next)
-        {
-            return result.IsSuccess ?
-                next() :
-                Result.Fail<TOut>(result.Failures);
         }
 
         /// <summary>
@@ -91,7 +120,7 @@ namespace VoidCore.Domain
         /// <summary>
         /// If the last result was successful, asynchronously bind it to another fallible function. Failures are passed through.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="next">The map function to transform input value to output value</param>
         /// <typeparam name="TOut">The value of the output result</typeparam>
         /// <returns>The new result</returns>
@@ -105,7 +134,7 @@ namespace VoidCore.Domain
         /// <summary>
         /// If the last result was successful, asynchronously bind it to another fallible function. Failures are passed through.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="nextTask">An asynchronous map function to transform input value to output value</param>
         /// <typeparam name="TOut">The value of the output result</typeparam>
         /// <returns>The new result</returns>
@@ -114,21 +143,6 @@ namespace VoidCore.Domain
             var result = await resultTask.ConfigureAwait(false);
 
             return await result.ThenAsync(nextTask).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// If the last result was successful, bind it to another fallible function. Failures are passed through.
-        /// </summary>
-        /// <param name="result">The result</param>
-        /// <param name="next">The map function to transform input value to output value</param>
-        /// <typeparam name="TIn">The value of the input result</typeparam>
-        /// <typeparam name="TOut">The value of the output result</typeparam>
-        /// <returns>The new result</returns>
-        public static IResult<TOut> Then<TIn, TOut>(this IResult<TIn> result, Func<TIn, IResult<TOut>> next)
-        {
-            return result.IsSuccess ?
-                next(result.Value) :
-                Result.Fail<TOut>(result.Failures);
         }
 
         /// <summary>
@@ -149,7 +163,7 @@ namespace VoidCore.Domain
         /// <summary>
         /// If the last result was successful, asynchronously bind it to another fallible function. Failures are passed through.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="next">The map function to transform input value to output value</param>
         /// <typeparam name="TIn">The value of the input result</typeparam>
         /// <typeparam name="TOut">The value of the output result</typeparam>
@@ -164,7 +178,7 @@ namespace VoidCore.Domain
         /// <summary>
         /// If the last result was successful, asynchronously bind it to another fallible function. Failures are passed through.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="nextTask">The map function to transform input value to output value</param>
         /// <typeparam name="TIn">The value of the input result</typeparam>
         /// <typeparam name="TOut">The value of the output result</typeparam>
@@ -174,20 +188,6 @@ namespace VoidCore.Domain
             var result = await resultTask.ConfigureAwait(false);
 
             return await result.ThenAsync(nextTask).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// If the last result was successful, bind it to another fallible function. Failures are passed through.
-        /// </summary>
-        /// <param name="result">The result</param>
-        /// <param name="next">The map function to transform input value to output value</param>
-        /// <typeparam name="TIn">The value of the input result</typeparam>
-        /// <returns>The new result</returns>
-        public static IResult Then<TIn>(this IResult<TIn> result, Func<TIn, IResult> next)
-        {
-            return result.IsSuccess ?
-                next(result.Value) :
-                Result.Fail(result.Failures);
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace VoidCore.Domain
         /// <summary>
         /// If the last result was successful, asynchronously bind it to another fallible function. Failures are passed through.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="next">The map function to transform input value to output value</param>
         /// <typeparam name="TIn">The value of the input result</typeparam>
         /// <returns>The new result</returns>
@@ -221,7 +221,7 @@ namespace VoidCore.Domain
         /// <summary>
         /// If the last result was successful, asynchronously bind it to another fallible function. Failures are passed through.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="nextTask">The map function to transform input value to output value</param>
         /// <typeparam name="TIn">The value of the input result</typeparam>
         /// <returns>The new result</returns>

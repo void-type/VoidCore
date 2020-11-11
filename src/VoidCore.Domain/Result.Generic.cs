@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using VoidCore.Domain.Guards;
 
 namespace VoidCore.Domain
@@ -11,11 +12,12 @@ namespace VoidCore.Domain
     /// <typeparam name="T">The type of value to return on success</typeparam>
     public sealed class Result<T> : ResultAbstract, IResult<T>
     {
-        private readonly T _value;
+        private readonly InternalValueWrapper<T>? _value;
 
         internal Result(T value)
         {
-            _value = value.EnsureNotNull(nameof(value), "Cannot set a result value of null. Use non-generic Result for results without values.");
+            value.EnsureNotNull(nameof(value), "Cannot set a result value of null. Use non-generic Result for results without values.");
+            _value = new InternalValueWrapper<T>(value);
         }
 
         internal Result(IEnumerable<IFailure> failures) : base(failures) { }
@@ -23,6 +25,8 @@ namespace VoidCore.Domain
         /// <summary>
         /// The success value
         /// </summary>
+        /// <exception cref="InvalidOperationException">Throws when accessing the value of a failed result.</exception>
+        [NotNull]
         public T Value
         {
             get
@@ -32,7 +36,7 @@ namespace VoidCore.Domain
                     throw new InvalidOperationException("Do not access the value of Result if it is failed.");
                 }
 
-                return _value;
+                return _value!.Value;
             }
         }
     }

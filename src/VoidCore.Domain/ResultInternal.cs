@@ -14,11 +14,8 @@ namespace VoidCore.Domain
     {
         internal ResultInternal(IEnumerable<IFailure> failures)
         {
-            var failuresArray = failures as IFailure[] ?? failures?.ToArray();
-
-            failuresArray.EnsureNotNullOrEmpty(nameof(failures));
-
-            Failures = failuresArray;
+            failures.EnsureNotNullOrEmpty(nameof(failures));
+            Failures = failures as IFailure[] ?? failures.ToArray();
             IsFailed = true;
         }
 

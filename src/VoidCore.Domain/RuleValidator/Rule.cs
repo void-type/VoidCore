@@ -41,12 +41,12 @@ namespace VoidCore.Domain.RuleValidator
 
         private bool IsInvalid(T request)
         {
-            return _invalidConditions.Any() && _invalidConditions.Any(check => check(request));
+            return _invalidConditions.Count > 0 && _invalidConditions.Any(check => check(request));
         }
 
         private bool IsSuppressed(T request)
         {
-            return _suppressConditions.Any() && _suppressConditions.Any(check => check(request));
+            return _suppressConditions.Count > 0 && _suppressConditions.Any(check => check(request));
         }
     }
 }

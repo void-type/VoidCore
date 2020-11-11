@@ -23,6 +23,22 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
+        /// Map the result value to a result of a new type. If the result is failed, the failures will be mapped to the
+        /// new result.
+        /// </summary>
+        /// <param name="result">The result</param>
+        /// <param name="selector">The map function to transform input value to output value</param>
+        /// <typeparam name="TIn">The value of the input result</typeparam>
+        /// <typeparam name="TOut">The value of the output result</typeparam>
+        /// <returns>The new result</returns>
+        public static IResult<TOut> Select<TIn, TOut>(this IResult<TIn> result, Func<TIn, TOut> selector)
+        {
+            return result.IsSuccess ?
+                Result.Ok(selector(result.Value)) :
+                Result.Fail<TOut>(result.Failures);
+        }
+
+        /// <summary>
         /// Asynchronously map the untyped result to a typed result. If the result is failed, the failures will be mapped
         /// to the new result.
         /// </summary>
@@ -41,7 +57,7 @@ namespace VoidCore.Domain
         /// Asynchronously map the untyped result to a typed result. If the result is failed, the failures will be mapped
         /// to the new result.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="selector">A map function to transform input value to output value</param>
         /// <typeparam name="TOut">The value of the output result</typeparam>
         /// <returns>The new result</returns>
@@ -56,7 +72,7 @@ namespace VoidCore.Domain
         /// Asynchronously map the untyped result to a typed result. If the result is failed, the failures will be mapped
         /// to the new result.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="selectorTask">An asynchronous map function to transform input value to output value</param>
         /// <typeparam name="TOut">The value of the output result</typeparam>
         /// <returns>The new result</returns>
@@ -65,22 +81,6 @@ namespace VoidCore.Domain
             var result = await resultTask.ConfigureAwait(false);
 
             return await result.SelectAsync(selectorTask).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Map the result value to a result of a new type. If the result is failed, the failures will be mapped to the
-        /// new result.
-        /// </summary>
-        /// <param name="result">The result</param>
-        /// <param name="selector">The map function to transform input value to output value</param>
-        /// <typeparam name="TIn">The value of the input result</typeparam>
-        /// <typeparam name="TOut">The value of the output result</typeparam>
-        /// <returns>The new result</returns>
-        public static IResult<TOut> Select<TIn, TOut>(this IResult<TIn> result, Func<TIn, TOut> selector)
-        {
-            return result.IsSuccess ?
-                Result.Ok(selector(result.Value)) :
-                Result.Fail<TOut>(result.Failures);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace VoidCore.Domain
         /// Asynchronously map the result value to a result of a new type. If the result is failed, the failures will be
         /// mapped to the new result.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="selector">The map function to transform input value to output value</param>
         /// <typeparam name="TIn">The value of the input result</typeparam>
         /// <typeparam name="TOut">The value of the output result</typeparam>
@@ -119,7 +119,7 @@ namespace VoidCore.Domain
         /// Asynchronously map the result value to a result of a new type. If the result is failed, the failures will be
         /// mapped to the new result.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="selectorTask">An asynchronous map function to transform input value to output value</param>
         /// <typeparam name="TIn">The value of the input result</typeparam>
         /// <typeparam name="TOut">The value of the output result</typeparam>

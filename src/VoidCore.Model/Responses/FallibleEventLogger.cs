@@ -2,8 +2,9 @@
 using System.Linq;
 using VoidCore.Domain;
 using VoidCore.Domain.Events;
+using VoidCore.Model.Logging;
 
-namespace VoidCore.Model.Logging
+namespace VoidCore.Model.Responses
 {
     /// <summary>
     /// A base post processor that logs IFallible failures to a string logger.

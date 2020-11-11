@@ -4,7 +4,6 @@
     <Title>VoidCore.Finance</Title>
     <Description>A financial library with primary focus on simple amortization and time-value of money.</Description>
     <PackageTags>finance; financial; amortization; interest;</PackageTags>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <!-- <Nullable>enable</Nullable> -->
+    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 </Project>

@@ -27,6 +27,59 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
+        /// If the result is failed, perform a side-effect action then pass the original result through to the next step
+        /// in the pipeline. This side-effect takes the result as a parameter.
+        /// </summary>
+        /// <param name="result">The result</param>
+        /// <param name="action">The action to perform</param>
+        /// <returns>The original result</returns>
+        public static IResult TeeOnFailure(this IResult result, Action<IEnumerable<IFailure>> action)
+        {
+            if (result.IsFailed)
+            {
+                action(result.Failures);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// If the result is failed, perform a side-effect action then pass the original result through to the next step
+        /// in the pipeline.
+        /// </summary>
+        /// <param name="result">The result</param>
+        /// <param name="action">The action to perform</param>
+        /// <typeparam name="T">The value of the result</typeparam>
+        /// <returns>The original result</returns>
+        public static IResult<T> TeeOnFailure<T>(this IResult<T> result, Action action)
+        {
+            if (result.IsFailed)
+            {
+                action();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// If the result is failed, perform a side-effect action then pass the original result through to the next step
+        /// in the pipeline. This side-effect takes the result as a parameter.
+        /// </summary>
+        /// <param name="result">The result</param>
+        /// <param name="action">The action to perform</param>
+        /// <typeparam name="T">The value of the result</typeparam>
+        /// <returns>The original result</returns>
+        public static IResult<T> TeeOnFailure<T>(this IResult<T> result, Action<IEnumerable<IFailure>> action)
+        {
+            if (result.IsFailed)
+            {
+                action(result.Failures);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to
         /// the next step in the pipeline.
         /// </summary>
@@ -47,7 +100,7 @@ namespace VoidCore.Domain
         /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to
         /// the next step in the pipeline.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="action">The action to perform</param>
         /// <returns>The original result</returns>
         public static async Task<IResult> TeeOnFailureAsync(this Task<IResult> resultTask, Action action)
@@ -61,7 +114,7 @@ namespace VoidCore.Domain
         /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to
         /// the next step in the pipeline.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="actionTask">The asynchronous action to perform</param>
         /// <returns>The original result</returns>
         public static async Task<IResult> TeeOnFailureAsync(this Task<IResult> resultTask, Func<Task> actionTask)
@@ -69,23 +122,6 @@ namespace VoidCore.Domain
             var result = await resultTask.ConfigureAwait(false);
 
             return await result.TeeOnFailureAsync(actionTask).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// If the result is failed, perform a side-effect action then pass the original result through to the next step
-        /// in the pipeline. This side-effect takes the result as a parameter.
-        /// </summary>
-        /// <param name="result">The result</param>
-        /// <param name="action">The action to perform</param>
-        /// <returns>The original result</returns>
-        public static IResult TeeOnFailure(this IResult result, Action<IEnumerable<IFailure>> action)
-        {
-            if (result.IsFailed)
-            {
-                action(result.Failures);
-            }
-
-            return result;
         }
 
         /// <summary>
@@ -109,7 +145,7 @@ namespace VoidCore.Domain
         /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to
         /// the next step in the pipeline. This side-effect takes the result as a parameter.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="action">The action to perform</param>
         /// <returns>The original result</returns>
         public static async Task<IResult> TeeOnFailureAsync(this Task<IResult> resultTask, Action<IEnumerable<IFailure>> action)
@@ -123,7 +159,7 @@ namespace VoidCore.Domain
         /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to
         /// the next step in the pipeline. This side-effect takes the result as a parameter.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="actionTask">The asynchronous action to perform</param>
         /// <returns>The original result</returns>
         public static async Task<IResult> TeeOnFailureAsync(this Task<IResult> resultTask, Func<IEnumerable<IFailure>, Task> actionTask)
@@ -131,24 +167,6 @@ namespace VoidCore.Domain
             var result = await resultTask.ConfigureAwait(false);
 
             return await result.TeeOnFailureAsync(actionTask).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// If the result is failed, perform a side-effect action then pass the original result through to the next step
-        /// in the pipeline.
-        /// </summary>
-        /// <param name="result">The result</param>
-        /// <param name="action">The action to perform</param>
-        /// <typeparam name="T">The value of the result</typeparam>
-        /// <returns>The original result</returns>
-        public static IResult<T> TeeOnFailure<T>(this IResult<T> result, Action action)
-        {
-            if (result.IsFailed)
-            {
-                action();
-            }
-
-            return result;
         }
 
         /// <summary>
@@ -173,7 +191,7 @@ namespace VoidCore.Domain
         /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to
         /// the next step in the pipeline.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="action">The action to perform</param>
         /// <typeparam name="T">The value of the result</typeparam>
         /// <returns>The original result</returns>
@@ -188,7 +206,7 @@ namespace VoidCore.Domain
         /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to
         /// the next step in the pipeline.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="actionTask">The asynchronous action to perform</param>
         /// <typeparam name="T">The value of the result</typeparam>
         /// <returns>The original result</returns>
@@ -197,24 +215,6 @@ namespace VoidCore.Domain
             var result = await resultTask.ConfigureAwait(false);
 
             return await result.TeeOnFailureAsync(actionTask).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// If the result is failed, perform a side-effect action then pass the original result through to the next step
-        /// in the pipeline. This side-effect takes the result as a parameter.
-        /// </summary>
-        /// <param name="result">The result</param>
-        /// <param name="action">The action to perform</param>
-        /// <typeparam name="T">The value of the result</typeparam>
-        /// <returns>The original result</returns>
-        public static IResult<T> TeeOnFailure<T>(this IResult<T> result, Action<IEnumerable<IFailure>> action)
-        {
-            if (result.IsFailed)
-            {
-                action(result.Failures);
-            }
-
-            return result;
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace VoidCore.Domain
         /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to
         /// the next step in the pipeline. This side-effect takes the result as a parameter.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="action">The action to perform</param>
         /// <typeparam name="T">The value of the result</typeparam>
         /// <returns>The original result</returns>
@@ -254,7 +254,7 @@ namespace VoidCore.Domain
         /// If the result is failed, asynchronously perform a side-effect action then pass the original result through to
         /// the next step in the pipeline. This side-effect takes the result as a parameter.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="actionTask">The asynchronous action to perform</param>
         /// <typeparam name="T">The value of the result</typeparam>
         /// <returns>The original result</returns>
@@ -283,51 +283,6 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
-        /// through to the next step in the pipeline.
-        /// </summary>
-        /// <param name="result">The result</param>
-        /// <param name="actionTask">The asynchronous action to perform</param>
-        /// <returns>The original result</returns>
-        public static async Task<IResult> TeeOnSuccessAsync(this IResult result, Func<Task> actionTask)
-        {
-            if (result.IsSuccess)
-            {
-                await actionTask().ConfigureAwait(false);
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
-        /// through to the next step in the pipeline.
-        /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
-        /// <param name="action">The action to perform</param>
-        /// <returns>The original result</returns>
-        public static async Task<IResult> TeeOnSuccessAsync(this Task<IResult> resultTask, Action action)
-        {
-            var result = await resultTask.ConfigureAwait(false);
-
-            return result.TeeOnSuccess(action);
-        }
-
-        /// <summary>
-        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
-        /// through to the next step in the pipeline.
-        /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
-        /// <param name="actionTask">The asynchronous action to perform</param>
-        /// <returns>The original result</returns>
-        public static async Task<IResult> TeeOnSuccessAsync(this Task<IResult> resultTask, Func<Task> actionTask)
-        {
-            var result = await resultTask.ConfigureAwait(false);
-
-            return await result.TeeOnSuccessAsync(actionTask).ConfigureAwait(false);
-        }
-
-        /// <summary>
         /// If the result is successful, perform a side-effect action then pass the original result through to the next
         /// step in the pipeline.
         /// </summary>
@@ -343,51 +298,6 @@ namespace VoidCore.Domain
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
-        /// through to the next step in the pipeline.
-        /// </summary>
-        /// <param name="result">The result</param>
-        /// <param name="actionTask">The asynchronous action to perform</param>
-        /// <returns>The original result</returns>
-        public static async Task<IResult<T>> TeeOnSuccessAsync<T>(this IResult<T> result, Func<Task> actionTask)
-        {
-            if (result.IsSuccess)
-            {
-                await actionTask().ConfigureAwait(false);
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
-        /// through to the next step in the pipeline.
-        /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
-        /// <param name="action">The action to perform</param>
-        /// <returns>The original result</returns>
-        public static async Task<IResult<T>> TeeOnSuccessAsync<T>(this Task<IResult<T>> resultTask, Action action)
-        {
-            var result = await resultTask.ConfigureAwait(false);
-
-            return result.TeeOnSuccess(action);
-        }
-
-        /// <summary>
-        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
-        /// through to the next step in the pipeline.
-        /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
-        /// <param name="actionTask">The asynchronous action to perform</param>
-        /// <returns>The original result</returns>
-        public static async Task<IResult<T>> TeeOnSuccessAsync<T>(this Task<IResult<T>> resultTask, Func<Task> actionTask)
-        {
-            var result = await resultTask.ConfigureAwait(false);
-
-            return await result.TeeOnSuccessAsync(actionTask).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -415,6 +325,96 @@ namespace VoidCore.Domain
         /// <param name="result">The result</param>
         /// <param name="actionTask">The asynchronous action to perform</param>
         /// <returns>The original result</returns>
+        public static async Task<IResult> TeeOnSuccessAsync(this IResult result, Func<Task> actionTask)
+        {
+            if (result.IsSuccess)
+            {
+                await actionTask().ConfigureAwait(false);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
+        /// through to the next step in the pipeline.
+        /// </summary>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
+        /// <param name="action">The action to perform</param>
+        /// <returns>The original result</returns>
+        public static async Task<IResult> TeeOnSuccessAsync(this Task<IResult> resultTask, Action action)
+        {
+            var result = await resultTask.ConfigureAwait(false);
+
+            return result.TeeOnSuccess(action);
+        }
+
+        /// <summary>
+        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
+        /// through to the next step in the pipeline.
+        /// </summary>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
+        /// <param name="actionTask">The asynchronous action to perform</param>
+        /// <returns>The original result</returns>
+        public static async Task<IResult> TeeOnSuccessAsync(this Task<IResult> resultTask, Func<Task> actionTask)
+        {
+            var result = await resultTask.ConfigureAwait(false);
+
+            return await result.TeeOnSuccessAsync(actionTask).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
+        /// through to the next step in the pipeline.
+        /// </summary>
+        /// <param name="result">The result</param>
+        /// <param name="actionTask">The asynchronous action to perform</param>
+        /// <returns>The original result</returns>
+        public static async Task<IResult<T>> TeeOnSuccessAsync<T>(this IResult<T> result, Func<Task> actionTask)
+        {
+            if (result.IsSuccess)
+            {
+                await actionTask().ConfigureAwait(false);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
+        /// through to the next step in the pipeline.
+        /// </summary>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
+        /// <param name="action">The action to perform</param>
+        /// <returns>The original result</returns>
+        public static async Task<IResult<T>> TeeOnSuccessAsync<T>(this Task<IResult<T>> resultTask, Action action)
+        {
+            var result = await resultTask.ConfigureAwait(false);
+
+            return result.TeeOnSuccess(action);
+        }
+
+        /// <summary>
+        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
+        /// through to the next step in the pipeline.
+        /// </summary>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
+        /// <param name="actionTask">The asynchronous action to perform</param>
+        /// <returns>The original result</returns>
+        public static async Task<IResult<T>> TeeOnSuccessAsync<T>(this Task<IResult<T>> resultTask, Func<Task> actionTask)
+        {
+            var result = await resultTask.ConfigureAwait(false);
+
+            return await result.TeeOnSuccessAsync(actionTask).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// If the result is successful, asynchronously perform a side-effect action then pass the original result
+        /// through to the next step in the pipeline.
+        /// </summary>
+        /// <param name="result">The result</param>
+        /// <param name="actionTask">The asynchronous action to perform</param>
+        /// <returns>The original result</returns>
         public static async Task<IResult<T>> TeeOnSuccessAsync<T>(this IResult<T> result, Func<T, Task> actionTask)
         {
             if (result.IsSuccess)
@@ -429,7 +429,7 @@ namespace VoidCore.Domain
         /// If the result is successful, asynchronously perform a side-effect action then pass the original result
         /// through to the next step in the pipeline.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="action">The action to perform</param>
         /// <returns>The original result</returns>
         public static async Task<IResult<T>> TeeOnSuccessAsync<T>(this Task<IResult<T>> resultTask, Action<T> action)
@@ -443,7 +443,7 @@ namespace VoidCore.Domain
         /// If the result is successful, asynchronously perform a side-effect action then pass the original result
         /// through to the next step in the pipeline.
         /// </summary>
-        /// <param name="resultTask">An asynchronous task representing the the result</param>
+        /// <param name="resultTask">An asynchronous task representing the result</param>
         /// <param name="actionTask">The asynchronous action to perform</param>
         /// <returns>The original result</returns>
         public static async Task<IResult<T>> TeeOnSuccessAsync<T>(this Task<IResult<T>> resultTask, Func<T, Task> actionTask)

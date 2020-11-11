@@ -20,6 +20,7 @@ namespace VoidCore.Domain.Workflow
         /// <param name="currentState">The starting state</param>
         /// <param name="command">The requested command</param>
         /// <param name="endingState">The resultant state</param>
+        /// <exception cref="InvalidOperationException">Throws when duplicate transitions are added.</exception>
         public WorkflowOptionsBuilder<TState, TCommand> AddTransition(TState currentState, TCommand command, TState endingState)
         {
             var newTransition = new WorkflowTransition<TState, TCommand>(currentState, command, endingState);

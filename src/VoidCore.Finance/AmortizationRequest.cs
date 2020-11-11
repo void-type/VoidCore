@@ -13,6 +13,7 @@ namespace VoidCore.Finance
         /// <param name="totalPrincipal">The total principal amount of the loan.</param>
         /// <param name="numberOfPeriods">The number of payment periods in the loan.</param>
         /// <param name="ratePerPeriod">The interest rate per period of the loan.</param>
+        /// <exception cref="ArgumentException">Throws when number of periods is less than 1.</exception>
         public AmortizationRequest(decimal totalPrincipal, int numberOfPeriods, decimal ratePerPeriod)
         {
             if (numberOfPeriods < 1)

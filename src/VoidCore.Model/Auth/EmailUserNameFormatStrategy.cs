@@ -11,10 +11,10 @@ namespace VoidCore.Model.Auth
         /// Get the user name from a fully-qualified AD login.
         /// Eg: UserName@Contoso.com returns UserName
         /// </summary>
-        /// <param name="adLogin">A fully-qualified AD login like UserName@Contoso.com</param>
-        public string Format(string adLogin)
+        /// <param name="fullUserName">A fully-qualified AD login like UserName@Contoso.com</param>
+        public string Format(string? fullUserName)
         {
-            var userName = adLogin?.Split('@').FirstOrDefault();
+            var userName = fullUserName?.Split('@').FirstOrDefault();
 
             return string.IsNullOrWhiteSpace(userName) ? "Unknown" : userName;
         }

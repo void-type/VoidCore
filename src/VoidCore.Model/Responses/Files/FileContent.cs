@@ -17,14 +17,19 @@ namespace VoidCore.Model.Responses.Files
         /// <param name="content">The content of the file.</param>
         public FileContent(byte[] content)
         {
-            AsBytes = content.EnsureNotNull(nameof(content));
+            content.EnsureNotNull(nameof(content));
+            AsBytes = content;
         }
 
         /// <summary>
         /// Create a new file contents using a string. Will be decoded from UTF8 to bytes internally.
         /// </summary>
         /// <param name="content">The content of the file.</param>
-        public FileContent(string content) : this(Encoding.UTF8.GetBytes(content)) { }
+        public FileContent(string content)
+        {
+            content.EnsureNotNull(nameof(content));
+            AsBytes = Encoding.UTF8.GetBytes(content);
+        }
 
         /// <summary>
         /// Returns the contents of the file in bytes.
@@ -39,7 +44,7 @@ namespace VoidCore.Model.Responses.Files
         /// <inheritdoc/>
         protected override IEnumerable<object> GetEqualityComponents()
         {
-            yield return string.Join(string.Empty, AsBytes.Select(b => $"{b:X2}"));
+            yield return string.Concat(AsBytes.Select(b => $"{b:X2}"));
         }
     }
 }

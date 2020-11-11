@@ -1,9 +1,10 @@
 ﻿using Moq;
 using VoidCore.Domain;
 using VoidCore.Model.Logging;
+using VoidCore.Model.Responses;
 using Xunit;
 
-namespace VoidCore.Test.Model.Logging
+namespace VoidCore.Test.Model.Responses
 {
     public class FallibleEventLoggerTests
     {

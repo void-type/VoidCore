@@ -5,9 +5,7 @@
     /// </summary>
     public class PaginationOptions
     {
-        private PaginationOptions()
-        {
-        }
+        private PaginationOptions() { }
 
         /// <summary>
         /// Create a new pagination options.

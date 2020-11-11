@@ -27,11 +27,11 @@ namespace VoidCore.AspNet.Security
         /// Invoke the middleware.
         /// </summary>
         /// <param name="context">The current HttpContext</param>
-        public async Task Invoke(HttpContext context)
+        public Task Invoke(HttpContext context)
         {
             var header = new CspHeader(_options);
             context.Response.Headers.Add(header.Key, header.Value);
-            await _next(context).ConfigureAwait(false);
+            return _next(context);
         }
     }
 }

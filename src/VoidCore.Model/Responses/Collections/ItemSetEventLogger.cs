@@ -1,6 +1,6 @@
-﻿using VoidCore.Model.Responses.Collections;
+﻿using VoidCore.Model.Logging;
 
-namespace VoidCore.Model.Logging
+namespace VoidCore.Model.Responses.Collections
 {
     /// <inheritdoc/>
     /// <summary>

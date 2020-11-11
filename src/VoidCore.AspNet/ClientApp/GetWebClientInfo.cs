@@ -5,6 +5,10 @@ using VoidCore.Domain.Events;
 using VoidCore.Model.Auth;
 using VoidCore.Model.Configuration;
 using VoidCore.Model.Logging;
+using VoidCore.Model.Responses;
+
+// Allow single file events
+#pragma warning disable CA1034
 
 // Allow single file events
 #pragma warning disable CA1034

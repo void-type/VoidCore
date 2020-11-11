@@ -10,7 +10,7 @@ namespace VoidCore.AspNet.Auth
     /// <summary>
     /// Configuration for authentication and authorization.
     /// </summary>
-    public static class AuthorizationServiceCollectionExtensions
+    public static class AuthServiceCollectionExtensions
     {
         /// <summary>
         /// Setup an authorization policy for a set of roles. These are used via AuthorizeAttributes. A user with any one
@@ -21,8 +21,10 @@ namespace VoidCore.AspNet.Auth
         /// <param name="authorizationSettings">Authorization settings from configuration</param>
         public static void AddAuthorizationPoliciesFromSettings(this IServiceCollection services, AuthorizationSettings authorizationSettings)
         {
-            authorizationSettings?.Policies
-                .EnsureNotNullOrEmpty(nameof(authorizationSettings), "Authorization Policies not found in application configuration.");
+            authorizationSettings
+                .EnsureNotNull(nameof(authorizationSettings))
+                .Policies
+                    .EnsureNotNullOrEmpty(nameof(authorizationSettings), "Authorization Policies not found in application configuration.");
 
             services.AddAuthorization(options =>
             {
@@ -65,7 +67,7 @@ namespace VoidCore.AspNet.Auth
 
             if (environment.IsDevelopment())
             {
-                services.AddControllers(options => { options.Filters.Add(new AllowAnonymousFilter()); });
+                services.AddControllers(options => options.Filters.Add(new AllowAnonymousFilter()));
             }
         }
     }

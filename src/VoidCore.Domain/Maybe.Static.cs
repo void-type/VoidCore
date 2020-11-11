@@ -10,9 +10,9 @@
         /// </summary>
         /// <param name="obj">The object to convert</param>
         /// <returns>A new Maybe of the type of the object</returns>
-        public static Maybe<T> From<T>(T obj)
+        public static Maybe<T> From<T>(T? obj)
         {
-            return Maybe<T>.From(obj);
+            return new Maybe<T>(obj);
         }
     }
 }

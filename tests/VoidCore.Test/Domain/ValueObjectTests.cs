@@ -28,7 +28,7 @@ namespace VoidCore.Test.Domain
             var temp1 = new Address("a", "b");
 
             Assert.False(temp1.Equals(null));
-            Assert.False(temp1 == null);
+            Assert.False(temp1 is null);
             Assert.False(null == temp1);
         }
 

@@ -5,22 +5,20 @@
     /// </summary>
     public sealed class XFrameOptionsOptionsBuilder
     {
-        private string _option;
+        private const string DenyValue = "deny";
+        private string _option = DenyValue;
 
         /// <summary>
-        /// Construct a new XFrameOptionsOptionsBuilder.
+        /// Construct a new XFrameOptionsOptionsBuilder. Default option is denied.
         /// </summary>
-        public XFrameOptionsOptionsBuilder()
-        {
-            Deny();
-        }
+        public XFrameOptionsOptionsBuilder() { }
 
         /// <summary>
         /// Deny this page from being shown in a frame.
         /// </summary>
         public void Deny()
         {
-            _option = "deny";
+            _option = DenyValue;
         }
 
         /// <summary>

@@ -9,6 +9,6 @@
         /// Get the UI-friendly user name from a longer string.
         /// </summary>
         /// <param name="fullUserName">The full or non-UI-friendly user name.</param>
-        string Format(string fullUserName);
+        string Format(string? fullUserName);
     }
 }

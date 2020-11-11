@@ -43,7 +43,7 @@ namespace VoidCore.Domain.RuleValidator
         /// <returns>A rule builder to continue building this rule</returns>
         protected IRuleBuilder<T> CreateRule(IFailure failure)
         {
-            return CreateRule(request => failure);
+            return CreateRule(_ => failure);
         }
     }
 }
