@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace VoidCore.Domain
 {
@@ -11,6 +12,7 @@ namespace VoidCore.Domain
         /// <summary>
         /// The value returned when successful.
         /// </summary>
+        [NotNull]
         T Value { get; }
     }
 

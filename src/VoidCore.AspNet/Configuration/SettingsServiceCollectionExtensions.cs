@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using VoidCore.Domain.Events;
 using VoidCore.Domain.Guards;
-using VoidCore.Model.Configuration;
+using VoidCore.Model.Text;
 
 namespace VoidCore.AspNet.Configuration
 {
@@ -42,15 +42,15 @@ namespace VoidCore.AspNet.Configuration
         /// <param name="root">
         /// When true, the naming conventions are ignored and settings are assumed to be at the root of the config
         /// </param>
-        /// <typeparam name="TService">An interface or higher-level service to access the settings from</typeparam>
+        /// <typeparam name="TSettingsInterface">An interface or higher-level service to access the settings from</typeparam>
         /// <typeparam name="TSettings">The settings object type to pull from configuration</typeparam>
         /// <returns>The settings object to use during startup.</returns>
-        public static TSettings AddSettingsSingleton<TService, TSettings>(this IServiceCollection services, IConfiguration configuration, bool root = false)
-        where TSettings : class, TService, new()
-        where TService : class
+        public static TSettings AddSettingsSingleton<TSettingsInterface, TSettings>(this IServiceCollection services, IConfiguration configuration, bool root = false)
+        where TSettingsInterface : class
+        where TSettings : class, TSettingsInterface, new()
         {
             var settings = GetSettings<TSettings>(configuration, root);
-            services.AddSingleton<TService>(x => settings);
+            services.AddSingleton<TSettingsInterface>(_ => settings);
             return settings;
         }
 
@@ -77,8 +77,7 @@ namespace VoidCore.AspNet.Configuration
                 var matchingConcretes = assembliesToSearch
                     .Distinct()
                     .SelectMany(assembly => assembly.DefinedTypes)
-                    .Where(type => type.IsConcrete())
-                    .Where(type => type.ImplementsGenericInterface(@interface))
+                    .Where(type => type.IsConcrete() && type.ImplementsGenericInterface(@interface))
                     .ToList();
 
                 foreach (var type in matchingConcretes)
@@ -101,13 +100,19 @@ namespace VoidCore.AspNet.Configuration
 
         private static TSettings GetSettings<TSettings>(IConfiguration configuration, bool root)
         {
-            if (!root)
+            return GetSettingsConfiguration<TSettings>(configuration, root)
+                .Get<TSettings>(options => options.BindNonPublicProperties = true);
+        }
+
+        private static IConfiguration GetSettingsConfiguration<TSettings>(IConfiguration configuration, bool root)
+        {
+            if (root)
             {
-                var sectionName = typeof(TSettings).GetTypeNameWithoutEnding("settings");
-                configuration = configuration.GetSection(sectionName);
+                return configuration;
             }
 
-            return configuration.Get<TSettings>(options => options.BindNonPublicProperties = true);
+            var sectionName = typeof(TSettings).GetTypeNameWithoutEnding("settings");
+            return configuration.GetSection(sectionName);
         }
 
         private static bool IsConcrete(this TypeInfo type)

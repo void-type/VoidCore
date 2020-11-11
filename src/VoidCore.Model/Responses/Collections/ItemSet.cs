@@ -26,6 +26,7 @@ namespace VoidCore.Model.Responses.Collections
         public ItemSet(IEnumerable<T> items, PaginationOptions options, int? totalCount = null)
         {
             items.EnsureNotNull(nameof(items));
+            options.EnsureNotNull(nameof(options));
 
             var allItems = items.ToList();
             IsPagingEnabled = options.IsPagingEnabled;

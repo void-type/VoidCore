@@ -24,7 +24,6 @@ namespace VoidCore.AspNet.Configuration
         public string AppName => _appSettings.Name;
 
         /// <inheritdoc/>
-
         public string BaseUrl => _appSettings.BaseUrl;
 
         /// <inheritdoc/>

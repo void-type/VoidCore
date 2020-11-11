@@ -96,7 +96,7 @@ namespace VoidCore.AspNet.Security
         /// </summary>
         /// <param name="reportUri">The optional URI to send JSON reports to of content that would be normally blocked.</param>
         /// <returns>The builder for chaining.</returns>
-        public CspOptionsBuilder ReportOnly(string reportUri = null)
+        public CspOptionsBuilder ReportOnly(string? reportUri = null)
         {
             _isReportOnly = true;
 
@@ -110,6 +110,7 @@ namespace VoidCore.AspNet.Security
         /// </summary>
         /// <param name="reportUri">The URI that collects CSP violation reports.</param>
         /// <returns>The builder for chaining.</returns>
+        /// <exception cref="InvalidOperationException">Throws if report-uri already set.</exception>
         public CspOptionsBuilder SetReportUri(string reportUri)
         {
             if (ReportUri.Sources.Count > 0)

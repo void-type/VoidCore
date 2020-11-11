@@ -21,7 +21,7 @@ namespace VoidCore.EntityFramework
         /// <inheritdoc/>
         public virtual async Task<T> Add(T entity, CancellationToken cancellationToken)
         {
-            Context.Set<T>().Add(entity);
+            await Context.Set<T>().AddAsync(entity, cancellationToken).ConfigureAwait(false);
             await Context.SaveChangesAsync(cancellationToken)
                 .ConfigureAwait(false);
             return entity;
@@ -30,45 +30,41 @@ namespace VoidCore.EntityFramework
         /// <inheritdoc/>
         public virtual async Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken)
         {
-            Context.Set<T>().AddRange(entities);
+            await Context.Set<T>().AddRangeAsync(entities, cancellationToken).ConfigureAwait(false);
             await Context.SaveChangesAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
-        public virtual async Task Remove(T entity, CancellationToken cancellationToken)
+        public virtual Task Remove(T entity, CancellationToken cancellationToken)
         {
             Context.Set<T>().Remove(entity);
-            await Context.SaveChangesAsync(cancellationToken)
-                .ConfigureAwait(false);
+            return Context.SaveChangesAsync(cancellationToken);
         }
 
         /// <inheritdoc/>
-        public async Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+        public Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken)
         {
             Context.Set<T>().RemoveRange(entities);
-            await Context.SaveChangesAsync(cancellationToken)
-                .ConfigureAwait(false);
+            return Context.SaveChangesAsync(cancellationToken);
         }
 
         /// <inheritdoc/>
-        public virtual async Task Update(T entity, CancellationToken cancellationToken)
+        public virtual Task Update(T entity, CancellationToken cancellationToken)
         {
             Context.Entry(entity).State = EntityState.Modified;
-            await Context.SaveChangesAsync(cancellationToken)
-                .ConfigureAwait(false);
+            return Context.SaveChangesAsync(cancellationToken);
         }
 
         /// <inheritdoc/>
-        public virtual async Task UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+        public virtual Task UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken)
         {
             foreach (var entity in entities)
             {
                 Context.Entry(entity).State = EntityState.Modified;
             }
 
-            await Context.SaveChangesAsync(cancellationToken)
-                .ConfigureAwait(false);
+            return Context.SaveChangesAsync(cancellationToken);
         }
 
         /// <inheritdoc/>

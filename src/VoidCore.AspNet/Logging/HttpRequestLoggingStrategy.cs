@@ -33,7 +33,7 @@ namespace VoidCore.AspNet.Logging
         /// <returns>The enriched log entry</returns>
         public override string Log(params string[] messages)
         {
-            if (_httpContextAccessor.HttpContext == null)
+            if (_httpContextAccessor.HttpContext is null)
             {
                 return base.Log(messages);
             }

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using VoidCore.Model.Configuration;
+using VoidCore.Model.Text;
 using Xunit;
 
-namespace VoidCore.Test.Model.Configuration
+namespace VoidCore.Test.Model.Text
 {
-    public class ConventionHelpersTests
+    public class TypeExtensionTests
     {
         [Fact]
         public void Strip_type_name_ending()

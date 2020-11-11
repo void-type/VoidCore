@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VoidCore.Domain;
+using VoidCore.Domain.Guards;
 using VoidCore.Model.Responses.Collections;
 using VoidCore.Model.Responses.Files;
 
@@ -18,6 +19,7 @@ namespace VoidCore.AspNet.ClientApp
         /// <returns>An IActionResult</returns>
         public static IActionResult Respond<TSuccessValue>(IResult<TSuccessValue> result)
         {
+            result.EnsureNotNull(nameof(result));
             return result.IsSuccess ? Ok(result.Value) : Fail(result);
         }
 
@@ -28,7 +30,7 @@ namespace VoidCore.AspNet.ClientApp
         /// <returns>An IActionResult</returns>
         public static IActionResult Respond(IResult result)
         {
-            return result.IsSuccess ? Ok(null) : Fail(result);
+            return result.IsSuccess ? Ok() : Fail(result);
         }
 
         /// <summary>
@@ -60,6 +62,11 @@ namespace VoidCore.AspNet.ClientApp
         private static IActionResult Fail(IResult result)
         {
             return new ObjectResult(result.Failures.ToItemSet()) { StatusCode = 400 };
+        }
+
+        private static IActionResult Ok()
+        {
+            return new ObjectResult(null) { StatusCode = 200 };
         }
 
         private static IActionResult Ok(object result)

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using VoidCore.Domain;
-using VoidCore.Model.Configuration;
 using VoidCore.Model.Data;
 using VoidCore.Model.Logging;
+using VoidCore.Model.Text;
 
 namespace VoidCore.EntityFramework
 {
@@ -34,13 +34,12 @@ namespace VoidCore.EntityFramework
         }
 
         /// <inheritdoc/>
-        public virtual async Task<int> Count(IQuerySpecification<T> specification, CancellationToken cancellationToken)
+        public virtual Task<int> Count(IQuerySpecification<T> specification, CancellationToken cancellationToken)
         {
-            return await GetBaseQuery()
+            return GetBaseQuery()
                 .TagWith(GetTag(nameof(Count), specification))
                 .ApplyEfSpecification(specification)
-                .CountAsync(cancellationToken)
-                .ConfigureAwait(false);
+                .CountAsync(cancellationToken);
         }
 
         /// <inheritdoc/>
@@ -77,7 +76,7 @@ namespace VoidCore.EntityFramework
         /// </summary>
         protected virtual IQueryable<T> GetBaseQuery() => Context.Set<T>();
 
-        private string GetTag(string method, IQuerySpecification<T> specification = null)
+        private string GetTag(string method, IQuerySpecification<T>? specification = null)
         {
             var specName = specification != null ?
                 specification.GetType().GetFriendlyTypeName() :

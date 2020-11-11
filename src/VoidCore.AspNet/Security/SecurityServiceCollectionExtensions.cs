@@ -19,15 +19,9 @@ namespace VoidCore.AspNet.Security
         /// <param name="environment">The hosting environment</param>
         public static void AddSpaSecurityServices(this IServiceCollection services, IHostEnvironment environment)
         {
-            services.AddControllersWithViews(options =>
-            {
-                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-            });
+            services.AddControllersWithViews(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
 
-            services.AddAntiforgery(options =>
-            {
-                options.HeaderName = "X-Csrf-Token";
-            });
+            services.AddAntiforgery(options => options.HeaderName = "X-Csrf-Token");
 
             if (!environment.IsDevelopment())
             {

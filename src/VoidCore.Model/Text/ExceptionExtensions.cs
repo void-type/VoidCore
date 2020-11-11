@@ -3,17 +3,20 @@ using System.Collections.Generic;
 
 namespace VoidCore.Model.Text
 {
-    public static partial class TextHelpers
+    /// <summary>
+    /// Extension methods to log exceptions.
+    /// </summary>
+    public static class ExceptionExtensions
     {
         /// <summary>
         /// Flatten nested exceptions to a set of strings.
         /// </summary>
         /// <param name="exception">The outer exception</param>
-        public static IEnumerable<string> FlattenExceptionMessages(Exception exception)
+        public static IEnumerable<string> FlattenMessages(this Exception exception)
         {
             if (exception is null)
             {
-                return new string[0];
+                return Array.Empty<string>();
             }
 
             var exceptionMessages = new List<string> { "Threw Exception:" };

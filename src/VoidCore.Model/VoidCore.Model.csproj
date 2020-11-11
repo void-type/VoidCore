@@ -4,8 +4,7 @@
     <Title>VoidCore.Model</Title>
     <Description>Service interfaces for building opinionated business applications.</Description>
     <PackageTags>model;opinionated;services;interfaces;business logic;api;netstandard;</PackageTags>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <!-- <Nullable>enable</Nullable> -->
+    <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

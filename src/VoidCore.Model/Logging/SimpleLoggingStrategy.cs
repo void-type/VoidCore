@@ -28,7 +28,7 @@ namespace VoidCore.Model.Logging
         /// <returns>The enriched log entry</returns>
         public virtual string Log(Exception ex, params string[] messages)
         {
-            var eventArray = messages.Concat(TextHelpers.FlattenExceptionMessages(ex)).ToArray();
+            var eventArray = messages.Concat(ex.FlattenMessages()).ToArray();
 
             return Log(eventArray);
         }

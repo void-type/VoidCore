@@ -9,28 +9,26 @@ namespace VoidCore.Model.Responses.Files
     /// </summary>
     public class SimpleFile : ValueObject
     {
-        private string _name;
-
         /// <summary>
         /// Create a new file from a byte array. Useful for binary files.
         /// </summary>
-        /// <param name="fileContent">The byte representation of the file contents</param>
-        /// <param name="fileName">The name of the file</param>
-        public SimpleFile(string fileContent, string fileName)
+        /// <param name="content">The byte representation of the file contents</param>
+        /// <param name="name">The name of the file</param>
+        public SimpleFile(string content, string name)
         {
-            Name = fileName;
-            Content = new FileContent(fileContent);
+            Name = name.EnsureNotNullOrEmpty(nameof(name));
+            Content = new FileContent(content);
         }
 
         /// <summary>
         /// Create a new file from string content. Useful for human-readable text files. Uses UTF8 encoding.
         /// </summary>
-        /// <param name="fileContent">The string representation of the file contents</param>
-        /// <param name="fileName">The name of the file</param>
-        public SimpleFile(byte[] fileContent, string fileName)
+        /// <param name="content">The string representation of the file contents</param>
+        /// <param name="name">The name of the file</param>
+        public SimpleFile(byte[] content, string name)
         {
-            Name = fileName;
-            Content = new FileContent(fileContent);
+            Name = name.EnsureNotNullOrEmpty(nameof(name));
+            Content = new FileContent(content);
         }
 
         /// <summary>
@@ -43,12 +41,7 @@ namespace VoidCore.Model.Responses.Files
         /// The name of the file.
         /// </summary>
         /// <value></value>
-        public string Name
-        {
-            get => _name;
-
-            private set => _name = value.EnsureNotNullOrEmpty(nameof(Name));
-        }
+        public string Name { get; }
 
         /// <inheritdoc/>
         protected override IEnumerable<object> GetEqualityComponents()

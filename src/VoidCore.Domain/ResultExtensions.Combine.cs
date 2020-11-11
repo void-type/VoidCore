@@ -24,11 +24,11 @@ namespace VoidCore.Domain
         /// Asynchronously combine many results to one result. If any have failed, this will return a new aggregate
         /// failed result. If none have failed, this will return a successful result.
         /// </summary>
-        /// <param name="resultTasks">Asynchronous tasks representing the the results to combine</param>
+        /// <param name="resultTasks">Asynchronous tasks representing the results to combine</param>
         /// <returns>A combined result</returns>
-        public static async Task<IResult> CombineAsync(this IEnumerable<Task<IResult>> resultTasks)
+        public static Task<IResult> CombineAsync(this IEnumerable<Task<IResult>> resultTasks)
         {
-            return await Result.CombineAsync(resultTasks.ToArray()).ConfigureAwait(false);
+            return Result.CombineAsync(resultTasks.ToArray());
         }
     }
 }

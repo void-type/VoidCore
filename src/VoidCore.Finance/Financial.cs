@@ -24,7 +24,7 @@ namespace VoidCore.Finance
             else
             {
                 var pow = (decimal)Math.Pow(1 + (double)interestRatePerPeriod, numberOfPeriods);
-                return -(payment * (pow - 1) / interestRatePerPeriod + presentValue * pow);
+                return -((payment * (pow - 1) / interestRatePerPeriod) + (presentValue * pow));
             }
         }
 
@@ -49,7 +49,7 @@ namespace VoidCore.Finance
 
             for (var i = 0; i < cashFlows.Length; i++)
             {
-                netPresentValue += cashFlows[i] / (decimal)Math.Pow((1 + (double)interestRatePerPeriod), (i + 1));
+                netPresentValue += cashFlows[i] / (decimal)Math.Pow(1 + (double)interestRatePerPeriod, i + 1);
             }
 
             return netPresentValue;
@@ -71,7 +71,7 @@ namespace VoidCore.Finance
             else
             {
                 var pow = (decimal)Math.Pow(1 + (double)interestRatePerPeriod, numberOfPeriods);
-                payment = interestRatePerPeriod / (pow - 1) * -(presentValue * pow + futureValue);
+                payment = interestRatePerPeriod / (pow - 1) * -((presentValue * pow) + futureValue);
             }
 
             if (paymentDueAtBeginningOfPeriod)
@@ -90,14 +90,14 @@ namespace VoidCore.Finance
 
             if (interestRatePerPeriod == 0)
             {
-                return (-futureValue - (payment * numberOfPeriods));
+                return -futureValue - (payment * numberOfPeriods);
             }
 
             if (paymentDueAtBeginningOfPeriod)
             {
                 num = 1 + interestRatePerPeriod;
             }
-            return -(futureValue + ((payment * num) * ((pow - 1) / interestRatePerPeriod))) / pow;
+            return -(futureValue + (payment * num * ((pow - 1) / interestRatePerPeriod))) / pow;
         }
 
         /// <inheritdoc/>

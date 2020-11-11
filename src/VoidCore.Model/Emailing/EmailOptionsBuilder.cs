@@ -78,6 +78,8 @@ namespace VoidCore.Model.Emailing
         /// <param name="recipients">The email addresses of the recipients</param>
         public void AddRecipients(IEnumerable<string> recipients)
         {
+            recipients.EnsureNotNull(nameof(recipients));
+
             foreach (var recipient in recipients)
             {
                 AddRecipient(recipient);

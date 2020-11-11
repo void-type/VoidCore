@@ -34,7 +34,7 @@
         decimal NetPresentValue(decimal interestRatePerPeriod, params decimal[] cashFlows);
 
         /// <summary>
-        /// Finds the payment amount per period for an an annuity of periodic fixed payments and fixed interest rate.
+        /// Finds the payment amount per period for an annuity of periodic fixed payments and fixed interest rate.
         /// </summary>
         /// <param name="interestRatePerPeriod">The interest rate per period. Note: use APR divided by number of periods in a year. Use decimal form: 4% should be passed as .04.</param>
         /// <param name="numberOfPeriods">The total number of periods in the annuity.</param>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace VoidCore.Domain
 {
@@ -9,23 +10,20 @@ namespace VoidCore.Domain
     /// <typeparam name="T">The value of the maybe</typeparam>
     public sealed class Maybe<T> : IEquatable<Maybe<T>>
     {
-        private readonly MaybeValueWrapper<T> _value;
+        private readonly InternalValueWrapper<T>? _value;
 
         /// <summary>
         /// Construct an empty Maybe
         /// </summary>
-        private Maybe()
-        {
-            _value = null;
-        }
+        internal Maybe() { }
 
         /// <summary>
         /// Construct a Maybe with value.
         /// </summary>
         /// <param name="value">The value to create the Maybe from</param>
-        private Maybe(T value)
+        internal Maybe(T? value)
         {
-            _value = value == null ? null : new MaybeValueWrapper<T>(value);
+            _value = value is null ? null : new InternalValueWrapper<T>(value);
         }
 
         /// <summary>
@@ -37,17 +35,19 @@ namespace VoidCore.Domain
         /// <summary>
         /// Check if the Maybe doesn't have a value.
         /// </summary>
-        public bool HasNoValue => !HasValue;
+        public bool HasNoValue => _value is null;
 
         /// <summary>
         /// Checks if the Maybe has a value.
         /// </summary>
-        public bool HasValue => _value != null;
+        public bool HasValue => !HasNoValue;
 
         /// <summary>
         /// Get the value of Maybe.
         /// </summary>
         /// <value>The value of the Maybe</value>
+        /// <exception cref="InvalidOperationException">Throws when accessing value of a maybe without a value.</exception>
+        [NotNull]
         public T Value
         {
             get
@@ -57,18 +57,8 @@ namespace VoidCore.Domain
                     throw new InvalidOperationException("Do not access the value of Maybe if it has no value.");
                 }
 
-                return _value.Value;
+                return _value!.Value;
             }
-        }
-
-        /// <summary>
-        /// Convert an object to a Maybe of obj.
-        /// </summary>
-        /// <param name="obj">The object to convert</param>
-        /// <returns>A new Maybe of T of obj</returns>
-        public static Maybe<T> From(T obj)
-        {
-            return new Maybe<T>(obj);
         }
 
         /// <summary>
@@ -120,7 +110,7 @@ namespace VoidCore.Domain
                 return false;
             }
 
-            return !maybe.HasNoValue && maybe.Value.Equals(value);
+            return !maybe.HasNoValue && maybe.Value!.Equals(value);
         }
 
         /// <summary>
@@ -174,13 +164,13 @@ namespace VoidCore.Domain
                 return false;
             }
 
-            return _value.Value.Equals(other._value.Value);
+            return Value.Equals(other._value!.Value);
         }
 
         /// <inheritdoc/>
         public override int GetHashCode()
         {
-            return HasNoValue ? 0 : _value.Value.GetHashCode();
+            return HasNoValue ? 0 : Value.GetHashCode();
         }
 
         /// <inheritdoc/>

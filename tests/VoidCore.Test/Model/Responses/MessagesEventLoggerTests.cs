@@ -4,7 +4,7 @@ using VoidCore.Model.Logging;
 using VoidCore.Model.Responses.Messages;
 using Xunit;
 
-namespace VoidCore.Test.Model.Logging
+namespace VoidCore.Test.Model.Responses
 {
     public class MessagesEventLoggerTests
     {

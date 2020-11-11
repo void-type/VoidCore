@@ -4,8 +4,7 @@
     <Title>VoidCore.AspNet</Title>
     <Description>Configure Asp.Net Core web applications based on VoidCore.Model. Includes single-page front end support.</Description>
     <PackageTags>authorization;logging;security;headers;routing;configuration;opinionated;spa;single-page;asp.net;aspnet;aspnetcore;netcore;</PackageTags>
-    <TargetFrameworks>netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
-    <!-- <Nullable>enable</Nullable> -->
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

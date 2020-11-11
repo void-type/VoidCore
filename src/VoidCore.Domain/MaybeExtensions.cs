@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace VoidCore.Domain
@@ -175,24 +176,12 @@ namespace VoidCore.Domain
         /// <param name="defaultValue">What to return if there isn't a value in the Maybe</param>
         /// <typeparam name="T">The type of value</typeparam>
         /// <returns>The value of the Maybe</returns>
+        [return: MaybeNull]
         public static T Unwrap<T>(this Maybe<T> maybe, T defaultValue = default)
         {
-            return maybe.Unwrap(() => defaultValue);
-        }
-
-        /// <summary>
-        /// Asynchronously and safely extract the value from the Maybe. If there is no value in the Maybe, return the
-        /// default value.
-        /// </summary>
-        /// <param name="maybeTask">An asynchronous task representing the Maybe to get the value from</param>
-        /// <param name="defaultValue">What to return if there isn't a value in the Maybe</param>
-        /// <typeparam name="T">The type of value</typeparam>
-        /// <returns>The value of the Maybe</returns>
-        public static async Task<T> UnwrapAsync<T>(this Task<Maybe<T>> maybeTask, T defaultValue = default)
-        {
-            var maybe = await maybeTask.ConfigureAwait(false);
-
-            return maybe.Unwrap(() => defaultValue);
+            return maybe.HasValue ?
+                maybe.Value :
+                defaultValue;
         }
 
         /// <summary>
@@ -208,6 +197,23 @@ namespace VoidCore.Domain
             return maybe.HasValue ?
                 maybe.Value :
                 defaultValueFactory();
+        }
+
+        /// <summary>
+        /// Asynchronously and safely extract the value from the Maybe. If there is no value in the Maybe, return the
+        /// default value.
+        /// </summary>
+        /// <param name="maybeTask">An asynchronous task representing the Maybe to get the value from</param>
+        /// <param name="defaultValue">What to return if there isn't a value in the Maybe</param>
+        /// <typeparam name="T">The type of value</typeparam>
+        /// <returns>The value of the Maybe</returns>
+        public static async Task<T?> UnwrapAsync<T>(this Task<Maybe<T>> maybeTask, T defaultValue = default)
+        {
+            var maybe = await maybeTask.ConfigureAwait(false);
+
+            return maybe.HasValue ?
+                maybe.Value :
+                defaultValue;
         }
 
         /// <summary>

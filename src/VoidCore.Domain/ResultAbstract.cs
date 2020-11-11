@@ -12,7 +12,7 @@ namespace VoidCore.Domain
         /// <summary>
         /// Construct a failed result
         /// </summary>
-        internal ResultAbstract(IEnumerable<IFailure> failures)
+        protected ResultAbstract(IEnumerable<IFailure> failures)
         {
             _internalResult = new ResultInternal(failures);
         }
@@ -20,7 +20,7 @@ namespace VoidCore.Domain
         /// <summary>
         /// Construct a successful result
         /// </summary>
-        internal ResultAbstract()
+        protected ResultAbstract()
         {
             _internalResult = new ResultInternal();
         }
