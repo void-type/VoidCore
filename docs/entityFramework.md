@@ -19,10 +19,8 @@ Included are EntityFramework implementations of the specification and repository
 
 ### Query Tagging
 
-For apps targeting .Net Core 2.2 and higher, queries are tagged with information about their repository and specification. Tags help match a SQL command in SQL profiler or logs to the application code. When paired with VoidCore.AspNet's logging strategy, the SQL statement is also tagged with the web request trace ID.
+Queries are tagged with information about their repository and specification. Tags help match a SQL command in SQL profiler or logs to the application code. When paired with VoidCore.AspNet's logging strategy, the SQL statement is also tagged with the web request trace ID.
 
 ### SQL Logging
 
-.Net Core 3.0 apps will use the default behavior of logging EF SQL commands through the ILoggingFactory defined in your Startup.cs.
-
-Apps targeting .Net Core 2.2 and lower will log SQL statements to the console for development environments.
+Apps will use the default behavior of logging EF SQL commands through the ILoggingFactory defined in your Startup.cs.

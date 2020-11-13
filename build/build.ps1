@@ -59,32 +59,35 @@ if (-not $SkipTest) {
 
   Stop-OnError
 
-  New-Item -ItemType Directory -Path "../../" -Name "coverage"
-  Move-Item -Path "../../testResults/*/coverage.cobertura.xml" -Destination "../../coverage/coverage.cobertura.xml"
-
-  Pop-Location
-
   if (-not $SkipTestReport) {
     # Generate code coverage report
-    Push-Location -Path "../coverage"
-    dotnet reportgenerator "-reports:coverage.cobertura*.xml" "-targetdir:." "-reporttypes:HtmlInline_AzurePipelines"
+    dotnet reportgenerator `
+      "-reports:../../testResults/*/coverage.cobertura.xml" `
+      "-targetdir:../../coverage" `
+      "-reporttypes:HtmlInline_AzurePipelines"
     Stop-OnError
-    Pop-Location
   }
+
+  Pop-Location
 }
 
 if (-not $SkipPack) {
-  # Pack nugets
+  # Pack nugets for each package
   Get-ChildItem -Path "../src" |
     Where-Object { (Test-Path -Path "$($_.FullName)/*.csproj") -eq $true } |
     Select-Object -ExpandProperty Name |
     ForEach-Object {
       Push-Location -Path "../src/$_"
+
+      # Run inheritdoc
       dotnet InheritDoc --base "./bin/$Configuration/" --overwrite
       Stop-OnError
+
+      # Pack pre-release and release version
       dotnet pack --configuration "$Configuration" --no-build --output "../../artifacts/pre-release" /p:PublicRelease=false
       dotnet pack --configuration "$Configuration" --no-build --output "../../artifacts"
       Stop-OnError
+
       Pop-Location
     }
 }

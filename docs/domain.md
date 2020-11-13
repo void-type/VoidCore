@@ -222,7 +222,7 @@ Events are tied to explicit request and response objects. Events are handled asy
 
 Event pipelines are created through decorator methods that add Request Validators and Post Processors. Events and their pipeline component base classes are stateless and reusable by default. If your component dependencies allow it, you can register them as singletons and reuse components in different pipelines.
 
-Below is an example of using an event within an Asp.Net MVC controller.
+Below is an example of using an event within an ASP.NET MVC controller.
 
 ```csharp
 public class PersonsController : Controller
