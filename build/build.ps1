@@ -36,12 +36,6 @@ if (-not $SkipOutdated) {
   dotnet outdated
 }
 
-# Run Analyzers through building debug
-if ($Configuration -ne "Debug") {
-  dotnet build --configuration "Debug" --no-restore #-warnaserror
-  Stop-OnError
-}
-
 dotnet build --configuration "$Configuration" --no-restore
 Stop-OnError
 Pop-Location
@@ -65,6 +59,7 @@ if (-not $SkipTest) {
       "-reports:../../testResults/*/coverage.cobertura.xml" `
       "-targetdir:../../coverage" `
       "-reporttypes:HtmlInline_AzurePipelines"
+
     Stop-OnError
   }
 

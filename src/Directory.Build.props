@@ -1,23 +1,9 @@
 <Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)..\'))" />
+
   <PropertyGroup>
-    <Authors>Jeff Schreiner and contributors</Authors>
-    <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
-    <RepositoryUrl>https://github.com/void-type/VoidCore</RepositoryUrl>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <ReleaseNotes>See commits since last release.</ReleaseNotes>
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-    <GenerateFullPaths>true</GenerateFullPaths>
-    <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)" CopyToPublishDirectory="Always" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
@@ -34,4 +20,21 @@
     <PackageReference Include="SecurityCodeScan" Version="3.5.3" PrivateAssets="all" />
     <PackageReference Include="AsyncFixer" Version="1.3.0" PrivateAssets="all" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="$(PackageLicenseFile)" CopyToPublishDirectory="Always" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <Authors>Jeff Schreiner and contributors</Authors>
+    <Copyright>Copyright 2018-present Jeff Schreiner</Copyright>
+    <RepositoryUrl>https://github.com/void-type/VoidCore</RepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <ReleaseNotes>See commits since last release.</ReleaseNotes>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
 </Project>

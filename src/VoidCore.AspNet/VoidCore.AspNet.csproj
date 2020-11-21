@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageId>VoidCore.AspNet</PackageId>
     <Title>VoidCore.AspNet</Title>
     <Description>Configure ASP.NET web applications based on VoidCore.Model. Includes single-page front end support.</Description>
     <PackageTags>authorization;logging;security;headers;routing;configuration;opinionated;spa;single-page;asp.net;aspnet;aspnetcore;netcore;</PackageTags>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
