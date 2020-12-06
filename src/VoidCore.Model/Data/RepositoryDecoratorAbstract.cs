@@ -14,7 +14,7 @@ namespace VoidCore.Model.Data
         /// <summary>
         /// The repository being decorated.
         /// </summary>
-        protected readonly IWritableRepository<T> InnerRepository;
+        protected IWritableRepository<T> InnerRepository { get; }
 
         /// <summary>
         /// Create a new repository decorator.

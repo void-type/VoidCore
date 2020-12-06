@@ -1,4 +1,6 @@
-﻿namespace VoidCore.AspNet.Security
+﻿using VoidCore.Domain.Guards;
+
+namespace VoidCore.AspNet.Security
 {
     /// <summary>
     /// Builds the options to configure the X-Frame-Options header.
@@ -35,6 +37,8 @@
         /// <param name="originUri">The origin URI of a page that can frame this page.</param>
         public void AllowFrom(string originUri)
         {
+            originUri.EnsureNotNullOrEmpty(nameof(originUri));
+
             _option = $"allow-from {originUri}";
         }
 

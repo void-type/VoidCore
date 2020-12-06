@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using System;
+using VoidCore.Domain.Guards;
 
 namespace VoidCore.AspNet.Security
 {
@@ -37,6 +38,8 @@ namespace VoidCore.AspNet.Security
         /// <returns>The ApplicationBuilder for chaining.</returns>
         public static IApplicationBuilder UseContentSecurityPolicy(this IApplicationBuilder app, Action<CspOptionsBuilder> builder)
         {
+            builder.EnsureNotNull(nameof(builder));
+
             var newBuilder = new CspOptionsBuilder();
             builder(newBuilder);
             var options = newBuilder.Build();
@@ -53,6 +56,8 @@ namespace VoidCore.AspNet.Security
         /// <returns>The ApplicationBuilder for chaining.</returns>
         public static IApplicationBuilder UseXFrameOptions(this IApplicationBuilder app, Action<XFrameOptionsOptionsBuilder> builder)
         {
+            builder.EnsureNotNull(nameof(builder));
+
             var newBuilder = new XFrameOptionsOptionsBuilder();
             builder(newBuilder);
             var options = newBuilder.Build();

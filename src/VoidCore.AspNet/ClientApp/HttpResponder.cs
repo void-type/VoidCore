@@ -30,6 +30,7 @@ namespace VoidCore.AspNet.ClientApp
         /// <returns>An IActionResult</returns>
         public static IActionResult Respond(IResult result)
         {
+            result.EnsureNotNull(nameof(result));
             return result.IsSuccess ? Ok() : Fail(result);
         }
 
@@ -50,6 +51,8 @@ namespace VoidCore.AspNet.ClientApp
         /// <returns>An IActionResult</returns>
         public static IActionResult RespondWithFile(IResult<SimpleFile> result)
         {
+            result.EnsureNotNull(nameof(result));
+
             if (result.IsFailed)
             {
                 return Fail(result);

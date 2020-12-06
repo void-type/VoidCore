@@ -37,7 +37,7 @@ namespace VoidCore.Model.Logging
         /// Format and join individual messages to a single string.
         /// </summary>
         /// <param name="messages">The messages to format</param>
-        protected string BuildPayload(IEnumerable<string> messages)
+        protected static string BuildPayload(IEnumerable<string> messages)
         {
             return string.Join(" ", messages.Where(message => !string.IsNullOrWhiteSpace(message)));
         }

@@ -1,4 +1,6 @@
-﻿namespace VoidCore.AspNet.Security
+﻿using VoidCore.Domain.Guards;
+
+namespace VoidCore.AspNet.Security
 {
     /// <summary>
     /// A header for adding Content Security Policy to a webpage.
@@ -11,6 +13,8 @@
         /// <param name="options">The CspOptions to configure the header with</param>
         public CspHeader(CspOptions options)
         {
+            options.EnsureNotNull(nameof(options));
+
             Key = $"Content-Security-Policy{(options.IsReportOnly ? "-Report-Only" : string.Empty)}";
             Value = string.Concat(options.Directives);
         }

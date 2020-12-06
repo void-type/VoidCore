@@ -17,13 +17,13 @@ namespace VoidCore.EntityFramework
     /// <typeparam name="T">The type of entity stored in the repository</typeparam>
     public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
     {
+        private readonly string _repoTypeName;
+        private readonly ILoggingStrategy _loggingStrategy;
+
         /// <summary>
         /// The inner DbContext
         /// </summary>
-        protected readonly DbContext Context;
-
-        private readonly string _repoTypeName;
-        private readonly ILoggingStrategy _loggingStrategy;
+        protected DbContext Context { get; }
 
         /// <inheritdoc/>
         public EfReadOnlyRepository(DbContext context, ILoggingStrategy loggingStrategy)

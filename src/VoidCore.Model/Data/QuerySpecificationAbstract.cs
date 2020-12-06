@@ -74,7 +74,7 @@ namespace VoidCore.Model.Data
         /// <param name="isDescending">Toggle descending sort</param>
         protected void AddOrderBy(Expression<Func<T, object>> sortPropertySelector, bool isDescending = false)
         {
-            ValidateOrderBy(sortPropertySelector);
+            sortPropertySelector.EnsureNotNull(nameof(sortPropertySelector));
             _orderings.Add((sortPropertySelector, isDescending));
         }
 
@@ -86,11 +86,6 @@ namespace VoidCore.Model.Data
         {
             paginationOptions.EnsureNotNull(nameof(paginationOptions));
             PaginationOptions = paginationOptions;
-        }
-
-        private void ValidateOrderBy(Expression<Func<T, object>> sortPropertySelector)
-        {
-            sortPropertySelector.EnsureNotNull(nameof(sortPropertySelector));
         }
     }
 }

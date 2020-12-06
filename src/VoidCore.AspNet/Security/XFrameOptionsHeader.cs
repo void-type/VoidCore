@@ -1,4 +1,6 @@
-﻿namespace VoidCore.AspNet.Security
+﻿using VoidCore.Domain.Guards;
+
+namespace VoidCore.AspNet.Security
 {
     /// <summary>
     /// A header for adding X-Frame-Options to a webpage.
@@ -11,6 +13,8 @@
         /// <param name="options">The XFrameOptionsOptions to configure the header with</param>
         public XFrameOptionsHeader(XFrameOptionsOptions options)
         {
+            options.EnsureNotNull(nameof(options));
+
             Key = "X-Frame-Options";
             Value = options.Value;
         }

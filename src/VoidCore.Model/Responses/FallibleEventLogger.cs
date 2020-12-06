@@ -16,7 +16,7 @@ namespace VoidCore.Model.Responses
         /// <summary>
         /// Instance of a logging service.
         /// </summary>
-        protected readonly ILoggingService Logger;
+        protected ILoggingService Logger { get; }
 
         /// <summary>
         /// Construct a new post processor

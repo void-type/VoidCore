@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using VoidCore.Domain.Guards;
 
 namespace VoidCore.AspNet.Security
 {
@@ -29,6 +30,8 @@ namespace VoidCore.AspNet.Security
         /// <param name="context">The current HttpContext</param>
         public Task Invoke(HttpContext context)
         {
+            context.EnsureNotNull(nameof(context));
+
             var header = new CspHeader(_options);
             context.Response.Headers.Add(header.Key, header.Value);
             return _next(context);
