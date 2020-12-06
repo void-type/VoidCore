@@ -27,12 +27,6 @@ namespace VoidCore.Domain
         }
 
         /// <summary>
-        /// Get a new empty Maybe of type T
-        /// </summary>
-        /// <returns>A new empty Maybe of T</returns>
-        public static Maybe<T> None => new Maybe<T>();
-
-        /// <summary>
         /// Check if the Maybe doesn't have a value.
         /// </summary>
         public bool HasNoValue => _value is null;

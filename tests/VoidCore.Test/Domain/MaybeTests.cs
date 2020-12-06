@@ -9,7 +9,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void Accessing_value_of_none_throws_InvalidOperationException()
         {
-            var maybe = Maybe<string>.None;
+            var maybe = Maybe.None<string>();
             Assert.Throws<InvalidOperationException>(() =>
             {
                 var unused = maybe.Value;
@@ -24,17 +24,17 @@ namespace VoidCore.Test.Domain
             Assert.True(maybeFromNull.HasNoValue);
             Assert.False(maybeFromNull.HasValue);
 
-            Assert.True(Maybe<string>.None.HasNoValue);
-            Assert.False(Maybe<string>.None.HasValue);
+            Assert.True(Maybe.None<string>().HasNoValue);
+            Assert.False(Maybe.None<string>().HasValue);
 
-            Assert.True(maybeFromNull == Maybe<string>.None);
-            Assert.True(Maybe<string>.None == maybeFromNull);
+            Assert.True(maybeFromNull == Maybe.None<string>());
+            Assert.True(Maybe.None<string>() == maybeFromNull);
 
-            Assert.False(maybeFromNull != Maybe<string>.None);
-            Assert.False(Maybe<string>.None != maybeFromNull);
+            Assert.False(maybeFromNull != Maybe.None<string>());
+            Assert.False(Maybe.None<string>() != maybeFromNull);
 
-            Assert.True(maybeFromNull.Equals(Maybe<string>.None));
-            Assert.True(Maybe<string>.None.Equals(maybeFromNull));
+            Assert.True(maybeFromNull.Equals(Maybe.None<string>()));
+            Assert.True(Maybe.None<string>().Equals(maybeFromNull));
         }
 
         [Fact]
@@ -44,7 +44,7 @@ namespace VoidCore.Test.Domain
             Assert.False(maybe.HasNoValue);
             Assert.True(maybe.HasValue);
             Assert.Equal("some value", maybe.Value);
-            Assert.NotEqual(maybe, Maybe<string>.None);
+            Assert.NotEqual(maybe, Maybe.None<string>());
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace VoidCore.Test.Domain
             Assert.False(maybe.HasNoValue);
             Assert.True(maybe.HasValue);
             Assert.Equal(2, maybe.Value);
-            Assert.NotEqual(maybe, Maybe<int>.None);
+            Assert.NotEqual(maybe, Maybe.None<int>());
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace VoidCore.Test.Domain
             Assert.False(maybe.HasNoValue);
             Assert.True(maybe.HasValue);
             Assert.Equal("some value", maybe.Value);
-            Assert.NotEqual(maybe, Maybe<string>.None);
+            Assert.NotEqual(maybe, Maybe.None<string>());
         }
 
         [Fact]
@@ -78,7 +78,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void None_GetHashCode_returns_zero()
         {
-            var maybe = Maybe<string>.None;
+            var maybe = Maybe.None<string>();
             Assert.Equal(0, maybe.GetHashCode());
         }
 
@@ -159,7 +159,7 @@ namespace VoidCore.Test.Domain
         public void Maybe_is_not_equal_to_none()
         {
             var maybe1 = Maybe.From("some value");
-            var maybe2 = Maybe<string>.None;
+            var maybe2 = Maybe.None<string>();
             Assert.False(maybe1 == maybe2);
             Assert.True(maybe1 != maybe2);
             Assert.False(maybe1.Equals(maybe2));
@@ -168,7 +168,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void None_is_not_equal_to_maybe_with_value()
         {
-            var maybe1 = Maybe<string>.None;
+            var maybe1 = Maybe.None<string>();
             var maybe2 = Maybe.From("some value");
             Assert.False(maybe1 == maybe2);
             Assert.True(maybe1 != maybe2);
@@ -177,7 +177,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void None_is_not_equal_to_a_value()
         {
-            var maybe = Maybe<string>.None;
+            var maybe = Maybe.None<string>();
             Assert.False(maybe == "some other value");
             Assert.True(maybe != "some other value");
         }
@@ -185,7 +185,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void None_is_not_equal_to_null()
         {
-            var maybe = Maybe<string>.None;
+            var maybe = Maybe.None<string>();
             Assert.False(maybe is null);
             Assert.False(null == maybe);
             Assert.True(maybe != null);
@@ -215,7 +215,7 @@ namespace VoidCore.Test.Domain
         [Fact]
         public void None_to_string_returns_no_value()
         {
-            var maybe = Maybe<string>.None;
+            var maybe = Maybe.None<string>();
             Assert.Equal("No value", maybe.ToString());
         }
     }

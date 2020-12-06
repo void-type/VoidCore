@@ -50,7 +50,7 @@ namespace VoidCore.Domain
         {
             return maybe.HasValue ?
                 selector(maybe.Value) :
-                Maybe<TOut>.None;
+                Maybe.None<TOut>();
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace VoidCore.Domain
         {
             return maybe.HasValue ?
                 await selectorTask(maybe.Value).ConfigureAwait(false) :
-                Maybe<TOut>.None;
+                Maybe.None<TOut>();
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace VoidCore.Domain
         {
             return maybe.HasValue ?
                 selector(maybe.Value) :
-                Maybe<TOut>.None;
+                Maybe.None<TOut>();
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace VoidCore.Domain
         {
             return maybe.HasValue ?
                 await selectorTask(maybe.Value).ConfigureAwait(false) :
-                Maybe<TOut>.None;
+                Maybe.None<TOut>();
         }
 
         /// <summary>
@@ -242,7 +242,7 @@ namespace VoidCore.Domain
         {
             return maybe.HasValue && predicate(maybe.Value) ?
                 maybe :
-                Maybe<T>.None;
+                Maybe.None<T>();
         }
 
         /// <summary>

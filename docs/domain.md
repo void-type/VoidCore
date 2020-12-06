@@ -47,7 +47,7 @@ public IResult<Person> GetPersonById(int id)
 
     if (person is null)
     {
-        return Result.Fail(new Failure("Person is not found.", "personIdField"));
+        return Result.Fail<Person>(new Failure("Person is not found.", "personIdField"));
     }
 
     return Result.Ok(person);
@@ -110,7 +110,7 @@ public IResult<Person> GetPersonById(int id)
 
     if (maybePerson.HasNoValue)
     {
-        return Result.Fail(new PersonNotFoundFailure());
+        return Result.Fail<Person>(new PersonNotFoundFailure());
     }
 
     return Result.Ok(maybePerson.Value);
@@ -123,14 +123,14 @@ There are useful extension methods to make pipelines of Maybes and even convert 
 // Create a maybe from anything.
 var maybePerson = Maybe.From(_data.Persons.GetById(id))
 
-    // Filter on a predicate. A maybe that doesn't match will be replaced with Maybe<Person>.None.
+    // Filter on a predicate. A maybe that doesn't match will be replaced with Maybe.None<Person>().
     .Where(p => p.Name == "Patrick Stewart")
 
     // Then will bind your maybe into another maybe-returning function.
     // This allows you to use the output of one maybe function as input for another and prevents nested maybes.
     .Then(p => _data.Actors.GetFromPerson(p))
 
-    // Safe mappings. If there is no value, it will return a Maybe<Person>.None.
+    // Safe mappings. If there is no value, it will return a Maybe.None<Person>().
     .Select(p => p.Name = "Sir " + p.Name);
 
 // Safely extract the inner value. If there is no value, unwrap will return the default value of that type, or the optionally specified value.
@@ -271,7 +271,7 @@ public class GetPerson
         {
             var personById = new PersonSpecification(p => p.Id == request.Id);
 
-            // Persons.Get returns a Maybe<Person> from the IReadOnlyRepository interface
+            // Persons.Get returns a Maybe<Person> from the VoidCore.Model.Data.IReadOnlyRepository interface
             return await _data.Persons.Get(personById)
                 .ToResultAsync(new PersonNotFoundFailure())
                 .SelectAsync(p => new PersonDto(p.Name, p.Email));
