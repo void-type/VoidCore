@@ -14,6 +14,13 @@ namespace VoidCore.Test.Model.Text
         }
 
         [Fact]
+        public void Strip_type_name_ending_and_attribute()
+        {
+            var typeName = typeof(MyBaseSettingsAttribute).GetTypeNameWithoutEnding("Settings");
+            Assert.Equal("MyBase", typeName);
+        }
+
+        [Fact]
         public void Strip_type_name_ending_is_case_insensitive()
         {
             var typeName2 = typeof(MyBaseSettings).GetTypeNameWithoutEnding("settings");
@@ -67,6 +74,8 @@ namespace VoidCore.Test.Model.Text
     }
 
     internal class MyBaseSettings { }
+
+    internal class MyBaseSettingsAttribute { }
 
     internal class Lowercasesettings { }
 
