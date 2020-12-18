@@ -11,8 +11,8 @@ namespace VoidCore.Model.Emailing
         internal EmailOptionsBuilder() { }
 
         private string _subject = string.Empty;
-        private readonly List<string> _messageLines = new List<string>();
-        private readonly List<string> _recipients = new List<string>();
+        private readonly List<string> _messageLines = new();
+        private readonly List<string> _recipients = new();
 
         /// <summary>
         /// Set the subject of the email. Will override any previously set subjects.

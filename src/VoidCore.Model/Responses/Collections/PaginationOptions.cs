@@ -23,7 +23,7 @@
         /// <summary>
         /// Get a default pagination options that disables pagination.
         /// </summary>
-        public static readonly PaginationOptions None = new PaginationOptions();
+        public static readonly PaginationOptions None = new();
 
         /// <summary>
         /// How many items to include in each page.

@@ -8,7 +8,7 @@ namespace VoidCore.AspNet.Security
     /// </summary>
     public sealed class CspDirectiveBuilder
     {
-        private readonly List<string> _sources = new List<string>();
+        private readonly List<string> _sources = new();
 
         internal CspDirectiveBuilder(string name)
         {

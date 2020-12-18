@@ -40,13 +40,13 @@ namespace VoidCore.Domain
         public override int GetHashCode()
         {
             return GetEqualityComponents()
-                    .Aggregate(1, (current, obj) =>
+                .Aggregate(1, (current, obj) =>
+                {
+                    unchecked
                     {
-                        unchecked
-                        {
-                            return current * 23 + (obj?.GetHashCode() ?? 0);
-                        }
-                    });
+                        return current * 23 + (obj?.GetHashCode() ?? 0);
+                    }
+                });
         }
 
         private int CompareComponents(object object1, object object2)
@@ -83,8 +83,8 @@ namespace VoidCore.Domain
         /// <inheritdoc/>
         public int CompareTo(object obj)
         {
-            Type thisType = GetUnproxiedType(this);
-            Type otherType = GetUnproxiedType(obj);
+            var thisType = GetUnproxiedType(this);
+            var otherType = GetUnproxiedType(obj);
 
             if (thisType != otherType)
             {
@@ -93,12 +93,12 @@ namespace VoidCore.Domain
 
             var other = (ValueObject)obj;
 
-            object[] components = GetEqualityComponents().ToArray();
-            object[] otherComponents = other.GetEqualityComponents().ToArray();
+            var components = GetEqualityComponents().ToArray();
+            var otherComponents = other.GetEqualityComponents().ToArray();
 
-            for (int i = 0; i < components.Length; i++)
+            for (var i = 0; i < components.Length; i++)
             {
-                int comparison = CompareComponents(components[i], otherComponents[i]);
+                var comparison = CompareComponents(components[i], otherComponents[i]);
                 if (comparison != 0)
                 {
                     return comparison;
@@ -142,13 +142,13 @@ namespace VoidCore.Domain
 
         internal static Type GetUnproxiedType(object obj)
         {
-            const string EFCoreProxyPrefix = "Castle.Proxies.";
-            const string NHibernateProxyPostfix = "Proxy";
+            const string efCoreProxyPrefix = "Castle.Proxies.";
+            const string nHibernateProxyPostfix = "Proxy";
 
-            Type type = obj.GetType();
-            string typeString = type.ToString();
+            var type = obj.GetType();
+            var typeString = type.ToString();
 
-            if (typeString.Contains(EFCoreProxyPrefix) || typeString.EndsWith(NHibernateProxyPostfix))
+            if (typeString.Contains(efCoreProxyPrefix) || typeString.EndsWith(nHibernateProxyPostfix))
             {
                 return type.BaseType;
             }

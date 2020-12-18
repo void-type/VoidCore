@@ -13,8 +13,8 @@ namespace VoidCore.Domain.Events
     public class EventHandlerDecorator<TRequest, TResponse> : IEventHandler<TRequest, TResponse>
     {
         private readonly EventHandlerAbstract<TRequest, TResponse> _innerEvent;
-        private readonly List<IPostProcessor<TRequest, TResponse>> _postProcessors = new List<IPostProcessor<TRequest, TResponse>>();
-        private readonly List<IRequestValidator<TRequest>> _requestValidators = new List<IRequestValidator<TRequest>>();
+        private readonly List<IPostProcessor<TRequest, TResponse>> _postProcessors = new();
+        private readonly List<IRequestValidator<TRequest>> _requestValidators = new();
 
         /// <summary>
         /// Create a new Decorated Domain Event handler

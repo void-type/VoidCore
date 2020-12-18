@@ -16,17 +16,20 @@ namespace VoidCore.Test.AspNet.Auth
         [Fact]
         public void WebCurrentUserAccessor_returns_user_with_correct_auth()
         {
-            var authSettings = new AuthorizationSettings(new Dictionary<string, List<string>>
+            var authSettings = new AuthorizationSettings
             {
+                Policies = new Dictionary<string, List<string>>
                 {
-                    "User",
-                    new List<string> { "AppUsers", "AppAdmins" }
-                },
-                {
-                    "Admin",
-                    new List<string> { "AppAdmins" }
+                    {
+                        "User",
+                        new List<string> { "AppUsers", "AppAdmins" }
+                    },
+                    {
+                        "Admin",
+                        new List<string> { "AppAdmins" }
+                    }
                 }
-            });
+            };
 
             var identityMock = new Mock<IIdentity>();
             identityMock.Setup(i => i.Name).Returns("Name@contoso.com");

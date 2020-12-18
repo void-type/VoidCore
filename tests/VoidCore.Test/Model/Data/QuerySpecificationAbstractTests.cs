@@ -18,7 +18,7 @@ namespace VoidCore.Test.Model.Data
         private static readonly Expression<Func<MyObject, object>> _orderByDesc = o => o.OrderByDescending;
         private static readonly Expression<Func<MyObject, object>> _thenBy = o => o.ThenBy;
         private static readonly Expression<Func<MyObject, object>> _thenByDesc = o => o.ThenByDescending;
-        private static readonly PaginationOptions _paginationOptions = new PaginationOptions(2, 3);
+        private static readonly PaginationOptions _paginationOptions = new(2, 3);
 
         [Fact]
         public void QuerySpecificationAbstract_sets_properties_from_methods()

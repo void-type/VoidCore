@@ -10,8 +10,8 @@ namespace VoidCore.Domain.RuleValidator
     internal class RuleBuilder<T> : IRuleBuilder<T>
     {
         private readonly Func<T, IFailure> _failureBuilder;
-        private readonly List<Func<T, bool>> _invalidConditions = new List<Func<T, bool>>();
-        private readonly List<Func<T, bool>> _suppressConditions = new List<Func<T, bool>>();
+        private readonly List<Func<T, bool>> _invalidConditions = new();
+        private readonly List<Func<T, bool>> _suppressConditions = new();
 
         /// <summary>
         /// Construct a new rule and underlying validation error to throw when violations are detected.

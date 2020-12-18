@@ -10,7 +10,11 @@ namespace VoidCore.Test.AspNet.Configuration
         [Fact]
         public void Variables_return_all_properties()
         {
-            var appSettings = new ApplicationSettings("AppName", "https://www.contoso.com/path/base");
+            var appSettings = new ApplicationSettings
+            {
+                Name = "AppName",
+                BaseUrl = "https://www.contoso.com/path/base"
+            };
 
             var hostMock = new Mock<IHostEnvironment>();
             hostMock.Setup(h => h.EnvironmentName).Returns("TestingEnvironment");

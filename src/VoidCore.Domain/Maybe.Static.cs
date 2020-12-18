@@ -19,6 +19,6 @@
         /// Get a new empty Maybe of type T
         /// </summary>
         /// <returns>A new empty Maybe of T</returns>
-        public static Maybe<T> None<T>() => new Maybe<T>();
+        public static Maybe<T> None<T>() => new();
     }
 }

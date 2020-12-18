@@ -6,7 +6,7 @@ namespace VoidCore.Test.Finance
 {
     public class AmortizationTests
     {
-        private readonly AmortizationCalculator _calculator = new AmortizationCalculator(new Financial());
+        private readonly AmortizationCalculator _calculator = new(new Financial());
 
         [Fact]
         public void MediumMortgage()

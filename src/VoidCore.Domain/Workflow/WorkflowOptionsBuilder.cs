@@ -12,7 +12,7 @@ namespace VoidCore.Domain.Workflow
     {
         internal WorkflowOptionsBuilder() { }
 
-        private readonly HashSet<WorkflowTransition<TState, TCommand>> _transitions = new HashSet<WorkflowTransition<TState, TCommand>>();
+        private readonly HashSet<WorkflowTransition<TState, TCommand>> _transitions = new();
 
         /// <summary>
         /// Add an allowed transition between states.

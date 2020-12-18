@@ -9,9 +9,9 @@ namespace VoidCore.Model.Data
     /// <inheritdoc/>
     public abstract class QuerySpecificationAbstract<T> : IQuerySpecification<T>
     {
-        private readonly List<Expression<Func<T, bool>>> _criteria = new List<Expression<Func<T, bool>>>();
-        private readonly List<Expression<Func<T, object>>> _includes = new List<Expression<Func<T, object>>>();
-        private readonly List<string> _includeStrings = new List<string>();
+        private readonly List<Expression<Func<T, bool>>> _criteria = new();
+        private readonly List<Expression<Func<T, object>>> _includes = new();
+        private readonly List<string> _includeStrings = new();
         private readonly List<(Expression<Func<T, object>> OrderBy, bool IsDescending)> _orderings = new List<(Expression<Func<T, object>>, bool)>();
 
         /// <summary>
