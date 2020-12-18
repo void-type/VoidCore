@@ -10,6 +10,6 @@ namespace VoidCore.AspNet.Auth
         /// <summary>
         /// Policies represented as a key of policyName and names of allowed roles.
         /// </summary>
-        public Dictionary<string, List<string>> Policies { get; init; } = new Dictionary<string, List<string>>();
+        public Dictionary<string, List<string>> Policies { get; init; } = new();
     }
 }
