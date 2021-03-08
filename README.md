@@ -1,8 +1,8 @@
 # VoidCore
 
-[![License](https://img.shields.io/github/license/void-type/VoidCore.svg)](https://github.com/void-type/VoidCore/blob/master/LICENSE.txt)
-[![Build Status](https://img.shields.io/azure-devops/build/void-type/VoidCore/1.svg)](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=1&branchName=master)
-[![Test Coverage](https://img.shields.io/azure-devops/coverage/void-type/VoidCore/1.svg)](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=1&branchName=master)
+[![License](https://img.shields.io/github/license/void-type/VoidCore.svg)](https://github.com/void-type/VoidCore/blob/main/LICENSE.txt)
+[![Build Status](https://img.shields.io/azure-devops/build/void-type/VoidCore/1.svg)](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=1&branchName=main)
+[![Test Coverage](https://img.shields.io/azure-devops/coverage/void-type/VoidCore/1.svg)](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=1&branchName=main)
 
 A set of core libraries for building domain-driven business applications on .NET 5 and .NET Core 3.1.
 
@@ -22,7 +22,7 @@ Read about the packages available.
 
 ## Developers
 
-VoidCore is built on [Azure Pipelines](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=1&branchName=master) and released on [Nuget](https://www.nuget.org/packages?q=voidcore&prerel=false).
+VoidCore is built on [Azure Pipelines](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=1&branchName=main) and released on [Nuget](https://www.nuget.org/packages?q=voidcore&prerel=false).
 
 To work on VoidCore, you will need the [.NET SDK](https://dotnet.microsoft.com/download).
 
