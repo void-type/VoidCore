@@ -12,7 +12,7 @@ namespace VoidCore.Model.Data
         private readonly List<Expression<Func<T, bool>>> _criteria = new();
         private readonly List<Expression<Func<T, object>>> _includes = new();
         private readonly List<string> _includeStrings = new();
-        private readonly List<(Expression<Func<T, object>> OrderBy, bool IsDescending)> _orderings = new List<(Expression<Func<T, object>>, bool)>();
+        private readonly List<(Expression<Func<T, object>> OrderBy, bool IsDescending)> _orderings = new();
 
         /// <summary>
         /// Create a new query
