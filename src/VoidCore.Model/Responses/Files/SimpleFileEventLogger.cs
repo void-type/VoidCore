@@ -1,24 +1,22 @@
-﻿using VoidCore.Model.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace VoidCore.Model.Responses.Files
 {
-    /// <inheritdoc/>
     /// <summary>
-    /// Log meta information about the item set.
+    /// Log meta information about the SimpleFile.
     /// </summary>
-    /// <typeparam name="TRequest">The request type</typeparam>
-    public class SimpleFileEventLogger<TRequest> : FallibleEventLogger<TRequest, SimpleFile>
+    /// <typeparam name="TRequest">The request type of the event.</typeparam>
+    public class SimpleFileEventLogger<TRequest> : FallibleEventLoggerAbstract<TRequest, SimpleFile>
     {
-        /// <summary>
-        /// Construct a new IItemSet logger.
-        /// </summary>
-        /// <param name="logger">A service to log to</param>
-        public SimpleFileEventLogger(ILoggingService logger) : base(logger) { }
+        /// <inheritdoc/>
+        public SimpleFileEventLogger(ILogger<SimpleFileEventLogger<TRequest>> logger) : base(logger) { }
 
         /// <inheritdoc/>
         protected override void OnSuccess(TRequest request, SimpleFile response)
         {
-            Logger.Info($"FileName: {response.Name}");
+            Logger.LogInformation("Responded with SimpleFile. FileName: {FileName} FileSizeBytes: {FileSizeBytes} bytes",
+                response.Name,
+                response.Content.AsBytes.Length);
 
             base.OnSuccess(request, response);
         }

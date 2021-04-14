@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System.Threading.Tasks;
 using VoidCore.AspNet.ClientApp;
+using VoidCore.AspNet.Configuration;
 using VoidCore.Model.Auth;
-using VoidCore.Model.Configuration;
-using VoidCore.Model.Logging;
 using Xunit;
 
 namespace VoidCore.Test.AspNet.ClientApp
@@ -15,8 +15,10 @@ namespace VoidCore.Test.AspNet.ClientApp
         [Fact]
         public async Task GetWebClientInfo_return_client_app_info()
         {
-            var wepAppVariablesMock = new Mock<IWebAppVariables>();
-            wepAppVariablesMock.Setup(v => v.AppName).Returns("AppName");
+            var applicationSettings = new WebApplicationSettings()
+            {
+                Name = "AppName"
+            };
 
             var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
             currentUserAccessorMock
@@ -35,12 +37,10 @@ namespace VoidCore.Test.AspNet.ClientApp
                 .Setup(mock => mock.GetAndStoreTokens(It.IsAny<HttpContext>()))
                 .Returns(new AntiforgeryTokenSet("request-token", "cookie-token", "formFieldName", "header-name"));
 
-            var loggingServiceMock = new Mock<ILoggingService>();
-            loggingServiceMock
-                .Setup(l => l.Info(It.IsAny<string[]>()));
+            var loggerMock = new Mock<ILogger<GetWebClientInfo.ResponseLogger>>();
 
-            var result = await new GetWebClientInfo.Handler(wepAppVariablesMock.Object, contextAccessorMock.Object, antiforgeryMock.Object, currentUserAccessorMock.Object)
-                .AddPostProcessor(new GetWebClientInfo.Logger(loggingServiceMock.Object))
+            var result = await new GetWebClientInfo.Handler(applicationSettings, contextAccessorMock.Object, antiforgeryMock.Object, currentUserAccessorMock.Object)
+                .AddPostProcessor(new GetWebClientInfo.ResponseLogger(loggerMock.Object))
                 .Handle(new GetWebClientInfo.Request());
 
             Assert.True(result.IsSuccess);
@@ -53,8 +53,6 @@ namespace VoidCore.Test.AspNet.ClientApp
             Assert.Equal(new[] { "policy1", "policy2" }, appInfo.User.AuthorizedAs);
             Assert.Equal("header-name", appInfo.AntiforgeryTokenHeaderName);
             Assert.Equal("request-token", appInfo.AntiforgeryToken);
-
-            loggingServiceMock.Verify(l => l.Info("AppName: AppName", "UserName: UserName", "UserAuthorizedAs: policy1, policy2"), Times.Once());
         }
     }
 }

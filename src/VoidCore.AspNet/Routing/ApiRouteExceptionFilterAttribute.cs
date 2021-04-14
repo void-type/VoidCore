@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
 using System;
-using VoidCore.Model.Logging;
 using VoidCore.Model.Responses.Messages;
 
 namespace VoidCore.AspNet.Routing
@@ -11,13 +11,13 @@ namespace VoidCore.AspNet.Routing
     /// </summary>
     public class ApiRouteExceptionFilterAttribute : ExceptionFilterAttribute
     {
-        private readonly ILoggingService _logger;
+        private readonly ILogger _logger;
 
         /// <summary>
         /// Construct a new ApiExceptionFilterAttribute
         /// </summary>
         /// <param name="logger">A Logging service</param>
-        public ApiRouteExceptionFilterAttribute(ILoggingService logger)
+        public ApiRouteExceptionFilterAttribute(ILogger<ApiRouteExceptionFilterAttribute> logger)
         {
             _logger = logger;
         }
@@ -34,7 +34,7 @@ namespace VoidCore.AspNet.Routing
             }
 
             const string message = "There was a problem processing your request.";
-            _logger.Fatal(context.Exception, message);
+            _logger.LogCritical(context.Exception, message);
             context.Result = new ObjectResult(new UserMessage(message)) { StatusCode = 500 };
         }
     }

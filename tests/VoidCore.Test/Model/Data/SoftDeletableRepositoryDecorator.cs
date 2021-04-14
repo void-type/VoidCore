@@ -28,7 +28,7 @@ namespace VoidCore.Test.Model.Data
 
             var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
             currentUserAccessorMock.Setup(c => c.User)
-                .Returns(new DomainUser("userName", new string[] { }));
+                .Returns(new DomainUser("userName", Array.Empty<string>()));
 
             var decoratedRepo = repoMock.Object.AddSoftDeletability(dateTimeService, currentUserAccessorMock.Object);
 
@@ -58,7 +58,7 @@ namespace VoidCore.Test.Model.Data
 
             var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
             currentUserAccessorMock.Setup(c => c.User)
-                .Returns(new DomainUser("userName", new string[] { }));
+                .Returns(new DomainUser("userName", Array.Empty<string>()));
 
             var decoratedRepo = repoMock.Object.AddSoftDeletability(dateTimeService, currentUserAccessorMock.Object);
 

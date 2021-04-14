@@ -15,6 +15,7 @@ VoidCore.AspNet is an ASP.NET implementation of VoidCore.Model. It includes help
 
 * Active Directory group authorization via Windows authentication.
 * HTTPS with redirection and HSTS headers.
+* Fluent CSP and X-Frame options header configuration.
 * Antiforgery for SPAs.
 * Exception handling (SPA and MVC) with logging.
   * API endpoints return a JSON {message: ""} object for the client.

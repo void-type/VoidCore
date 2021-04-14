@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
-using VoidCore.Domain.Guards;
+using VoidCore.Model.Guards;
 
 namespace VoidCore.AspNet.Security
 {

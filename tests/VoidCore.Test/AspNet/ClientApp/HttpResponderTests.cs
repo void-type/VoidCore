@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VoidCore.AspNet.ClientApp;
-using VoidCore.Domain;
+using VoidCore.Model.Functional;
 using VoidCore.Model.Responses.Collections;
 using VoidCore.Model.Responses.Files;
 using VoidCore.Model.Responses.Messages;

@@ -1,9 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <PackageId>VoidCore.Domain</PackageId>
-    <Title>VoidCore.Domain</Title>
-    <Description>Core for building domain-driven, functional and event-based applications.</Description>
-    <PackageTags>events;validation;pipeline;functional;domain;netstandard;</PackageTags>
-  </PropertyGroup>
-</Project>

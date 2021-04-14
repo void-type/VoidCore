@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using VoidCore.Domain;
-using VoidCore.Domain.Guards;
+using VoidCore.Model.Functional;
+using VoidCore.Model.Guards;
 
 namespace VoidCore.Model.Responses.Files
 {

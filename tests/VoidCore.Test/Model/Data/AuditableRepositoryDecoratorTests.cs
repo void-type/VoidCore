@@ -25,7 +25,7 @@ namespace VoidCore.Test.Model.Data
 
             var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
             currentUserAccessorMock.Setup(c => c.User)
-                .Returns(new DomainUser("userName", new string[] { }));
+                .Returns(new DomainUser("userName", Array.Empty<string>()));
 
             var decorator = repoMock.Object.AddAuditability(dateTimeService, currentUserAccessorMock.Object);
 
@@ -53,7 +53,7 @@ namespace VoidCore.Test.Model.Data
 
             var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
             currentUserAccessorMock.Setup(c => c.User)
-                .Returns(new DomainUser("userName", new string[] { }));
+                .Returns(new DomainUser("userName", Array.Empty<string>()));
 
             var decoratedRepo = repoMock.Object.AddAuditability(dateTimeService, currentUserAccessorMock.Object);
 
@@ -81,7 +81,7 @@ namespace VoidCore.Test.Model.Data
 
             var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
             currentUserAccessorMock.Setup(c => c.User)
-                .Returns(new DomainUser("userName", new string[] { }));
+                .Returns(new DomainUser("userName", Array.Empty<string>()));
 
             var decoratedRepo = repoMock.Object.AddAuditability(dateTimeService, currentUserAccessorMock.Object);
 
@@ -109,7 +109,7 @@ namespace VoidCore.Test.Model.Data
 
             var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
             currentUserAccessorMock.Setup(c => c.User)
-                .Returns(new DomainUser("userName", new string[] { }));
+                .Returns(new DomainUser("userName", Array.Empty<string>()));
 
             var decoratedRepo = repoMock.Object.AddAuditability(dateTimeService, currentUserAccessorMock.Object);
 

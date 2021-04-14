@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using VoidCore.Domain;
+using VoidCore.Model.Functional;
 using VoidCore.Test.EfIntegration.TestModels;
 using VoidCore.Test.EfIntegration.TestModels.Data;
 using VoidCore.Test.EfIntegration.TestModels.Events;
@@ -17,7 +17,7 @@ namespace VoidCore.Test.EfIntegration
             var data = context.Seed().FoodStuffsData();
 
             var recipes = await data.Recipes.ListAll(default);
-            var recipeToFind = recipes.First();
+            var recipeToFind = recipes[0];
 
             var byId = new RecipesByIdWithCategoriesSpecification(recipeToFind.Id);
 
@@ -207,7 +207,7 @@ namespace VoidCore.Test.EfIntegration
             var data = context.Seed().FoodStuffsData();
 
             var recipes = await data.Recipes.ListAll(default);
-            var recipeToDelete = recipes.First();
+            var recipeToDelete = recipes[0];
 
             var byId = new RecipesByIdWithCategoriesSpecification(recipeToDelete.Id);
 
@@ -250,7 +250,7 @@ namespace VoidCore.Test.EfIntegration
             using var context = Deps.FoodStuffsContext();
             var data = context.Seed().FoodStuffsData();
 
-            var existingRecipeId = (await data.Recipes.ListAll(default)).First().Id;
+            var existingRecipeId = (await data.Recipes.ListAll(default))[0].Id;
 
             var result = await new SaveRecipe.Handler(data)
                 .Handle(new SaveRecipe.Request(existingRecipeId, "New", "New", "New", null, 20, new[] { "Category2", "Category3", "Category4" }));

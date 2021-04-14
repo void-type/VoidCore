@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using VoidCore.Domain;
+using VoidCore.Model.Functional;
 
 namespace VoidCore.AspNet.Security
 {
@@ -80,7 +80,7 @@ namespace VoidCore.AspNet.Security
         /// <returns>The builder for chaining.</returns>
         public CspDirectiveBuilder Custom(string directiveName)
         {
-            Maybe<CspDirectiveBuilder> maybeBuilder = _directiveBuilders.FirstOrDefault(d => d.Name == directiveName);
+            var maybeBuilder = Maybe.From(_directiveBuilders.FirstOrDefault(d => d.Name == directiveName));
 
             return maybeBuilder.Unwrap(() =>
             {

@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using VoidCore.Domain;
-using VoidCore.Domain.Events;
-using VoidCore.Domain.RuleValidator;
-using VoidCore.Model.Logging;
+using VoidCore.Model.Events;
+using VoidCore.Model.Functional;
 using VoidCore.Model.Responses.Messages;
+using VoidCore.Model.RuleValidator;
 using VoidCore.Test.EfIntegration.TestModels.Data;
 
 namespace VoidCore.Test.EfIntegration.TestModels.Events
@@ -45,7 +45,7 @@ namespace VoidCore.Test.EfIntegration.TestModels.Events
                     .MapAsync(r => Ok(EntityMessage.Create("Recipe added.", r.Id)));
             }
 
-            private void Transfer(Request request, Recipe recipe)
+            private static void Transfer(Request request, Recipe recipe)
             {
                 recipe.Name = request.Name;
                 recipe.Ingredients = request.Ingredients;
@@ -137,9 +137,19 @@ namespace VoidCore.Test.EfIntegration.TestModels.Events
             }
         }
 
-        public class Logger : EntityMessageEventLogger<Request, int>
+        public class RequestLogger : RequestLoggerAbstract<Request>
         {
-            public Logger(ILoggingService logger) : base(logger) { }
+            public RequestLogger(ILogger<RequestLogger> logger) : base(logger) { }
+
+            public override void Log(Request request)
+            {
+                Logger.LogInformation("Requested. Id: {Id}", request.Id);
+            }
+        }
+
+        public class ResponseLogger : EntityMessageEventLogger<Request, int>
+        {
+            public ResponseLogger(ILogger<ResponseLogger> logger) : base(logger) { }
         }
     }
 }

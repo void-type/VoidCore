@@ -58,5 +58,19 @@ namespace VoidCore.Test.AspNet.Auth
             Assert.Contains("User", user.AuthorizedAs);
             Assert.DoesNotContain("Admin", user.AuthorizedAs);
         }
+
+        [Fact]
+        public void WebCurrentUserAccessor_returns_user_with_no_permissions_if_context_is_null()
+        {
+            var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
+            httpContextAccessorMock.Setup(a => a.HttpContext)
+                .Returns((HttpContext)null);
+
+            var accessor = new WebCurrentUserAccessor(httpContextAccessorMock.Object, new EmailUserNameFormatStrategy(), null, null);
+
+            var user = accessor.User;
+
+            Assert.Empty(user.AuthorizedAs);
+        }
     }
 }

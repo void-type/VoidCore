@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using VoidCore.Domain.Guards;
+using VoidCore.Model.Guards;
 using VoidCore.Model.Responses.Collections;
 
 namespace VoidCore.Model.Data

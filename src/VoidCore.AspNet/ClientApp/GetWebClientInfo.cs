@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
-using VoidCore.Domain;
-using VoidCore.Domain.Events;
+using Microsoft.Extensions.Logging;
+using VoidCore.AspNet.Configuration;
 using VoidCore.Model.Auth;
-using VoidCore.Model.Configuration;
-using VoidCore.Model.Logging;
+using VoidCore.Model.Events;
+using VoidCore.Model.Functional;
+using VoidCore.Model.Guards;
 using VoidCore.Model.Responses;
-
-// Allow single file events
-#pragma warning disable CA1034
 
 // Allow single file events
 #pragma warning disable CA1034
@@ -24,20 +22,20 @@ namespace VoidCore.AspNet.ClientApp
         public class Handler : EventHandlerSyncAbstract<Request, WebClientInfo>
         {
             private readonly IAntiforgery _antiForgery;
-            private readonly IWebAppVariables _webAppVariables;
             private readonly ICurrentUserAccessor _currentUserAccessor;
+            private readonly WebApplicationSettings _applicationSettings;
             private readonly IHttpContextAccessor _httpContextAccessor;
 
             /// <summary>
-            /// Construct a new handler for GetWebClientInfo
+            /// Construct a new handler for GetWebClientInfo.
             /// </summary>
-            /// <param name="webAppVariables">Application settings pulled from configuration</param>
+            /// <param name="applicationSettings">Application settings pulled from configuration</param>
             /// <param name="httpContextAccessor">Accessor for the current httpContext</param>
             /// <param name="antiforgery">The ASP.NET antiForgery object</param>
             /// <param name="currentUserAccessor">UI-friendly user name</param>
-            public Handler(IWebAppVariables webAppVariables, IHttpContextAccessor httpContextAccessor, IAntiforgery antiforgery, ICurrentUserAccessor currentUserAccessor)
+            public Handler(WebApplicationSettings applicationSettings, IHttpContextAccessor httpContextAccessor, IAntiforgery antiforgery, ICurrentUserAccessor currentUserAccessor)
             {
-                _webAppVariables = webAppVariables;
+                _applicationSettings = applicationSettings;
                 _httpContextAccessor = httpContextAccessor;
                 _antiForgery = antiforgery;
                 _currentUserAccessor = currentUserAccessor;
@@ -46,10 +44,12 @@ namespace VoidCore.AspNet.ClientApp
             /// <inheritdoc/>
             protected override IResult<WebClientInfo> HandleSync(Request request)
             {
+                var context = _httpContextAccessor.HttpContext.EnsureNotNull(nameof(IHttpContextAccessor.HttpContext));
+
                 var clientInfo = new WebClientInfo(
-                    _webAppVariables.AppName,
-                    _antiForgery.GetAndStoreTokens(_httpContextAccessor.HttpContext).RequestToken,
-                    _antiForgery.GetAndStoreTokens(_httpContextAccessor.HttpContext).HeaderName,
+                    _applicationSettings.Name,
+                    _antiForgery.GetAndStoreTokens(context).RequestToken.EnsureNotNull(nameof(AntiforgeryTokenSet.RequestToken)),
+                    _antiForgery.GetAndStoreTokens(context).HeaderName.EnsureNotNull(nameof(AntiforgeryTokenSet.HeaderName)),
                     _currentUserAccessor);
 
                 return Ok(clientInfo);
@@ -96,29 +96,41 @@ namespace VoidCore.AspNet.ClientApp
         }
 
         /// <summary>
-        /// Log the GetWebClientInfo result.
+        /// Log the GetWebClientInfo response.
         /// </summary>
-        public class Logger : FallibleEventLogger<Request, WebClientInfo>
+        public class ResponseLogger : FallibleEventLoggerAbstract<Request, WebClientInfo>
         {
             /// <inheritdoc/>
-            public Logger(ILoggingService logger) : base(logger) { }
+            public ResponseLogger(ILogger<ResponseLogger> logger) : base(logger) { }
 
-            /// <summary>
-            /// Overrides the base OnSuccess to log some information about the resultant application information.
-            /// </summary>
-            /// <param name="request">The request of the event</param>
-            /// <param name="response">The successful result of the event</param>
+            /// <inheritdoc/>
             protected override void OnSuccess(Request request, WebClientInfo response)
             {
-                Logger.Info(
-                    $"AppName: {response.ApplicationName}",
-                    $"UserName: {response.User.Login}",
-                    $"UserAuthorizedAs: {string.Join(", ", response.User.AuthorizedAs)}");
+                Logger.LogInformation("Responded with {ResponseType}. AppName: {ApplicationName} UserName: {UserName} UserAuthorizedAs: {AuthorizedAs}",
+                    nameof(WebClientInfo),
+                    response.ApplicationName,
+                    response.User.Login,
+                    string.Join(", ", response.User.AuthorizedAs));
 
                 base.OnSuccess(request, response);
             }
         }
+
+        /// <summary>
+        /// The pipeline for this event.
+        /// </summary>
+        public class Pipeline : EventPipelineAbstract<Request, WebClientInfo>
+        {
+            /// <summary>
+            /// Use DI to construct the pipeline.
+            /// </summary>
+            /// <param name="handler">The event handler</param>
+            /// <param name="responseLogger">The response logger</param>
+            public Pipeline(Handler handler, ResponseLogger responseLogger)
+            {
+                InnerHandler = handler
+                    .AddPostProcessor(responseLogger);
+            }
+        }
     }
 }
-
-#pragma warning restore CA1034

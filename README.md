@@ -4,7 +4,7 @@
 [![Build Status](https://img.shields.io/azure-devops/build/void-type/VoidCore/1.svg)](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=1&branchName=main)
 [![Test Coverage](https://img.shields.io/azure-devops/coverage/void-type/VoidCore/1.svg)](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=1&branchName=main)
 
-A set of core libraries for building domain-driven business applications on .NET 5 and .NET Core 3.1.
+A set of core libraries for building business applications on .NET 5.
 
 [FoodStuffs](https://github.com/void-type/foodstuffs) is a comprehensive example of how applications can be built using VoidCore.
 
@@ -12,13 +12,14 @@ A set of core libraries for building domain-driven business applications on .NET
 
 Read about the packages available.
 
+:warning: As of version 7, VoidCore.Domain has been merged into VoidCore.Model. Please remove this package from your projects and update references.
+
 | Docs | Description | Release |
 | --- | --- | --- |
-| [VoidCore.AspNet](docs/aspnet.md) | Configure ASP.NET Core web applications based on VoidCore.Model. Includes single-page front end support. | [![NuGet package](https://img.shields.io/nuget/v/VoidCore.AspNet.svg)](https://www.nuget.org/packages/VoidCore.AspNet/) [![MyGet package](https://img.shields.io/myget/voidcoredev/vpre/VoidCore.AspNet.svg?label=myget)](https://www.myget.org/feed/voidcoredev/package/nuget/VoidCore.AspNet) |
-| [VoidCore.Domain](docs/domain.md) | Core for building domain-driven, functional and event-based applications. | [![NuGet package](https://img.shields.io/nuget/v/VoidCore.Domain.svg)](https://www.nuget.org/packages/VoidCore.Domain/) [![MyGet package](https://img.shields.io/myget/voidcoredev/vpre/VoidCore.Domain.svg?label=myget)](https://www.myget.org/feed/voidcoredev/package/nuget/VoidCore.Domain) |
+| [VoidCore.Model](docs/model.md) | An opinionated core for building business applications. | [![NuGet package](https://img.shields.io/nuget/v/VoidCore.Model.svg)](https://www.nuget.org/packages/VoidCore.Model/) [![MyGet package](https://img.shields.io/myget/voidcoredev/vpre/VoidCore.Model.svg?label=myget)](https://www.myget.org/feed/voidcoredev/package/nuget/VoidCore.Model) |
+| [VoidCore.AspNet](docs/aspnet.md) | Configure an ASP.NET web applications based on VoidCore.Model. Includes single-page front end support. | [![NuGet package](https://img.shields.io/nuget/v/VoidCore.AspNet.svg)](https://www.nuget.org/packages/VoidCore.AspNet/) [![MyGet package](https://img.shields.io/myget/voidcoredev/vpre/VoidCore.AspNet.svg?label=myget)](https://www.myget.org/feed/voidcoredev/package/nuget/VoidCore.AspNet) |
 | [VoidCore.EntityFramework](docs/entityFramework.md) | Entity Framework Core data access for applications based on VoidCore.Model. | [![NuGet package](https://img.shields.io/nuget/v/VoidCore.EntityFramework.svg)](https://www.nuget.org/packages/VoidCore.EntityFramework/) [![MyGet package](https://img.shields.io/myget/voidcoredev/vpre/VoidCore.EntityFramework.svg?label=myget)](https://www.myget.org/feed/voidcoredev/package/nuget/VoidCore.EntityFramework) |
 | [VoidCore.Finance](docs/finance.md) | A financial library with primary focus on simple amortization and time-value of money. | [![NuGet package](https://img.shields.io/nuget/v/VoidCore.Finance.svg)](https://www.nuget.org/packages/VoidCore.Finance/) [![MyGet package](https://img.shields.io/myget/voidcoredev/vpre/VoidCore.Finance.svg?label=myget)](https://www.myget.org/feed/voidcoredev/package/nuget/VoidCore.Finance) |
-| [VoidCore.Model](docs/model.md) | Service interfaces for building opinionated business applications. | [![NuGet package](https://img.shields.io/nuget/v/VoidCore.Model.svg)](https://www.nuget.org/packages/VoidCore.Model/) [![MyGet package](https://img.shields.io/myget/voidcoredev/vpre/VoidCore.Model.svg?label=myget)](https://www.myget.org/feed/voidcoredev/package/nuget/VoidCore.Model) |
 
 ## Developers
 

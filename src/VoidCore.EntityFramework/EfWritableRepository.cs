@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using VoidCore.Model.Data;
-using VoidCore.Model.Logging;
 
 namespace VoidCore.EntityFramework
 {
@@ -16,7 +15,7 @@ namespace VoidCore.EntityFramework
     public class EfWritableRepository<T> : EfReadOnlyRepository<T>, IWritableRepository<T> where T : class
     {
         /// <inheritdoc/>
-        public EfWritableRepository(DbContext context, ILoggingStrategy loggingStrategy) : base(context, loggingStrategy) { }
+        public EfWritableRepository(DbContext context) : base(context) { }
 
         /// <inheritdoc/>
         public virtual async Task<T> Add(T entity, CancellationToken cancellationToken)

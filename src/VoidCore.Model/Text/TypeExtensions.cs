@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using VoidCore.Domain;
+using VoidCore.Model.Functional;
 
 namespace VoidCore.Model.Text
 {

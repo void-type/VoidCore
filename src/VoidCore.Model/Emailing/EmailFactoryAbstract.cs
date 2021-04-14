@@ -1,5 +1,5 @@
 ﻿using System;
-using VoidCore.Domain;
+using VoidCore.Model.Functional;
 
 namespace VoidCore.Model.Emailing
 {

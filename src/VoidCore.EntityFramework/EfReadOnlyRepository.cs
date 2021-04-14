@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using VoidCore.Domain;
 using VoidCore.Model.Data;
-using VoidCore.Model.Logging;
+using VoidCore.Model.Functional;
 using VoidCore.Model.Text;
 
 namespace VoidCore.EntityFramework
@@ -18,7 +17,6 @@ namespace VoidCore.EntityFramework
     public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
     {
         private readonly string _repoTypeName;
-        private readonly ILoggingStrategy _loggingStrategy;
 
         /// <summary>
         /// The inner DbContext
@@ -26,11 +24,10 @@ namespace VoidCore.EntityFramework
         protected DbContext Context { get; }
 
         /// <inheritdoc/>
-        public EfReadOnlyRepository(DbContext context, ILoggingStrategy loggingStrategy)
+        public EfReadOnlyRepository(DbContext context)
         {
             Context = context;
             _repoTypeName = GetType().GetFriendlyTypeName();
-            _loggingStrategy = loggingStrategy;
         }
 
         /// <inheritdoc/>
@@ -82,7 +79,7 @@ namespace VoidCore.EntityFramework
                 specification.GetType().GetFriendlyTypeName() :
                 string.Empty;
 
-            return _loggingStrategy.Log($"EF query called from: {_repoTypeName}.{method}({specName})");
+            return $"EF query called from: {_repoTypeName}.{method}({specName})";
         }
     }
 }

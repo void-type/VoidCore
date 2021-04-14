@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using VoidCore.Domain;
-using VoidCore.Domain.Events;
-using VoidCore.Model.Logging;
+using VoidCore.Model.Events;
+using VoidCore.Model.Functional;
 using VoidCore.Model.Responses.Collections;
 using VoidCore.Test.EfIntegration.TestModels.Data;
 
@@ -50,7 +50,7 @@ namespace VoidCore.Test.EfIntegration.TestModels.Events
                     .Map(Ok);
             }
 
-            private Expression<Func<Recipe, bool>>[] GetSearchCriteria(Request request)
+            private static Expression<Func<Recipe, bool>>[] GetSearchCriteria(Request request)
             {
                 var searchCriteria = new List<Expression<Func<Recipe, bool>>>();
 
@@ -104,23 +104,26 @@ namespace VoidCore.Test.EfIntegration.TestModels.Events
             public IEnumerable<string> Categories { get; }
         }
 
-        public class Logger : ItemSetEventLogger<Request, RecipeListItemDto>
+        public class RequestLogger : RequestLoggerAbstract<Request>
         {
-            public Logger(ILoggingService logger) : base(logger) { }
+            public RequestLogger(ILogger<RequestLogger> logger) : base(logger) { }
 
-            protected override void OnBoth(Request request, IResult<IItemSet<RecipeListItemDto>> result)
+            public override void Log(Request request)
             {
-                Logger.Info(
-                    $"NameSearch: '{request.NameSearch}'",
-                    $"CategorySearch: '{request.CategorySearch}'",
-                    $"Sort: '{request.Sort}'",
-                    $"IsPagingEnabled: '{request.IsPagingEnabled}'",
-                    $"Page: '{request.Page}'",
-                    $"Take: '{request.Take}'"
+                Logger.LogInformation("Requested. NameSearch: '{NameSearch}' CategorySearch: '{CategorySearch}' Sort: '{Sort}' IsPagingEnabled: '{IsPagingEnabled}' Page: '{Page}' Take: '{Take}'",
+                    request.NameSearch,
+                    request.CategorySearch,
+                    request.Sort,
+                    request.IsPagingEnabled,
+                    request.Page,
+                    request.Take
                 );
-
-                base.OnBoth(request, result);
             }
+        }
+
+        public class ResponseLogger : ItemSetEventLogger<Request, RecipeListItemDto>
+        {
+            public ResponseLogger(ILogger<ResponseLogger> logger) : base(logger) { }
         }
     }
 }

@@ -45,7 +45,7 @@ namespace VoidCore.AspNet.Routing
                     response.Redirect("/forbidden");
                 }
 
-                return Task.FromResult(0);
+                return Task.CompletedTask;
             });
 
             return app;

@@ -1,13 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <PackageId>VoidCore.Model</PackageId>
     <Title>VoidCore.Model</Title>
-    <Description>Service interfaces for building opinionated business applications.</Description>
-    <PackageTags>model;opinionated;services;interfaces;business logic;api;netstandard;</PackageTags>
+    <Description>An opinionated core for building business applications.</Description>
+    <PackageTags>model;opinionated;functional;ddd;domain;services;interfaces;business logic;api;netstandard;</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VoidCore.Domain\VoidCore.Domain.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
   </ItemGroup>
 </Project>

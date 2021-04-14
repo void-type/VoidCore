@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using VoidCore.Domain;
-using VoidCore.Domain.Guards;
+using VoidCore.Model.Functional;
+using VoidCore.Model.Guards;
 using VoidCore.Model.Responses.Collections;
 using VoidCore.Model.Responses.Files;
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using VoidCore.Domain.Guards;
+using VoidCore.Model.Guards;
 
 namespace VoidCore.Model.Text
 {
@@ -37,7 +37,7 @@ namespace VoidCore.Model.Text
         }
 
         /// <summary>
-        /// Print an object to a string. Iterates properties to print "Name: Value"
+        /// Print an object to a series of strings. Iterates properties to print "Name: Value"
         /// </summary>
         /// <param name="obj">The object to print</param>
         /// <param name="dateFormat">The date format. ISO 8601 by default</param>
@@ -69,7 +69,7 @@ namespace VoidCore.Model.Text
                         var strings = new List<string>();
                         foreach (var item in items)
                         {
-                            strings.Add(item.ToString());
+                            strings.Add($"{item}");
                         }
 
                         yield return $"{property.Name}: {Print(strings)}";

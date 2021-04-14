@@ -47,7 +47,7 @@ namespace VoidCore.AspNet.Auth
                     .Where(policy => _authorizationService.AuthorizeAsync(currentUser, null, policy.Key).GetAwaiter().GetResult().Succeeded)
                     .Select(policy => policy.Key);
 
-                var name = _userNameFormatter.Format(currentUser.Identity.Name);
+                var name = _userNameFormatter.Format(currentUser.Identity?.Name);
 
                 return new DomainUser(name, authorizedAs);
             }

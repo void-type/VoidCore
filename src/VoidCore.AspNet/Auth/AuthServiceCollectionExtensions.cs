@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Server.HttpSys;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using VoidCore.Domain.Guards;
 using VoidCore.Model.Auth;
+using VoidCore.Model.Guards;
 
 namespace VoidCore.AspNet.Auth
 {

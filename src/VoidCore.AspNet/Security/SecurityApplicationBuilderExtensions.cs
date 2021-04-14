@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using System;
-using VoidCore.Domain.Guards;
+using VoidCore.Model.Guards;
 
 namespace VoidCore.AspNet.Security
 {
@@ -67,7 +67,7 @@ namespace VoidCore.AspNet.Security
 
         /// <summary>
         /// Set an X-Content-Type-Options header to nosniff on the HTTP response. Prevents browsers from sniffing MIME types and trying execute
-        /// content that should not be executable. This can prevent XSS in some browsers from malacious user-uploaded files such as images.
+        /// content that should not be executable. This can prevent XSS in some browsers from malicious user-uploaded files such as images.
         /// </summary>
         /// <param name="app">This IApplicationBuilder</param>
         /// <returns>The ApplicationBuilder for chaining.</returns>

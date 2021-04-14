@@ -17,6 +17,12 @@ namespace VoidCore.Test.Model.Time
 
             Assert.InRange(actual, expectedStart, expectedEnd);
             Assert.Equal(DateTimeKind.Local, actual.Kind);
+
+            var expectedStartOffset = DateTimeOffset.Now;
+            var actualOffset = service.MomentWithOffset;
+            var expectedEndOffset = DateTimeOffset.Now;
+
+            Assert.InRange(actualOffset, expectedStartOffset, expectedEndOffset);
         }
 
         [Fact]
@@ -30,17 +36,30 @@ namespace VoidCore.Test.Model.Time
 
             Assert.InRange(actual, expectedStart, expectedEnd);
             Assert.Equal(DateTimeKind.Utc, actual.Kind);
+
+            var expectedStartOffset = DateTimeOffset.Now;
+            var actualOffset = service.MomentWithOffset;
+            var expectedEndOffset = DateTimeOffset.Now;
+
+            Assert.InRange(actualOffset, expectedStartOffset, expectedEndOffset);
         }
 
         [Fact]
         public void Discrete_returns_the_specified_time()
         {
-            var service = new DiscreteDateTimeService(new DateTime(2000, 4, 2));
+            var expected = new DateTime(2000, 4, 2);
+            var expectedOffset = new DateTimeOffset(new DateTime(2010, 7, 2));
+
+            var service = new DiscreteDateTimeService(expected, expectedOffset);
 
             var actual = service.Moment;
 
-            Assert.Equal(new DateTime(2000, 4, 2), actual);
+            Assert.Equal(expected, actual);
             Assert.Equal(DateTimeKind.Unspecified, actual.Kind);
+
+            var actualOffset = service.MomentWithOffset;
+
+            Assert.Equal(expectedOffset, actualOffset);
         }
     }
 }
