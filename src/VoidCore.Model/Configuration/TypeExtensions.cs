@@ -4,7 +4,7 @@ using System.Linq;
 namespace VoidCore.Model.Configuration
 {
     /// <summary>
-    /// Settings configuration extension methods for service collections.
+    /// Settings configuration extension methods for types.
     /// </summary>
     public static class TypeExtensions
     {
