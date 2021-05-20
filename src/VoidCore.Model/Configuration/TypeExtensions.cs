@@ -13,7 +13,7 @@ namespace VoidCore.Model.Configuration
         /// </summary>
         /// <param name="type">This type</param>
         /// <param name="targetType">The type to check the inheritance tree for</param>
-        public static bool Inherits(this Type type, Type targetType)
+        public static bool Implements(this Type type, Type targetType)
         {
             if (type.IsAssignableTo(targetType))
             {

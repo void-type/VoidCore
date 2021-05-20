@@ -14,14 +14,14 @@ namespace VoidCore.Model.Configuration
     public static class TypeServiceCollectionExtensions
     {
         /// <summary>
-        /// Search assemblies for domain pipeline components and registers them with the DI container by concrete name.
+        /// Search assemblies for domain event components and registers them with the DI container by concrete name.
         /// This is a convenience method that has a cost of uniformity. All components are registered with the specified lifetime.
         /// You can override how a service gets registered by re-registering it under a different lifetime manually later in Startup.cs.
         /// </summary>
         /// <param name="services">This service collection</param>
         /// <param name="lifetime">The ServiceLifetime to register the services for.</param>
         /// <param name="assembliesToSearch">An array of assemblies to search for domain components in</param>
-        public static void FindAndRegisterDomainEvents(this IServiceCollection services, ServiceLifetime lifetime, params Assembly[] assembliesToSearch)
+        public static void AddDomainEvents(this IServiceCollection services, ServiceLifetime lifetime, params Assembly[] assembliesToSearch)
         {
             var domainEventTypes = new[] {
                 typeof (IEventHandler<,>),
@@ -29,40 +29,40 @@ namespace VoidCore.Model.Configuration
                 typeof (IRequestValidator<>),
                 typeof (IPostProcessor<,>)};
 
-            FindAndRegisterByInterface(services, lifetime, domainEventTypes, assembliesToSearch);
+            AddImplementationsOfBaseType(services, lifetime, domainEventTypes, assembliesToSearch);
         }
 
         /// <summary>
-        /// Search assemblies for implementations and registers them with the DI container by concrete name.
+        /// Search assemblies for implementations of classes and interfaces and registers them with the DI container by concrete name.
         /// </summary>
         /// <param name="services">This service collection</param>
         /// <param name="lifetime">The ServiceLifetime to register the services for.</param>
-        /// <param name="typesToRegister">An array of base types or interfaces to register concrete implementations of</param>
+        /// <param name="baseTypes">An array of base types or interfaces to register concrete implementations of</param>
         /// <param name="assembliesToSearch">An array of assemblies to search for domain components in</param>
-        public static void FindAndRegisterByInterface(this IServiceCollection services, ServiceLifetime lifetime, Type[] typesToRegister, params Assembly[] assembliesToSearch)
+        public static void AddImplementationsOfBaseType(this IServiceCollection services, ServiceLifetime lifetime, Type[] baseTypes, params Assembly[] assembliesToSearch)
         {
             assembliesToSearch.EnsureNotNullOrEmpty(nameof(assembliesToSearch));
 
-            foreach (var desiredType in typesToRegister)
+            foreach (var baseType in baseTypes)
             {
                 // DI can register concrete types using any base class, including open generics.
-                var matchingConcretes = assembliesToSearch
+                var foundConcretes = assembliesToSearch
                     .Distinct()
                     .SelectMany(assembly => assembly.DefinedTypes)
-                    .Where(foundType => !foundType.IsAbstract && foundType.Inherits(desiredType));
+                    .Where(foundType => !foundType.IsAbstract && foundType.Implements(baseType));
 
-                foreach (var matchingConcrete in matchingConcretes)
+                foreach (var foundConcrete in foundConcretes)
                 {
                     switch (lifetime)
                     {
                         case ServiceLifetime.Singleton:
-                            services.AddSingleton(matchingConcrete);
+                            services.AddSingleton(foundConcrete);
                             break;
                         case ServiceLifetime.Scoped:
-                            services.AddScoped(matchingConcrete);
+                            services.AddScoped(foundConcrete);
                             break;
                         default:
-                            services.AddTransient(matchingConcrete);
+                            services.AddTransient(foundConcrete);
                             break;
                     }
                 }
