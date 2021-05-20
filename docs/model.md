@@ -370,7 +370,7 @@ public class GetPerson
     }
 
     // Pre-construct your event pipeline using constructor DI. Then the Pipeline can be injected into controllers, simplifying your controller constructor.
-    // See the FindAndRegisterDomainEvents IServiceCollection extension method to auto-register all event components within an assembly.
+    // See the AddDomainEvents IServiceCollection extension method to auto-register all event components within an assembly.
     public class Pipeline : EventPipelineAbstract<Request, PersonDto>
     {
         public Pipeline(Handler handler, RequestValidator validator, RequestLogger requestLogger, ResponseLogger responseLogger)
