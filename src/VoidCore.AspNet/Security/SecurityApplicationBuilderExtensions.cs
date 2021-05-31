@@ -40,11 +40,7 @@ namespace VoidCore.AspNet.Security
         {
             builder.EnsureNotNull(nameof(builder));
 
-            var newBuilder = new CspOptionsBuilder();
-            builder(newBuilder);
-            var options = newBuilder.Build();
-
-            return app.UseMiddleware<CspMiddleware>(options);
+            return app.UseMiddleware<CspMiddleware>(builder);
         }
 
         /// <summary>

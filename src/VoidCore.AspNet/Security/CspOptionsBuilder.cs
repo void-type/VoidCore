@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using VoidCore.Model.Functional;
+using VoidCore.Model.Guards;
 
 namespace VoidCore.AspNet.Security
 {
@@ -12,7 +13,17 @@ namespace VoidCore.AspNet.Security
     public sealed class CspOptionsBuilder
     {
         private readonly List<CspDirectiveBuilder> _directiveBuilders = new();
+        private readonly string _nonce;
         private bool _isReportOnly;
+
+        /// <summary>
+        /// Construct a new builder.
+        /// </summary>
+        /// <param name="nonce">A nonce to use in header directives</param>
+        public CspOptionsBuilder(string nonce)
+        {
+            _nonce = nonce.EnsureNotNullOrEmpty(nameof(nonce));
+        }
 
         /// <summary>
         /// Set the policy for base-uri. This restricts the base tag to the specified values.
@@ -24,13 +35,13 @@ namespace VoidCore.AspNet.Security
         /// Set the default fallback policy for sources that don't match any other set policy.
         /// </summary>
         /// <returns>The builder for chaining.</returns>
-        public CspSourceDirectiveBuilder DefaultSources => Custom("default-src").ForSources();
+        public CspSourceDirectiveBuilder DefaultSources => Custom("default-src").ForSources(_nonce);
 
         /// <summary>
         /// Set the policy for font sources.
         /// </summary>
         /// <returns>The builder for chaining.</returns>
-        public CspSourceDirectiveBuilder FontSources => Custom("font-src").ForSources();
+        public CspSourceDirectiveBuilder FontSources => Custom("font-src").ForSources(_nonce);
 
         /// <summary>
         /// Set the policy for frame-ancestors.
@@ -44,32 +55,32 @@ namespace VoidCore.AspNet.Security
         /// Set the policy for img sources.
         /// </summary>
         /// <returns>The builder for chaining.</returns>
-        public CspSourceDirectiveBuilder ImageSources => Custom("img-src").ForSources();
+        public CspSourceDirectiveBuilder ImageSources => Custom("img-src").ForSources(_nonce);
 
         /// <summary>
         /// Set the policy for media sources like video and audio.
         /// </summary>
         /// <returns>The builder for chaining.</returns>
-        public CspSourceDirectiveBuilder MediaSources => Custom("media-src").ForSources();
+        public CspSourceDirectiveBuilder MediaSources => Custom("media-src").ForSources(_nonce);
 
         /// <summary>
         /// Set the policy for object sources. These include object, embed, and applet tags.
         /// It is strongly recommended to set this to 'none'.
         /// </summary>
         /// <returns>The builder for chaining.</returns>
-        public CspSourceDirectiveBuilder ObjectSources => Custom("object-src").ForSources();
+        public CspSourceDirectiveBuilder ObjectSources => Custom("object-src").ForSources(_nonce);
 
         /// <summary>
         /// Set the policy for script sources.
         /// </summary>
         /// <returns>The builder for chaining.</returns>
-        public CspSourceDirectiveBuilder ScriptSources => Custom("script-src").ForSources();
+        public CspSourceDirectiveBuilder ScriptSources => Custom("script-src").ForSources(_nonce);
 
         /// <summary>
         /// Set the policy for stylesheet sources.
         /// </summary>
         /// <returns>The builder for chaining.</returns>
-        public CspSourceDirectiveBuilder StyleSources => Custom("style-src").ForSources();
+        public CspSourceDirectiveBuilder StyleSources => Custom("style-src").ForSources(_nonce);
 
         private CspDirectiveBuilder ReportUri => Custom("report-uri");
 
@@ -80,6 +91,8 @@ namespace VoidCore.AspNet.Security
         /// <returns>The builder for chaining.</returns>
         public CspDirectiveBuilder Custom(string directiveName)
         {
+            directiveName.EnsureNotNull(nameof(directiveName));
+
             var maybeBuilder = Maybe.From(_directiveBuilders.FirstOrDefault(d => d.Name == directiveName));
 
             return maybeBuilder.Unwrap(() =>

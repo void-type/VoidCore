@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Threading.Tasks;
 using VoidCore.Model.Guards;
 
@@ -11,17 +12,19 @@ namespace VoidCore.AspNet.Security
     public sealed class CspMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly CspOptions _options;
+        private readonly Action<CspOptionsBuilder> _configure;
+        private readonly NonceGenerator _nonceGenerator;
 
         /// <summary>
         /// Construct a new CspMiddleware.
         /// </summary>
         /// <param name="next">The next RequestDelegate</param>
-        /// <param name="options">The options for configuring the header.</param>
-        public CspMiddleware(RequestDelegate next, CspOptions options)
+        /// <param name="configure">An action to build options for configuring the header.</param>
+        public CspMiddleware(RequestDelegate next, Action<CspOptionsBuilder> configure)
         {
             _next = next;
-            _options = options;
+            _configure = configure;
+            _nonceGenerator = new NonceGenerator();
         }
 
         /// <summary>
@@ -32,7 +35,15 @@ namespace VoidCore.AspNet.Security
         {
             context.EnsureNotNull(nameof(context));
 
-            var header = new CspHeader(_options);
+            var nonce = _nonceGenerator.GetNonce();
+
+            context.SetNonce(nonce);
+
+            var builder = new CspOptionsBuilder(nonce);
+            _configure(builder);
+            var options = builder.Build();
+
+            var header = new CspHeader(options);
             context.Response.Headers.Add(header.Key, header.Value);
             return _next(context);
         }
