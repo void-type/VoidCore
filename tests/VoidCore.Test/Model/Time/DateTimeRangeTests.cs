@@ -58,5 +58,20 @@ namespace VoidCore.Test.Model.Time
             Assert.Equal(new DateTime(2000, 1, 17), afterCutoff[2].StartDate);
             Assert.Equal(new DateTime(2000, 1, 17), afterCutoff[2].EndDate);
         }
+
+        [Fact]
+        public void DateTimeRange_throws_on_invalid_range()
+        {
+            Assert.Throws<ArgumentException>(() => new DateTimeRange(new DateTime(2000, 1, 18), new DateTime(2000, 1, 16)));
+        }
+
+        [Fact]
+        public void DateTimeRange_split_throws_on_invalid_range()
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                DateTimeHelpers.SplitDateRangeIntoIntervals(new DateTime(2000, 1, 18), new DateTime(2000, 1, 16), 7).ToList();
+            });
+        }
     }
 }

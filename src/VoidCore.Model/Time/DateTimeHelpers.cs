@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using VoidCore.Model.Guards;
 
 namespace VoidCore.Model.Time
 {
@@ -17,15 +18,17 @@ namespace VoidCore.Model.Time
         /// <param name="overlap">Set to false if you don't want discrete dates to overlap</param>
         public static IEnumerable<DateTimeRange> SplitDateRangeIntoIntervals(DateTime startDate, DateTime endDate, int intervalSizeDays, bool overlap = true)
         {
+            startDate.Ensure(s => s <= endDate, nameof(startDate), "startDate cannot be greater than endDate.");
+
             DateTime intervalEndDate;
 
             while ((intervalEndDate = startDate.AddDays(intervalSizeDays)) < endDate)
             {
-                yield return new DateTimeRange(StartDate: startDate, EndDate: intervalEndDate);
+                yield return new DateTimeRange(startDate, intervalEndDate);
                 startDate = overlap ? intervalEndDate : intervalEndDate.AddDays(1);
             }
 
-            yield return new DateTimeRange(StartDate: startDate, EndDate: endDate);
+            yield return new DateTimeRange(startDate, endDate);
         }
 
         /// <summary>
