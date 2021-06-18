@@ -12,8 +12,6 @@ A set of core libraries for building business applications on .NET 5.
 
 Read about the packages available.
 
-:warning: As of version 7, VoidCore.Domain has been merged into VoidCore.Model. Please remove this package from your projects and update references.
-
 | Docs | Description | Release |
 | --- | --- | --- |
 | [VoidCore.Model](docs/model.md) | An opinionated core for building business applications. | [![NuGet package](https://img.shields.io/nuget/v/VoidCore.Model.svg)](https://www.nuget.org/packages/VoidCore.Model/) [![MyGet package](https://img.shields.io/myget/voidcoredev/vpre/VoidCore.Model.svg?label=myget)](https://www.myget.org/feed/voidcoredev/package/nuget/VoidCore.Model) |
