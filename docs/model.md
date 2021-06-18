@@ -11,22 +11,28 @@ dotnet add package VoidCore.Model
 
 ## Features
 
-VoidCore.Model is an opinionated core for building business applications.
+An opinionated core for building business applications.
 
 ### API Responses
 
 Make predictable data APIs.
 
-* Failures with user message and optional field name
-* User messages (with optional Entity ID for CRUD operations)
-* Paginated item sets
-* Downloadable files
+* Standardized failure objects with user message and optional UI handle for field highlighting.
+* User messages (with optional Entity ID for standard CRUD operations).
+* Paginated item sets.
+* Simple files.
 
 ### Data Persistence
 
+This service interface is designed to quickly implement a data layer with an expanded feature set.
+
 * Asynchronous repositories with read/write control and specification-based queries.
-* Soft delete on entities.
+* Specifications include the most common LINQ functions, except Select.
+* Soft delete on entities. Will mark them with a deleted date. Use a specification to ensure they aren't included in queries.
 * Auditable entities via Created and Modified names/dates.
+* Easy pagination of queried data sets.
+
+If you need more flexibility, it's recommended to create a service for one-off use-cases or just use DbContext directly.
 
 ### Emailing
 

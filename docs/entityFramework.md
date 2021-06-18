@@ -11,16 +11,14 @@ dotnet add package VoidCore.EntityFramework
 
 ## Features
 
-Add an Entity Framework data layer to your
+Add an Entity Framework data layer to your application.
 
 ### Async Database Abstractions
 
-Included are EntityFramework implementations of the specification and repository patterns from VoidCore.Model. These patterns defer the heavy lifting of sorting, search, pagination, and joining to the SQL Server. All calls are asynchronous.
+Included are EntityFramework implementations of the specification and repository patterns from VoidCore.Model. These implementations defer the heavy lifting of searching, sorting, paging, and joining to the SQL Server. All calls are asynchronous.
+
+See [VoidCore.Model](model.md) for more about it's data persistence features. You can decorate these EF repositories with Model's auditable and soft-delete decorators.
 
 ### Query Tagging
 
-Queries are tagged with information about their repository and specification. Tags help match a SQL command in SQL profiler or logs to the application code. When paired with VoidCore.AspNet's logging strategy, the SQL statement is also tagged with the web request trace ID.
-
-### SQL Logging
-
-Apps will use the default behavior of logging EF SQL commands through the ILoggingFactory defined in your Startup.cs.
+Queries are automatically tagged with the repository and specification names they were called with. This helps tie SQL logs backs to the application code. See [Query Tags on Microsoft docs](https://docs.microsoft.com/en-us/ef/core/querying/tags) for more information.
