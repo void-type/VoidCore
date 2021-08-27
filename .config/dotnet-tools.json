@@ -9,7 +9,7 @@
       ]
     },
     "dotnet-reportgenerator-globaltool": {
-      "version": "4.8.11",
+      "version": "4.8.12",
       "commands": [
         "reportgenerator"
       ]
@@ -21,7 +21,7 @@
       ]
     },
     "nbgv": {
-      "version": "3.4.220",
+      "version": "3.4.231",
       "commands": [
         "nbgv"
       ]
