@@ -1,9 +1,3 @@
-Push-Location $PSScriptRoot
+. $PSScriptRoot/util.ps1
 
-. ./util.ps1
-
-Push-Location -Path "$testProjectFolder"
-dotnet watch test --configuration "Debug"
-Pop-Location
-
-Pop-Location
+dotnet watch test --project "$testProjectFolder" --configuration "Debug"
