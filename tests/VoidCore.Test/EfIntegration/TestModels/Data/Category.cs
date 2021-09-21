@@ -4,7 +4,6 @@ using VoidCore.Model.Data;
 
 namespace VoidCore.Test.EfIntegration.TestModels.Data
 {
-    // Used for testing audit-enabled DbContext
     public class Category : IAuditableWithOffset, ISoftDeletableWithOffset
     {
         public List<CategoryRecipe> CategoryRecipe { get; set; } = new List<CategoryRecipe>();

@@ -195,31 +195,19 @@ namespace VoidCore.Test.EfIntegration.TestModels
             data.CategoryRecipe.Add(new CategoryRecipe
             {
                 RecipeId = recipe1,
-                CategoryId = category1,
-                CreatedBy = "Void",
-                CreatedOn = DateTimeServiceEarly.MomentWithOffset,
-                ModifiedBy = "Void",
-                ModifiedOn = DateTimeServiceEarly.MomentWithOffset
+                CategoryId = category1
             });
 
             data.CategoryRecipe.Add(new CategoryRecipe
             {
                 RecipeId = recipe1,
-                CategoryId = category2,
-                CreatedBy = "Void",
-                CreatedOn = DateTimeServiceEarly.MomentWithOffset,
-                ModifiedBy = "Void",
-                ModifiedOn = DateTimeServiceEarly.MomentWithOffset
+                CategoryId = category2
             });
 
             data.CategoryRecipe.Add(new CategoryRecipe
             {
                 RecipeId = recipe2,
-                CategoryId = category3,
-                CreatedBy = "Void",
-                CreatedOn = DateTimeServiceEarly.MomentWithOffset,
-                ModifiedBy = "Void",
-                ModifiedOn = DateTimeServiceEarly.MomentWithOffset
+                CategoryId = category3
             });
 
             data.SaveSeeding();

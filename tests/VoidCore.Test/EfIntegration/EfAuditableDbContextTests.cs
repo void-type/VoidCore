@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using VoidCore.Test.EfIntegration.TestModels;
+using VoidCore.Test.EfIntegration.TestModels.Data;
 using Xunit;
 
 namespace VoidCore.Test.EfIntegration
@@ -8,108 +9,124 @@ namespace VoidCore.Test.EfIntegration
     public class EfAuditableDbContextTests
     {
         [Fact]
-        public void Check_add_sets_creation_properties()
+        public async Task Add_sets_creation_properties()
         {
             using var context = Deps.FoodStuffsContextAuditable().Seed();
 
-            var recipe = context.Recipe.First();
-
-            Assert.Equal("Void", recipe.CreatedBy);
-            Assert.Equal("Void", recipe.ModifiedBy);
-
-            Assert.Equal(Deps.DateTimeServiceEarly.Moment, recipe.CreatedOn);
-            Assert.Equal(Deps.DateTimeServiceEarly.Moment, recipe.ModifiedOn);
-        }
-
-        [Fact]
-        public void Check_add_sets_creation_properties_offset()
-        {
-            using var context = Deps.FoodStuffsContextAuditable().Seed();
-
-            var category = context.Category.First();
-
-            Assert.Equal("Void", category.CreatedBy);
-            Assert.Equal("Void", category.ModifiedBy);
-
-            Assert.Equal(Deps.DateTimeServiceEarly.MomentWithOffset, category.CreatedOn);
-            Assert.Equal(Deps.DateTimeServiceEarly.MomentWithOffset, category.ModifiedOn);
-        }
-
-        [Fact]
-        public async Task Check_modify_sets_modification_properties()
-        {
-            using var context = Deps.FoodStuffsContextAuditable().Seed();
-
-            var category = context.Category.First();
-
-            category.Name = "new name";
+            var r = new Recipe() { Name = "new recipe" };
+            context.Recipe.Add(r);
             await context.SaveChangesAsync();
 
-            Assert.Equal("Void", category.CreatedBy);
-            Assert.Equal(Deps.CurrentUserAccessor.User.Login, category.ModifiedBy);
+            Assert.Equal(Deps.CurrentUserAccessor.User.Login, r.CreatedBy);
+            Assert.Equal(Deps.CurrentUserAccessor.User.Login, r.ModifiedBy);
 
-            Assert.Equal(Deps.DateTimeServiceEarly.Moment, category.CreatedOn);
-            Assert.Equal(Deps.DateTimeServiceLate.Moment, category.ModifiedOn);
+            Assert.Equal(Deps.DateTimeServiceLate.Moment, r.CreatedOn);
+            Assert.Equal(Deps.DateTimeServiceLate.Moment, r.ModifiedOn);
         }
 
         [Fact]
-        public async Task Check_modify_sets_modification_properties_offset()
+        public async Task Add_sets_creation_properties_offset()
         {
             using var context = Deps.FoodStuffsContextAuditable().Seed();
 
-            var category = context.Category.First();
-
-            category.Name = "new name";
+            var c = new Category() { Name = "new category" };
+            context.Category.Add(c);
             await context.SaveChangesAsync();
 
-            Assert.Equal("Void", category.CreatedBy);
-            Assert.Equal(Deps.CurrentUserAccessor.User.Login, category.ModifiedBy);
+            Assert.Equal(Deps.CurrentUserAccessor.User.Login, c.CreatedBy);
+            Assert.Equal(Deps.CurrentUserAccessor.User.Login, c.ModifiedBy);
 
-            Assert.Equal(Deps.DateTimeServiceEarly.MomentWithOffset, category.CreatedOn);
-            Assert.Equal(Deps.DateTimeServiceLate.MomentWithOffset, category.ModifiedOn);
+            Assert.Equal(Deps.DateTimeServiceLate.MomentWithOffset, c.CreatedOn);
+            Assert.Equal(Deps.DateTimeServiceLate.MomentWithOffset, c.ModifiedOn);
         }
 
         [Fact]
-        public async Task Check_delete_sets_soft_delete_properties()
+        public async Task Modify_sets_modification_properties()
         {
             using var context = Deps.FoodStuffsContextAuditable().Seed();
 
-            var recipe = context.Recipe.First();
-            var categoryRecipes = context.CategoryRecipe.Where(x => x.Recipe == recipe);
+            var r = context.Recipe.First();
 
-            context.CategoryRecipe.RemoveRange(categoryRecipes);
-
-            context.Recipe.Remove(recipe);
+            r.Name = "new name";
             await context.SaveChangesAsync();
 
-            Assert.Equal("Void", recipe.CreatedBy);
-            Assert.Equal("Void", recipe.ModifiedBy);
+            Assert.Equal("Void", r.CreatedBy);
+            Assert.Equal(Deps.CurrentUserAccessor.User.Login, r.ModifiedBy);
 
-            Assert.Equal(Deps.DateTimeServiceEarly.Moment, recipe.CreatedOn);
-            Assert.Equal(Deps.DateTimeServiceEarly.Moment, recipe.ModifiedOn);
-
-            Assert.Equal(Deps.CurrentUserAccessor.User.Login, recipe.DeletedBy);
-            Assert.Equal(Deps.DateTimeServiceLate.Moment, recipe.DeletedOn);
+            Assert.Equal(Deps.DateTimeServiceEarly.Moment, r.CreatedOn);
+            Assert.Equal(Deps.DateTimeServiceLate.Moment, r.ModifiedOn);
         }
 
         [Fact]
-        public async Task Check_delete_sets_soft_delete_properties_offset()
+        public async Task Modify_sets_modification_properties_offset()
         {
             using var context = Deps.FoodStuffsContextAuditable().Seed();
 
-            var categoryRecipe = context.CategoryRecipe.First();
+            var c = context.Category.First();
 
-            context.Remove(categoryRecipe);
+            c.Name = "new name";
             await context.SaveChangesAsync();
 
-            Assert.Equal("Void", categoryRecipe.CreatedBy);
-            Assert.Equal("Void", categoryRecipe.ModifiedBy);
+            Assert.Equal("Void", c.CreatedBy);
+            Assert.Equal(Deps.CurrentUserAccessor.User.Login, c.ModifiedBy);
 
-            Assert.Equal(Deps.DateTimeServiceEarly.MomentWithOffset, categoryRecipe.CreatedOn);
-            Assert.Equal(Deps.DateTimeServiceEarly.MomentWithOffset, categoryRecipe.ModifiedOn);
+            Assert.Equal(Deps.DateTimeServiceEarly.MomentWithOffset, c.CreatedOn);
+            Assert.Equal(Deps.DateTimeServiceLate.MomentWithOffset, c.ModifiedOn);
+        }
 
-            Assert.Equal(Deps.CurrentUserAccessor.User.Login, categoryRecipe.DeletedBy);
-            Assert.Equal(Deps.DateTimeServiceLate.MomentWithOffset, categoryRecipe.DeletedOn);
+        [Fact]
+        public async Task Delete_sets_soft_delete_properties()
+        {
+            using var context = Deps.FoodStuffsContextAuditable().Seed();
+
+            var r = context.Recipe.First();
+
+            context.CategoryRecipe.RemoveRange(context.CategoryRecipe.Where(x => x.Recipe == r).ToList());
+            context.Recipe.Remove(r);
+            await context.SaveChangesAsync();
+
+            Assert.Equal("Void", r.CreatedBy);
+            Assert.Equal("Void", r.ModifiedBy);
+
+            Assert.Equal(Deps.DateTimeServiceEarly.Moment, r.CreatedOn);
+            Assert.Equal(Deps.DateTimeServiceEarly.Moment, r.ModifiedOn);
+
+            Assert.Equal(Deps.CurrentUserAccessor.User.Login, r.DeletedBy);
+            Assert.Equal(Deps.DateTimeServiceLate.Moment, r.DeletedOn);
+            Assert.True(r.IsDeleted);
+        }
+
+        [Fact]
+        public async Task Delete_sets_soft_delete_properties_offset()
+        {
+            using var context = Deps.FoodStuffsContextAuditable().Seed();
+
+            var c = context.Category.First();
+
+            context.CategoryRecipe.RemoveRange(context.CategoryRecipe.Where(x => x.Category == c).ToList());
+            context.Remove(c);
+            await context.SaveChangesAsync();
+
+            Assert.Equal("Void", c.CreatedBy);
+            Assert.Equal("Void", c.ModifiedBy);
+
+            Assert.Equal(Deps.DateTimeServiceEarly.MomentWithOffset, c.CreatedOn);
+            Assert.Equal(Deps.DateTimeServiceEarly.MomentWithOffset, c.ModifiedOn);
+
+            Assert.Equal(Deps.CurrentUserAccessor.User.Login, c.DeletedBy);
+            Assert.Equal(Deps.DateTimeServiceLate.MomentWithOffset, c.DeletedOn);
+            Assert.True(c.IsDeleted);
+        }
+
+        [Fact]
+        public async Task Saving_doesnt_throw_exception_on_ignored_entities()
+        {
+            using var context = Deps.FoodStuffsContextAuditable().Seed();
+
+            var cr = context.CategoryRecipe.First();
+
+            cr.Name = "new name";
+            await context.SaveChangesAsync();
         }
     }
 }

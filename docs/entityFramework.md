@@ -23,116 +23,34 @@ See [VoidCore.Model](model.md) for more about it's data persistence features. Yo
 
 ### Audit and Soft-Delete capabilities when directly using DBContext
 
-Sometimes the specification repository isn't a good fit for a project. Some developers would rather create data services and others don't like adding an abstraction on top of DBContext.
+Sometimes specification repositories aren't a good fit for a project. Sometimes we need data services to hide complexity, or we simply just want to use the DBContext directly in our code.
 
-In these cases, you can add the following code to your DBContext partial. This code intercepts the SaveChanges method and calls extension methods on the entities to set audit properties. It will also prevent soft-deletes from actually deleting entities.
+In these cases, we can override the SaveChanges(bool) methods in the DBContext to set audit properties on all entities upon saving. It will also prevent soft-deletes from actually deleting entities. See the code below for an example.
 
-You can still use the repository abstractions on top of this DBContext, just don't call the AddAuditability or AddSoftDeletability extension methods when setting up your repositories since the DBContext will handle audit properties.
-
-See a full working example in EfIntegration tests (EfAuditableDbContextTests).
-
-<!-- markdownlint-disable MD033 -->
-<details>
-    <summary>
-        Show code
-    </summary>
-<!-- markdownlint-disable MD033 -->
+You can still use the repository abstractions on top of this modified DBContext; just don't decorate your repositories using AddAuditability or AddSoftDeletability.
 
 ```csharp
 public partial MyDbContext
 {
-    public override int SaveChanges()
+    private readonly IDateTimeService _dateTimeService;
+    private readonly ICurrentUserAccessor _currentUserAccessor;
+
+    public MyDbContext(DbContextOptions<MyDbContext> options, IDateTimeService dateTimeService, ICurrentUserAccessor currentUserAccessor) : base(options)
     {
-        return base.SaveChanges();
+        _dateTimeService = dateTimeService;
+        _currentUserAccessor = currentUserAccessor;
     }
 
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
     {
-        SetAuditableAndSoftDeleteProperties();
-        SetAuditableAndSoftDeletePropertiesWithOffset();
+        ChangeTracker.Entries().SetAllAuditableProperties(_dateTimeService, _currentUserAccessor.User.Login);
         return base.SaveChanges(acceptAllChangesOnSuccess);
     }
 
     public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
     {
-        SetAuditableAndSoftDeleteProperties();
-        SetAuditableAndSoftDeletePropertiesWithOffset();
+        ChangeTracker.Entries().SetAllAuditableProperties(_dateTimeService, _currentUserAccessor.User.Login);
         return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-    }
-
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        return base.SaveChangesAsync(cancellationToken);
-    }
-
-    private void SetAuditableAndSoftDeleteProperties()
-    {
-        var now = _dateTimeService.Moment;
-        var user = _currentUserAccessor.User.Login;
-
-        var auditableEntityEntries = ChangeTracker
-            .Entries()
-            .Where(e => e.Entity is IAuditable &&
-                (
-                    e.State == EntityState.Added ||
-                    e.State == EntityState.Modified ||
-                    e.State == EntityState.Deleted
-                ));
-
-        foreach (var entry in auditableEntityEntries)
-        {
-            if (entry.State == EntityState.Added)
-            {
-                ((IAuditable)entry.Entity).SetAuditCreated(now, user);
-            }
-
-            if (entry.State == EntityState.Modified)
-            {
-                ((IAuditable)entry.Entity).SetAuditModified(now, user);
-            }
-
-            if (entry.State == EntityState.Deleted)
-            {
-                entry.State = EntityState.Modified;
-                ((ISoftDeletable)entry.Entity).SetSoftDeleted(now, user);
-            }
-        }
-    }
-
-    private void SetAuditableAndSoftDeletePropertiesWithOffset()
-    {
-        var now = _dateTimeService.MomentWithOffset;
-        var user = _currentUserAccessor.User.Login;
-
-        var auditableEntityEntries = ChangeTracker
-            .Entries()
-            .Where(e => e.Entity is IAuditableWithOffset &&
-                (
-                    e.State == EntityState.Added ||
-                    e.State == EntityState.Modified ||
-                    e.State == EntityState.Deleted
-                ));
-
-        foreach (var entry in auditableEntityEntries)
-        {
-            if (entry.State == EntityState.Added)
-            {
-                ((IAuditableWithOffset)entry.Entity).SetAuditCreated(now, user);
-            }
-
-            if (entry.State == EntityState.Modified)
-            {
-                ((IAuditableWithOffset)entry.Entity).SetAuditModified(now, user);
-            }
-
-            if (entry.State == EntityState.Deleted)
-            {
-                entry.State = EntityState.Modified;
-                ((ISoftDeletableWithOffset)entry.Entity).SetSoftDeleted(now, user);
-            }
-        }
     }
 }
 ```
-
-</details>

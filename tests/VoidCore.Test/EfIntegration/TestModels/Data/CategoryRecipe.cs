@@ -1,9 +1,6 @@
-﻿using System;
-using VoidCore.Model.Data;
-
-namespace VoidCore.Test.EfIntegration.TestModels.Data
+﻿namespace VoidCore.Test.EfIntegration.TestModels.Data
 {
-    public class CategoryRecipe : IAuditableWithOffset, ISoftDeletableWithOffset
+    public class CategoryRecipe
     {
         public int CategoryId { get; set; }
         public int RecipeId { get; set; }
@@ -11,13 +8,6 @@ namespace VoidCore.Test.EfIntegration.TestModels.Data
         public Category Category { get; set; }
         public Recipe Recipe { get; set; }
 
-        public string CreatedBy { get; set; }
-        public DateTimeOffset CreatedOn { get; set; }
-        public string ModifiedBy { get; set; }
-        public DateTimeOffset ModifiedOn { get; set; }
-
-        public bool IsDeleted { get; set; }
-        public string DeletedBy { get; set; }
-        public DateTimeOffset? DeletedOn { get; set; }
+        public string Name { get; set; }
     }
 }

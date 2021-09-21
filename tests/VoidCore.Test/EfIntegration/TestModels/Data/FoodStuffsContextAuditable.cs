@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Threading;
 using System.Threading.Tasks;
+using VoidCore.EntityFramework;
 using VoidCore.Model.Auth;
-using VoidCore.Model.Data;
 using VoidCore.Model.Time;
 
 namespace VoidCore.Test.EfIntegration.TestModels.Data
@@ -68,7 +68,7 @@ namespace VoidCore.Test.EfIntegration.TestModels.Data
         }
 
         /// <summary>
-        /// Only needed during test seeding to prevent tampering with audit properties.
+        /// Only needed during unit test seeding to prevent tampering with audit properties.
         /// </summary>
         public int SaveSeeding()
         {
@@ -76,96 +76,16 @@ namespace VoidCore.Test.EfIntegration.TestModels.Data
         }
 
         // In practice, the following should be in a partial class to survive EF Database Scaffolding.
-        public override int SaveChanges()
-        {
-            return base.SaveChanges();
-        }
-
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
-            SetAuditableAndSoftDeleteProperties();
-            SetAuditableAndSoftDeletePropertiesWithOffset();
+            ChangeTracker.Entries().SetAllAuditableProperties(_dateTimeService, _currentUserAccessor.User.Login);
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-            SetAuditableAndSoftDeleteProperties();
-            SetAuditableAndSoftDeletePropertiesWithOffset();
+            ChangeTracker.Entries().SetAllAuditableProperties(_dateTimeService, _currentUserAccessor.User.Login);
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-        }
-
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            return base.SaveChangesAsync(cancellationToken);
-        }
-
-        private void SetAuditableAndSoftDeleteProperties()
-        {
-            var now = _dateTimeService.Moment;
-            var user = _currentUserAccessor.User.Login;
-
-            var auditableEntityEntries = ChangeTracker
-                .Entries()
-                .Where(e => e.Entity is IAuditable &&
-                    (
-                        e.State == EntityState.Added ||
-                        e.State == EntityState.Modified ||
-                        e.State == EntityState.Deleted
-                    ));
-
-            foreach (var entry in auditableEntityEntries)
-            {
-                if (entry.State == EntityState.Added)
-                {
-                    ((IAuditable)entry.Entity).SetAuditCreated(now, user);
-                }
-
-                if (entry.State == EntityState.Modified)
-                {
-                    ((IAuditable)entry.Entity).SetAuditModified(now, user);
-                }
-
-                if (entry.State == EntityState.Deleted)
-                {
-                    entry.State = EntityState.Modified;
-                    ((ISoftDeletable)entry.Entity).SetSoftDeleted(now, user);
-                }
-            }
-        }
-
-        private void SetAuditableAndSoftDeletePropertiesWithOffset()
-        {
-            var now = _dateTimeService.MomentWithOffset;
-            var user = _currentUserAccessor.User.Login;
-
-            var auditableEntityEntries = ChangeTracker
-                .Entries()
-                .Where(e => e.Entity is IAuditableWithOffset &&
-                    (
-                        e.State == EntityState.Added ||
-                        e.State == EntityState.Modified ||
-                        e.State == EntityState.Deleted
-                    ));
-
-            foreach (var entry in auditableEntityEntries)
-            {
-                if (entry.State == EntityState.Added)
-                {
-                    ((IAuditableWithOffset)entry.Entity).SetAuditCreated(now, user);
-                }
-
-                if (entry.State == EntityState.Modified)
-                {
-                    ((IAuditableWithOffset)entry.Entity).SetAuditModified(now, user);
-                }
-
-                if (entry.State == EntityState.Deleted)
-                {
-                    entry.State = EntityState.Modified;
-                    ((ISoftDeletableWithOffset)entry.Entity).SetSoftDeleted(now, user);
-                }
-            }
         }
     }
 }
