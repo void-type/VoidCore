@@ -69,19 +69,12 @@ namespace VoidCore.Model.Data
 
         private void SetCreated(IAuditableWithOffset entity)
         {
-            var now = _now.MomentWithOffset;
-            var userName = _currentUserAccessor.User.Login;
-
-            entity.CreatedOn = now;
-            entity.CreatedBy = userName;
-            entity.ModifiedOn = now;
-            entity.ModifiedBy = userName;
+            entity.SetAuditCreated(_now.MomentWithOffset, _currentUserAccessor.User.Login);
         }
 
         private void SetModified(IAuditableWithOffset entity)
         {
-            entity.ModifiedOn = _now.MomentWithOffset;
-            entity.ModifiedBy = _currentUserAccessor.User.Login;
+            entity.SetAuditModified(_now.MomentWithOffset, _currentUserAccessor.User.Login);
         }
     }
 }

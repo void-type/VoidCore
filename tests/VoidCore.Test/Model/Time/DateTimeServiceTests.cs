@@ -47,8 +47,8 @@ namespace VoidCore.Test.Model.Time
         [Fact]
         public void Discrete_returns_the_specified_time()
         {
-            var expected = new DateTime(2000, 4, 2);
-            var expectedOffset = new DateTimeOffset(new DateTime(2010, 7, 2));
+            var expected = new DateTime(2000, 4, 2, 0, 0, 0);
+            var expectedOffset = new DateTimeOffset(expected);
 
             var service = new DiscreteDateTimeService(expected, expectedOffset);
 

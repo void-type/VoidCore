@@ -49,9 +49,7 @@ namespace VoidCore.Model.Data
 
         private void SetDeleted(ISoftDeletableWithOffset entity)
         {
-            entity.DeletedOn = _now.MomentWithOffset;
-            entity.DeletedBy = _currentUserAccessor.User.Login;
-            entity.IsDeleted = true;
+            entity.SetSoftDeleted(_now.MomentWithOffset, _currentUserAccessor.User.Login);
         }
     }
 }
