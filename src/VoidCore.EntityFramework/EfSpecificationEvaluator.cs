@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using VoidCore.Model.Data;
+using VoidCore.Model.Responses.Collections;
 
 namespace VoidCore.EntityFramework
 {
@@ -50,9 +51,7 @@ namespace VoidCore.EntityFramework
 
             if (paginationOptions.IsPagingEnabled)
             {
-                query = query
-                    .Skip((paginationOptions.Page - 1) * paginationOptions.Take)
-                    .Take(paginationOptions.Take);
+                query = query.GetPage(paginationOptions);
             }
 
             return query;

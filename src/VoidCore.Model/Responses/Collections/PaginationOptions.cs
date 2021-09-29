@@ -26,12 +26,12 @@
         public static readonly PaginationOptions None = new();
 
         /// <summary>
-        /// How many items to include in each page.
+        /// What page number to take from the set.
         /// </summary>
         public int Page { get; }
 
         /// <summary>
-        /// What page number to take from the set.
+        /// How many items to include in each page.
         /// </summary>
         public int Take { get; }
 

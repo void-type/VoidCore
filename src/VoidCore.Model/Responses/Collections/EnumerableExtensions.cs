@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace VoidCore.Model.Responses.Collections
 {
@@ -42,6 +43,17 @@ namespace VoidCore.Model.Responses.Collections
         public static IItemSet<T> ToItemSet<T>(this IEnumerable<T> items, PaginationOptions paginationOptions, int totalCount)
         {
             return new ItemSet<T>(items, paginationOptions, totalCount);
+        }
+
+        /// <summary>
+        /// Get a page from a collection using pagination options. Works with EF deferred execution.
+        /// </summary>
+        /// <typeparam name="T">The type of entities in the collection</typeparam>
+        public static IQueryable<T> GetPage<T>(this IQueryable<T> set, PaginationOptions paginationOptions)
+        {
+            return set
+                .Skip((paginationOptions.Page - 1) * paginationOptions.Take)
+                .Take(paginationOptions.Take);
         }
     }
 }
