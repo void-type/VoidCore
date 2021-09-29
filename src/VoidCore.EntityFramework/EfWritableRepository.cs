@@ -20,18 +20,20 @@ namespace VoidCore.EntityFramework
         /// <inheritdoc/>
         public virtual async Task<T> Add(T entity, CancellationToken cancellationToken)
         {
-            await Context.Set<T>().AddAsync(entity, cancellationToken).ConfigureAwait(false);
+            Context.Set<T>().Add(entity);
+
             await Context.SaveChangesAsync(cancellationToken)
                 .ConfigureAwait(false);
+
             return entity;
         }
 
         /// <inheritdoc/>
-        public virtual async Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+        public virtual Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken)
         {
-            await Context.Set<T>().AddRangeAsync(entities, cancellationToken).ConfigureAwait(false);
-            await Context.SaveChangesAsync(cancellationToken)
-                .ConfigureAwait(false);
+            Context.Set<T>().AddRange(entities);
+
+            return Context.SaveChangesAsync(cancellationToken);
         }
 
         /// <inheritdoc/>
