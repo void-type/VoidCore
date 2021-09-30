@@ -11,7 +11,7 @@ namespace VoidCore.Test.Model.Time
         public void DateTimeRange_split_with_overlap()
         {
             var beforeCutoff = new DateTimeRange(new DateTime(2000, 1, 1), new DateTime(2000, 1, 15))
-                .SplitDateRangeIntoIntervals(7, true)
+                .SplitDateRangeIntoIntervals(7)
                 .ToArray();
 
             Assert.Equal(2, beforeCutoff.Length);
@@ -21,7 +21,7 @@ namespace VoidCore.Test.Model.Time
             Assert.Equal(new DateTime(2000, 1, 15), beforeCutoff[1].EndDate);
 
             var afterCutoff = new DateTimeRange(new DateTime(2000, 1, 1), new DateTime(2000, 1, 16))
-                .SplitDateRangeIntoIntervals(7, true)
+                .SplitDateRangeIntoIntervals(7)
                 .ToArray();
 
             Assert.Equal(3, afterCutoff.Length);
@@ -37,7 +37,7 @@ namespace VoidCore.Test.Model.Time
         public void DateTimeRange_split_without_overlap()
         {
             var beforeCutoff = new DateTimeRange(new DateTime(2000, 1, 1), new DateTime(2000, 1, 16))
-                .SplitDateRangeIntoIntervals(7, false)
+                .SplitDateRangeIntoIntervals(7, OverlapMitigation.Day)
                 .ToArray();
 
             Assert.Equal(2, beforeCutoff.Length);
@@ -47,7 +47,7 @@ namespace VoidCore.Test.Model.Time
             Assert.Equal(new DateTime(2000, 1, 16), beforeCutoff[1].EndDate);
 
             var afterCutoff = new DateTimeRange(new DateTime(2000, 1, 1), new DateTime(2000, 1, 17))
-                .SplitDateRangeIntoIntervals(7, false)
+                .SplitDateRangeIntoIntervals(7, OverlapMitigation.Day)
                 .ToArray();
 
             Assert.Equal(3, afterCutoff.Length);
