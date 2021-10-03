@@ -21,7 +21,7 @@ namespace VoidCore.Model.Workflow
         protected WorkflowAbstract(Action<WorkflowOptionsBuilder<TState, TCommand>> builderAction)
         {
             var builder = new WorkflowOptionsBuilder<TState, TCommand>();
-            builderAction.Invoke(builder);
+            builderAction(builder);
             _transitions = builder.Build();
         }
 
