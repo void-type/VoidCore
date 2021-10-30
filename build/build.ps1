@@ -65,10 +65,6 @@ try {
       ForEach-Object {
         Push-Location -Path $_.FullName
 
-        # Run inheritdoc
-        dotnet InheritDoc --base "./bin/$Configuration/" --overwrite
-        Stop-OnError
-
         # Pack pre-release and release version
         dotnet pack --configuration "$Configuration" --no-build --output '../../artifacts/dist/pre-release' /p:PublicRelease=false
         dotnet pack --configuration "$Configuration" --no-build --output '../../artifacts/dist/release'

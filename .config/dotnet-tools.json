@@ -14,12 +14,6 @@
         "reportgenerator"
       ]
     },
-    "inheritdoctool": {
-      "version": "2.5.2",
-      "commands": [
-        "InheritDoc"
-      ]
-    },
     "nbgv": {
       "version": "3.4.244",
       "commands": [
