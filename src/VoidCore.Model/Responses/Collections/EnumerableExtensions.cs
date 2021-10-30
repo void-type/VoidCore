@@ -46,10 +46,21 @@ namespace VoidCore.Model.Responses.Collections
         }
 
         /// <summary>
-        /// Get a page from a collection using pagination options. Works with EF deferred execution.
+        /// Get a page from a queryable collection using pagination options. Works with EF deferred execution.
         /// </summary>
         /// <typeparam name="T">The type of entities in the collection</typeparam>
         public static IQueryable<T> GetPage<T>(this IQueryable<T> set, PaginationOptions paginationOptions)
+        {
+            return set
+                .Skip((paginationOptions.Page - 1) * paginationOptions.Take)
+                .Take(paginationOptions.Take);
+        }
+
+        /// <summary>
+        /// Get a page from an enumerable collection using pagination options.
+        /// </summary>
+        /// <typeparam name="T">The type of entities in the collection</typeparam>
+        public static IEnumerable<T> GetPage<T>(this IEnumerable<T> set, PaginationOptions paginationOptions)
         {
             return set
                 .Skip((paginationOptions.Page - 1) * paginationOptions.Take)

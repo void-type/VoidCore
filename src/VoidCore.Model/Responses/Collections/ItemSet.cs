@@ -34,7 +34,7 @@ namespace VoidCore.Model.Responses.Collections
             if (IsPagingEnabled)
             {
                 TotalCount = totalCount ?? allItems.Count;
-                Items = totalCount.HasValue ? allItems : allItems.Skip((options.Page - 1) * options.Take).Take(options.Take);
+                Items = totalCount.HasValue ? allItems : allItems.GetPage(options);
                 Page = options.Page;
                 Take = options.Take;
             }
