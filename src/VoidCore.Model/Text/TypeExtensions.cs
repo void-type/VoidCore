@@ -33,7 +33,7 @@ namespace VoidCore.Model.Text
                 return rawName;
             }
 
-            return rawName.Substring(0, lastIndexOfEnding);
+            return rawName[..lastIndexOfEnding];
         }
 
         /// <summary>

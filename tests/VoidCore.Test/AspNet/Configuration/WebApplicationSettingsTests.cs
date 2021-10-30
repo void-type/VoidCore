@@ -17,7 +17,7 @@ namespace VoidCore.Test.AspNet.Configuration
 
             appSettings.Validate();
 
-            Assert.True(appSettings is WebApplicationSettings);
+            Assert.True(appSettings is not null);
         }
 
         [Fact]

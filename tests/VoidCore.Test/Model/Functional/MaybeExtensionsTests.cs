@@ -58,7 +58,7 @@ namespace VoidCore.Test.Model.Functional
             var maybe = Maybe.None<string>()
                 .Select(v => 2);
 
-            Assert.True(maybe is Maybe<int>);
+            Assert.True(maybe is not null);
             Assert.True(maybe.HasNoValue);
         }
 
@@ -81,7 +81,7 @@ namespace VoidCore.Test.Model.Functional
             var maybe = Maybe.From("some value")
                 .Select(v => 2);
 
-            Assert.True(maybe is Maybe<int>);
+            Assert.True(maybe is not null);
             Assert.Equal(2, maybe.Value);
         }
 
@@ -105,7 +105,7 @@ namespace VoidCore.Test.Model.Functional
             var maybe = Maybe.None<string>()
                 .Then(v => Maybe.From(2));
 
-            Assert.True(maybe is Maybe<int>);
+            Assert.True(maybe is not null);
             Assert.True(maybe.HasNoValue);
         }
 
@@ -128,7 +128,7 @@ namespace VoidCore.Test.Model.Functional
             var maybe = Maybe.From("some value")
                 .Then(v => Maybe.From(2));
 
-            Assert.True(maybe is Maybe<int>);
+            Assert.True(maybe is not null);
             Assert.Equal(2, maybe.Value);
         }
 

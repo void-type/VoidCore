@@ -93,7 +93,7 @@ namespace VoidCore.AspNet.Security
         {
             directiveName.EnsureNotNull(nameof(directiveName));
 
-            var maybeBuilder = Maybe.From(_directiveBuilders.FirstOrDefault(d => d.Name == directiveName));
+            var maybeBuilder = Maybe.From(_directiveBuilders.Find(d => d.Name == directiveName));
 
             return maybeBuilder.Unwrap(() =>
             {

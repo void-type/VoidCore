@@ -120,7 +120,7 @@ namespace VoidCore.Model.Functional
                 return true;
             }
 
-            return !(first is null) && first.Equals(second);
+            return first?.Equals(second) == true;
         }
 
         /// <inheritdoc/>
@@ -131,7 +131,7 @@ namespace VoidCore.Model.Functional
                 obj = new Maybe<T>(value);
             }
 
-            if (!(obj is Maybe<T>))
+            if (obj is not Maybe<T>)
             {
                 return false;
             }

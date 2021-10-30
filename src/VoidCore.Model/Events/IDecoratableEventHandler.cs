@@ -24,7 +24,6 @@
         /// <returns>The event for chaining setup commands</returns>
         EventHandlerDecorator<TRequest, TResponse> AddRequestLogger(IRequestLogger<TRequest> logger);
 
-
         /// <summary>
         /// Add a validator to validate the request. All validators are run before checking results.
         /// </summary>

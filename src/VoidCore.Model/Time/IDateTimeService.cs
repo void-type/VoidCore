@@ -13,7 +13,6 @@ namespace VoidCore.Model.Time
         /// <value>The moment provided by the service. Can be static or dynamic with the passing of time.</value>
         DateTime Moment { get; }
 
-
         /// <summary>
         /// A getter for the moment provided by the service. Provides a DateTimeOffset.
         /// </summary>
