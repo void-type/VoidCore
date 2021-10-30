@@ -13,7 +13,7 @@ namespace VoidCore.Test.EfIntegration
         {
             using var context = Deps.FoodStuffsContextAuditable().Seed();
 
-            var r = new Recipe() { Name = "new recipe" };
+            var r = new Recipe() { Name = "new recipe", Directions = "", Ingredients = "" };
             context.Recipe.Add(r);
             await context.SaveChangesAsync();
 

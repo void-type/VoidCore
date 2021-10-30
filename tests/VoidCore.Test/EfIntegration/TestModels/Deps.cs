@@ -87,6 +87,8 @@ namespace VoidCore.Test.EfIntegration.TestModels
             var recipe2 = data.Recipe.Add(new Recipe
             {
                 Name = "Recipe2",
+                Directions = "",
+                Ingredients = "",
                 CookTimeMinutes = 2,
                 PrepTimeMinutes = 2,
                 CreatedOn = DateTimeServiceEarly.Moment,
@@ -98,6 +100,8 @@ namespace VoidCore.Test.EfIntegration.TestModels
             data.Recipe.Add(new Recipe
             {
                 Name = "Recipe3",
+                Directions = "",
+                Ingredients = "",
                 CookTimeMinutes = 2,
                 PrepTimeMinutes = 2,
                 CreatedOn = DateTimeServiceEarly.Moment,
@@ -173,6 +177,8 @@ namespace VoidCore.Test.EfIntegration.TestModels
             var recipe2 = data.Recipe.Add(new Recipe
             {
                 Name = "Recipe2",
+                Directions = "",
+                Ingredients = "",
                 CookTimeMinutes = 2,
                 PrepTimeMinutes = 2,
                 CreatedBy = "Void",
@@ -184,6 +190,8 @@ namespace VoidCore.Test.EfIntegration.TestModels
             data.Recipe.Add(new Recipe
             {
                 Name = "Recipe3",
+                Directions = "",
+                Ingredients = "",
                 CookTimeMinutes = 2,
                 PrepTimeMinutes = 2,
                 CreatedBy = "Void",

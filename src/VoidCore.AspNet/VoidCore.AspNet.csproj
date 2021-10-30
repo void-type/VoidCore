@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <PackageId>VoidCore.AspNet</PackageId>
     <Title>VoidCore.AspNet</Title>
     <Description>Configure an ASP.NET web applications based on VoidCore.Model. Includes single-page front end support.</Description>
