@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace VoidCore.Model.Guards
 {
@@ -28,7 +29,7 @@ namespace VoidCore.Model.Guards
         /// <exception cref="ArgumentNullException">Throws when argumentValue null.</exception>
         [DebuggerStepThrough]
         [return: NotNull]
-        public static T EnsureNotNull<T>(this T? argumentValue, string argumentName, string? message = null)
+        public static T EnsureNotNull<T>(this T? argumentValue, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue", string? message = null)
         {
             return argumentValue ?? throw new ArgumentNullException(argumentName, message ?? ArgumentNullMessage);
         }
@@ -44,7 +45,7 @@ namespace VoidCore.Model.Guards
         /// <returns>The argument for chaining guards or assignment.</returns>
         [DebuggerStepThrough]
         [return: NotNull]
-        public static string EnsureNotNullOrEmpty(this string? argumentValue, string argumentName, string? message = null)
+        public static string EnsureNotNullOrEmpty(this string? argumentValue, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue", string? message = null)
         {
             return argumentValue
                 .EnsureNotNull(argumentName, message ?? ArgumentNullMessage)
@@ -63,7 +64,7 @@ namespace VoidCore.Model.Guards
         /// <returns>The argument for chaining guards or assignment.</returns>
         [DebuggerStepThrough]
         [return: NotNull]
-        public static IEnumerable<T> EnsureNotNullOrEmpty<T>(this IEnumerable<T>? argumentValue, string argumentName, string? message = null)
+        public static IEnumerable<T> EnsureNotNullOrEmpty<T>(this IEnumerable<T>? argumentValue, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue", string? message = null)
         {
             return argumentValue
                 .EnsureNotNull(argumentName, message ?? ArgumentNullMessage)
@@ -83,7 +84,7 @@ namespace VoidCore.Model.Guards
         /// <returns>The argument for chaining guards or assignment.</returns>
         /// <exception cref="ArgumentException">Throws when condition expression evaluates false against argumentValue.</exception>
         [DebuggerStepThrough]
-        public static T Ensure<T>(this T argumentValue, Func<T, bool> conditionExpression, string argumentName, string? message = null)
+        public static T Ensure<T>(this T argumentValue, Func<T, bool> conditionExpression, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue", string? message = null)
         {
             conditionExpression.EnsureNotNull(nameof(conditionExpression));
 
@@ -97,14 +98,14 @@ namespace VoidCore.Model.Guards
         /// </summary>
         /// <param name="argumentValue">The value of the argument.</param>
         /// <param name="conditionExpression">A function that if evaluates to false, will throw the exception.</param>
+        /// <param name="messageBuilder">An option to override the default exception message.</param>
         /// <param name="argumentName">
         /// The name of the argument. It is recommended to use nameof instead of hardcoding the parameter name.
         /// </param>
-        /// <param name="messageBuilder">An option to override the default exception message.</param>
         /// <typeparam name="T">The type of argument.</typeparam>
         /// <returns>The argument for chaining guards or assignment.</returns>
         [DebuggerStepThrough]
-        public static T Ensure<T>(this T argumentValue, Func<T, bool> conditionExpression, string argumentName, Func<T, string> messageBuilder)
+        public static T Ensure<T>(this T argumentValue, Func<T, bool> conditionExpression, Func<T, string> messageBuilder, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue")
         {
             messageBuilder.EnsureNotNull(nameof(messageBuilder));
 
