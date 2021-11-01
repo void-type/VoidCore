@@ -4,7 +4,7 @@
 [![Build Status](https://img.shields.io/azure-devops/build/void-type/VoidCore/1.svg)](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=1&branchName=main)
 [![Test Coverage](https://img.shields.io/azure-devops/coverage/void-type/VoidCore/1.svg)](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=1&branchName=main)
 
-VoidCore is a set of core libraries for building business applications on .NET 5.
+VoidCore is a set of core libraries for building business applications on .NET 6.
 
 [FoodStuffs](https://github.com/void-type/foodstuffs) is a comprehensive example of how applications can be built using VoidCore.
 
