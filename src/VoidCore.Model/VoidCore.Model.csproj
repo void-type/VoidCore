@@ -1,6 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
     <PackageId>VoidCore.Model</PackageId>
     <Title>VoidCore.Model</Title>
     <Description>An opinionated core for building business applications.</Description>

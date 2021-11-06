@@ -1,6 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
     <PackageId>VoidCore.Finance</PackageId>
     <Title>VoidCore.Finance</Title>
     <Description>A financial library with primary focus on simple amortization and time-value of money.</Description>

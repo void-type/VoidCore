@@ -1,6 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
     <PackageId>VoidCore.EntityFramework</PackageId>
     <Title>VoidCore.EntityFramework</Title>
     <Description>Entity Framework Core data access for applications based on VoidCore.Model.</Description>

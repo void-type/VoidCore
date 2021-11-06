@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <LangVersion>9.0</LangVersion>
+    <TargetFrameworks>net6.0</TargetFrameworks>
     <GenerateFullPaths>true</GenerateFullPaths>
   </PropertyGroup>
 </Project>
