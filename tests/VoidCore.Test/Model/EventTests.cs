@@ -206,7 +206,7 @@ namespace VoidCore.Test.Model
         private static Mock<IRequestValidator<TestRequest>> MockIRequestValidatorOk()
         {
             var validatorMock = new Mock<IRequestValidator<TestRequest>>();
-            validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>())).Returns(Result.Ok());
+            validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>())).Returns<TestRequest>(request => Result.Ok(request));
             return validatorMock;
         }
 
@@ -214,7 +214,7 @@ namespace VoidCore.Test.Model
         {
             var validatorMock = new Mock<IRequestValidator<TestRequest>>();
             validatorMock.Setup(v => v.Validate(It.IsAny<TestRequest>()))
-                .Returns(Result.Fail<TestResponse>(new Failure("request invalid")));
+                .Returns(Result.Fail<TestRequest>(new Failure("request invalid")));
             return validatorMock;
         }
 
