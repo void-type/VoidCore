@@ -16,13 +16,14 @@ namespace VoidCore.Model.RuleValidator
         private readonly List<RuleBuilder<T>> _ruleBuilders = new();
 
         /// <inheritdoc/>
-        public IResult Validate(T request)
+        public IResult<T> Validate(T request)
         {
             request.EnsureNotNull(nameof(request));
 
             return _ruleBuilders
                 .Select(builder => builder.Build().Run(request))
-                .Combine();
+                .Combine()
+                .Select(() => request);
         }
 
         /// <summary>
