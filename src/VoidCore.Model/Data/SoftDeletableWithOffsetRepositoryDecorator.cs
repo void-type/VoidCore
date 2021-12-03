@@ -5,51 +5,50 @@ using System.Threading.Tasks;
 using VoidCore.Model.Auth;
 using VoidCore.Model.Time;
 
-namespace VoidCore.Model.Data
+namespace VoidCore.Model.Data;
+
+/// <summary>
+/// A decorator of a generic repository that soft deletes an entity rather than fully deleting from persistence.
+/// </summary>
+public class SoftDeletableWithOffsetRepositoryDecorator<T> : RepositoryDecoratorAbstract<T> where T : class, ISoftDeletableWithOffset
 {
+    private readonly IDateTimeService _now;
+    private readonly ICurrentUserAccessor _currentUserAccessor;
+
     /// <summary>
-    /// A decorator of a generic repository that soft deletes an entity rather than fully deleting from persistence.
+    /// Create a new repo decorator.
     /// </summary>
-    public class SoftDeletableWithOffsetRepositoryDecorator<T> : RepositoryDecoratorAbstract<T> where T : class, ISoftDeletableWithOffset
+    /// <param name="innerRepository">The repository to be decorated</param>
+    /// <param name="now">A datetime service that provides the time the entity was updated</param>
+    /// <param name="currentUserAccessor">An accessor for the current user's properties</param>
+    internal SoftDeletableWithOffsetRepositoryDecorator(IWritableRepository<T> innerRepository, IDateTimeService now, ICurrentUserAccessor currentUserAccessor) : base(innerRepository)
     {
-        private readonly IDateTimeService _now;
-        private readonly ICurrentUserAccessor _currentUserAccessor;
+        _now = now;
+        _currentUserAccessor = currentUserAccessor;
+    }
 
-        /// <summary>
-        /// Create a new repo decorator.
-        /// </summary>
-        /// <param name="innerRepository">The repository to be decorated</param>
-        /// <param name="now">A datetime service that provides the time the entity was updated</param>
-        /// <param name="currentUserAccessor">An accessor for the current user's properties</param>
-        internal SoftDeletableWithOffsetRepositoryDecorator(IWritableRepository<T> innerRepository, IDateTimeService now, ICurrentUserAccessor currentUserAccessor) : base(innerRepository)
-        {
-            _now = now;
-            _currentUserAccessor = currentUserAccessor;
-        }
+    /// <inheritdoc/>
+    public override Task Remove(T entity, CancellationToken cancellationToken)
+    {
+        SetDeleted(entity);
+        return InnerRepository.Update(entity, cancellationToken);
+    }
 
-        /// <inheritdoc/>
-        public override Task Remove(T entity, CancellationToken cancellationToken)
+    /// <inheritdoc/>
+    public override Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+    {
+        var entitiesList = entities.ToList();
+
+        foreach (var entity in entitiesList)
         {
             SetDeleted(entity);
-            return InnerRepository.Update(entity, cancellationToken);
         }
 
-        /// <inheritdoc/>
-        public override Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken)
-        {
-            var entitiesList = entities.ToList();
+        return InnerRepository.UpdateRange(entitiesList, cancellationToken);
+    }
 
-            foreach (var entity in entitiesList)
-            {
-                SetDeleted(entity);
-            }
-
-            return InnerRepository.UpdateRange(entitiesList, cancellationToken);
-        }
-
-        private void SetDeleted(ISoftDeletableWithOffset entity)
-        {
-            entity.SetSoftDeleted(_now.MomentWithOffset, _currentUserAccessor.User.Login);
-        }
+    private void SetDeleted(ISoftDeletableWithOffset entity)
+    {
+        entity.SetSoftDeleted(_now.MomentWithOffset, _currentUserAccessor.User.Login);
     }
 }

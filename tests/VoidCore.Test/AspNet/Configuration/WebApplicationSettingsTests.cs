@@ -2,29 +2,28 @@
 using VoidCore.AspNet.Configuration;
 using Xunit;
 
-namespace VoidCore.Test.AspNet.Configuration
+namespace VoidCore.Test.AspNet.Configuration;
+
+public class WebApplicationSettingsTests
 {
-    public class WebApplicationSettingsTests
+    [Fact]
+    public void WebApplicationSettings_has_parameterless_constructor_for_aspnet_options()
     {
-        [Fact]
-        public void WebApplicationSettings_has_parameterless_constructor_for_aspnet_options()
+        var appSettings = new WebApplicationSettings()
         {
-            var appSettings = new WebApplicationSettings()
-            {
-                Name = "Something",
-                BaseUrl = "Something"
-            };
+            Name = "Something",
+            BaseUrl = "Something"
+        };
 
-            appSettings.Validate();
+        appSettings.Validate();
 
-            Assert.True(appSettings is not null);
-        }
+        Assert.True(appSettings is not null);
+    }
 
-        [Fact]
-        public void WebApplicationSettings_validator_throws_when_settings_invalid()
-        {
-            Assert.Throws<ArgumentException>(() => new WebApplicationSettings().Validate());
-            Assert.Throws<ArgumentException>(() => new WebApplicationSettings() { Name = "Something" }.Validate());
-        }
+    [Fact]
+    public void WebApplicationSettings_validator_throws_when_settings_invalid()
+    {
+        Assert.Throws<ArgumentException>(() => new WebApplicationSettings().Validate());
+        Assert.Throws<ArgumentException>(() => new WebApplicationSettings() { Name = "Something" }.Validate());
     }
 }

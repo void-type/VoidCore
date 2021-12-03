@@ -1,9 +1,8 @@
-﻿namespace VoidCore.Test.Model.Workflow
+﻿namespace VoidCore.Test.Model.Workflow;
+
+public class Approval
 {
-    public class Approval
-    {
-        public int Id { get; set; }
-        public string Approver { get; set; }
-        public bool IsApproved { get; set; }
-    }
+    public int Id { get; set; }
+    public string Approver { get; set; }
+    public bool IsApproved { get; set; }
 }

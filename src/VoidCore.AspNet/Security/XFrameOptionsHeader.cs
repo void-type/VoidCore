@@ -1,32 +1,31 @@
 ﻿using VoidCore.Model.Guards;
 
-namespace VoidCore.AspNet.Security
+namespace VoidCore.AspNet.Security;
+
+/// <summary>
+/// A header for adding X-Frame-Options to a webpage.
+/// </summary>
+public class XFrameOptionsHeader
 {
     /// <summary>
-    /// A header for adding X-Frame-Options to a webpage.
+    /// Construct a new XFrameOptionsHeader
     /// </summary>
-    public class XFrameOptionsHeader
+    /// <param name="options">The XFrameOptionsOptions to configure the header with</param>
+    public XFrameOptionsHeader(XFrameOptionsOptions options)
     {
-        /// <summary>
-        /// Construct a new XFrameOptionsHeader
-        /// </summary>
-        /// <param name="options">The XFrameOptionsOptions to configure the header with</param>
-        public XFrameOptionsHeader(XFrameOptionsOptions options)
-        {
-            options.EnsureNotNull(nameof(options));
+        options.EnsureNotNull(nameof(options));
 
-            Key = "X-Frame-Options";
-            Value = options.Value;
-        }
-
-        /// <summary>
-        /// The header key.
-        /// </summary>
-        public string Key { get; }
-
-        /// <summary>
-        /// The header value.
-        /// </summary>
-        public string Value { get; }
+        Key = "X-Frame-Options";
+        Value = options.Value;
     }
+
+    /// <summary>
+    /// The header key.
+    /// </summary>
+    public string Key { get; }
+
+    /// <summary>
+    /// The header value.
+    /// </summary>
+    public string Value { get; }
 }

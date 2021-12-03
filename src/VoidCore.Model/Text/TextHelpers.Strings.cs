@@ -1,19 +1,18 @@
 ﻿using System;
 using VoidCore.Model.Guards;
 
-namespace VoidCore.Model.Text
+namespace VoidCore.Model.Text;
+
+public static partial class TextHelpers
 {
-    public static partial class TextHelpers
+    /// <summary>
+    /// Split a string on any newline character.
+    /// </summary>
+    /// <param name="str">The string to split</param>
+    public static string[] SplitOnNewLine(string str)
     {
-        /// <summary>
-        /// Split a string on any newline character.
-        /// </summary>
-        /// <param name="str">The string to split</param>
-        public static string[] SplitOnNewLine(string str)
-        {
-            return str
-                .EnsureNotNull(nameof(str))
-                .Split(new[] { "\n", "\r\n" }, StringSplitOptions.None);
-        }
+        return str
+            .EnsureNotNull(nameof(str))
+            .Split(new[] { "\n", "\r\n" }, StringSplitOptions.None);
     }
 }

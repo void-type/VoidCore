@@ -1,22 +1,21 @@
-﻿namespace VoidCore.Model.Responses.Messages
+﻿namespace VoidCore.Model.Responses.Messages;
+
+/// <summary>
+/// A UI-friendly message.
+/// </summary>
+public class UserMessage
 {
     /// <summary>
-    /// A UI-friendly message.
+    /// Create a new message.
     /// </summary>
-    public class UserMessage
+    /// <param name="message">The user message to display</param>
+    public UserMessage(string message)
     {
-        /// <summary>
-        /// Create a new message.
-        /// </summary>
-        /// <param name="message">The user message to display</param>
-        public UserMessage(string message)
-        {
-            Message = message;
-        }
-
-        /// <summary>
-        /// The UI-friendly message.
-        /// </summary>
-        public string Message { get; }
+        Message = message;
     }
+
+    /// <summary>
+    /// The UI-friendly message.
+    /// </summary>
+    public string Message { get; }
 }

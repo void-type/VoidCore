@@ -1,93 +1,92 @@
 ﻿using System.Collections.Generic;
 using VoidCore.Model.Functional;
 
-namespace VoidCore.Test.Model.Workflow
+namespace VoidCore.Test.Model.Workflow;
+
+public partial class Workflow
 {
-    public partial class Workflow
+    private static readonly IReadOnlyList<string> _approverNames = new List<string> { "John", "Joe" };
+
+    public IResult<State> OnRequestApprovals(Request request)
     {
-        private static readonly IReadOnlyList<string> _approverNames = new List<string> { "John", "Joe" };
-
-        public IResult<State> OnRequestApprovals(Request request)
-        {
-            return MoveNext(request, Command.Start)
-                .Then(nextState =>
+        return MoveNext(request, Command.Start)
+            .Then(nextState =>
+            {
+                if (request.ApprovalsMet)
                 {
-                    if (request.ApprovalsMet)
-                    {
-                        return MoveNext(request, Command.Approve);
-                    }
+                    return MoveNext(request, Command.Approve);
+                }
 
-                    return Result.Ok(nextState);
-                })
-                .TeeOnSuccess(() => AddApproval(request));
-        }
+                return Result.Ok(nextState);
+            })
+            .TeeOnSuccess(() => AddApproval(request));
+    }
 
-        public IResult<State> OnApprove(Request request, Approval approval)
+    public IResult<State> OnApprove(Request request, Approval approval)
+    {
+        var canContinue = GetNext(request.State, Command.Approve);
+
+        if (canContinue.IsFailed)
         {
-            var canContinue = GetNext(request.State, Command.Approve);
-
-            if (canContinue.IsFailed)
-            {
-                return canContinue;
-            }
-
-            if (request.ApprovalsMet || _approverNames.Count - request.Approvals.Count < 1)
-            {
-                return MoveNext(request, Command.Approve);
-            }
-
-            approval.IsApproved = true;
-            AddApproval(request);
-            return Result.Ok(request.State);
+            return canContinue;
         }
 
-        public IResult<State> OnReject(Request request)
+        if (request.ApprovalsMet || _approverNames.Count - request.Approvals.Count < 1)
         {
-            request.Approvals.Clear();
-            return MoveNext(request, Command.Reject);
+            return MoveNext(request, Command.Approve);
         }
 
-        public IResult<State> OnCancel(Request request)
-        {
-            return MoveNext(request, Command.Cancel);
-        }
+        approval.IsApproved = true;
+        AddApproval(request);
+        return Result.Ok(request.State);
+    }
 
-        public IResult<State> OnRevoke(Request request, string revokerName)
-        {
-            return MoveNext(request, Command.Revoke)
-                .TeeOnSuccess(() => SetRevoke(request, revokerName));
-        }
+    public IResult<State> OnReject(Request request)
+    {
+        request.Approvals.Clear();
+        return MoveNext(request, Command.Reject);
+    }
 
-        public IResult<State> OnExpire(Request request)
-        {
-            return MoveNext(request, Command.Expire);
-        }
+    public IResult<State> OnCancel(Request request)
+    {
+        return MoveNext(request, Command.Cancel);
+    }
 
-        private IResult<State> MoveNext(Request request, Command command)
-        {
-            return GetNext(request.State, command)
-                .TeeOnSuccess(newState => request.State = newState);
-        }
+    public IResult<State> OnRevoke(Request request, string revokerName)
+    {
+        return MoveNext(request, Command.Revoke)
+            .TeeOnSuccess(() => SetRevoke(request, revokerName));
+    }
 
-        private static void AddApproval(Request request)
-        {
-            new Approval
-            {
-                Id = request.Approvals.Count + 1,
-                Approver = _approverNames[request.Approvals.Count],
-                IsApproved = false
-            }
-                .Tee(request.Approvals.Add);
-        }
+    public IResult<State> OnExpire(Request request)
+    {
+        return MoveNext(request, Command.Expire);
+    }
 
-        private static void SetRevoke(Request request, string revokerName)
+    private IResult<State> MoveNext(Request request, Command command)
+    {
+        return GetNext(request.State, command)
+            .TeeOnSuccess(newState => request.State = newState);
+    }
+
+    private static void AddApproval(Request request)
+    {
+        new Approval
         {
-            new Revoke
-            {
-                Id = request.Approvals.Count + 1,
-                Revoker = revokerName,
-            }
-                .Tee(r => request.Revoke = r);
+            Id = request.Approvals.Count + 1,
+            Approver = _approverNames[request.Approvals.Count],
+            IsApproved = false
         }
+            .Tee(request.Approvals.Add);
+    }
+
+    private static void SetRevoke(Request request, string revokerName)
+    {
+        new Revoke
+        {
+            Id = request.Approvals.Count + 1,
+            Revoker = revokerName,
+        }
+            .Tee(r => request.Revoke = r);
     }
 }

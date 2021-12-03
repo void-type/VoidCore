@@ -1,20 +1,19 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using VoidCore.Model.Text;
 
-namespace VoidCore.AspNet.Auth
+namespace VoidCore.AspNet.Auth;
+
+/// <summary>
+/// Derivatives of this class will have their policies set by convention from the name of the class.
+/// Ex: UserOnly will authorize the policy of "User"
+/// </summary>
+public class AutoPolicyAuthorizeAttribute : AuthorizeAttribute
 {
     /// <summary>
-    /// Derivatives of this class will have their policies set by convention from the name of the class.
-    /// Ex: UserOnly will authorize the policy of "User"
+    /// Construct a new AutoNamingAuthorizeAttribute with a policy set by convention.
     /// </summary>
-    public class AutoPolicyAuthorizeAttribute : AuthorizeAttribute
+    protected AutoPolicyAuthorizeAttribute()
     {
-        /// <summary>
-        /// Construct a new AutoNamingAuthorizeAttribute with a policy set by convention.
-        /// </summary>
-        protected AutoPolicyAuthorizeAttribute()
-        {
-            Policy = GetType().GetTypeNameWithoutEnding("only");
-        }
+        Policy = GetType().GetTypeNameWithoutEnding("only");
     }
 }

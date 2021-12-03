@@ -1,94 +1,93 @@
 ﻿using System.Collections.Generic;
 using VoidCore.Model.Guards;
 
-namespace VoidCore.Model.Emailing
+namespace VoidCore.Model.Emailing;
+
+/// <summary>
+/// A builder to configure options for an email.
+/// </summary>
+public sealed class EmailOptionsBuilder
 {
+    internal EmailOptionsBuilder() { }
+
+    private string _subject = string.Empty;
+    private readonly List<string> _messageLines = new();
+    private readonly List<string> _recipients = new();
+
     /// <summary>
-    /// A builder to configure options for an email.
+    /// Set the subject of the email. Will override any previously set subjects.
     /// </summary>
-    public sealed class EmailOptionsBuilder
+    /// <param name="subject">The email subject</param>
+    public void SetSubject(string subject)
     {
-        internal EmailOptionsBuilder() { }
+        _subject = subject.EnsureNotNullOrEmpty(nameof(subject));
+    }
 
-        private string _subject = string.Empty;
-        private readonly List<string> _messageLines = new();
-        private readonly List<string> _recipients = new();
+    /// <summary>
+    /// Add a line to the body of the email. New line delimiters are added automatically upon building the email.
+    /// </summary>
+    /// <param name="line">The line to add to the email.</param>
+    public void AddLine(string line = "")
+    {
+        _messageLines.Add(line);
+    }
 
-        /// <summary>
-        /// Set the subject of the email. Will override any previously set subjects.
-        /// </summary>
-        /// <param name="subject">The email subject</param>
-        public void SetSubject(string subject)
+    /// <summary>
+    /// Add a line to the body of the email. New line delimiters are added automatically upon building the email.
+    /// </summary>
+    /// <param name="lines">The lines to add to the email.</param>
+    public void AddLines(params string[] lines)
+    {
+        _messageLines.AddRange(lines);
+    }
+
+    /// <summary>
+    /// Add a line to the body of the email. New line delimiters are added automatically upon building the email.
+    /// </summary>
+    /// <param name="lines">The lines to add to the email.</param>
+    public void AddLines(IEnumerable<string> lines)
+    {
+        _messageLines.AddRange(lines);
+    }
+
+    /// <summary>
+    /// Add a recipient email address to the email.
+    /// </summary>
+    /// <param name="recipient">The email address of the recipient</param>
+    public void AddRecipient(string recipient)
+    {
+        recipient.EnsureNotNullOrEmpty(nameof(recipient));
+        _recipients.Add(recipient);
+    }
+
+    /// <summary>
+    /// Add multiple recipients to the email.
+    /// </summary>
+    /// <param name="recipients">The email addresses of the recipients</param>
+    public void AddRecipients(params string[] recipients)
+    {
+        foreach (var recipient in recipients)
         {
-            _subject = subject.EnsureNotNullOrEmpty(nameof(subject));
+            AddRecipient(recipient);
         }
+    }
 
-        /// <summary>
-        /// Add a line to the body of the email. New line delimiters are added automatically upon building the email.
-        /// </summary>
-        /// <param name="line">The line to add to the email.</param>
-        public void AddLine(string line = "")
+    /// <summary>
+    /// Add multiple recipients to the email.
+    /// </summary>
+    /// <param name="recipients">The email addresses of the recipients</param>
+    public void AddRecipients(IEnumerable<string> recipients)
+    {
+        recipients.EnsureNotNull(nameof(recipients));
+
+        foreach (var recipient in recipients)
         {
-            _messageLines.Add(line);
+            AddRecipient(recipient);
         }
+    }
 
-        /// <summary>
-        /// Add a line to the body of the email. New line delimiters are added automatically upon building the email.
-        /// </summary>
-        /// <param name="lines">The lines to add to the email.</param>
-        public void AddLines(params string[] lines)
-        {
-            _messageLines.AddRange(lines);
-        }
-
-        /// <summary>
-        /// Add a line to the body of the email. New line delimiters are added automatically upon building the email.
-        /// </summary>
-        /// <param name="lines">The lines to add to the email.</param>
-        public void AddLines(IEnumerable<string> lines)
-        {
-            _messageLines.AddRange(lines);
-        }
-
-        /// <summary>
-        /// Add a recipient email address to the email.
-        /// </summary>
-        /// <param name="recipient">The email address of the recipient</param>
-        public void AddRecipient(string recipient)
-        {
-            recipient.EnsureNotNullOrEmpty(nameof(recipient));
-            _recipients.Add(recipient);
-        }
-
-        /// <summary>
-        /// Add multiple recipients to the email.
-        /// </summary>
-        /// <param name="recipients">The email addresses of the recipients</param>
-        public void AddRecipients(params string[] recipients)
-        {
-            foreach (var recipient in recipients)
-            {
-                AddRecipient(recipient);
-            }
-        }
-
-        /// <summary>
-        /// Add multiple recipients to the email.
-        /// </summary>
-        /// <param name="recipients">The email addresses of the recipients</param>
-        public void AddRecipients(IEnumerable<string> recipients)
-        {
-            recipients.EnsureNotNull(nameof(recipients));
-
-            foreach (var recipient in recipients)
-            {
-                AddRecipient(recipient);
-            }
-        }
-
-        internal EmailOptions Build()
-        {
-            return new EmailOptions(_subject, _messageLines, _recipients);
-        }
+    internal EmailOptions Build()
+    {
+        return new EmailOptions(_subject, _messageLines, _recipients);
     }
 }

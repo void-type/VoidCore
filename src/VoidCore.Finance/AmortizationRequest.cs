@@ -1,44 +1,43 @@
 ﻿using System;
 
-namespace VoidCore.Finance
+namespace VoidCore.Finance;
+
+/// <summary>
+/// A request to calculate.true Contains the information needed to initiate the loan.
+/// </summary>
+public sealed class AmortizationRequest
 {
     /// <summary>
-    /// A request to calculate.true Contains the information needed to initiate the loan.
+    /// Create a new request.
     /// </summary>
-    public sealed class AmortizationRequest
+    /// <param name="totalPrincipal">The total principal amount of the loan.</param>
+    /// <param name="numberOfPeriods">The number of payment periods in the loan.</param>
+    /// <param name="ratePerPeriod">The interest rate per period of the loan.</param>
+    /// <exception cref="ArgumentException">Throws when number of periods is less than 1.</exception>
+    public AmortizationRequest(decimal totalPrincipal, int numberOfPeriods, decimal ratePerPeriod)
     {
-        /// <summary>
-        /// Create a new request.
-        /// </summary>
-        /// <param name="totalPrincipal">The total principal amount of the loan.</param>
-        /// <param name="numberOfPeriods">The number of payment periods in the loan.</param>
-        /// <param name="ratePerPeriod">The interest rate per period of the loan.</param>
-        /// <exception cref="ArgumentException">Throws when number of periods is less than 1.</exception>
-        public AmortizationRequest(decimal totalPrincipal, int numberOfPeriods, decimal ratePerPeriod)
+        if (numberOfPeriods < 1)
         {
-            if (numberOfPeriods < 1)
-            {
-                throw new ArgumentException("Cannot be less than 1.", nameof(numberOfPeriods));
-            }
-
-            TotalPrincipal = totalPrincipal;
-            NumberOfPeriods = numberOfPeriods;
-            RatePerPeriod = ratePerPeriod;
+            throw new ArgumentException("Cannot be less than 1.", nameof(numberOfPeriods));
         }
 
-        /// <summary>
-        /// The total principal amount of the loan.
-        /// </summary>
-        public decimal TotalPrincipal { get; }
-
-        /// <summary>
-        /// The number of payment periods in the loan.
-        /// </summary>
-        public int NumberOfPeriods { get; }
-
-        /// <summary>
-        /// The interest rate per period of the loan.
-        /// /// </summary>
-        public decimal RatePerPeriod { get; }
+        TotalPrincipal = totalPrincipal;
+        NumberOfPeriods = numberOfPeriods;
+        RatePerPeriod = ratePerPeriod;
     }
+
+    /// <summary>
+    /// The total principal amount of the loan.
+    /// </summary>
+    public decimal TotalPrincipal { get; }
+
+    /// <summary>
+    /// The number of payment periods in the loan.
+    /// </summary>
+    public int NumberOfPeriods { get; }
+
+    /// <summary>
+    /// The interest rate per period of the loan.
+    /// /// </summary>
+    public decimal RatePerPeriod { get; }
 }

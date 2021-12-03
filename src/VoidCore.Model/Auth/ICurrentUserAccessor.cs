@@ -1,13 +1,12 @@
-﻿namespace VoidCore.Model.Auth
+﻿namespace VoidCore.Model.Auth;
+
+/// <summary>
+/// A singleton to access the current user.
+/// </summary>
+public interface ICurrentUserAccessor
 {
     /// <summary>
-    /// A singleton to access the current user.
+    /// Get the current domain user.
     /// </summary>
-    public interface ICurrentUserAccessor
-    {
-        /// <summary>
-        /// Get the current domain user.
-        /// </summary>
-        DomainUser User { get; }
-    }
+    DomainUser User { get; }
 }

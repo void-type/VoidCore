@@ -1,13 +1,12 @@
-﻿namespace VoidCore.Test.EfIntegration.TestModels.Data
+﻿namespace VoidCore.Test.EfIntegration.TestModels.Data;
+
+public class CategoryRecipe
 {
-    public class CategoryRecipe
-    {
-        public int CategoryId { get; set; }
-        public int RecipeId { get; set; }
+    public int CategoryId { get; set; }
+    public int RecipeId { get; set; }
 
-        public Category Category { get; set; }
-        public Recipe Recipe { get; set; }
+    public Category Category { get; set; }
+    public Recipe Recipe { get; set; }
 
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
 }

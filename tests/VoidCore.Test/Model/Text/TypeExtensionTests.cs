@@ -2,82 +2,81 @@
 using VoidCore.Model.Text;
 using Xunit;
 
-namespace VoidCore.Test.Model.Text
+namespace VoidCore.Test.Model.Text;
+
+public class TypeExtensionTests
 {
-    public class TypeExtensionTests
+    [Fact]
+    public void Strip_type_name_ending()
     {
-        [Fact]
-        public void Strip_type_name_ending()
-        {
-            var typeName = typeof(MyBaseSettings).GetTypeNameWithoutEnding("Settings");
-            Assert.Equal("MyBase", typeName);
-        }
-
-        [Fact]
-        public void Strip_type_name_ending_and_attribute()
-        {
-            var typeName = typeof(MyBaseSettingsAttribute).GetTypeNameWithoutEnding("Settings");
-            Assert.Equal("MyBase", typeName);
-        }
-
-        [Fact]
-        public void Strip_type_name_ending_is_case_insensitive()
-        {
-            var typeName2 = typeof(MyBaseSettings).GetTypeNameWithoutEnding("settings");
-            Assert.Equal("MyBase", typeName2);
-
-            var typeName1 = typeof(Lowercasesettings).GetTypeNameWithoutEnding("Settings");
-            Assert.Equal("Lowercase", typeName1);
-        }
-
-        [Fact]
-        public void No_match_in_type_name_returns_whole_name()
-        {
-            var typeName = typeof(Other).GetTypeNameWithoutEnding("Settings");
-            Assert.Equal("Other", typeName);
-        }
-
-        [Fact]
-        public void Null_search_in_type_name_returns_whole_name()
-        {
-            var sectionName = typeof(MyBaseSettings).GetTypeNameWithoutEnding(null);
-            Assert.Equal("MyBaseSettings", sectionName);
-        }
-
-        [Fact]
-        public void Friendly_type_name_returns_correct_name()
-        {
-            var typeName = typeof(string).GetFriendlyTypeName();
-            Assert.Equal("String", typeName);
-        }
-
-        [Fact]
-        public void Friendly_type_name_with_one_generic_parameter_returns_correct_name()
-        {
-            var typeName = typeof(List<string>).GetFriendlyTypeName();
-            Assert.Equal("List<String>", typeName);
-        }
-
-        [Fact]
-        public void Friendly_type_name_with_two_generic_parameters_returns_correct_name()
-        {
-            var typeName = typeof(Dictionary<string, MyBaseSettings>).GetFriendlyTypeName();
-            Assert.Equal("Dictionary<String, MyBaseSettings>", typeName);
-        }
-
-        [Fact]
-        public void Friendly_type_name_with_nested_generic_parameters_returns_correct_name()
-        {
-            var typeName = typeof(Dictionary<string, Dictionary<string, Dictionary<string, MyBaseSettings>>>).GetFriendlyTypeName();
-            Assert.Equal("Dictionary<String, Dictionary<String, Dictionary<String, MyBaseSettings>>>", typeName);
-        }
+        var typeName = typeof(MyBaseSettings).GetTypeNameWithoutEnding("Settings");
+        Assert.Equal("MyBase", typeName);
     }
 
-    internal class MyBaseSettings { }
+    [Fact]
+    public void Strip_type_name_ending_and_attribute()
+    {
+        var typeName = typeof(MyBaseSettingsAttribute).GetTypeNameWithoutEnding("Settings");
+        Assert.Equal("MyBase", typeName);
+    }
 
-    internal class MyBaseSettingsAttribute { }
+    [Fact]
+    public void Strip_type_name_ending_is_case_insensitive()
+    {
+        var typeName2 = typeof(MyBaseSettings).GetTypeNameWithoutEnding("settings");
+        Assert.Equal("MyBase", typeName2);
 
-    internal class Lowercasesettings { }
+        var typeName1 = typeof(Lowercasesettings).GetTypeNameWithoutEnding("Settings");
+        Assert.Equal("Lowercase", typeName1);
+    }
 
-    internal class Other { }
+    [Fact]
+    public void No_match_in_type_name_returns_whole_name()
+    {
+        var typeName = typeof(Other).GetTypeNameWithoutEnding("Settings");
+        Assert.Equal("Other", typeName);
+    }
+
+    [Fact]
+    public void Null_search_in_type_name_returns_whole_name()
+    {
+        var sectionName = typeof(MyBaseSettings).GetTypeNameWithoutEnding(null);
+        Assert.Equal("MyBaseSettings", sectionName);
+    }
+
+    [Fact]
+    public void Friendly_type_name_returns_correct_name()
+    {
+        var typeName = typeof(string).GetFriendlyTypeName();
+        Assert.Equal("String", typeName);
+    }
+
+    [Fact]
+    public void Friendly_type_name_with_one_generic_parameter_returns_correct_name()
+    {
+        var typeName = typeof(List<string>).GetFriendlyTypeName();
+        Assert.Equal("List<String>", typeName);
+    }
+
+    [Fact]
+    public void Friendly_type_name_with_two_generic_parameters_returns_correct_name()
+    {
+        var typeName = typeof(Dictionary<string, MyBaseSettings>).GetFriendlyTypeName();
+        Assert.Equal("Dictionary<String, MyBaseSettings>", typeName);
+    }
+
+    [Fact]
+    public void Friendly_type_name_with_nested_generic_parameters_returns_correct_name()
+    {
+        var typeName = typeof(Dictionary<string, Dictionary<string, Dictionary<string, MyBaseSettings>>>).GetFriendlyTypeName();
+        Assert.Equal("Dictionary<String, Dictionary<String, Dictionary<String, MyBaseSettings>>>", typeName);
+    }
 }
+
+internal class MyBaseSettings { }
+
+internal class MyBaseSettingsAttribute { }
+
+internal class Lowercasesettings { }
+
+internal class Other { }
