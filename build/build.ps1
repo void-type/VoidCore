@@ -8,12 +8,27 @@ param(
   [switch] $SkipPack
 )
 
-Push-Location -Path "$PSScriptRoot/../"
-. ./build/util.ps1
+function Stop-OnError([string]$errorMessage) {
+  if ($LASTEXITCODE -eq 0) {
+    return
+  }
+
+  if (-not [string]::IsNullOrWhiteSpace($errorMessage)) {
+    Write-Error $errorMessage
+  }
+
+  exit $LASTEXITCODE
+}
+
+$originalLocation = Get-Location
+$projectRoot = "$PSScriptRoot/../"
 
 try {
-  # Clean the artifacts folder
-  Remove-Item -Path "./artifacts" -Recurse -ErrorAction SilentlyContinue
+  Set-Location -Path $projectRoot
+  . ./build/util.ps1
+
+  # Clean the artifacts folders
+  Remove-Item -Path './artifacts' -Recurse -ErrorAction SilentlyContinue
 
   # Restore local dotnet tools
   dotnet tool restore
@@ -21,10 +36,7 @@ try {
   # Build solution
   if (-not $SkipFormat) {
     dotnet format --verify-no-changes
-    if ($LASTEXITCODE -ne 0) {
-      Write-Error 'Please run formatter: dotnet format.'
-    }
-    Stop-OnError
+    Stop-OnError 'Please run formatter: dotnet format.'
   }
 
   dotnet restore
@@ -63,14 +75,12 @@ try {
     Get-ChildItem -Path "./src" |
       Where-Object { (Test-Path -Path "$($_.FullName)/*.csproj") -eq $true } |
       ForEach-Object {
-        Push-Location -Path $_.FullName
+        Set-Location -Path $_.FullName
 
         # Pack pre-release and release version
         dotnet pack --configuration "$Configuration" --no-build --output '../../artifacts/dist/pre-release' /p:PublicRelease=false
         dotnet pack --configuration "$Configuration" --no-build --output '../../artifacts/dist/release'
         Stop-OnError
-
-        Pop-Location
       }
   }
 
@@ -78,5 +88,5 @@ try {
   Write-Output "`nBuilt $projectName $projectVersion`n"
 
 } finally {
-  Pop-Location
+  Set-Location $originalLocation
 }
