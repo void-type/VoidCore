@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-  [string] $Configuration = "Release",
+  [string] $Configuration = 'Release',
   [switch] $SkipFormat,
   [switch] $SkipOutdated,
   [switch] $SkipTest,
@@ -72,7 +72,7 @@ try {
 
   if (-not $SkipPack) {
     # Pack nugets for each package
-    Get-ChildItem -Path "./src" |
+    Get-ChildItem -Path './src' |
       Where-Object { (Test-Path -Path "$($_.FullName)/*.csproj") -eq $true } |
       ForEach-Object {
         Set-Location -Path $_.FullName
