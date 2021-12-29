@@ -28,9 +28,9 @@ public static class SecurityApplicationBuilderExtensions
     }
 
     /// <summary>
-    /// Set a Content Security Policy header on the HTTP response. See
+    /// Set a Content Security Policy header on the HTTP response.
     /// See for directives and their uses: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
-    /// Recommend using https://csp-evaluator.withgoogle.com/ to evaluate your CSP.
+    /// Use https://csp-evaluator.withgoogle.com/ to evaluate your CSP.
     /// Denies unsafe content from being rendered on the page.
     /// </summary>
     /// <param name="app">This IApplicationBuilder</param>
