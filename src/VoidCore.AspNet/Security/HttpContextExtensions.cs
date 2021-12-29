@@ -9,7 +9,7 @@ namespace VoidCore.AspNet.Security;
 /// </summary>
 public static class HttpContextExtensions
 {
-    private static readonly string _nonceKey = "VoidCore_CSP_Nonce";
+    private const string NonceKey = "VoidCore_CSP_Nonce";
 
     /// <summary>
     /// Set the nonce on the HttpContext.
@@ -18,11 +18,11 @@ public static class HttpContextExtensions
     /// <param name="nonce">The nonce</param>
     public static void SetNonce(this HttpContext context, string nonce)
     {
-        context.Items[_nonceKey].Ensure(
-            x => x is null, nameof(_nonceKey),
+        context.Items[NonceKey].Ensure(
+            x => x is null, nameof(NonceKey),
             "Nonce was already set on the HttpContext. Possible conflicting security policies defined.");
 
-        context.Items[_nonceKey] = nonce;
+        context.Items[NonceKey] = nonce;
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ public static class HttpContextExtensions
     /// <returns></returns>
     public static string GetNonce(this HttpContext context)
     {
-        var nonce = context.Items[_nonceKey] as string;
-        return nonce.EnsureNotNullOrEmpty(_nonceKey, "Nonce was not found in HttpContext.");
+        var nonce = context.Items[NonceKey] as string;
+        return nonce.EnsureNotNullOrEmpty(NonceKey, "Nonce was not found in HttpContext.");
     }
 }
