@@ -8,7 +8,7 @@ namespace VoidCore.Model.Responses.Messages;
 /// <typeparam name="TRequest">The request type of the event.</typeparam>
 public class UserMessageEventLogger<TRequest> : FallibleEventLoggerAbstract<TRequest, UserMessage>
 {
-    /// <inheritdoc/>
+    /// <inheritdoc cref="FallibleEventLoggerAbstract{TRequest, TResponse}"/>
     public UserMessageEventLogger(ILogger<UserMessageEventLogger<TRequest>> logger) : base(logger) { }
 
     /// <inheritdoc/>

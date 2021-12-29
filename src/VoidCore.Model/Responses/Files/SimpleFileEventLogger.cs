@@ -8,7 +8,7 @@ namespace VoidCore.Model.Responses.Files;
 /// <typeparam name="TRequest">The request type of the event.</typeparam>
 public class SimpleFileEventLogger<TRequest> : FallibleEventLoggerAbstract<TRequest, SimpleFile>
 {
-    /// <inheritdoc/>
+    /// <inheritdoc cref="FallibleEventLoggerAbstract{TRequest, TResponse}"/>
     public SimpleFileEventLogger(ILogger<SimpleFileEventLogger<TRequest>> logger) : base(logger) { }
 
     /// <inheritdoc/>

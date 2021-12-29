@@ -15,28 +15,28 @@ public sealed class CspSourceDirectiveBuilder
         _nonce = nonce;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc cref="CspDirectiveBuilder.Allow(string)"/>
     public CspSourceDirectiveBuilder Allow(string source)
     {
         _internalBuilder.Allow(source);
         return this;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc cref="CspDirectiveBuilder.AllowAny()"/>
     public CspSourceDirectiveBuilder AllowAny()
     {
         _internalBuilder.AllowAny();
         return this;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc cref="CspDirectiveBuilder.AllowNone()"/>
     public CspSourceDirectiveBuilder AllowNone()
     {
         _internalBuilder.AllowNone();
         return this;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc cref="CspDirectiveBuilder.AllowSelf()"/>
     public CspSourceDirectiveBuilder AllowSelf()
     {
         _internalBuilder.AllowSelf();

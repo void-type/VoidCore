@@ -100,7 +100,7 @@ public static class GetWebClientInfo
     /// </summary>
     public class ResponseLogger : FallibleEventLoggerAbstract<Request, WebClientInfo>
     {
-        /// <inheritdoc/>
+        /// <inheritdoc cref="FallibleEventLoggerAbstract{TRequest, TResponse}"/>
         public ResponseLogger(ILogger<ResponseLogger> logger) : base(logger) { }
 
         /// <inheritdoc/>

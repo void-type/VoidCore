@@ -9,7 +9,7 @@ namespace VoidCore.Model.Responses.Collections;
 /// <typeparam name="TEntity">The type of items in the ItemSet</typeparam>
 public class ItemSetEventLogger<TRequest, TEntity> : FallibleEventLoggerAbstract<TRequest, IItemSet<TEntity>>
 {
-    /// <inheritdoc/>
+    /// <inheritdoc cref="FallibleEventLoggerAbstract{TRequest, TResponse}"/>
     public ItemSetEventLogger(ILogger<ItemSetEventLogger<TRequest, TEntity>> logger) : base(logger) { }
 
     /// <inheritdoc/>

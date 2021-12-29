@@ -23,7 +23,10 @@ public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
     /// </summary>
     protected DbContext Context { get; }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Construct a new repository.
+    /// </summary>
+    /// <param name="context">The DbContext</param>
     public EfReadOnlyRepository(DbContext context)
     {
         Context = context;

@@ -9,7 +9,7 @@ namespace VoidCore.Model.Responses.Messages;
 /// <typeparam name="TId">The type of the entity id</typeparam>
 public class EntityMessageEventLogger<TRequest, TId> : FallibleEventLoggerAbstract<TRequest, EntityMessage<TId>>
 {
-    /// <inheritdoc/>
+    /// <inheritdoc cref="FallibleEventLoggerAbstract{TRequest, TResponse}"/>
     public EntityMessageEventLogger(ILogger<EntityMessageEventLogger<TRequest, TId>> logger) : base(logger) { }
 
     /// <inheritdoc/>
