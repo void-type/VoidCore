@@ -32,6 +32,7 @@ try {
 
   # Restore local dotnet tools
   dotnet tool restore
+  Stop-OnError
 
   # Build solution
   if (-not $SkipFormat) {
@@ -40,9 +41,12 @@ try {
   }
 
   dotnet restore
+  Stop-OnError
 
   if (-not $SkipOutdated) {
     dotnet outdated
+    dotnet list package --vulnerable --include-transitive
+    Stop-OnError
   }
 
   dotnet build --configuration "$Configuration" --no-restore
@@ -56,7 +60,6 @@ try {
       --results-directory './artifacts/testResults' `
       --logger 'trx' `
       --collect:'XPlat Code Coverage'
-
     Stop-OnError
 
     if (-not $SkipTestReport) {
@@ -65,7 +68,6 @@ try {
         '-reports:./artifacts/testResults/*/coverage.cobertura.xml' `
         '-targetdir:./artifacts/testCoverage' `
         '-reporttypes:HtmlInline_AzurePipelines'
-
       Stop-OnError
     }
   }
