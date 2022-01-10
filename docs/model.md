@@ -68,6 +68,44 @@ var employee = database.GetPersonAsync("Joe")
     .MapAsync(p => new Employee(p.Name, p.Email));
 ```
 
+Using these functions and those below we can take code that looks like this:
+
+```csharp
+public override async Task<IResult<EntityMessage<int>>> Handle(DeleteRecipeRequest request, CancellationToken cancellationToken = default)
+{
+    var byId = new RecipesByIdWithCategoriesAndImagesSpecification(request.Id);
+
+    var maybeRecipe = await _data.Recipes.Get(byId, cancellationToken);
+
+    if (maybeRecipe.HasNoValue)
+    {
+        return Fail(new RecipeNotFoundFailure());
+    }
+
+    var recipe = maybeRecipe.Value;
+
+    await RemoveImages(recipe, cancellationToken);
+    await _data.CategoryRecipes.RemoveRange(recipe.CategoryRecipes, cancellationToken);
+    await _data.Recipes.Remove(recipe, cancellationToken);
+
+    return Ok(EntityMessage.Create("Recipe deleted", recipe.Id));
+}
+```
+
+And turn it into something more concise and with fewer intermediate variables:
+
+```csharp
+public override Task<IResult<EntityMessage<int>>> Handle(DeleteRecipeRequest request, CancellationToken cancellationToken = default)
+{
+    return _data.Recipes.Get(byId, cancellationToken)
+        .ToResultAsync(new RecipeNotFoundFailure())
+        .TeeOnSuccessAsync(r => RemoveImages(r, cancellationToken))
+        .TeeOnSuccessAsync(r => _data.CategoryRecipes.RemoveRange(r.CategoryRecipes, cancellationToken))
+        .TeeOnSuccessAsync(r => _data.Recipes.Remove(r, cancellationToken))
+        .SelectAsync(r => EntityMessage.Create("Recipe deleted.", r.Id));
+}
+```
+
 ### Results for fallible operations
 
 Adapted from [CSharpFunctionalExtensions](https://github.com/vkhorikov/CSharpFunctionalExtensions). Any method that might fail can return a Result for explicit fallibility. Results can be typed or untyped depending if a return value is needed.
