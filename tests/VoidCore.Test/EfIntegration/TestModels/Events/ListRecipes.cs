@@ -25,7 +25,7 @@ public class ListRecipes
 
         public override async Task<IResult<IItemSet<RecipeListItemDto>>> Handle(Request request, CancellationToken cancellationToken = default)
         {
-            var paginationOptions = new PaginationOptions(request.Page, request.Take, request.IsPagingEnabled);
+            var paginationOptions = request.GetPaginationOptions();
 
             var searchCriteria = GetSearchCriteria(request);
 
@@ -68,7 +68,7 @@ public class ListRecipes
         }
     }
 
-    public class Request
+    public class Request : IPaginatedRequest
     {
         public Request(string nameSearch, string categorySearch, string sort, bool sortDesc, bool isPagingEnabled, int page, int take)
         {
