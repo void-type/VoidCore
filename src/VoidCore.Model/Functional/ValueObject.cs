@@ -11,6 +11,7 @@ namespace VoidCore.Model.Functional;
 /// comparable components. All implementations of this class should have immutable equality components.
 /// These work best with immutable properties. Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions
 /// </summary>
+#pragma warning disable S1210
 public abstract class ValueObject : IComparable, IComparable<ValueObject>
 {
     /// <summary>
