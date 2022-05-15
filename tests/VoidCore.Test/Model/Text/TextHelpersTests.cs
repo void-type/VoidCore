@@ -64,6 +64,80 @@ public class TextHelpersTests
         Assert.Equal("2008-09-10T00:00:00", myString);
     }
 
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("    ")]
+    public void Slugify_returns_empty_string_when_input_null_or_whitespace(string input)
+    {
+        var actual = input.Slugify();
+
+        Assert.Equal(string.Empty, actual);
+    }
+
+    [Fact]
+    public void Slugify_removes_extra_spaces_accents_and_special_chars()
+    {
+        var actual = "The   quick; Brown < Fo>X Júmp,ed over the lÅzÿ Dòg 大2".Slugify();
+        var expected = "the-quick-brown-fox-jumped-over-the-lazy-dog-2";
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void Slugify_truncates_at_character_count()
+    {
+        var actual = "The   quick; Brown < Fo>X Júmp,ed over the lÅzÿ Dòg 大".Slugify(28);
+        var expected = "the-quick-brown-fox-jumped-o";
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void Slugify_truncates_at_character_count_trims_trailing_space()
+    {
+        var actual = "The   quick; Brown < Fo>X Júmp,ed over the lÅzÿ Dòg 大".Slugify(27);
+        var expected = "the-quick-brown-fox-jumped";
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void Slugify_truncates_at_character_count_at_whole_word()
+    {
+        var actual = "The   quick; Brown < Fo>X Júmp,ed over the lÅzÿ Dòg 大".Slugify(26);
+        var expected = "the-quick-brown-fox-jumped";
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void Slugify_truncates_at_word_removes_incomplete_word()
+    {
+        var actual = "The   quick; Brown < Fo>X Júmp,ed over the lÅzÿ Dòg 大".Slugify(29, true);
+        var expected = "the-quick-brown-fox-jumped";
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void Slugify_truncates_at_word_trims_trailing_spaces()
+    {
+        var actual = "The   quick; Brown < Fo>X Júmp,ed over the lÅzÿ Dòg 大".Slugify(27, true);
+        var expected = "the-quick-brown-fox-jumped";
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void Slugify_truncates_at_word_leaves_complete_word()
+    {
+        var actual = "The   quick; Brown < Fo>X Júmp,ed over the lÅzÿ Dòg 大".Slugify(26, true);
+        var expected = "the-quick-brown-fox-jumped";
+
+        Assert.Equal(expected, actual);
+    }
+
     public class TestObject
     {
         public string MyString { get; set; } = "Hello World";
