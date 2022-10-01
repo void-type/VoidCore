@@ -39,12 +39,14 @@ If you need more flexibility, it's recommended to create a service for one-off u
 * Service interface for sending emails from the domain layer.
 * Template emails using the builder pattern. Templates can be realized with html or text formatting.
 
-### Common Service Interfaces
+### Common Service Interfaces and Utilities
 
 Interfaces for other common services that the domain can use.
 
-* Time
-* Current user
+* IDateTimeService - inject time for better testability.
+* ICurrentUserAccessor - obtain the current user.
+* Guards - extension methods to guard against null, empty string and collections, or write your own custom predicate.
+* Configuration - scan assemblies for dependencies, validate connection strings, register settings by naming convention.
 
 ### Functional Extensions
 
