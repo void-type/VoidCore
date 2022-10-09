@@ -19,6 +19,6 @@ public class WebApplicationSettings : ApplicationSettings
     public override void Validate()
     {
         base.Validate();
-        BaseUrl.EnsureNotNullOrEmpty(nameof(BaseUrl), "Property not found in application configuration.");
+        BaseUrl.EnsureNotNullOrEmpty("Property not found in application configuration.");
     }
 }

@@ -14,6 +14,6 @@ internal class InternalValueWrapper<T>
 
     internal InternalValueWrapper(T value)
     {
-        Value = value.EnsureNotNull(nameof(value));
+        Value = value.EnsureNotNull();
     }
 }

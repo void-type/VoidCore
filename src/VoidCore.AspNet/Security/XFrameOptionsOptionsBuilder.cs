@@ -37,7 +37,7 @@ public sealed class XFrameOptionsOptionsBuilder
     /// <param name="originUri">The origin URI of a page that can frame this page.</param>
     public void AllowFrom(string originUri)
     {
-        originUri.EnsureNotNullOrEmpty(nameof(originUri));
+        originUri.EnsureNotNullOrEmpty();
 
         _option = $"allow-from {originUri}";
     }

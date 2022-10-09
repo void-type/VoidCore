@@ -18,7 +18,7 @@ public static class FunctionalExtensions
     /// <typeparam name="TOut">The output type</typeparam>
     public static TOut Map<TIn, TOut>(this TIn input, Func<TIn, TOut> selector)
     {
-        selector.EnsureNotNull(nameof(selector));
+        selector.EnsureNotNull();
 
         return selector(input);
     }
@@ -32,7 +32,7 @@ public static class FunctionalExtensions
     /// <typeparam name="TOut">The output type</typeparam>
     public static Task<TOut> MapAsync<TIn, TOut>(this TIn input, Func<TIn, Task<TOut>> selectorTask)
     {
-        selectorTask.EnsureNotNull(nameof(selectorTask));
+        selectorTask.EnsureNotNull();
 
         return selectorTask(input);
     }
@@ -46,9 +46,9 @@ public static class FunctionalExtensions
     /// <typeparam name="TOut">The output type</typeparam>
     public static async Task<TOut> MapAsync<TIn, TOut>(this Task<TIn> inputTask, Func<TIn, TOut> selector)
     {
-        selector.EnsureNotNull(nameof(selector));
+        selector.EnsureNotNull();
 
-        return selector(await inputTask.EnsureNotNull(nameof(inputTask)).ConfigureAwait(false));
+        return selector(await inputTask.EnsureNotNull().ConfigureAwait(false));
     }
 
     /// <summary>
@@ -60,9 +60,9 @@ public static class FunctionalExtensions
     /// <typeparam name="TOut">The output type</typeparam>
     public static async Task<TOut> MapAsync<TIn, TOut>(this Task<TIn> inputTask, Func<TIn, Task<TOut>> selectorTask)
     {
-        selectorTask.EnsureNotNull(nameof(selectorTask));
+        selectorTask.EnsureNotNull();
 
-        return await selectorTask(await inputTask.EnsureNotNull(nameof(inputTask)).ConfigureAwait(false)).ConfigureAwait(false);
+        return await selectorTask(await inputTask.EnsureNotNull().ConfigureAwait(false)).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public static class FunctionalExtensions
     /// <typeparam name="T">The type of input.</typeparam>
     public static T Tee<T>(this T input, Action<T> action)
     {
-        action.EnsureNotNull(nameof(action));
+        action.EnsureNotNull();
 
         action(input);
 
@@ -103,7 +103,7 @@ public static class FunctionalExtensions
     /// <typeparam name="T">The type of input.</typeparam>
     public static async Task<T> TeeAsync<T>(this T input, Func<T, Task> actionTask)
     {
-        actionTask.EnsureNotNull(nameof(actionTask));
+        actionTask.EnsureNotNull();
 
         await actionTask(input).ConfigureAwait(false);
 
@@ -119,9 +119,9 @@ public static class FunctionalExtensions
     /// <typeparam name="T">The type of input.</typeparam>
     public static async Task<T> TeeAsync<T>(this Task<T> inputTask, Action<T> action)
     {
-        action.EnsureNotNull(nameof(action));
+        action.EnsureNotNull();
 
-        var input = await inputTask.EnsureNotNull(nameof(inputTask)).ConfigureAwait(false);
+        var input = await inputTask.EnsureNotNull().ConfigureAwait(false);
         action(input);
 
         return input;

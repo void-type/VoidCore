@@ -13,7 +13,7 @@ public class XFrameOptionsHeader
     /// <param name="options">The XFrameOptionsOptions to configure the header with</param>
     public XFrameOptionsHeader(XFrameOptionsOptions options)
     {
-        options.EnsureNotNull(nameof(options));
+        options.EnsureNotNull();
 
         Key = "X-Frame-Options";
         Value = options.Value;

@@ -22,7 +22,7 @@ public sealed class CspOptionsBuilder
     /// <param name="nonce">A nonce to use in header directives</param>
     public CspOptionsBuilder(string nonce)
     {
-        _nonce = nonce.EnsureNotNullOrEmpty(nameof(nonce));
+        _nonce = nonce.EnsureNotNullOrEmpty();
     }
 
     /// <summary>
@@ -91,7 +91,7 @@ public sealed class CspOptionsBuilder
     /// <returns>The builder for chaining.</returns>
     public CspDirectiveBuilder Custom(string directiveName)
     {
-        directiveName.EnsureNotNull(nameof(directiveName));
+        directiveName.EnsureNotNull();
 
         var maybeBuilder = Maybe.From(_directiveBuilders.Find(d => d.Name == directiveName));
 

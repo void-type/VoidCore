@@ -30,7 +30,7 @@ public class XFrameOptionsMiddleware
     /// <param name="context">The current HttpContext</param>
     public Task Invoke(HttpContext context)
     {
-        context.EnsureNotNull(nameof(context));
+        context.EnsureNotNull();
 
         var header = new XFrameOptionsHeader(_options);
         context.Response.Headers.Add(header.Key, header.Value);

@@ -38,7 +38,7 @@ public static class SecurityApplicationBuilderExtensions
     /// <returns>The ApplicationBuilder for chaining.</returns>
     public static IApplicationBuilder UseContentSecurityPolicy(this IApplicationBuilder app, Action<CspOptionsBuilder> builder)
     {
-        builder.EnsureNotNull(nameof(builder));
+        builder.EnsureNotNull();
 
         return app.UseMiddleware<CspMiddleware>(builder);
     }
@@ -53,7 +53,7 @@ public static class SecurityApplicationBuilderExtensions
     [Obsolete("X-Frame-Options is an obsolete header. Use CSP's frame-ancestors instead.")]
     public static IApplicationBuilder UseXFrameOptions(this IApplicationBuilder app, Action<XFrameOptionsOptionsBuilder> builder)
     {
-        builder.EnsureNotNull(nameof(builder));
+        builder.EnsureNotNull();
 
         var newBuilder = new XFrameOptionsOptionsBuilder();
         builder(newBuilder);

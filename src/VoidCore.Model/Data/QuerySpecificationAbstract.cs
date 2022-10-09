@@ -53,7 +53,7 @@ public abstract class QuerySpecificationAbstract<T> : IQuerySpecification<T>
     /// <param name="includeSelector">A selector of the extended entities to include</param>
     protected void AddInclude(Expression<Func<T, object>> includeSelector)
     {
-        includeSelector.EnsureNotNull(nameof(includeSelector));
+        includeSelector.EnsureNotNull();
         _includes.Add(includeSelector);
     }
 
@@ -63,7 +63,7 @@ public abstract class QuerySpecificationAbstract<T> : IQuerySpecification<T>
     /// <param name="includeString">A string that can be used with reflection to find extended entities</param>
     protected void AddInclude(string includeString)
     {
-        includeString.EnsureNotNullOrEmpty(nameof(includeString));
+        includeString.EnsureNotNullOrEmpty();
         _includeStrings.Add(includeString);
     }
 
@@ -74,7 +74,7 @@ public abstract class QuerySpecificationAbstract<T> : IQuerySpecification<T>
     /// <param name="isDescending">Toggle descending sort</param>
     protected void AddOrderBy(Expression<Func<T, object>> sortPropertySelector, bool isDescending = false)
     {
-        sortPropertySelector.EnsureNotNull(nameof(sortPropertySelector));
+        sortPropertySelector.EnsureNotNull();
         _orderings.Add((sortPropertySelector, isDescending));
     }
 
@@ -84,7 +84,7 @@ public abstract class QuerySpecificationAbstract<T> : IQuerySpecification<T>
     /// <param name="paginationOptions">Options to control pagination</param>
     protected void ApplyPaging(PaginationOptions paginationOptions)
     {
-        paginationOptions.EnsureNotNull(nameof(paginationOptions));
+        paginationOptions.EnsureNotNull();
         PaginationOptions = paginationOptions;
     }
 }

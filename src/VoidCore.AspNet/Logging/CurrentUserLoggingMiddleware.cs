@@ -34,7 +34,7 @@ public sealed class CurrentUserLoggingMiddleware
     /// <param name="context">The current HttpContext</param>
     public Task Invoke(HttpContext context)
     {
-        context.EnsureNotNull(nameof(context));
+        context.EnsureNotNull();
 
         _logger.LogInformation("User {UserName} is authorized as {AuthorizedAs}.",
             _currentUserAccessor.User.Login,

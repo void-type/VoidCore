@@ -22,9 +22,9 @@ public static class AuthServiceCollectionExtensions
     public static void AddAuthorizationPoliciesFromSettings(this IServiceCollection services, AuthorizationSettings authorizationSettings)
     {
         authorizationSettings
-            .EnsureNotNull(nameof(authorizationSettings))
+            .EnsureNotNull()
             .Policies
-                .EnsureNotNullOrEmpty(nameof(authorizationSettings), "Authorization Policies not found in application configuration.");
+                .EnsureNotNullOrEmpty("Authorization Policies not found in application configuration.");
 
         services.AddAuthorization(options =>
         {

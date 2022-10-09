@@ -25,8 +25,8 @@ public class ItemSet<T> : IItemSet<T>
     /// <param name="totalCount">Optionally pass the count of the total set if pagination was already performed.</param>
     public ItemSet(IEnumerable<T> items, PaginationOptions options, int? totalCount = null)
     {
-        items.EnsureNotNull(nameof(items));
-        options.EnsureNotNull(nameof(options));
+        items.EnsureNotNull();
+        options.EnsureNotNull();
 
         var allItems = items.ToList();
         IsPagingEnabled = options.IsPagingEnabled;

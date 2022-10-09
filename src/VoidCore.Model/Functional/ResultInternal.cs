@@ -14,7 +14,7 @@ internal sealed class ResultInternal
 {
     internal ResultInternal(IEnumerable<IFailure> failures)
     {
-        failures.EnsureNotNullOrEmpty(nameof(failures));
+        failures.EnsureNotNullOrEmpty();
         Failures = failures as IFailure[] ?? failures.ToArray();
         IsFailed = true;
     }

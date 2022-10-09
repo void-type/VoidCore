@@ -13,7 +13,7 @@ public class CspHeader
     /// <param name="options">The CspOptions to configure the header with</param>
     public CspHeader(CspOptions options)
     {
-        options.EnsureNotNull(nameof(options));
+        options.EnsureNotNull();
 
         Key = $"Content-Security-Policy{(options.IsReportOnly ? "-Report-Only" : string.Empty)}";
         Value = string.Concat(options.Directives);

@@ -20,7 +20,7 @@ public sealed class EmailOptionsBuilder
     /// <param name="subject">The email subject</param>
     public void SetSubject(string subject)
     {
-        _subject = subject.EnsureNotNullOrEmpty(nameof(subject));
+        _subject = subject.EnsureNotNullOrEmpty();
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ public sealed class EmailOptionsBuilder
     /// <param name="recipient">The email address of the recipient</param>
     public void AddRecipient(string recipient)
     {
-        recipient.EnsureNotNullOrEmpty(nameof(recipient));
+        recipient.EnsureNotNullOrEmpty();
         _recipients.Add(recipient);
     }
 
@@ -78,7 +78,7 @@ public sealed class EmailOptionsBuilder
     /// <param name="recipients">The email addresses of the recipients</param>
     public void AddRecipients(IEnumerable<string> recipients)
     {
-        recipients.EnsureNotNull(nameof(recipients));
+        recipients.EnsureNotNull();
 
         foreach (var recipient in recipients)
         {

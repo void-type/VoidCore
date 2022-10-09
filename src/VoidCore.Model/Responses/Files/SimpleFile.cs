@@ -16,7 +16,7 @@ public class SimpleFile : ValueObject
     /// <param name="name">The name of the file</param>
     public SimpleFile(string content, string name)
     {
-        Name = name.EnsureNotNullOrEmpty(nameof(name));
+        Name = name.EnsureNotNullOrEmpty();
         Content = new FileContent(content);
     }
 
@@ -27,7 +27,7 @@ public class SimpleFile : ValueObject
     /// <param name="name">The name of the file</param>
     public SimpleFile(byte[] content, string name)
     {
-        Name = name.EnsureNotNullOrEmpty(nameof(name));
+        Name = name.EnsureNotNullOrEmpty();
         Content = new FileContent(content);
     }
 
