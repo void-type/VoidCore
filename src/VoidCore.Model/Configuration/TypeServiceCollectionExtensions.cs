@@ -30,7 +30,7 @@ public static class TypeServiceCollectionExtensions
                 typeof (IRequestValidator<>),
                 typeof (IPostProcessor<,>)};
 
-        AddImplementationsOfBaseType(services, lifetime, domainEventTypes, assembliesToScan);
+        AddServicesFromAssemblies(services, lifetime, domainEventTypes, assembliesToScan);
     }
 
     /// <summary>
@@ -41,7 +41,7 @@ public static class TypeServiceCollectionExtensions
     /// <param name="baseTypes">An array of base types or interfaces to register concrete implementations of</param>
     /// <param name="assembliesToScan">An array of assemblies to scan for implementations in</param>
     /// <exception cref="NotImplementedException">If an unsupported service lifetime is given</exception>
-    public static void AddImplementationsOfBaseType(this IServiceCollection services, ServiceLifetime lifetime, Type[] baseTypes, params Assembly[] assembliesToScan)
+    public static void AddServicesFromAssemblies(this IServiceCollection services, ServiceLifetime lifetime, Type[] baseTypes, params Assembly[] assembliesToScan)
     {
         assembliesToScan.EnsureNotNullOrEmpty(nameof(assembliesToScan));
 
@@ -75,7 +75,7 @@ public static class TypeServiceCollectionExtensions
     /// <param name="baseTypes">An array of base types or interfaces to register concrete implementations of</param>
     /// <param name="assembliesToScan">An array of assemblies to scan for implementations in</param>
     /// <exception cref="NotImplementedException">If an unsupported service lifetime is given</exception>
-    public static void AddImplementationsOfBaseTypeAsBaseType(this IServiceCollection services, ServiceLifetime lifetime, Type[] baseTypes, params Assembly[] assembliesToScan)
+    public static void AddServicesFromAssembliesAsBaseType(this IServiceCollection services, ServiceLifetime lifetime, Type[] baseTypes, params Assembly[] assembliesToScan)
     {
         assembliesToScan.EnsureNotNullOrEmpty(nameof(assembliesToScan));
 
