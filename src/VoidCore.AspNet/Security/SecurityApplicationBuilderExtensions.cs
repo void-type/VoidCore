@@ -50,6 +50,7 @@ public static class SecurityApplicationBuilderExtensions
     /// <param name="app">This IApplicationBuilder</param>
     /// <param name="builder">A callback to configure header options.</param>
     /// <returns>The ApplicationBuilder for chaining.</returns>
+    [Obsolete("X-Frame-Options is an obsolete header. Use CSP's frame-ancestors instead.")]
     public static IApplicationBuilder UseXFrameOptions(this IApplicationBuilder app, Action<XFrameOptionsOptionsBuilder> builder)
     {
         builder.EnsureNotNull(nameof(builder));
