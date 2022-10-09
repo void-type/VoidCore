@@ -109,6 +109,7 @@ public sealed class CspOptionsBuilder
     /// </summary>
     /// <param name="reportUri">The optional URI to send JSON reports to of content that would be normally blocked.</param>
     /// <returns>The builder for chaining.</returns>
+    [Obsolete("Report-uri is deprecated, but the report-to directive is not yet supported in most browsers. See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/report-uri")]
     public CspOptionsBuilder ReportOnly(string? reportUri = null)
     {
         _isReportOnly = true;
@@ -124,6 +125,7 @@ public sealed class CspOptionsBuilder
     /// <param name="reportUri">The URI that collects CSP violation reports.</param>
     /// <returns>The builder for chaining.</returns>
     /// <exception cref="InvalidOperationException">Throws if report-uri already set.</exception>
+    [Obsolete("Report-uri is deprecated, but the report-to directive is not yet supported in most browsers. See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/report-uri")]
     public CspOptionsBuilder SetReportUri(string reportUri)
     {
         if (ReportUri.Sources.Count > 0)
