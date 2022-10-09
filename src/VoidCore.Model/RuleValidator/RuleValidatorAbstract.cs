@@ -18,7 +18,7 @@ public abstract class RuleValidatorAbstract<T> : IRequestValidator<T>
     /// <inheritdoc/>
     public IResult<T> Validate(T request)
     {
-        request.EnsureNotNull(nameof(request));
+        request.EnsureNotNull();
 
         return _ruleBuilders
             .Select(builder => builder.Build().Run(request))

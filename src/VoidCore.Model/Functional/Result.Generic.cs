@@ -16,7 +16,7 @@ public sealed class Result<T> : ResultAbstract, IResult<T>
 
     internal Result(T value)
     {
-        value.EnsureNotNull(nameof(value), "Cannot set a result value of null. Use non-generic Result for results without values.");
+        value.EnsureNotNull("Cannot set a result value of null. Use non-generic Result for results without values.");
         _value = new InternalValueWrapper<T>(value);
     }
 

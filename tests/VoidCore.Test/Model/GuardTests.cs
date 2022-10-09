@@ -13,7 +13,7 @@ public class GuardTests
         string myString = null;
 
         // Test that we can still pass argument name
-        var ex1 = Assert.Throws<ArgumentNullException>(nameof(myString), () => myString.EnsureNotNull(nameof(myString)));
+        var ex1 = Assert.Throws<ArgumentNullException>(nameof(myString), () => myString.EnsureNotNull(argumentName: nameof(myString)));
         Assert.Contains("Argument cannot be null.", ex1.Message);
 
         var ex2 = Assert.Throws<ArgumentNullException>(nameof(myString), () => myString.EnsureNotNull());

@@ -35,6 +35,6 @@ public static class ConfigurationExtensions
 
         return configuration
             .GetConnectionString(connectionStringName)
-            .EnsureNotNullOrEmpty(connectionStringName, message);
+            .EnsureNotNullOrEmpty(message);
     }
 }

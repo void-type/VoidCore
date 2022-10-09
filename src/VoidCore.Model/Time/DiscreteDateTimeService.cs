@@ -23,8 +23,8 @@ public class DiscreteDateTimeService : IDateTimeService
     }
 
     /// <inheritdoc/>
-    public DateTime Moment => _moment.EnsureNotNull(nameof(Moment), "Value was accessed without being set in constructor.").Value;
+    public DateTime Moment => _moment.EnsureNotNull("Value was accessed without being set in constructor.").Value;
 
     /// <inheritdoc/>
-    public DateTimeOffset MomentWithOffset => _momentWithOffset.EnsureNotNull(nameof(MomentWithOffset), "Value was accessed without being set in constructor.").Value;
+    public DateTimeOffset MomentWithOffset => _momentWithOffset.EnsureNotNull("Value was accessed without being set in constructor.").Value;
 }

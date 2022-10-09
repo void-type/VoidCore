@@ -21,7 +21,7 @@ public abstract class EventPipelineAbstract<TRequest, TResponse> : IEventHandler
     public Task<IResult<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default)
     {
         return InnerHandler
-            .EnsureNotNull(nameof(InnerHandler))
+            .EnsureNotNull()
             .Handle(request, cancellationToken);
     }
 }

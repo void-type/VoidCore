@@ -20,16 +20,16 @@ public static class Guard
     /// Ensure that the argument is not null.
     /// </summary>
     /// <param name="argumentValue">The value of the argument.</param>
+    /// <param name="message">An option to override the default exception message.</param>
     /// <param name="argumentName">
     /// The name of the argument. It is recommended to use nameof instead of hardcoding the parameter name.
     /// </param>
-    /// <param name="message">An option to override the default exception message.</param>
     /// <typeparam name="T">The type of argument.</typeparam>
     /// <returns>The argument for chaining guards or assignment.</returns>
     /// <exception cref="ArgumentNullException">Throws when argumentValue null.</exception>
     [DebuggerStepThrough]
     [return: NotNull]
-    public static T EnsureNotNull<T>(this T? argumentValue, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue", string? message = null)
+    public static T EnsureNotNull<T>(this T? argumentValue, string? message = null, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue")
     {
         return argumentValue ?? throw new ArgumentNullException(argumentName, message ?? ArgumentNullMessage);
     }
@@ -38,37 +38,37 @@ public static class Guard
     /// Ensure that the string argument is not null or empty.
     /// </summary>
     /// <param name="argumentValue">The value of the argument.</param>
+    /// <param name="message">An option to override the default exception message.</param>
     /// <param name="argumentName">
     /// The name of the argument. It is recommended to use nameof instead of hardcoding the parameter name.
     /// </param>
-    /// <param name="message">An option to override the default exception message.</param>
     /// <returns>The argument for chaining guards or assignment.</returns>
     [DebuggerStepThrough]
     [return: NotNull]
-    public static string EnsureNotNullOrEmpty(this string? argumentValue, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue", string? message = null)
+    public static string EnsureNotNullOrEmpty(this string? argumentValue, string? message = null, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue")
     {
         return argumentValue
-            .EnsureNotNull(argumentName, message ?? ArgumentNullMessage)
-            .Ensure(v => !string.IsNullOrEmpty(v), argumentName, message ?? ArgumentEmptyMessage);
+            .EnsureNotNull(message ?? ArgumentNullMessage, argumentName)
+            .Ensure(v => !string.IsNullOrEmpty(v), message ?? ArgumentEmptyMessage, argumentName);
     }
 
     /// <summary>
     /// Ensure the collection argument is not null or empty.
     /// </summary>
     /// <param name="argumentValue">The value of the argument.</param>
+    /// <param name="message">An option to override the default exception message.</param>
     /// <param name="argumentName">
     /// The name of the argument. It is recommended to use nameof instead of hardcoding the parameter name.
     /// </param>
-    /// <param name="message">An option to override the default exception message.</param>
     /// <typeparam name="T">The type of argument.</typeparam>
     /// <returns>The argument for chaining guards or assignment.</returns>
     [DebuggerStepThrough]
     [return: NotNull]
-    public static IEnumerable<T> EnsureNotNullOrEmpty<T>(this IEnumerable<T>? argumentValue, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue", string? message = null)
+    public static IEnumerable<T> EnsureNotNullOrEmpty<T>(this IEnumerable<T>? argumentValue, string? message = null, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue")
     {
         return argumentValue
-            .EnsureNotNull(argumentName, message ?? ArgumentNullMessage)
-            .Ensure(v => v.Any(), argumentName, message ?? ArgumentEmptyMessage);
+            .EnsureNotNull(message ?? ArgumentNullMessage, argumentName)
+            .Ensure(v => v.Any(), message ?? ArgumentEmptyMessage, argumentName);
     }
 
     /// <summary>
@@ -76,17 +76,17 @@ public static class Guard
     /// </summary>
     /// <param name="argumentValue">The value of the argument.</param>
     /// <param name="conditionExpression">A function that if evaluates to false, will throw the exception.</param>
+    /// <param name="message">An option to override the default exception message.</param>
     /// <param name="argumentName">
     /// The name of the argument. It is recommended to use nameof instead of hardcoding the parameter name.
     /// </param>
-    /// <param name="message">An option to override the default exception message.</param>
     /// <typeparam name="T">The type of argument.</typeparam>
     /// <returns>The argument for chaining guards or assignment.</returns>
     /// <exception cref="ArgumentException">Throws when condition expression evaluates false against argumentValue.</exception>
     [DebuggerStepThrough]
-    public static T Ensure<T>(this T argumentValue, Func<T, bool> conditionExpression, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue", string? message = null)
+    public static T Ensure<T>(this T argumentValue, Func<T, bool> conditionExpression, string? message = null, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue")
     {
-        conditionExpression.EnsureNotNull(nameof(conditionExpression));
+        conditionExpression.EnsureNotNull();
 
         return conditionExpression(argumentValue) ?
             argumentValue :
@@ -107,8 +107,8 @@ public static class Guard
     [DebuggerStepThrough]
     public static T Ensure<T>(this T argumentValue, Func<T, bool> conditionExpression, Func<T, string> messageBuilder, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue")
     {
-        messageBuilder.EnsureNotNull(nameof(messageBuilder));
+        messageBuilder.EnsureNotNull();
 
-        return argumentValue.Ensure(conditionExpression, argumentName, messageBuilder(argumentValue));
+        return argumentValue.Ensure(conditionExpression, messageBuilder(argumentValue), argumentName);
     }
 }

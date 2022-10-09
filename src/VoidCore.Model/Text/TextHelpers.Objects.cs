@@ -44,7 +44,7 @@ public static partial class TextHelpers
     public static IEnumerable<string> PrintObject(object obj, string dateFormat = DateFormat)
     {
         var properties = obj
-            .EnsureNotNull(nameof(obj))
+            .EnsureNotNull()
             .GetType().GetTypeInfo().GetProperties();
 
         foreach (var property in properties)

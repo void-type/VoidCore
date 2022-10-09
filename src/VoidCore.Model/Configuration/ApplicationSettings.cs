@@ -17,6 +17,6 @@ public class ApplicationSettings
     /// </summary>
     public virtual void Validate()
     {
-        Name.EnsureNotNullOrEmpty(nameof(Name), "Property not found in application configuration.");
+        Name.EnsureNotNullOrEmpty("Property not found in application configuration.");
     }
 }

@@ -16,7 +16,7 @@ public static partial class TextHelpers
     public static string[] SplitOnNewLine(this string str)
     {
         return str
-            .EnsureNotNull(nameof(str))
+            .EnsureNotNull()
             .Split(new[] { "\n", "\r\n" }, StringSplitOptions.None);
     }
 

@@ -19,7 +19,7 @@ public static class HttpResponder
     /// <returns>An IActionResult</returns>
     public static IActionResult Respond<TSuccessValue>(IResult<TSuccessValue> result)
     {
-        result.EnsureNotNull(nameof(result));
+        result.EnsureNotNull();
         return result.IsSuccess ? Ok(result.Value) : Fail(result);
     }
 
@@ -30,7 +30,7 @@ public static class HttpResponder
     /// <returns>An IActionResult</returns>
     public static IActionResult Respond(IResult result)
     {
-        result.EnsureNotNull(nameof(result));
+        result.EnsureNotNull();
         return result.IsSuccess ? Ok() : Fail(result);
     }
 
@@ -51,7 +51,7 @@ public static class HttpResponder
     /// <returns>An IActionResult</returns>
     public static IActionResult RespondWithFile(IResult<SimpleFile> result)
     {
-        result.EnsureNotNull(nameof(result));
+        result.EnsureNotNull();
 
         if (result.IsFailed)
         {

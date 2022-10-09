@@ -17,7 +17,7 @@ public class FileContent : ValueObject
     /// <param name="content">The content of the file.</param>
     public FileContent(byte[] content)
     {
-        content.EnsureNotNull(nameof(content));
+        content.EnsureNotNull();
         AsBytes = content;
     }
 
@@ -27,7 +27,7 @@ public class FileContent : ValueObject
     /// <param name="content">The content of the file.</param>
     public FileContent(string content)
     {
-        content.EnsureNotNull(nameof(content));
+        content.EnsureNotNull();
         AsBytes = Encoding.UTF8.GetBytes(content);
     }
 

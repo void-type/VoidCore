@@ -19,7 +19,7 @@ public static class HttpContextExtensions
     public static void SetNonce(this HttpContext context, string nonce)
     {
         context.Items[NonceKey].Ensure(
-            x => x is null, nameof(NonceKey),
+            x => x is null,
             "Nonce was already set on the HttpContext. Possible conflicting security policies defined.");
 
         context.Items[NonceKey] = nonce;
@@ -33,6 +33,6 @@ public static class HttpContextExtensions
     public static string GetNonce(this HttpContext context)
     {
         var nonce = context.Items[NonceKey] as string;
-        return nonce.EnsureNotNullOrEmpty(NonceKey, "Nonce was not found in HttpContext.");
+        return nonce.EnsureNotNullOrEmpty("Nonce was not found in HttpContext.");
     }
 }

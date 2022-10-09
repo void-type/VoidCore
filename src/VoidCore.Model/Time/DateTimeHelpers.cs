@@ -18,7 +18,7 @@ public static class DateTimeHelpers
     /// <param name="overlapMitigation">A strategy to mitigate overlap</param>
     public static IEnumerable<DateTimeRange> SplitDateRangeIntoIntervals(DateTime startDate, DateTime endDate, int intervalSizeDays, OverlapMitigation overlapMitigation = OverlapMitigation.None)
     {
-        startDate.Ensure(s => s <= endDate, nameof(startDate), "startDate cannot be greater than endDate.");
+        startDate.Ensure(s => s <= endDate, "startDate cannot be greater than endDate.");
 
         DateTime intervalEndDate;
 

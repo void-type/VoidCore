@@ -17,9 +17,9 @@ public class Email
     /// <param name="recipients">The recipients of the email.</param>
     public Email(string subject, string message, IEnumerable<string> recipients)
     {
-        Subject = subject.EnsureNotNull(nameof(subject));
-        Message = message.EnsureNotNull(nameof(message));
-        Recipients = recipients.EnsureNotNull(nameof(recipients));
+        Subject = subject.EnsureNotNull();
+        Message = message.EnsureNotNull();
+        Recipients = recipients.EnsureNotNull();
     }
 
     /// <summary>

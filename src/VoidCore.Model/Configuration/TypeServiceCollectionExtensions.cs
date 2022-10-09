@@ -43,7 +43,7 @@ public static class TypeServiceCollectionExtensions
     /// <exception cref="NotImplementedException">If an unsupported service lifetime is given</exception>
     public static void AddServicesFromAssemblies(this IServiceCollection services, ServiceLifetime lifetime, Type[] baseTypes, params Assembly[] assembliesToScan)
     {
-        assembliesToScan.EnsureNotNullOrEmpty(nameof(assembliesToScan));
+        assembliesToScan.EnsureNotNullOrEmpty();
 
         foreach (var baseType in baseTypes)
         {
@@ -77,7 +77,7 @@ public static class TypeServiceCollectionExtensions
     /// <exception cref="NotImplementedException">If an unsupported service lifetime is given</exception>
     public static void AddServicesFromAssembliesAsBaseType(this IServiceCollection services, ServiceLifetime lifetime, Type[] baseTypes, params Assembly[] assembliesToScan)
     {
-        assembliesToScan.EnsureNotNullOrEmpty(nameof(assembliesToScan));
+        assembliesToScan.EnsureNotNullOrEmpty();
 
         foreach (var baseType in baseTypes)
         {

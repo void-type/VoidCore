@@ -33,7 +33,7 @@ public sealed class CspMiddleware
     /// <param name="context">The current HttpContext</param>
     public Task Invoke(HttpContext context)
     {
-        context.EnsureNotNull(nameof(context));
+        context.EnsureNotNull();
 
         var nonce = _nonceGenerator.GetNonce();
 

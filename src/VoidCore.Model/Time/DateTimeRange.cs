@@ -15,7 +15,7 @@ public record DateTimeRange
     /// <param name="endDate"></param>
     public DateTimeRange(DateTime startDate, DateTime endDate)
     {
-        startDate.Ensure(s => s <= endDate, nameof(startDate), "startDate cannot be greater than endDate.");
+        startDate.Ensure(s => s <= endDate, "startDate cannot be greater than endDate.");
         StartDate = startDate;
         EndDate = endDate;
     }

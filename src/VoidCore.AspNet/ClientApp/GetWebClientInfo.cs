@@ -44,12 +44,12 @@ public static class GetWebClientInfo
         /// <inheritdoc/>
         protected override IResult<WebClientInfo> HandleSync(Request request)
         {
-            var context = _httpContextAccessor.HttpContext.EnsureNotNull(nameof(IHttpContextAccessor.HttpContext));
+            var context = _httpContextAccessor.HttpContext.EnsureNotNull();
 
             var clientInfo = new WebClientInfo(
                 _applicationSettings.Name,
-                _antiForgery.GetAndStoreTokens(context).RequestToken.EnsureNotNull(nameof(AntiforgeryTokenSet.RequestToken)),
-                _antiForgery.GetAndStoreTokens(context).HeaderName.EnsureNotNull(nameof(AntiforgeryTokenSet.HeaderName)),
+                _antiForgery.GetAndStoreTokens(context).RequestToken.EnsureNotNull(),
+                _antiForgery.GetAndStoreTokens(context).HeaderName.EnsureNotNull(),
                 _currentUserAccessor);
 
             return Ok(clientInfo);
