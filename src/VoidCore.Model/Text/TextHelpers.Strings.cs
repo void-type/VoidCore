@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using VoidCore.Model.Functional;
 using VoidCore.Model.Guards;
 
 namespace VoidCore.Model.Text;
@@ -91,5 +93,28 @@ public static partial class TextHelpers
             .Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray();
 
         return new string(chars).Normalize(NormalizationForm.FormC);
+    }
+
+    /// <summary>
+    /// Replaces invalid characters in a file name.
+    /// </summary>
+    /// <param name="fileName">File name</param>
+    /// <param name="replacement">Replacement for illegal characters</param>
+    public static string GetSafeFileName(this string fileName, string replacement = "_")
+    {
+        return string.Join(replacement, fileName.Split(Path.GetInvalidFileNameChars()))
+            .Replace(@"\", replacement)
+            .Replace("..", replacement);
+    }
+
+    /// <summary>
+    /// Replaces invalid characters in a path to a file. Be sure to check that the path starts with your expected location.
+    /// </summary>
+    /// <param name="filePath">File path</param>
+    /// <param name="replacement">Replacement for illegal characters</param>
+    public static string GetSafeFilePath(this string filePath, string replacement = "_")
+    {
+        return string.Join(replacement, filePath.Split(Path.GetInvalidPathChars()))
+            .Replace("..", replacement);
     }
 }

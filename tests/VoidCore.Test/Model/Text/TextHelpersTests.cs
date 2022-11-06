@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using VoidCore.Model.Text;
 using Xunit;
 
@@ -134,6 +135,29 @@ public class TextHelpersTests
     {
         var actual = "The   quick; Brown < Fo>X Júmp,ed over the lÅzÿ Dòg 大".Slugify(26, true);
         var expected = "the-quick-brown-fox-jumped";
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void GetSafeFileName_strips_illegal_chars()
+    {
+        var actual = @"C:\../..\my-file.txt".GetSafeFileName();
+        var expected = "C______my-file.txt";
+
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            expected = "C:_____my-file.txt";
+        }
+
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void GetSafeFilePath_strips_illegal_chars()
+    {
+        var actual = @"C:\../..\my-file.txt".GetSafeFilePath();
+        var expected = @"C:\_/_\my-file.txt";
 
         Assert.Equal(expected, actual);
     }
