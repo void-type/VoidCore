@@ -7,6 +7,7 @@ namespace VoidCore.Test.AspNet.Security;
 public class CspOptionsBuilderTests
 {
     [Fact]
+    [Obsolete]
     public void All_options_builds_correct_header()
     {
         var builder = new CspOptionsBuilder("mynonce=");
@@ -71,6 +72,7 @@ public class CspOptionsBuilderTests
     }
 
     [Fact]
+    [Obsolete]
     public void Empty_options_builds_correct_header()
     {
         var builder = new CspOptionsBuilder("mynonce=");
@@ -88,6 +90,7 @@ public class CspOptionsBuilderTests
     }
 
     [Fact]
+    [Obsolete]
     public void ReportOnly_with_uri_options_builds_correct_header()
     {
         var builder = new CspOptionsBuilder("mynonce=");
@@ -105,6 +108,7 @@ public class CspOptionsBuilderTests
     }
 
     [Fact]
+    [Obsolete]
     public void Setting_more_than_one_uri_throws_InvalidOperationException()
     {
         var builder = new CspOptionsBuilder("mynonce");

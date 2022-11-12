@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using VoidCore.Model.Guards;
 using VoidCore.Model.Text;
 
 namespace VoidCore.Model.Configuration;
@@ -23,7 +24,8 @@ public static class SettingsServiceCollectionExtensions
     public static TSettings AddSettingsSingleton<TSettings>(this IServiceCollection services, IConfiguration configuration, bool root = false)
     where TSettings : class, new()
     {
-        var settings = GetSettings<TSettings>(configuration, root);
+        var settings = GetSettings<TSettings>(configuration, root)
+            .EnsureNotNull();
         services.AddSingleton(settings);
         return settings;
     }
@@ -44,12 +46,13 @@ public static class SettingsServiceCollectionExtensions
     where TSettingsInterface : class
     where TSettings : class, TSettingsInterface, new()
     {
-        var settings = GetSettings<TSettings>(configuration, root);
+        var settings = GetSettings<TSettings>(configuration, root)
+            .EnsureNotNull();
         services.AddSingleton<TSettingsInterface>(_ => settings);
         return settings;
     }
 
-    private static TSettings GetSettings<TSettings>(IConfiguration configuration, bool root)
+    private static TSettings? GetSettings<TSettings>(IConfiguration configuration, bool root)
     {
         return GetSettingsConfiguration<TSettings>(configuration, root)
             .Get<TSettings>(options => options.BindNonPublicProperties = true);
