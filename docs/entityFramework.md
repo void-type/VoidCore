@@ -21,6 +21,42 @@ Queries are automatically tagged with the repository and specification names the
 
 See [VoidCore.Model](model.md) for more about it's data persistence features. You can decorate these EF repositories with Model's auditable and soft-delete decorators.
 
+### Specification pattern
+
+Encapsulate repeated queries within a specification object.
+
+```csharp
+public class RecipesSearchSpecification : QuerySpecificationAbstract<Recipe>
+{
+    public RecipesSearchSpecification(Expression<Func<Recipe, bool>>[] criteria, PaginationOptions paginationOptions, string sort = null, bool sortDesc = false) : base(criteria)
+    {
+        AddInclude($"{nameof(Recipe.CategoryRecipe)}.{nameof(CategoryRecipe.Category)}");
+
+        ApplyPaging(paginationOptions);
+
+        switch (sort)
+        {
+            case "name":
+                AddOrderBy(recipe => recipe.Name, sortDesc);
+                AddOrderBy(recipe => recipe.CreatedOn);
+                break;
+
+            default:
+                AddOrderBy(recipe => recipe.Id);
+                break;
+        }
+    }
+}
+```
+
+Specifications can be used with the repositories above, or applied to an IQueryable.
+
+```csharp
+var spicyRecipes = await _dbContext.Recipes
+    .ApplyEfSpecification(spicyRecipesSpecification)
+    .ToListAsync();
+```
+
 ### Audit and Soft-Delete capabilities when directly using DBContext
 
 Sometimes specification repositories aren't a good fit for a project. Sometimes we need data services to hide complexity, or we simply just want to use the DBContext directly in our code.

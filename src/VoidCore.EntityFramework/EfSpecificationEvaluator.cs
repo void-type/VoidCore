@@ -17,7 +17,7 @@ internal static class EfSpecificationEvaluator
     /// <param name="specification">The specification to evaluate</param>
     /// <typeparam name="T">The type of entity to query</typeparam>
     /// <returns>The final query</returns>
-    internal static IQueryable<T> ApplyEfSpecification<T>(this IQueryable<T> inputQuery, IQuerySpecification<T> specification) where T : class
+    public static IQueryable<T> ApplyEfSpecification<T>(this IQueryable<T> inputQuery, IQuerySpecification<T> specification) where T : class
     {
         var query = inputQuery;
 

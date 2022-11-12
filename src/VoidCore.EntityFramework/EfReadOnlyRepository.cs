@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using VoidCore.Model.Data;
@@ -37,7 +38,7 @@ public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
     public virtual Task<int> Count(IQuerySpecification<T> specification, CancellationToken cancellationToken)
     {
         return GetBaseQuery()
-            .TagWith(GetTag(nameof(Count), specification))
+            .TagWith(GetTag(specification))
             .ApplyEfSpecification(specification)
             .CountAsync(cancellationToken);
     }
@@ -46,7 +47,7 @@ public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
     public virtual async Task<Maybe<T>> Get(IQuerySpecification<T> specification, CancellationToken cancellationToken)
     {
         return await GetBaseQuery()
-            .TagWith(GetTag(nameof(Get), specification))
+            .TagWith(GetTag(specification))
             .ApplyEfSpecification(specification)
             .FirstOrDefaultAsync(cancellationToken)
             .ConfigureAwait(false);
@@ -56,7 +57,7 @@ public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
     public virtual async Task<IReadOnlyList<T>> List(IQuerySpecification<T> specification, CancellationToken cancellationToken)
     {
         return await GetBaseQuery()
-            .TagWith(GetTag(nameof(List), specification))
+            .TagWith(GetTag(specification))
             .ApplyEfSpecification(specification)
             .ToListAsync(cancellationToken)
             .ConfigureAwait(false);
@@ -66,7 +67,7 @@ public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
     public virtual async Task<IReadOnlyList<T>> ListAll(CancellationToken cancellationToken)
     {
         return await GetBaseQuery()
-            .TagWith(GetTag(nameof(ListAll)))
+            .TagWith(GetTag())
             .ToListAsync(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -76,12 +77,12 @@ public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
     /// </summary>
     protected virtual IQueryable<T> GetBaseQuery() => Context.Set<T>();
 
-    private string GetTag(string method, IQuerySpecification<T>? specification = null)
+    private string GetTag(IQuerySpecification<T>? specification = null, [CallerMemberName] string methodName = "unknown")
     {
         var specName = specification != null ?
             specification.GetType().GetFriendlyTypeName() :
             string.Empty;
 
-        return $"EF query called from: {_repoTypeName}.{method}({specName})";
+        return $"EF query called from: {_repoTypeName}.{methodName}({specName})";
     }
 }
