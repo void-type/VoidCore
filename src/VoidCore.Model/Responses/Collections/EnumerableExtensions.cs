@@ -51,6 +51,11 @@ public static class EnumerableExtensions
     /// <typeparam name="T">The type of entities in the collection</typeparam>
     public static IQueryable<T> GetPage<T>(this IQueryable<T> set, PaginationOptions paginationOptions)
     {
+        if (!paginationOptions.IsPagingEnabled)
+        {
+            return set;
+        }
+
         return set
             .Skip((paginationOptions.Page - 1) * paginationOptions.Take)
             .Take(paginationOptions.Take);
@@ -62,6 +67,11 @@ public static class EnumerableExtensions
     /// <typeparam name="T">The type of entities in the collection</typeparam>
     public static IEnumerable<T> GetPage<T>(this IEnumerable<T> set, PaginationOptions paginationOptions)
     {
+        if (!paginationOptions.IsPagingEnabled)
+        {
+            return set;
+        }
+
         return set
             .Skip((paginationOptions.Page - 1) * paginationOptions.Take)
             .Take(paginationOptions.Take);

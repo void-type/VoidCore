@@ -49,11 +49,6 @@ internal static class EfSpecificationEvaluator
 
         var paginationOptions = specification.PaginationOptions;
 
-        if (paginationOptions.IsPagingEnabled)
-        {
-            query = query.GetPage(paginationOptions);
-        }
-
-        return query;
+        return query.GetPage(paginationOptions);
     }
 }
