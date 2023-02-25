@@ -103,6 +103,11 @@ public sealed class CspOptionsBuilder
         });
     }
 
+    // Remove obsolete code in next major version
+#if NET7_0
+#pragma warning disable S1133
+#endif
+
     /// <summary>
     /// Set the header to report-only. Content will not be blocked.
     /// Report-uri is deprecated, but the report-to directive is not yet supported in most browsers.
@@ -136,6 +141,10 @@ public sealed class CspOptionsBuilder
         ReportUri.Allow(reportUri);
         return this;
     }
+
+#if NET7_0
+#pragma warning restore S1133
+#endif
 
     /// <summary>
     /// Build the CspOptions as configured by this builder.

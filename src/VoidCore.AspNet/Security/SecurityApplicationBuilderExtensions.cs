@@ -43,6 +43,11 @@ public static class SecurityApplicationBuilderExtensions
         return app.UseMiddleware<CspMiddleware>(builder);
     }
 
+    // Remove obsolete code in next major version
+#if NET7_0
+#pragma warning disable S1133
+#endif
+
     /// <summary>
     /// Set an X-Frame-Options header on the HTTP response. Allows or denies this page from being shown in an
     /// x-frame, i-frame, embed, or object tag. Eventually Content Security Policy's frame-ancestors will obsolete this.
@@ -61,6 +66,10 @@ public static class SecurityApplicationBuilderExtensions
 
         return app.UseMiddleware<XFrameOptionsMiddleware>(options);
     }
+
+#if NET7_0
+#pragma warning restore S1133
+#endif
 
     /// <summary>
     /// Set an X-Content-Type-Options header to nosniff on the HTTP response. Prevents browsers from sniffing MIME types and trying execute
