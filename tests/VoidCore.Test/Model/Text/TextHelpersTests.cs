@@ -79,7 +79,7 @@ public class TextHelpersTests
     [Fact]
     public void Slugify_removes_extra_spaces_accents_and_special_chars()
     {
-        var actual = "The   quick; Brown < Fo>X Júmp,ed over the lÅzÿ Dòg 大2".Slugify();
+        var actual = "The - quick; Brown < Fo>X\nJúmp,ed over the lÅzÿ Dòg 大2".Slugify();
         var expected = "the-quick-brown-fox-jumped-over-the-lazy-dog-2";
 
         Assert.Equal(expected, actual);

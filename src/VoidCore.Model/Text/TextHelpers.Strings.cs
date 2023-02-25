@@ -38,17 +38,19 @@ public static partial class TextHelpers
             return string.Empty;
         }
 
-        // Remove all accents and make the string lower case.
-        var output = phrase.RemoveAccents().ToLower();
+        var output = phrase.RemoveAccents().ToLowerInvariant();
 
-        // Remove all special characters from the string.
-        output = Regex.Replace(output, @"[^A-Za-z0-9\s-]", "");
+        // Remove all special characters
+        output = NotAlphaNumericSpaceHyphen().Replace(output, "");
 
-        // Remove all additional spaces in favor of just one.
-        output = Regex.Replace(output, @"\s+", " ").Trim();
+        // Replace repeat spaces with a single space
+        output = MultipleSpaces().Replace(output, " ").Trim();
 
-        // Replace all spaces with the hyphen.
-        output = Regex.Replace(output, @"\s", "-");
+        // Replace all spaces with hyphen
+        output = SingleSpace().Replace(output, "-");
+
+        // Replace repeat hyphens with a single hyphen
+        output = MultipleHyphens().Replace(output, "-");
 
         // Shorten if needed
         if (maxLength.HasValue && output.Length > maxLength)
@@ -71,7 +73,6 @@ public static partial class TextHelpers
             }
         }
 
-        // Return the slug.
         return output;
     }
 
@@ -117,4 +118,16 @@ public static partial class TextHelpers
         return string.Join(replacement, filePath.Split(Path.GetInvalidPathChars()))
             .Replace("..", replacement);
     }
+
+    [GeneratedRegex("[^A-Za-z0-9\\s-]")]
+    private static partial Regex NotAlphaNumericSpaceHyphen();
+
+    [GeneratedRegex("\\s+")]
+    private static partial Regex MultipleSpaces();
+
+    [GeneratedRegex("\\s")]
+    private static partial Regex SingleSpace();
+
+    [GeneratedRegex("-+")]
+    private static partial Regex MultipleHyphens();
 }
