@@ -28,7 +28,7 @@ public sealed class RequestLoggingScopeMiddleware
     /// Invoke the middleware.
     /// </summary>
     /// <param name="context">The current HttpContext</param>
-    public Task Invoke(HttpContext context)
+    public async Task Invoke(HttpContext context)
     {
         context.EnsureNotNull();
 
@@ -40,6 +40,6 @@ public sealed class RequestLoggingScopeMiddleware
             request.Method,
             request.Path.Value);
 
-        return _next(context);
+        await _next(context);
     }
 }
