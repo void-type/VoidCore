@@ -29,7 +29,7 @@ public static class Guard
     /// <exception cref="ArgumentNullException">Throws when argumentValue null.</exception>
     [DebuggerStepThrough]
     [return: NotNull]
-    public static T EnsureNotNull<T>(this T? argumentValue, string? message = null, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue")
+    public static T EnsureNotNull<T>(this T? argumentValue, string? message = null, [CallerArgumentExpression(nameof(argumentValue))] string argumentName = "argumentValue")
     {
         return argumentValue ?? throw new ArgumentNullException(argumentName, message ?? ArgumentNullMessage);
     }
@@ -45,7 +45,7 @@ public static class Guard
     /// <returns>The argument for chaining guards or assignment.</returns>
     [DebuggerStepThrough]
     [return: NotNull]
-    public static string EnsureNotNullOrEmpty(this string? argumentValue, string? message = null, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue")
+    public static string EnsureNotNullOrEmpty(this string? argumentValue, string? message = null, [CallerArgumentExpression(nameof(argumentValue))] string argumentName = "argumentValue")
     {
         return argumentValue
             .EnsureNotNull(message ?? ArgumentNullMessage, argumentName)
@@ -64,7 +64,7 @@ public static class Guard
     /// <returns>The argument for chaining guards or assignment.</returns>
     [DebuggerStepThrough]
     [return: NotNull]
-    public static IEnumerable<T> EnsureNotNullOrEmpty<T>(this IEnumerable<T>? argumentValue, string? message = null, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue")
+    public static IEnumerable<T> EnsureNotNullOrEmpty<T>(this IEnumerable<T>? argumentValue, string? message = null, [CallerArgumentExpression(nameof(argumentValue))] string argumentName = "argumentValue")
     {
         return argumentValue
             .EnsureNotNull(message ?? ArgumentNullMessage, argumentName)
@@ -84,7 +84,7 @@ public static class Guard
     /// <returns>The argument for chaining guards or assignment.</returns>
     /// <exception cref="ArgumentException">Throws when condition expression evaluates false against argumentValue.</exception>
     [DebuggerStepThrough]
-    public static T Ensure<T>(this T argumentValue, Func<T, bool> conditionExpression, string? message = null, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue")
+    public static T Ensure<T>(this T argumentValue, Func<T, bool> conditionExpression, string? message = null, [CallerArgumentExpression(nameof(argumentValue))] string argumentName = "argumentValue")
     {
         conditionExpression.EnsureNotNull();
 
@@ -105,7 +105,7 @@ public static class Guard
     /// <typeparam name="T">The type of argument.</typeparam>
     /// <returns>The argument for chaining guards or assignment.</returns>
     [DebuggerStepThrough]
-    public static T Ensure<T>(this T argumentValue, Func<T, bool> conditionExpression, Func<T, string> messageBuilder, [CallerArgumentExpression("argumentValue")] string argumentName = "argumentValue")
+    public static T Ensure<T>(this T argumentValue, Func<T, bool> conditionExpression, Func<T, string> messageBuilder, [CallerArgumentExpression(nameof(argumentValue))] string argumentName = "argumentValue")
     {
         messageBuilder.EnsureNotNull();
 
