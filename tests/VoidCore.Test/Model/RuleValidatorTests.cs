@@ -3,7 +3,7 @@ using VoidCore.Model.Functional;
 using VoidCore.Model.RuleValidator;
 using Xunit;
 
-namespace VoidCore.Test.Model.Functional;
+namespace VoidCore.Test.Model;
 
 public class RuleValidatorTests
 {
