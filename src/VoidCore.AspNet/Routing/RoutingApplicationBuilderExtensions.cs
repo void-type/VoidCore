@@ -64,4 +64,22 @@ public static class RoutingApplicationBuilderExtensions
             endpoints.MapFallbackToController("Index", "Home");
         });
     }
+
+    /// <summary>
+    /// If AlwaysOn user agent is detected, we will return a simple response.
+    /// </summary>
+    /// <param name="app">The app for method chaining</param>
+    public static IApplicationBuilder UseAlwaysOnShortCircuit(this IApplicationBuilder app)
+    {
+        return app.Use(async (context, next) =>
+        {
+            if (context.Request.Headers.UserAgent == "AlwaysOn")
+            {
+                await context.Response.WriteAsync("Awake");
+                return;
+            }
+
+            await next.Invoke();
+        });
+    }
 }
