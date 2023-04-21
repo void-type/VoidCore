@@ -36,8 +36,6 @@
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <!-- TODO: Broken in .NET SDK 7.0.200 https://github.com/dotnet/format/issues/1800 -->
-    <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
 
