@@ -1,8 +1,8 @@
 # VoidCore
 
 [![License](https://img.shields.io/github/license/void-type/VoidCore.svg)](https://github.com/void-type/VoidCore/blob/main/LICENSE.txt)
-[![Build Status](https://img.shields.io/azure-devops/build/void-type/VoidCore/1.svg)](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=1&branchName=main)
-[![Test Coverage](https://img.shields.io/azure-devops/coverage/void-type/VoidCore/1.svg)](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=1&branchName=main)
+[![Build Status](https://img.shields.io/azure-devops/build/void-type/VoidCore/1/main)](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=1&branchName=main)
+[![Test Coverage](https://img.shields.io/azure-devops/coverage/void-type/VoidCore/1/main)](https://dev.azure.com/void-type/VoidCore/_build/latest?definitionId=1&branchName=main)
 
 [VoidCore](https://github.com/void-type/voidcore) is a set of core libraries for building business applications on .NET 7.
 
