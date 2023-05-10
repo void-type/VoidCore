@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using VoidCore.Model.Guards;
 
 namespace VoidCore.Model.Time;
 
@@ -18,26 +17,8 @@ public static class DateTimeHelpers
     /// <param name="overlapMitigation">A strategy to mitigate overlap</param>
     public static IEnumerable<DateTimeRange> SplitDateRangeIntoIntervals(DateTime startDate, DateTime endDate, int intervalSizeDays, OverlapMitigation overlapMitigation = OverlapMitigation.None)
     {
-        startDate.Ensure(s => s <= endDate, "startDate cannot be greater than endDate.");
-
-        DateTime intervalEndDate;
-
-        while ((intervalEndDate = startDate.AddDays(intervalSizeDays)) < endDate)
-        {
-            yield return new DateTimeRange(startDate, intervalEndDate);
-
-            // Set the start date for the next range
-            startDate = overlapMitigation switch
-            {
-                OverlapMitigation.Tick => intervalEndDate.AddTicks(1),
-                OverlapMitigation.Second => intervalEndDate.AddSeconds(1),
-                OverlapMitigation.Day => intervalEndDate.AddDays(1),
-                _ => intervalEndDate,
-            };
-        }
-
-        // The last range may not be a whole interval, so we end on the on the final endDate.
-        yield return new DateTimeRange(startDate, endDate);
+        return new DateTimeRange(startDate, endDate)
+            .SplitDateRangeIntoIntervals(intervalSizeDays, overlapMitigation);
     }
 
     /// <summary>
@@ -48,6 +29,29 @@ public static class DateTimeHelpers
     /// <param name="overlapMitigation">A strategy to mitigate overlap</param>
     public static IEnumerable<DateTimeRange> SplitDateRangeIntoIntervals(this DateTimeRange range, int intervalSizeDays, OverlapMitigation overlapMitigation = OverlapMitigation.None)
     {
-        return SplitDateRangeIntoIntervals(range.StartDate, range.EndDate, intervalSizeDays, overlapMitigation);
+        var rangeStart = range.StartDate;
+        var rangeEnd = range.EndDate;
+
+        var intervalStart = rangeStart;
+        DateTime intervalEnd;
+
+        while ((intervalEnd = intervalStart.AddDays(intervalSizeDays)) < rangeEnd)
+        {
+            var modifiedWorkingEndDate = overlapMitigation switch
+            {
+                OverlapMitigation.None => intervalEnd,
+                OverlapMitigation.SubtractTick => intervalEnd.AddTicks(-1),
+                OverlapMitigation.SubtractSecond => intervalEnd.AddSeconds(-1),
+                OverlapMitigation.SubtractDay => intervalEnd.AddDays(-1),
+                _ => throw new ArgumentException($"Invalid OverlapMitigation value of {overlapMitigation}.", nameof(overlapMitigation)),
+            };
+
+            yield return new DateTimeRange(intervalStart, modifiedWorkingEndDate);
+
+            intervalStart = intervalEnd;
+        }
+
+        // The last range may not be a whole interval, so we end on the on the final endDate.
+        yield return new DateTimeRange(intervalStart, rangeEnd);
     }
 }

@@ -6,22 +6,30 @@
 public enum OverlapMitigation
 {
     /// <summary>
-    /// None - Don't mitigate overlap. Leave this if the end of one range should be the start of the next range.
+    /// None - Don't mitigate overlap. Useful if the end of one range should be the start of the next range.
+    /// Use <![CDATA[ startDate <= x < endDate ]]>.
+    /// For example: 7 day intervals from 14 days = 1:00:00:00-8:00:00:00, 8:00:00:00-15:00:00:00.
     /// </summary>
-    None,
+    None = 0,
 
     /// <summary>
-    /// Tick - Add a tick to the next range's start. Good for non-overlapping ranges that use date and time.
+    /// Tick - Subtract a tick from the range's end. Useful for non-overlapping ranges that use date and time with tick precision.
+    /// Use <![CDATA[ startDate <= x <= endDate ]]>.
+    /// For example: 7 day intervals from 14 days = 1:00:00:00-7:23:59:59.9999..., 8:00:00:00-15:00:00:00.
     /// </summary>
-    Tick,
+    SubtractTick = 1,
 
     /// <summary>
-    /// Second - Add a second to the next range's start. Good for non-overlapping ranges that use date and time.
+    /// Second - Subtract a second from the range's end. Useful for non-overlapping ranges that use date and time with second precision.
+    /// Use <![CDATA[ startDate <= x <= endDate ]]>.
+    /// For example: 7 day intervals from 14 days = 1:00:00:00-7:23:59:59, 8:00:00:00-15:00:00:00.
     /// </summary>
-    Second,
+    SubtractSecond = 2,
 
     /// <summary>
-    /// Day - Subtract a day from the end of ranges other than the last. Good for non-overlapping ranges that use only use date.
+    /// Day - Subtract a day from the range's end. Useful for non-overlapping ranges that use only use date. It is implied the interval goes to the end of the given day.
+    /// Use <![CDATA[ startDate.Date <= x.Date <= endDate.Date ]]>.
+    /// For example: 7 day intervals from 14 days = 1:00:00:00-7:00:00:00, 8:00:00:00-15:00:00:00.
     /// </summary>
-    Day
+    SubtractDay = 3
 }
