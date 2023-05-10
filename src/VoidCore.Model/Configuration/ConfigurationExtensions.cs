@@ -15,7 +15,6 @@ public static class ConfigurationExtensions
     /// </summary>
     /// <param name="configuration">The configuration</param>
     /// <typeparam name="T">The type of DbContext</typeparam>
-    /// <returns></returns>
     public static string GetRequiredConnectionString<T>(this IConfiguration configuration)
     {
         var name = typeof(T).GetTypeNameWithoutEnding("context");
@@ -28,7 +27,6 @@ public static class ConfigurationExtensions
     /// </summary>
     /// <param name="configuration">The configuration</param>
     /// <param name="connectionStringName">The name of the connection string</param>
-    /// <returns></returns>
     public static string GetRequiredConnectionString(this IConfiguration configuration, string connectionStringName)
     {
         const string message = "Connection string not found in application configuration.";
