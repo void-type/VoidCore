@@ -32,7 +32,6 @@ internal class Rule<T>
     /// Run this rule to validate the request.
     /// </summary>
     /// <param name="request"></param>
-    /// <returns></returns>
     public IResult Run(T request)
     {
         return !IsSuppressed(request) && IsInvalid(request) ?

@@ -29,7 +29,6 @@ public static class HttpContextExtensions
     /// Get the nonce from the HttpContext.
     /// </summary>
     /// <param name="context">The context</param>
-    /// <returns></returns>
     public static string GetNonce(this HttpContext context)
     {
         var nonce = context.Items[NonceKey] as string;

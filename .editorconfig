@@ -270,6 +270,8 @@ dotnet_diagnostic.SCS0012.severity = none
 dotnet_diagnostic.SCS0016.severity = none
 # We don't need ConfigureAwait(false)
 dotnet_diagnostic.RCS1090.severity = none
+# Empty classes
+dotnet_diagnostic.S2094.severity = none
 
 # Javascript and Vue
 [*.{js,jsx,ts,tsx,vue}]

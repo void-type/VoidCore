@@ -56,6 +56,24 @@ public class TextHelpersTests
     }
 
     [Fact]
+    public void String_extensions()
+    {
+        Assert.True("".IsNullOrEmpty());
+        Assert.True(((string)null).IsNullOrEmpty());
+        Assert.False("\t ".IsNullOrEmpty());
+        Assert.False("t".IsNullOrEmpty());
+
+        Assert.True("".IsNullOrWhiteSpace());
+        Assert.True(((string)null).IsNullOrWhiteSpace());
+        Assert.True("\t ".IsNullOrWhiteSpace());
+        Assert.False("t".IsNullOrWhiteSpace());
+
+        Assert.True("t".EqualsIgnoreCase("T"));
+        Assert.True("t".EqualsIgnoreCase("t"));
+        Assert.False("ts".EqualsIgnoreCase("t"));
+    }
+
+    [Fact]
     public void Print_date_uses_ISO8601_format_by_default()
     {
         var myDate = new DateTime(2008, 9, 10);
