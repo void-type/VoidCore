@@ -13,15 +13,14 @@ namespace VoidCore.Model.Text;
 /// </summary>
 public static partial class TextHelpers
 {
-    private const string DateFormat = "s";
+    private const string DefaultDateFormat = "s";
 
     /// <summary>
     /// Print a DateTime to a string.
     /// </summary>
     /// <param name="dateTime">The date to format</param>
     /// <param name="dateFormat">The date format. ISO 8601 by default</param>
-    /// <returns></returns>
-    public static string Print(DateTime dateTime, string dateFormat = DateFormat)
+    public static string Print(DateTime dateTime, string dateFormat = DefaultDateFormat)
     {
         return dateTime.ToString(dateFormat, CultureInfo.InvariantCulture);
     }
@@ -30,7 +29,6 @@ public static partial class TextHelpers
     /// Print an enumerable to a string.
     /// </summary>
     /// <param name="strings"></param>
-    /// <returns></returns>
     public static string Print(IEnumerable<string> strings)
     {
         return string.Join(", ", strings);
@@ -41,7 +39,7 @@ public static partial class TextHelpers
     /// </summary>
     /// <param name="obj">The object to print</param>
     /// <param name="dateFormat">The date format. ISO 8601 by default</param>
-    public static IEnumerable<string> PrintObject(object obj, string dateFormat = DateFormat)
+    public static IEnumerable<string> PrintObject(object obj, string dateFormat = DefaultDateFormat)
     {
         var properties = obj
             .EnsureNotNull()

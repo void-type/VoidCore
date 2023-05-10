@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using VoidCore.Model.Functional;
 using VoidCore.Model.Guards;
 
 namespace VoidCore.Model.Text;
@@ -23,111 +17,33 @@ public static partial class TextHelpers
     }
 
     /// <summary>
-    /// Turn a string, such as an article title, into a slug.
-    /// Removes all accents, special characters, additional spaces.
-    /// Replaces spaces with hyphens and lowercases it.
-    /// Adapted from https://www.c-sharpcorner.com/blogs/make-url-slugs-in-asp-net-using-c-sharp2
+    /// Indicates whether the specified string is null or an empty string ("").
     /// </summary>
-    /// <param name="phrase">The original string</param>
-    /// <param name="maxLength">Max number of characters for the final slug</param>
-    /// <param name="splitOnWord">When true, partial words after truncation will be removed</param>
-    public static string Slugify(this string phrase, int? maxLength = null, bool splitOnWord = false)
+    /// <param name="str">The string to check</param>
+    /// <returns>true if the value parameter is null or an empty string (""); otherwise, false.</returns>
+    public static bool IsNullOrEmpty(this string str)
     {
-        if (string.IsNullOrWhiteSpace(phrase))
-        {
-            return string.Empty;
-        }
-
-        var output = phrase.RemoveAccents().ToLowerInvariant();
-
-        // Remove all special characters
-        output = NotAlphaNumericSpaceHyphen().Replace(output, "");
-
-        // Replace repeat spaces with a single space
-        output = MultipleSpaces().Replace(output, " ").Trim();
-
-        // Replace all spaces with hyphen
-        output = SingleSpace().Replace(output, "-");
-
-        // Replace repeat hyphens with a single hyphen
-        output = MultipleHyphens().Replace(output, "-");
-
-        // Shorten if needed
-        if (maxLength.HasValue && output.Length > maxLength)
-        {
-            var fullLengthOutput = output;
-
-            // Shorten to max length then remove trailing hyphen if any.
-            output = output[..maxLength.Value].TrimEnd('-');
-
-            if (splitOnWord)
-            {
-                // Check to see if the character after truncation is a hyphen
-                var isLastWordIncomplete = fullLengthOutput[output.Length] != '-';
-
-                if (isLastWordIncomplete)
-                {
-                    var lastHyphen = Math.Max(output.LastIndexOf('-'), 0);
-                    output = output[..lastHyphen];
-                }
-            }
-        }
-
-        return output;
+        return string.IsNullOrEmpty(str);
     }
 
     /// <summary>
-    /// Removes all accents from the input string.
+    /// Indicates whether a specified string is null, empty, or consists only of white-space characters.
     /// </summary>
-    /// <param name="text">The input string.</param>
-    private static string RemoveAccents(this string text)
+    /// <param name="str">The string to check</param>
+    /// <returns>true if the value parameter is null or string.Empty, or if value consists exclusively of white-space characters.</returns>
+    public static bool IsNullOrWhiteSpace(this string str)
     {
-        if (string.IsNullOrWhiteSpace(text))
-        {
-            return string.Empty;
-        }
-
-        text = text.Normalize(NormalizationForm.FormD);
-
-        // Remove modifier characters
-        var chars = text
-            .Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray();
-
-        return new string(chars).Normalize(NormalizationForm.FormC);
+        return string.IsNullOrWhiteSpace(str);
     }
 
     /// <summary>
-    /// Replaces invalid characters in a file name.
+    /// Determines whether this string and a specified string object have the same value. Uses the OrdinalIgnoreCase rule set to perform a case-insensitive and culture-agnostic comparison.
     /// </summary>
-    /// <param name="fileName">File name</param>
-    /// <param name="replacement">Replacement for illegal characters</param>
-    public static string GetSafeFileName(this string fileName, string replacement = "_")
+    /// <param name="str">The string to check</param>
+    /// <param name="value">The string to compare with</param>
+    /// <returns>true if the value of the value parameter is the same as this string; otherwise, false.</returns>
+    public static bool EqualsIgnoreCase(this string str, string value)
     {
-        return string.Join(replacement, fileName.Split(Path.GetInvalidFileNameChars()))
-            .Replace(@"\", replacement)
-            .Replace("..", replacement);
+        return str.Equals(value, StringComparison.OrdinalIgnoreCase);
     }
-
-    /// <summary>
-    /// Replaces invalid characters in a path to a file. Be sure to check that the path starts with your expected location.
-    /// </summary>
-    /// <param name="filePath">File path</param>
-    /// <param name="replacement">Replacement for illegal characters</param>
-    public static string GetSafeFilePath(this string filePath, string replacement = "_")
-    {
-        return string.Join(replacement, filePath.Split(Path.GetInvalidPathChars()))
-            .Replace("..", replacement);
-    }
-
-    [GeneratedRegex("[^A-Za-z0-9\\s-]")]
-    private static partial Regex NotAlphaNumericSpaceHyphen();
-
-    [GeneratedRegex("\\s+")]
-    private static partial Regex MultipleSpaces();
-
-    [GeneratedRegex("\\s")]
-    private static partial Regex SingleSpace();
-
-    [GeneratedRegex("-+")]
-    private static partial Regex MultipleHyphens();
 }
