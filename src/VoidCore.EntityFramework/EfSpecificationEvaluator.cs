@@ -8,7 +8,7 @@ namespace VoidCore.EntityFramework;
 /// <summary>
 /// Build queries from specifications. Adapted from https://github.com/dotnet-architecture/eShopOnWeb
 /// </summary>
-internal static class EfSpecificationEvaluator
+public static class EfSpecificationEvaluator
 {
     /// <summary>
     /// Evaluate the specification and build the query against the input.
