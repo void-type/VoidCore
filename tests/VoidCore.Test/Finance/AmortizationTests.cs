@@ -6,14 +6,12 @@ namespace VoidCore.Test.Finance;
 
 public class AmortizationTests
 {
-    private readonly AmortizationCalculator _calculator = new(new Financial());
-
     [Fact]
     public void MediumMortgage()
     {
         var request = new AmortizationRequest(340000, 360, 0.045m / 12);
 
-        var response = _calculator.Calculate(request);
+        var response = AmortizationCalculator.Calculate(request);
 
         CheckLoan(1722.73m, 280182.82m, 620182.82m, 30 * 12, response);
         CheckPeriod(452.79m, 1269.94m, 338198.98m, response.Schedule[3]);
@@ -25,7 +23,7 @@ public class AmortizationTests
     {
         var request = new AmortizationRequest(-340000, 360, 0.045m / 12);
 
-        var response = _calculator.Calculate(request);
+        var response = AmortizationCalculator.Calculate(request);
 
         CheckLoan(-1722.73m, -280182.82m, -620182.82m, 30 * 12, response);
         CheckPeriod(-452.79m, -1269.94m, -338198.98m, response.Schedule[3]);
@@ -37,7 +35,7 @@ public class AmortizationTests
     {
         var request = new AmortizationRequest(340000, 360, -0.045m / 12);
 
-        var response = _calculator.Calculate(request);
+        var response = AmortizationCalculator.Calculate(request);
 
         CheckLoan(444.68m, -179914.99m, 160085.01m, 30 * 12, response);
         CheckPeriod(1700.41m, -1255.73m, 333159.87m, response.Schedule[3]);
@@ -49,7 +47,7 @@ public class AmortizationTests
     {
         var request = new AmortizationRequest(1000, 100, 0);
 
-        var response = _calculator.Calculate(request);
+        var response = AmortizationCalculator.Calculate(request);
 
         CheckLoan(10m, 0m, 1000m, 100, response);
         CheckPeriod(10m, 0m, 960m, response.Schedule[3]);
@@ -61,7 +59,7 @@ public class AmortizationTests
     {
         var request = new AmortizationRequest(2000, 60, 0.005m / 12);
 
-        var response = _calculator.Calculate(request);
+        var response = AmortizationCalculator.Calculate(request);
 
         CheckLoan(33.76m, 25.52m, 2025.52m, 5 * 12, response);
         CheckPeriod(32.97m, 0.79m, 1868.22m, response.Schedule.Where(p => p.PeriodNumber == 4).Single());
@@ -73,7 +71,7 @@ public class AmortizationTests
     {
         var request = new AmortizationRequest(1000000, 480, 0.20m / 12);
 
-        var response = _calculator.Calculate(request);
+        var response = AmortizationCalculator.Calculate(request);
 
         CheckLoan(16672.64m, 7002867.64m, 8002867.64m, 40 * 12, response);
         CheckPeriod(6.28m, 16666.36m, 999975.50m, response.Schedule[3]);
@@ -85,7 +83,7 @@ public class AmortizationTests
     {
         var request = new AmortizationRequest(1000000, 160, 0.20m / 4);
 
-        var response = _calculator.Calculate(request);
+        var response = AmortizationCalculator.Calculate(request);
 
         CheckLoan(50020.36m, 7003258.21m, 8003258.21m, 40 * 4, response);
         CheckPeriod(23.57m, 49996.79m, 999912.23m, response.Schedule[3]);
@@ -97,7 +95,7 @@ public class AmortizationTests
     {
         var request = new AmortizationRequest(1000000, 40, 0.20m);
 
-        var response = _calculator.Calculate(request);
+        var response = AmortizationCalculator.Calculate(request);
 
         CheckLoan(200136.17m, 7005446.73m, 8005446.73m, 40 * 1, response);
         CheckPeriod(235.30m, 199900.87m, 999269.05m, response.Schedule[3]);
@@ -109,7 +107,7 @@ public class AmortizationTests
     {
         var request = new AmortizationRequest(0, 480, 0.20m / 12);
 
-        var response = _calculator.Calculate(request);
+        var response = AmortizationCalculator.Calculate(request);
 
         CheckLoan(0.00m, 0.00m, 0.00m, 40 * 12, response);
         CheckPeriod(0.00m, 0.00m, 0.00m, response.Schedule[3]);
@@ -121,7 +119,7 @@ public class AmortizationTests
     {
         var request = new AmortizationRequest(1090, 2400, 0.05m / 12);
 
-        var response = _calculator.Calculate(request);
+        var response = AmortizationCalculator.Calculate(request);
 
         CheckLoan(4.54m, 9810.51m, 10900.51m, 200 * 12, response);
         CheckPeriod(0.00m, 4.54m, 1090.00m, response.Schedule[3]);
