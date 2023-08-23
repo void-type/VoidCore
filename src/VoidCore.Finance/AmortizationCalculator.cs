@@ -7,26 +7,15 @@ namespace VoidCore.Finance;
 /// <summary>
 /// Calculates an amortization schedule with information about the loan.
 /// </summary>
-public sealed class AmortizationCalculator
+public static class AmortizationCalculator
 {
-    private readonly IFinancial _financial;
-
-    /// <summary>
-    /// Create a new Amortization Calculator
-    /// </summary>
-    /// <param name="financial"></param>
-    public AmortizationCalculator(IFinancial financial)
-    {
-        _financial = financial;
-    }
-
     /// <summary>
     /// Calculate the loan request.
     /// </summary>
     /// <param name="request">The request to calculate</param>
     /// <returns>A completed AmortizationResponse</returns>
     /// <exception cref="ArgumentNullException">Throws when request is null.</exception>
-    public AmortizationResponse Calculate(AmortizationRequest request)
+    public static AmortizationResponse Calculate(AmortizationRequest request)
     {
         if (request is null)
         {
@@ -41,18 +30,18 @@ public sealed class AmortizationCalculator
 
         Parallel.For(1, numberOfPeriods + 1, periodNumber =>
         {
-            var principalPayment = _financial.PrincipalPayment(ratePerPeriod, periodNumber, numberOfPeriods, -totalPrincipal);
+            var principalPayment = Financial.PrincipalPayment(ratePerPeriod, periodNumber, numberOfPeriods, -totalPrincipal);
 
-            var interestPayment = _financial.InterestPayment(ratePerPeriod, periodNumber, numberOfPeriods, -totalPrincipal);
+            var interestPayment = Financial.InterestPayment(ratePerPeriod, periodNumber, numberOfPeriods, -totalPrincipal);
 
             var balanceLeft = ratePerPeriod == 0 ?
                 totalPrincipal - (principalPayment * periodNumber) :
-                _financial.InterestPayment(ratePerPeriod, periodNumber + 1, numberOfPeriods, -totalPrincipal) / ratePerPeriod;
+                Financial.InterestPayment(ratePerPeriod, periodNumber + 1, numberOfPeriods, -totalPrincipal) / ratePerPeriod;
 
             schedule[periodNumber - 1] = new AmortizationPeriod(periodNumber, interestPayment, principalPayment, balanceLeft);
         });
 
-        var paymentPerPeriod = _financial.Payment(ratePerPeriod, numberOfPeriods, -totalPrincipal);
+        var paymentPerPeriod = Financial.Payment(ratePerPeriod, numberOfPeriods, -totalPrincipal);
         var totalInterestPaid = schedule.Sum(p => p.InterestPayment);
         var totalPaid = totalPrincipal + totalInterestPaid;
 
