@@ -1,4 +1,4 @@
-﻿using Moq;
+﻿using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -17,17 +17,17 @@ public class AuditableRepositoryDecoratorTests
     {
         var entity = new TestEntity();
 
-        var repoMock = new Mock<IWritableRepository<TestEntity>>();
-        repoMock.Setup(r => r.Add(It.IsAny<TestEntity>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(entity));
+        var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
+        repoMock.Add(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.FromResult(entity));
 
         var date = new DateTime(2001, 2, 12);
         var dateTimeService = new DiscreteDateTimeService(date);
 
-        var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
-        currentUserAccessorMock.Setup(c => c.User)
+        var currentUserAccessorMock = Substitute.For<ICurrentUserAccessor>();
+        currentUserAccessorMock.User
             .Returns(new DomainUser("userName", Array.Empty<string>()));
 
-        var decorator = repoMock.Object.AddAuditability(dateTimeService, currentUserAccessorMock.Object);
+        var decorator = repoMock.AddAuditability(dateTimeService, currentUserAccessorMock);
 
         await decorator.Add(entity, default);
 
@@ -36,8 +36,7 @@ public class AuditableRepositoryDecoratorTests
         Assert.Equal("userName", entity.ModifiedBy);
         Assert.Equal(date, entity.ModifiedOn);
 
-        repoMock.Verify(r => r.Add(It.IsAny<TestEntity>(), It.IsAny<CancellationToken>()), Times.Once);
-        repoMock.VerifyNoOtherCalls();
+        await repoMock.Received(1).Add(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -45,17 +44,17 @@ public class AuditableRepositoryDecoratorTests
     {
         var entities = new List<TestEntity>() { new TestEntity() };
 
-        var repoMock = new Mock<IWritableRepository<TestEntity>>();
-        repoMock.Setup(r => r.AddRange(It.IsAny<List<TestEntity>>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+        var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
+        repoMock.AddRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
 
         var date = new DateTime(2001, 2, 12);
         var dateTimeService = new DiscreteDateTimeService(date);
 
-        var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
-        currentUserAccessorMock.Setup(c => c.User)
+        var currentUserAccessorMock = Substitute.For<ICurrentUserAccessor>();
+        currentUserAccessorMock.User
             .Returns(new DomainUser("userName", Array.Empty<string>()));
 
-        var decoratedRepo = repoMock.Object.AddAuditability(dateTimeService, currentUserAccessorMock.Object);
+        var decoratedRepo = repoMock.AddAuditability(dateTimeService, currentUserAccessorMock);
 
         await decoratedRepo.AddRange(entities, default);
 
@@ -64,8 +63,7 @@ public class AuditableRepositoryDecoratorTests
         Assert.Equal("userName", entities[0].ModifiedBy);
         Assert.Equal(date, entities[0].ModifiedOn);
 
-        repoMock.Verify(r => r.AddRange(It.IsAny<List<TestEntity>>(), It.IsAny<CancellationToken>()), Times.Once);
-        repoMock.VerifyNoOtherCalls();
+        await repoMock.Received(1).AddRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -73,17 +71,17 @@ public class AuditableRepositoryDecoratorTests
     {
         var entity = new TestEntity();
 
-        var repoMock = new Mock<IWritableRepository<TestEntity>>();
-        repoMock.Setup(r => r.Update(It.IsAny<TestEntity>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+        var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
+        repoMock.Update(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
 
         var date = new DateTime(2001, 2, 12);
         var dateTimeService = new DiscreteDateTimeService(date);
 
-        var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
-        currentUserAccessorMock.Setup(c => c.User)
+        var currentUserAccessorMock = Substitute.For<ICurrentUserAccessor>();
+        currentUserAccessorMock.User
             .Returns(new DomainUser("userName", Array.Empty<string>()));
 
-        var decoratedRepo = repoMock.Object.AddAuditability(dateTimeService, currentUserAccessorMock.Object);
+        var decoratedRepo = repoMock.AddAuditability(dateTimeService, currentUserAccessorMock);
 
         await decoratedRepo.Update(entity, default);
 
@@ -92,8 +90,7 @@ public class AuditableRepositoryDecoratorTests
         Assert.Equal("userName", entity.ModifiedBy);
         Assert.Equal(date, entity.ModifiedOn);
 
-        repoMock.Verify(r => r.Update(It.IsAny<TestEntity>(), It.IsAny<CancellationToken>()), Times.Once);
-        repoMock.VerifyNoOtherCalls();
+        await repoMock.Received(1).Update(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -101,17 +98,17 @@ public class AuditableRepositoryDecoratorTests
     {
         var entities = new List<TestEntity>() { new TestEntity() };
 
-        var repoMock = new Mock<IWritableRepository<TestEntity>>();
-        repoMock.Setup(r => r.UpdateRange(It.IsAny<List<TestEntity>>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+        var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
+        repoMock.UpdateRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
 
         var date = new DateTime(2001, 2, 12);
         var dateTimeService = new DiscreteDateTimeService(date);
 
-        var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
-        currentUserAccessorMock.Setup(c => c.User)
+        var currentUserAccessorMock = Substitute.For<ICurrentUserAccessor>();
+        currentUserAccessorMock.User
             .Returns(new DomainUser("userName", Array.Empty<string>()));
 
-        var decoratedRepo = repoMock.Object.AddAuditability(dateTimeService, currentUserAccessorMock.Object);
+        var decoratedRepo = repoMock.AddAuditability(dateTimeService, currentUserAccessorMock);
 
         await decoratedRepo.UpdateRange(entities, default);
 
@@ -120,8 +117,7 @@ public class AuditableRepositoryDecoratorTests
         Assert.Equal("userName", entities[0].ModifiedBy);
         Assert.Equal(date, entities[0].ModifiedOn);
 
-        repoMock.Verify(r => r.UpdateRange(It.IsAny<List<TestEntity>>(), It.IsAny<CancellationToken>()), Times.Once);
-        repoMock.VerifyNoOtherCalls();
+        await repoMock.Received(1).UpdateRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>());
     }
 
     public class TestEntity : IAuditable

@@ -1,4 +1,4 @@
-﻿using Moq;
+﻿using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -17,20 +17,20 @@ public class SoftDeletableRepositoryDecorator
     {
         var entity = new TestEntity();
 
-        var repoMock = new Mock<IWritableRepository<TestEntity>>();
-        repoMock.Setup(r => r.Remove(It.IsAny<TestEntity>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
-        repoMock.Setup(r => r.RemoveRange(It.IsAny<List<TestEntity>>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
-        repoMock.Setup(r => r.Update(It.IsAny<TestEntity>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
-        repoMock.Setup(r => r.UpdateRange(It.IsAny<List<TestEntity>>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+        var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
+        repoMock.Remove(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.RemoveRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.Update(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.UpdateRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
 
         var date = new DateTime(2001, 2, 12);
         var dateTimeService = new DiscreteDateTimeService(date);
 
-        var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
-        currentUserAccessorMock.Setup(c => c.User)
+        var currentUserAccessorMock = Substitute.For<ICurrentUserAccessor>();
+        currentUserAccessorMock.User
             .Returns(new DomainUser("userName", Array.Empty<string>()));
 
-        var decoratedRepo = repoMock.Object.AddSoftDeletability(dateTimeService, currentUserAccessorMock.Object);
+        var decoratedRepo = repoMock.AddSoftDeletability(dateTimeService, currentUserAccessorMock);
 
         await decoratedRepo.Remove(entity, default);
 
@@ -38,8 +38,7 @@ public class SoftDeletableRepositoryDecorator
         Assert.Equal(date, entity.DeletedOn);
         Assert.True(entity.IsDeleted);
 
-        repoMock.Verify(r => r.Update(It.IsAny<TestEntity>(), It.IsAny<CancellationToken>()), Times.Once);
-        repoMock.VerifyNoOtherCalls();
+        await repoMock.Received(1).Update(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -47,20 +46,20 @@ public class SoftDeletableRepositoryDecorator
     {
         var entities = new List<TestEntity>() { new TestEntity() };
 
-        var repoMock = new Mock<IWritableRepository<TestEntity>>();
-        repoMock.Setup(r => r.Remove(It.IsAny<TestEntity>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
-        repoMock.Setup(r => r.RemoveRange(It.IsAny<List<TestEntity>>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
-        repoMock.Setup(r => r.Update(It.IsAny<TestEntity>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
-        repoMock.Setup(r => r.UpdateRange(It.IsAny<List<TestEntity>>(), It.IsAny<CancellationToken>())).Returns(Task.CompletedTask);
+        var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
+        repoMock.Remove(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.RemoveRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.Update(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.UpdateRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
 
         var date = new DateTime(2001, 2, 12);
         var dateTimeService = new DiscreteDateTimeService(date);
 
-        var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
-        currentUserAccessorMock.Setup(c => c.User)
+        var currentUserAccessorMock = Substitute.For<ICurrentUserAccessor>();
+        currentUserAccessorMock.User
             .Returns(new DomainUser("userName", Array.Empty<string>()));
 
-        var decoratedRepo = repoMock.Object.AddSoftDeletability(dateTimeService, currentUserAccessorMock.Object);
+        var decoratedRepo = repoMock.AddSoftDeletability(dateTimeService, currentUserAccessorMock);
 
         await decoratedRepo.RemoveRange(entities, default);
 
@@ -68,8 +67,7 @@ public class SoftDeletableRepositoryDecorator
         Assert.Equal(date, entities[0].DeletedOn);
         Assert.True(entities[0].IsDeleted);
 
-        repoMock.Verify(r => r.UpdateRange(It.IsAny<List<TestEntity>>(), It.IsAny<CancellationToken>()), Times.Once);
-        repoMock.VerifyNoOtherCalls();
+        await repoMock.Received(1).UpdateRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>());
     }
 
     public class TestEntity : ISoftDeletable

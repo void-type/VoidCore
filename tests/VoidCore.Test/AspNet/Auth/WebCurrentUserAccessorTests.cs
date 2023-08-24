@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Moq;
+using NSubstitute;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -31,27 +31,27 @@ public class WebCurrentUserAccessorTests
                 }
         };
 
-        var identityMock = new Mock<IIdentity>();
-        identityMock.Setup(i => i.Name).Returns("Name@contoso.com");
+        var identityMock = Substitute.For<IIdentity>();
+        identityMock.Name.Returns("Name@contoso.com");
 
-        var principalMock = new Mock<ClaimsPrincipal>();
-        principalMock.Setup(p => p.Identity).Returns(identityMock.Object);
+        var principalMock = Substitute.For<ClaimsPrincipal>();
+        principalMock.Identity.Returns(identityMock);
 
-        var httpContextMock = new Mock<HttpContext>();
-        httpContextMock.Setup(context => context.User)
-            .Returns(principalMock.Object);
+        var httpContextMock = Substitute.For<HttpContext>();
+        httpContextMock.User.Returns(principalMock);
 
-        var authServiceMock = new Mock<IAuthorizationService>();
-        authServiceMock.Setup(a => a.AuthorizeAsync(principalMock.Object, null, "User"))
+        var authServiceMock = Substitute.For<IAuthorizationService>();
+        authServiceMock
+            .AuthorizeAsync(principalMock, null, "User")
             .Returns(Task.FromResult(AuthorizationResult.Success()));
-        authServiceMock.Setup(a => a.AuthorizeAsync(principalMock.Object, null, "Admin"))
+        authServiceMock
+            .AuthorizeAsync(principalMock, null, "Admin")
             .Returns(Task.FromResult(AuthorizationResult.Failed()));
 
-        var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
-        httpContextAccessorMock.Setup(a => a.HttpContext)
-            .Returns(httpContextMock.Object);
+        var httpContextAccessorMock = Substitute.For<IHttpContextAccessor>();
+        httpContextAccessorMock.HttpContext.Returns(httpContextMock);
 
-        var accessor = new WebCurrentUserAccessor(httpContextAccessorMock.Object, new EmailUserNameFormatStrategy(), authServiceMock.Object, authSettings);
+        var accessor = new WebCurrentUserAccessor(httpContextAccessorMock, new EmailUserNameFormatStrategy(), authServiceMock, authSettings);
 
         var user = accessor.User;
         Assert.Equal("Name", user.Login);
@@ -62,11 +62,11 @@ public class WebCurrentUserAccessorTests
     [Fact]
     public void WebCurrentUserAccessor_returns_user_with_no_permissions_if_context_is_null()
     {
-        var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
-        httpContextAccessorMock.Setup(a => a.HttpContext)
+        var httpContextAccessorMock = Substitute.For<IHttpContextAccessor>();
+        httpContextAccessorMock.HttpContext
             .Returns((HttpContext)null);
 
-        var accessor = new WebCurrentUserAccessor(httpContextAccessorMock.Object, new EmailUserNameFormatStrategy(), null, null);
+        var accessor = new WebCurrentUserAccessor(httpContextAccessorMock, new EmailUserNameFormatStrategy(), null, null);
 
         var user = accessor.User;
 

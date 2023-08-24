@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Moq;
+using NSubstitute;
 using System.Threading.Tasks;
 using VoidCore.AspNet.ClientApp;
 using VoidCore.AspNet.Configuration;
@@ -20,27 +20,24 @@ public class GetWebClientInfoTests
             Name = "AppName"
         };
 
-        var currentUserAccessorMock = new Mock<ICurrentUserAccessor>();
-        currentUserAccessorMock
-            .Setup(mock => mock.User)
+        var currentUserAccessorMock = Substitute.For<ICurrentUserAccessor>();
+        currentUserAccessorMock.User
             .Returns(new DomainUser("UserName", new[] { "policy1", "policy2" }));
 
-        var contextMock = new Mock<HttpContext>();
+        var contextMock = Substitute.For<HttpContext>();
 
-        var contextAccessorMock = new Mock<IHttpContextAccessor>();
-        contextAccessorMock
-            .Setup(mock => mock.HttpContext)
-            .Returns(contextMock.Object);
+        var contextAccessorMock = Substitute.For<IHttpContextAccessor>();
+        contextAccessorMock.HttpContext
+            .Returns(contextMock);
 
-        var antiforgeryMock = new Mock<IAntiforgery>();
-        antiforgeryMock
-            .Setup(mock => mock.GetAndStoreTokens(It.IsAny<HttpContext>()))
+        var antiforgeryMock = Substitute.For<IAntiforgery>();
+        antiforgeryMock.GetAndStoreTokens(Arg.Any<HttpContext>())
             .Returns(new AntiforgeryTokenSet("request-token", "cookie-token", "formFieldName", "header-name"));
 
-        var loggerMock = new Mock<ILogger<GetWebClientInfo.ResponseLogger>>();
+        var loggerMock = Substitute.For<ILogger<GetWebClientInfo.ResponseLogger>>();
 
-        var result = await new GetWebClientInfo.Handler(applicationSettings, contextAccessorMock.Object, antiforgeryMock.Object, currentUserAccessorMock.Object)
-            .AddPostProcessor(new GetWebClientInfo.ResponseLogger(loggerMock.Object))
+        var result = await new GetWebClientInfo.Handler(applicationSettings, contextAccessorMock, antiforgeryMock, currentUserAccessorMock)
+            .AddPostProcessor(new GetWebClientInfo.ResponseLogger(loggerMock))
             .Handle(new GetWebClientInfo.Request());
 
         Assert.True(result.IsSuccess);
