@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using VoidCore.Model.Functional;
 using VoidCore.Model.Guards;
 using VoidCore.Model.Responses.Collections;
@@ -60,6 +61,31 @@ public static class HttpResponder
 
         var file = result.Value;
         return new FileContentResult(file.Content.AsBytes, "application/force-download") { FileDownloadName = file.Name };
+    }
+
+    /// <summary>
+    /// Create an image FileContentResult.
+    /// </summary>
+    /// <param name="result">The domain result</param>
+    /// <returns>An IActionResult</returns>
+    public static IActionResult RespondWithImage(IResult<SimpleFile> result)
+    {
+        result.EnsureNotNull();
+
+        if (result.IsFailed)
+        {
+            return Fail(result);
+        }
+
+        var file = result.Value;
+
+        new FileExtensionContentTypeProvider()
+            .TryGetContentType(file.Name, out var contentType);
+
+        return new FileContentResult(file.Content.AsBytes, contentType ?? "application/octet-stream")
+        {
+            FileDownloadName = file.Name
+        };
     }
 
     private static IActionResult Fail(IResult result)

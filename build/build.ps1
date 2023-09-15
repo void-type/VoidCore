@@ -36,7 +36,8 @@ try {
 
   # Build solution
   if (-not $SkipFormat) {
-    dotnet format --verify-no-changes
+    # Don't stop build for TODOS
+    dotnet format --verify-no-changes --exclude-diagnostics S1135
     Stop-OnError 'Please run formatter: dotnet format.'
   }
 
