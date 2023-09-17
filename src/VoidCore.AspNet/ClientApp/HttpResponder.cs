@@ -60,15 +60,19 @@ public static class HttpResponder
         }
 
         var file = result.Value;
-        return new FileContentResult(file.Content.AsBytes, "application/force-download") { FileDownloadName = file.Name };
+
+        return new FileContentResult(file.Content.AsBytes, "application/force-download")
+        {
+            FileDownloadName = file.Name
+        };
     }
 
     /// <summary>
-    /// Create an image FileContentResult.
+    /// Create an inline FileContentResult. This file will not force download.
     /// </summary>
     /// <param name="result">The domain result</param>
     /// <returns>An IActionResult</returns>
-    public static IActionResult RespondWithImage(IResult<SimpleFile> result)
+    public static IActionResult RespondWithInlineFile(IResult<SimpleFile> result)
     {
         result.EnsureNotNull();
 
@@ -82,10 +86,7 @@ public static class HttpResponder
         new FileExtensionContentTypeProvider()
             .TryGetContentType(file.Name, out var contentType);
 
-        return new FileContentResult(file.Content.AsBytes, contentType ?? "application/octet-stream")
-        {
-            FileDownloadName = file.Name
-        };
+        return new FileContentResult(file.Content.AsBytes, contentType ?? "application/octet-stream");
     }
 
     private static IActionResult Fail(IResult result)
