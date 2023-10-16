@@ -32,7 +32,7 @@ internal class Rule<T>
     /// Run this rule to validate the request.
     /// </summary>
     /// <param name="request"></param>
-    public IResult Run(T request)
+    internal IResult Run(T request)
     {
         return !IsSuppressed(request) && IsInvalid(request) ?
             Result.Fail(_failureBuilder(request)) :

@@ -5,7 +5,7 @@ using VoidCore.Model.Functional;
 namespace VoidCore.Model.RuleValidator;
 
 /// <summary>
-/// A rule for validating an request.
+/// Builds a rule for validating an request.
 /// </summary>
 /// <typeparam name="T">The type of request to validate.</typeparam>
 internal class RuleBuilder<T> : IRuleBuilder<T>

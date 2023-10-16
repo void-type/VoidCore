@@ -434,14 +434,14 @@ public class GetPerson
 
 A simple way to validate input models and domain requests. If you want to build your own complex validator, you can inherit from IRequestValidator.
 
-RuleValidatorAbstract handles the inner logic of simple requests and allows for running the same validator against multiple entities. It is completely stateless.
+RuleValidatorAbstract handles the inner logic of simple requests and allows for running the same validator against multiple entities. It is completely stateless. Inherit from this to make an injectable service or class-based validator.
 
 ```csharp
 class CreatePersonValidator : RuleValidatorAbstract<Entity>
 {
     public CreatePersonValidator()
     {
-        CreateRule(new Failure("Name is required.", "name")
+        CreateRule("Name is required.", "name")
             .InvalidWhen(entity => string.IsNullOrWhitespace(entity.Name));
 
         // Dynamic messages
@@ -460,6 +460,29 @@ class CreatePersonValidator : RuleValidatorAbstract<Entity>
             .ExceptWhen(entity => !entity.HasPhone);
     }
 }
+
+new CreatePersonValidator().Validate(createPersonRequest);
+```
+
+The T.Validate extension method accepts an IRequestValidator or validator builder action. You can create validators on the fly using the builder action.
+
+```csharp
+createPersonRequest.Validate(new CreatePersonValidator());
+
+createPersonRequest.Validate(validator =>
+{
+    validator.CreateRule("Name is required.", "name")
+        .InvalidWhen(entity => string.IsNullOrWhitespace(entity.Name));
+
+    validator.CreateRule(p => new Failure($"Name cannot be {p.Name}.", nameof(p.Name).ToLower()))
+        .InvalidWhen(entity => string.IsNullOrWhitespace(entity.Name));
+
+    validator.CreateRule(new Failure("Phone number is required for employees with phones.", "phone"))
+        .InvalidWhen(entity => string.IsNullOrWhitespace(entity.PhoneNumber))
+        .InvalidWhen(entity => !PhoneIsValidFormat(entity.PhoneNumber))
+        .ExceptWhen(entity => !entity.IsEmployee)
+        .ExceptWhen(entity => !entity.HasPhone);
+});
 ```
 
 ### Event Request Loggers and Post Processors
