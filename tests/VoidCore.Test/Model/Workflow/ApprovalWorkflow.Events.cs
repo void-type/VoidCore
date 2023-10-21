@@ -3,11 +3,15 @@ using VoidCore.Model.Functional;
 
 namespace VoidCore.Test.Model.Workflow;
 
-public partial class Workflow
+/// <summary>
+/// This partial defines events to mutate workflow state. State is stored in ApprovalWorkflowRequest.
+/// These events should maintain valid state.
+/// </summary>
+public partial class ApprovalWorkflow
 {
     private static readonly IReadOnlyList<string> _approverNames = new List<string> { "John", "Joe" };
 
-    public IResult<State> OnRequestApprovals(Request request)
+    public IResult<State> OnRequestApprovals(ApprovalWorkflowRequest request)
     {
         return MoveNext(request, Command.Start)
             .Then(nextState =>
@@ -22,7 +26,7 @@ public partial class Workflow
             .TeeOnSuccess(() => AddApproval(request));
     }
 
-    public IResult<State> OnApprove(Request request, Approval approval)
+    public IResult<State> OnApprove(ApprovalWorkflowRequest request, Approval approval)
     {
         var canContinue = GetNext(request.State, Command.Approve);
 
@@ -41,35 +45,35 @@ public partial class Workflow
         return Result.Ok(request.State);
     }
 
-    public IResult<State> OnReject(Request request)
+    public IResult<State> OnReject(ApprovalWorkflowRequest request)
     {
         request.Approvals.Clear();
         return MoveNext(request, Command.Reject);
     }
 
-    public IResult<State> OnCancel(Request request)
+    public IResult<State> OnCancel(ApprovalWorkflowRequest request)
     {
         return MoveNext(request, Command.Cancel);
     }
 
-    public IResult<State> OnRevoke(Request request, string revokerName)
+    public IResult<State> OnRevoke(ApprovalWorkflowRequest request, string revokerName)
     {
         return MoveNext(request, Command.Revoke)
             .TeeOnSuccess(() => SetRevoke(request, revokerName));
     }
 
-    public IResult<State> OnExpire(Request request)
+    public IResult<State> OnExpire(ApprovalWorkflowRequest request)
     {
         return MoveNext(request, Command.Expire);
     }
 
-    private IResult<State> MoveNext(Request request, Command command)
+    private IResult<State> MoveNext(ApprovalWorkflowRequest request, Command command)
     {
         return GetNext(request.State, command)
             .TeeOnSuccess(newState => request.State = newState);
     }
 
-    private static void AddApproval(Request request)
+    private static void AddApproval(ApprovalWorkflowRequest request)
     {
         new Approval
         {
@@ -80,7 +84,7 @@ public partial class Workflow
             .Tee(request.Approvals.Add);
     }
 
-    private static void SetRevoke(Request request, string revokerName)
+    private static void SetRevoke(ApprovalWorkflowRequest request, string revokerName)
     {
         new Revoke
         {

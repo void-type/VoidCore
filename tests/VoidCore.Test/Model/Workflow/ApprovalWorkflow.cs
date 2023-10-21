@@ -2,9 +2,12 @@
 
 namespace VoidCore.Test.Model.Workflow;
 
-public partial class Workflow : WorkflowAbstract<Workflow.State, Workflow.Command>
+/// <summary>
+/// This partial defines the workflow state management.
+/// </summary>
+public partial class ApprovalWorkflow : WorkflowAbstract<ApprovalWorkflow.State, ApprovalWorkflow.Command>
 {
-    public Workflow() : base(optionsBuilder =>
+    public ApprovalWorkflow() : base(optionsBuilder =>
         optionsBuilder
             // Not Started
             .AddTransition(State.NotStarted, Command.Start, State.ApprovalRequested)

@@ -506,10 +506,10 @@ There are default logging Post Processor implementations in the VoidCore.Model l
 Using a finite state machine, control valid transitions between states in a workflow.
 
 ```csharp
-public partial class Workflow : WorkflowAbstract<Workflow.State, Workflow.Command>
+public partial class MyWorkflow : WorkflowAbstract<MyWorkflow.State, MyWorkflow.Command>
 {
     // Build valid state transitions using fluent syntax
-    public Workflow() : base(optionsBuilder =>
+    public MyWorkflow() : base(optionsBuilder =>
         optionsBuilder
             // Not Started
             .AddTransition(State.NotStarted, Command.Start, State.ApprovalRequested)
@@ -537,6 +537,6 @@ public partial class Workflow : WorkflowAbstract<Workflow.State, Workflow.Comman
 }
 
 // Using the move next command returns a result of if the state was successfully changed on the request.
-var result = workflow.MoveNext(request, Workflow.Command.Approve)
+var result = workflow.MoveNext(request, MyWorkflow.Command.Approve)
     .TeeOnSuccess(AddApproval);
 ```
