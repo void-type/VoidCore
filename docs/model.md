@@ -540,3 +540,5 @@ public partial class MyWorkflow : WorkflowAbstract<MyWorkflow.State, MyWorkflow.
 var result = workflow.MoveNext(request, MyWorkflow.Command.Approve)
     .TeeOnSuccess(AddApproval);
 ```
+
+There is also a ProgrammaticWorkflow class that is non-abstract and uses classes instead of enums. This allows for creating workflows from data at runtime.
