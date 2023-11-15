@@ -11,7 +11,7 @@
     <PackageReference Include="SauceControl.InheritDoc" Version="1.3.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="all" />
     <PackageReference Include="Nerdbank.GitVersioning" Version="3.6.133" PrivateAssets="all" />
-    <PackageReference Include="Roslynator.Analyzers" Version="4.6.0">
+    <PackageReference Include="Roslynator.Analyzers" Version="4.6.2">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>

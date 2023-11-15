@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using System;
 using VoidCore.Model.Guards;
@@ -44,7 +45,7 @@ public static class SecurityApplicationBuilderExtensions
     }
 
     // Remove obsolete code in next major version
-#if NET7_0
+#if NET8_0
 #pragma warning disable S1133
 #endif
 
@@ -67,7 +68,7 @@ public static class SecurityApplicationBuilderExtensions
         return app.UseMiddleware<XFrameOptionsMiddleware>(options);
     }
 
-#if NET7_0
+#if NET8_0
 #pragma warning restore S1133
 #endif
 
@@ -81,7 +82,7 @@ public static class SecurityApplicationBuilderExtensions
     {
         return app.Use((context, next) =>
         {
-            context.Response.Headers.Add("X-Content-Type-Options", new[] { "nosniff" });
+            context.Response.Headers.Append("X-Content-Type-Options", new[] { "nosniff" });
             return next();
         });
     }

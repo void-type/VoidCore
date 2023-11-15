@@ -104,7 +104,7 @@ public sealed class CspOptionsBuilder
     }
 
     // Remove obsolete code in next major version
-#if NET7_0
+#if NET8_0
 #pragma warning disable S1133
 #endif
 
@@ -142,7 +142,7 @@ public sealed class CspOptionsBuilder
         return this;
     }
 
-#if NET7_0
+#if NET8_0
 #pragma warning restore S1133
 #endif
 

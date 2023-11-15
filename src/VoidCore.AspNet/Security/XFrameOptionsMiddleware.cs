@@ -33,7 +33,7 @@ public class XFrameOptionsMiddleware
         context.EnsureNotNull();
 
         var header = new XFrameOptionsHeader(_options);
-        context.Response.Headers.Add(header.Key, header.Value);
+        context.Response.Headers.Append(header.Key, header.Value);
         return _next(context);
     }
 }
