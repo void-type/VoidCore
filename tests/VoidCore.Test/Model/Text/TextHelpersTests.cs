@@ -195,7 +195,7 @@ public class TextHelpersTests
     }
 
     [Fact]
-    public void GetFirstNotEmptyOrDefault_returns_first_string_thats_not_null_or_whitespace()
+    public void FirstNotNullOrWhiteSpace_returns_first_string_thats_not_null_or_whitespace()
     {
         var values = new[]
         {
@@ -206,11 +206,11 @@ public class TextHelpersTests
             "two"
         };
 
-        Assert.Equal("one", TextHelpers.GetFirstNotEmptyOrDefault(values));
+        Assert.Equal("one", TextHelpers.FirstNotNullOrWhiteSpace(values));
     }
 
     [Fact]
-    public void GetFirstNotEmptyOrDefault_returns_empty_string_if_all_are_null_or_whitespace()
+    public void FirstNotNullOrWhiteSpace_returns_empty_string_if_all_are_null_or_whitespace()
     {
         var values = new[]
         {
@@ -219,15 +219,15 @@ public class TextHelpersTests
             null,
         };
 
-        Assert.Equal(string.Empty, TextHelpers.GetFirstNotEmptyOrDefault(values));
+        Assert.Equal(string.Empty, TextHelpers.FirstNotNullOrWhiteSpace(values));
     }
 
     [Fact]
-    public void GetFirstNotEmptyOrDefault_returns_empty_string_if_no_values()
+    public void FirstNotNullOrWhiteSpace_returns_empty_string_if_no_values()
     {
         var values = Array.Empty<string>();
 
-        Assert.Equal(string.Empty, TextHelpers.GetFirstNotEmptyOrDefault(values));
+        Assert.Equal(string.Empty, TextHelpers.FirstNotNullOrWhiteSpace(values));
     }
 
     public class TestObject

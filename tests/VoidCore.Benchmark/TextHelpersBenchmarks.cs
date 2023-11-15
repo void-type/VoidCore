@@ -9,7 +9,7 @@ namespace VoidCore.Benchmark;
 public class TextHelpersBenchmarks
 {
     [Benchmark]
-    public void GetFirstNotEmptyOrDefault_Bench()
+    public void FirstNotNullOrWhiteSpace_Bench()
     {
         var values = new[]
         {
@@ -20,16 +20,16 @@ public class TextHelpersBenchmarks
             "two",
         };
 
-        TextHelpers.GetFirstNotEmptyOrDefault(values);
+        TextHelpers.FirstNotNullOrWhiteSpace(values);
     }
 
-    public static string GetFirstNotEmptyOrDefault2(params string?[] values)
+    public static string FirstNotNullOrWhiteSpace2(params string?[] values)
     {
         return values.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x)) ?? string.Empty;
     }
 
     [Benchmark]
-    public void GetFirstNotEmptyOrDefault2_Bench()
+    public void FirstNotNullOrWhiteSpace2_Bench()
     {
         var values = new[]
         {
@@ -40,10 +40,10 @@ public class TextHelpersBenchmarks
             "two",
         };
 
-        GetFirstNotEmptyOrDefault2(values);
+        FirstNotNullOrWhiteSpace2(values);
     }
 
-    public static string GetFirstNotEmptyOrDefault3(params string?[] values)
+    public static string FirstNotNullOrWhiteSpace3(params string?[] values)
     {
         for (int i = 0; i < values.Length; i++)
         {
@@ -57,7 +57,7 @@ public class TextHelpersBenchmarks
     }
 
     [Benchmark]
-    public void GetFirstNotEmptyOrDefault3_Bench()
+    public void FirstNotNullOrWhiteSpace3_Bench()
     {
         var values = new[]
         {
@@ -68,10 +68,10 @@ public class TextHelpersBenchmarks
             "two",
         };
 
-        GetFirstNotEmptyOrDefault3(values);
+        FirstNotNullOrWhiteSpace3(values);
     }
 
-    public static string GetFirstNotEmptyOrDefault4(params string?[] values)
+    public static string FirstNotNullOrWhiteSpace4(params string?[] values)
     {
         for (int i = 0; i < values.Length; i++)
         {
@@ -87,7 +87,7 @@ public class TextHelpersBenchmarks
     }
 
     [Benchmark]
-    public void GetFirstNotEmptyOrDefault4_Bench()
+    public void FirstNotNullOrWhiteSpace4_Bench()
     {
         var values = new[]
         {
@@ -98,6 +98,6 @@ public class TextHelpersBenchmarks
             "two",
         };
 
-        GetFirstNotEmptyOrDefault3(values);
+        FirstNotNullOrWhiteSpace3(values);
     }
 }

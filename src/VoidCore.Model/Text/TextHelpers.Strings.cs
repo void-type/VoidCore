@@ -27,11 +27,11 @@ public static partial class TextHelpers
     }
 
     /// <summary>
-    /// Returns a default value if the string is null or whitespace.
+    /// Returns a default value if the string is null or empty.
     /// </summary>
     /// <param name="str">The string to check</param>
     /// <param name="defaultValue">Default value to return</param>
-    /// <returns>Returns a default value if the string is null or whitespace, otherwise returns the string.</returns>
+    /// <returns>Returns a default value if the string is null or empty, otherwise returns the string.</returns>
     public static string DefaultIfNullOrEmpty(this string? str, string defaultValue)
     {
         return !string.IsNullOrEmpty(str) ? str : defaultValue;
@@ -74,7 +74,7 @@ public static partial class TextHelpers
     /// </summary>
     /// <param name="values">A series of strings to check</param>
     /// <returns>A string from the series, or string.Empty if none match.</returns>
-    public static string GetFirstNotEmptyOrDefault(params string?[] values)
+    public static string FirstNotNullOrWhiteSpace(params string?[] values)
     {
         foreach (var value in values)
         {
