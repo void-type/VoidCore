@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\VoidCore.Finance\VoidCore.Finance.csproj" />
+    <ProjectReference Include="..\..\src\VoidCore.Model\VoidCore.Model.csproj" />
   </ItemGroup>
 
 </Project>

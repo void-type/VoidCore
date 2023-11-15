@@ -74,6 +74,20 @@ public class TextHelpersTests
     }
 
     [Fact]
+    public void String_default_extensions()
+    {
+        Assert.Equal("default", "".DefaultIfNullOrEmpty("default"));
+        Assert.Equal("default", ((string)null).DefaultIfNullOrEmpty("default"));
+        Assert.Equal("\t ", "\t ".DefaultIfNullOrEmpty("default"));
+        Assert.Equal("t", "t".DefaultIfNullOrEmpty("default"));
+
+        Assert.Equal("default", "".DefaultIfNullOrWhiteSpace("default"));
+        Assert.Equal("default", ((string)null).DefaultIfNullOrWhiteSpace("default"));
+        Assert.Equal("default", "\t ".DefaultIfNullOrWhiteSpace("default"));
+        Assert.Equal("t", "t".DefaultIfNullOrWhiteSpace("default"));
+    }
+
+    [Fact]
     public void Print_date_uses_ISO8601_format_by_default()
     {
         var myDate = new DateTime(2008, 9, 10);
@@ -178,6 +192,42 @@ public class TextHelpersTests
         var expected = @"C:\_/_\my-file.txt";
 
         Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void GetFirstNotEmptyOrDefault_returns_first_string_thats_not_null_or_whitespace()
+    {
+        var values = new[]
+        {
+            null,
+            "",
+            " ",
+            "one",
+            "two"
+        };
+
+        Assert.Equal("one", TextHelpers.GetFirstNotEmptyOrDefault(values));
+    }
+
+    [Fact]
+    public void GetFirstNotEmptyOrDefault_returns_empty_string_if_all_are_null_or_whitespace()
+    {
+        var values = new[]
+        {
+            "",
+            " ",
+            null,
+        };
+
+        Assert.Equal(string.Empty, TextHelpers.GetFirstNotEmptyOrDefault(values));
+    }
+
+    [Fact]
+    public void GetFirstNotEmptyOrDefault_returns_empty_string_if_no_values()
+    {
+        var values = Array.Empty<string>();
+
+        Assert.Equal(string.Empty, TextHelpers.GetFirstNotEmptyOrDefault(values));
     }
 
     public class TestObject
