@@ -44,34 +44,6 @@ public static class SecurityApplicationBuilderExtensions
         return app.UseMiddleware<CspMiddleware>(builder);
     }
 
-    // Remove obsolete code in next major version
-#if NET8_0
-#pragma warning disable S1133
-#endif
-
-    /// <summary>
-    /// Set an X-Frame-Options header on the HTTP response. Allows or denies this page from being shown in an
-    /// x-frame, i-frame, embed, or object tag. Eventually Content Security Policy's frame-ancestors will obsolete this.
-    /// </summary>
-    /// <param name="app">This IApplicationBuilder</param>
-    /// <param name="builder">A callback to configure header options.</param>
-    /// <returns>The ApplicationBuilder for chaining.</returns>
-    [Obsolete("X-Frame-Options is an obsolete header. Use CSP's frame-ancestors instead.")]
-    public static IApplicationBuilder UseXFrameOptions(this IApplicationBuilder app, Action<XFrameOptionsOptionsBuilder> builder)
-    {
-        builder.EnsureNotNull();
-
-        var newBuilder = new XFrameOptionsOptionsBuilder();
-        builder(newBuilder);
-        var options = newBuilder.Build();
-
-        return app.UseMiddleware<XFrameOptionsMiddleware>(options);
-    }
-
-#if NET8_0
-#pragma warning restore S1133
-#endif
-
     /// <summary>
     /// Set an X-Content-Type-Options header to nosniff on the HTTP response. Prevents browsers from sniffing MIME types and trying execute
     /// content that should not be executable. This can prevent XSS in some browsers from malicious user-uploaded files such as images.
