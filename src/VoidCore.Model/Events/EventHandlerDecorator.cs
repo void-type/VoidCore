@@ -14,9 +14,9 @@ namespace VoidCore.Model.Events;
 public class EventHandlerDecorator<TRequest, TResponse> : IDecoratableEventHandler<TRequest, TResponse>
 {
     private readonly EventHandlerAbstract<TRequest, TResponse> _innerEvent;
-    private readonly List<IPostProcessor<TRequest, TResponse>> _postProcessors = new();
-    private readonly List<IRequestLogger<TRequest>> _requestLoggers = new();
-    private readonly List<IRequestValidator<TRequest>> _requestValidators = new();
+    private readonly List<IPostProcessor<TRequest, TResponse>> _postProcessors = [];
+    private readonly List<IRequestLogger<TRequest>> _requestLoggers = [];
+    private readonly List<IRequestValidator<TRequest>> _requestValidators = [];
 
     /// <summary>
     /// Create a new Decorated Domain Event handler

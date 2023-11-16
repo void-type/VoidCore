@@ -115,10 +115,13 @@ csharp_style_throw_expression = true:suggestion
 csharp_style_conditional_delegate_call = true:suggestion
 
 # File-scoped namespace declarations
-csharp_style_namespace_declarations=file_scoped:warning
+csharp_style_namespace_declarations = file_scoped:warning
 
 # Code block preferences
 csharp_prefer_braces = true:warning
+
+# Don't prefer primary constructors
+csharp_style_prefer_primary_constructors = false
 
 ## Formatting conventions
 # Dotnet formatting settings:
@@ -270,8 +273,6 @@ dotnet_diagnostic.SCS0012.severity = none
 dotnet_diagnostic.SCS0016.severity = none
 # We don't need ConfigureAwait(false)
 dotnet_diagnostic.RCS1090.severity = none
-# Empty classes
-dotnet_diagnostic.S2094.severity = none
 
 # Javascript and Vue
 [*.{js,jsx,ts,tsx,vue}]

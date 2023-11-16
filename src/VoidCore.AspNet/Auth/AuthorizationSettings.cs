@@ -10,5 +10,5 @@ public class AuthorizationSettings
     /// <summary>
     /// Policies represented as a key of policyName and names of allowed roles.
     /// </summary>
-    public Dictionary<string, List<string>> Policies { get; init; } = new();
+    public Dictionary<string, List<string>> Policies { get; init; } = [];
 }

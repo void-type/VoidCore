@@ -29,23 +29,23 @@ public partial class ProgApprovalWorkflow : ProgrammaticWorkflow<ProgApprovalWor
             .AddTransition(State.Approved, Command.Expire, State.Expired))
     { }
 
-    public struct State
+    public readonly struct State
     {
-        public static readonly ProgApprovalWorkflowState NotStarted = new ProgApprovalWorkflowState("NotStarted");
-        public static readonly ProgApprovalWorkflowState ApprovalRequested = new ProgApprovalWorkflowState("ApprovalRequested");
-        public static readonly ProgApprovalWorkflowState Approved = new ProgApprovalWorkflowState("Approved");
-        public static readonly ProgApprovalWorkflowState Cancelled = new ProgApprovalWorkflowState("Cancelled");
-        public static readonly ProgApprovalWorkflowState Revoked = new ProgApprovalWorkflowState("Revoked");
-        public static readonly ProgApprovalWorkflowState Expired = new ProgApprovalWorkflowState("Expired");
+        public static readonly ProgApprovalWorkflowState NotStarted = new("NotStarted");
+        public static readonly ProgApprovalWorkflowState ApprovalRequested = new("ApprovalRequested");
+        public static readonly ProgApprovalWorkflowState Approved = new("Approved");
+        public static readonly ProgApprovalWorkflowState Cancelled = new("Cancelled");
+        public static readonly ProgApprovalWorkflowState Revoked = new("Revoked");
+        public static readonly ProgApprovalWorkflowState Expired = new("Expired");
     }
 
-    public struct Command
+    public readonly struct Command
     {
-        public static readonly ProgApprovalWorkflowCommand Start = new ProgApprovalWorkflowCommand("Start");
-        public static readonly ProgApprovalWorkflowCommand Approve = new ProgApprovalWorkflowCommand("Approve");
-        public static readonly ProgApprovalWorkflowCommand Reject = new ProgApprovalWorkflowCommand("Reject");
-        public static readonly ProgApprovalWorkflowCommand Cancel = new ProgApprovalWorkflowCommand("Cancel");
-        public static readonly ProgApprovalWorkflowCommand Revoke = new ProgApprovalWorkflowCommand("Revoke");
-        public static readonly ProgApprovalWorkflowCommand Expire = new ProgApprovalWorkflowCommand("Expire");
+        public static readonly ProgApprovalWorkflowCommand Start = new("Start");
+        public static readonly ProgApprovalWorkflowCommand Approve = new("Approve");
+        public static readonly ProgApprovalWorkflowCommand Reject = new("Reject");
+        public static readonly ProgApprovalWorkflowCommand Cancel = new("Cancel");
+        public static readonly ProgApprovalWorkflowCommand Revoke = new("Revoke");
+        public static readonly ProgApprovalWorkflowCommand Expire = new("Expire");
     }
 }

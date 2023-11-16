@@ -27,7 +27,7 @@ public class RepositoryDecoratorAbstractTests
     [Fact]
     public async Task RepositoryDecoratorAbstract_adds_entities()
     {
-        var entities = new List<TestEntity>() { new TestEntity() };
+        var entities = new List<TestEntity>() { new() };
 
         var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
         repoMock.AddRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
@@ -57,7 +57,7 @@ public class RepositoryDecoratorAbstractTests
     [Fact]
     public async Task RepositoryDecoratorAbstract_updates_entities()
     {
-        var entities = new List<TestEntity>() { new TestEntity() };
+        var entities = new List<TestEntity>() { new() };
 
         var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
         repoMock.UpdateRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
@@ -87,7 +87,7 @@ public class RepositoryDecoratorAbstractTests
     [Fact]
     public async Task RepositoryDecoratorAbstract_removes_entities()
     {
-        var entities = new List<TestEntity>() { new TestEntity() };
+        var entities = new List<TestEntity>() { new() };
 
         var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
         repoMock.RemoveRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);

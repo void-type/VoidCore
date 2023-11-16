@@ -189,7 +189,7 @@ public class RuleValidatorTests
     {
         var result = new Entity(string.Empty)
         {
-            CollectionProperty = new List<string> { "item1" }
+            CollectionProperty = ["item1"]
         }
             .Validate(validator =>
             {
@@ -202,7 +202,7 @@ public class RuleValidatorTests
 
         result = new Entity(string.Empty)
         {
-            CollectionProperty = new List<string> { }
+            CollectionProperty = []
         }
             .Validate(validator =>
             {
@@ -232,7 +232,7 @@ public class RuleValidatorTests
     {
         var result = new Entity(string.Empty)
         {
-            CollectionProperty = new List<string> { "item1" }
+            CollectionProperty = ["item1"]
         }
             .Validate(validator =>
             {

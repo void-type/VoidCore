@@ -5,15 +5,18 @@ namespace VoidCore.Model.Text;
 
 public static partial class TextHelpers
 {
+    private static readonly string[] _lineSeparator = ["\n", "\r\n"];
+
     /// <summary>
     /// Split a string on any newline character.
     /// </summary>
     /// <param name="str">The string to split</param>
+    /// <returns>Lines from the string</returns>
     public static string[] SplitOnNewLine(this string str)
     {
         return str
             .EnsureNotNull()
-            .Split(new[] { "\n", "\r\n" }, StringSplitOptions.None);
+            .Split(_lineSeparator, StringSplitOptions.None);
     }
 
     /// <summary>

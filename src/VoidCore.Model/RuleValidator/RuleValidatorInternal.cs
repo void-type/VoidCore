@@ -12,7 +12,7 @@ namespace VoidCore.Model.RuleValidator;
 /// <typeparam name="T">The type of entities to validate</typeparam>
 public class RuleValidatorInternal<T> : IRequestValidator<T>
 {
-    private readonly List<RuleBuilder<T>> _ruleBuilders = new();
+    private readonly List<RuleBuilder<T>> _ruleBuilders = [];
 
     internal RuleValidatorInternal()
     {

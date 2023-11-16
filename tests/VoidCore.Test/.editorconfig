@@ -1,0 +1,8 @@
+# Schema: http://EditorConfig.org
+# Docs: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference
+# Adapted from: https://github.com/dotnet/efcore/blob/master/.editorconfig
+
+[*.{cs,vb}]
+
+# Extracting constant arrays out methods makes tests harder to read and less contained
+dotnet_diagnostic.CA1861.severity = none

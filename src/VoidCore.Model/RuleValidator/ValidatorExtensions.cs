@@ -12,7 +12,7 @@ namespace VoidCore.Model.RuleValidator;
 public static class ValidatorExtensions
 {
     /// <summary>
-    /// Run a validator against against the request.
+    /// Run a validator against the request.
     /// </summary>
     /// <typeparam name="T">The type of entities to validate</typeparam>
     /// <param name="request">The entity to validate</param>
@@ -74,7 +74,7 @@ public static class ValidatorExtensions
         {
             var collection = selector(x);
 
-            return collection is null || !collection.Any();
+            return collection?.Any() != true;
         });
 
         return ruleBuilder;

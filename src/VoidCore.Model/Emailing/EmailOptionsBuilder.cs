@@ -11,8 +11,8 @@ public sealed class EmailOptionsBuilder
     internal EmailOptionsBuilder() { }
 
     private string _subject = string.Empty;
-    private readonly List<string> _messageLines = new();
-    private readonly List<string> _recipients = new();
+    private readonly List<string> _messageLines = [];
+    private readonly List<string> _recipients = [];
 
     /// <summary>
     /// Set the subject of the email. Will override any previously set subjects.

@@ -56,12 +56,12 @@ public class ListRecipes
 
             if (!string.IsNullOrWhiteSpace(request.NameSearch))
             {
-                searchCriteria.Add(recipe => recipe.Name.ToLower().Contains(request.NameSearch.ToLower()));
+                searchCriteria.Add(recipe => recipe.Name.Contains(request.NameSearch, StringComparison.CurrentCultureIgnoreCase));
             }
 
             if (!string.IsNullOrWhiteSpace(request.CategorySearch))
             {
-                searchCriteria.Add(recipe => recipe.CategoryRecipe.Any(cr => cr.Category.Name.ToLower().Contains(request.CategorySearch.ToLower())));
+                searchCriteria.Add(recipe => recipe.CategoryRecipe.Any(cr => cr.Category.Name.Contains(request.CategorySearch, StringComparison.CurrentCultureIgnoreCase)));
             }
 
             return searchCriteria.ToArray();

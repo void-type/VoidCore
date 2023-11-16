@@ -42,7 +42,7 @@ public class AuditableRepositoryDecoratorTests
     [Fact]
     public async Task Add_entities_sets_auditable_created_and_updated_properties()
     {
-        var entities = new List<TestEntity>() { new TestEntity() };
+        var entities = new List<TestEntity>() { new() };
 
         var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
         repoMock.AddRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
@@ -96,7 +96,7 @@ public class AuditableRepositoryDecoratorTests
     [Fact]
     public async Task Update_entities_sets_auditable_updated_properties()
     {
-        var entities = new List<TestEntity>() { new TestEntity() };
+        var entities = new List<TestEntity>() { new() };
 
         var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
         repoMock.UpdateRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);

@@ -44,7 +44,7 @@ public class SoftDeletableRepositoryDecorator
     [Fact]
     public async Task Soft_delete_entities_sets_DeletedOn_and_IsDeleted()
     {
-        var entities = new List<TestEntity>() { new TestEntity() };
+        var entities = new List<TestEntity>() { new() };
 
         var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
         repoMock.Remove(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);

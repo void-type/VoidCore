@@ -12,7 +12,7 @@ public class WorkflowOptionsBuilder<TState, TCommand>
 {
     internal WorkflowOptionsBuilder() { }
 
-    private readonly HashSet<WorkflowTransition<TState, TCommand>> _transitions = new();
+    private readonly HashSet<WorkflowTransition<TState, TCommand>> _transitions = [];
 
     /// <summary>
     /// Add an allowed transition between states.

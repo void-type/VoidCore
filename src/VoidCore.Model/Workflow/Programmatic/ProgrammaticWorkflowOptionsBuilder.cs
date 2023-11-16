@@ -10,7 +10,7 @@ public class ProgrammaticWorkflowOptionsBuilder<TState, TCommand>
 {
     internal ProgrammaticWorkflowOptionsBuilder() { }
 
-    private readonly HashSet<ProgrammaticWorkflowTransition<TState, TCommand>> _transitions = new();
+    private readonly HashSet<ProgrammaticWorkflowTransition<TState, TCommand>> _transitions = [];
 
     /// <summary>
     /// Add an allowed transition between states.

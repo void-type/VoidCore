@@ -228,7 +228,7 @@ public class EfRepositoryTests
         var data = context.Seed().FoodStuffsData();
 
         var result = await new SaveRecipe.Handler(data)
-            .Handle(new SaveRecipe.Request(0, "New", "New", "New", null, 20, new[] { "Category2", "Category3", "Category4" }));
+            .Handle(new SaveRecipe.Request(0, "New", "New", "New", null, 20, ["Category2", "Category3", "Category4"]));
 
         Assert.True(result.IsSuccess);
         Assert.True(result.Value.Id > 0);
@@ -253,7 +253,7 @@ public class EfRepositoryTests
         var existingRecipeId = (await data.Recipes.ListAll(default))[0].Id;
 
         var result = await new SaveRecipe.Handler(data)
-            .Handle(new SaveRecipe.Request(existingRecipeId, "New", "New", "New", null, 20, new[] { "Category2", "Category3", "Category4" }));
+            .Handle(new SaveRecipe.Request(existingRecipeId, "New", "New", "New", null, 20, ["Category2", "Category3", "Category4"]));
 
         Assert.True(result.IsSuccess);
         Assert.Equal(existingRecipeId, result.Value.Id);

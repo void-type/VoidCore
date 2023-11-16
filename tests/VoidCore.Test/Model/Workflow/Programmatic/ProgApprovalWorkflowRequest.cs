@@ -11,7 +11,7 @@ public class ProgApprovalWorkflowRequest
     public decimal Cost { get; set; }
     public string RequesterName { get; set; }
     public ProgApprovalWorkflowState State { get; set; } = ProgApprovalWorkflow.State.NotStarted;
-    public List<Approval> Approvals { get; set; } = new List<Approval>();
+    public List<Approval> Approvals { get; set; } = [];
     public Revoke Revoke { get; set; }
     public int ApprovalLevelsNeeded { get; set; }
     public bool ApprovalsMet => Approvals.Count >= ApprovalLevelsNeeded;

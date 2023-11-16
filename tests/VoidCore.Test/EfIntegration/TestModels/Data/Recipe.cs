@@ -6,7 +6,7 @@ namespace VoidCore.Test.EfIntegration.TestModels.Data;
 
 public class Recipe : IAuditable, ISoftDeletable
 {
-    public List<CategoryRecipe> CategoryRecipe { get; set; } = new List<CategoryRecipe>();
+    public List<CategoryRecipe> CategoryRecipe { get; set; } = [];
     public int? CookTimeMinutes { get; set; }
     public string Directions { get; set; }
     public int Id { get; set; }

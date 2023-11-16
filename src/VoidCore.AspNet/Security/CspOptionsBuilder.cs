@@ -12,7 +12,7 @@ namespace VoidCore.AspNet.Security;
 /// </summary>
 public sealed class CspOptionsBuilder
 {
-    private readonly List<CspDirectiveBuilder> _directiveBuilders = new();
+    private readonly List<CspDirectiveBuilder> _directiveBuilders = [];
     private readonly string _nonce;
     private bool _isReportOnly;
 

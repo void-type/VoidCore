@@ -54,7 +54,7 @@ public static class SecurityApplicationBuilderExtensions
     {
         return app.Use((context, next) =>
         {
-            context.Response.Headers.Append("X-Content-Type-Options", new[] { "nosniff" });
+            context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
             return next();
         });
     }

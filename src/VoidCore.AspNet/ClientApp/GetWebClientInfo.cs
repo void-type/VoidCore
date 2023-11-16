@@ -56,10 +56,12 @@ public static class GetWebClientInfo
         }
     }
 
+#pragma warning disable S2094
     /// <summary>
     /// Request for GetWebClientInfo handler
     /// </summary>
     public class Request { }
+#pragma warning restore S2094
 
     /// <summary>
     /// Information for bootstrapping a web client.
