@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using VoidCore.Model.Functional;
+using VoidCore.Model.Responses.Collections;
 
 namespace VoidCore.Model.Data;
 
@@ -53,6 +54,12 @@ public abstract class RepositoryDecoratorAbstract<T> : IWritableRepository<T> wh
     public virtual Task<IReadOnlyList<T>> List(IQuerySpecification<T> specification, CancellationToken cancellationToken)
     {
         return InnerRepository.List(specification, cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public virtual Task<IItemSet<T>> ListPage(IQuerySpecification<T> specification, CancellationToken cancellationToken)
+    {
+        return InnerRepository.ListPage(specification, cancellationToken);
     }
 
     /// <inheritdoc/>

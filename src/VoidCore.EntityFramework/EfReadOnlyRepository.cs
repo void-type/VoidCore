@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using VoidCore.Model.Data;
 using VoidCore.Model.Functional;
+using VoidCore.Model.Responses.Collections;
 using VoidCore.Model.Text;
 
 namespace VoidCore.EntityFramework;
@@ -61,6 +62,23 @@ public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
             .ApplyEfSpecification(specification)
             .ToListAsync(cancellationToken)
             .ConfigureAwait(false);
+    }
+
+    /// <inheritdoc/>
+    public virtual async Task<IItemSet<T>> ListPage(IQuerySpecification<T> specification, CancellationToken cancellationToken)
+    {
+        var totalCount = await GetBaseQuery()
+            .TagWith(GetTag(specification))
+            .ApplyEfSpecification(specification, true)
+            .CountAsync(cancellationToken);
+
+        var items = await GetBaseQuery()
+            .TagWith(GetTag(specification))
+            .ApplyEfSpecification(specification)
+            .ToListAsync(cancellationToken)
+            .ConfigureAwait(false);
+
+        return items.ToItemSet(specification.PaginationOptions, totalCount);
     }
 
     /// <inheritdoc/>

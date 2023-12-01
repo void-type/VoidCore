@@ -39,7 +39,7 @@ public abstract class QuerySpecificationAbstract<T> : IQuerySpecification<T>
     public PaginationOptions PaginationOptions { get; private set; } = PaginationOptions.None;
 
     /// <summary>
-    /// Add criteria that will be used everytime this specification is used.
+    /// Add criteria that will be used every time this specification is used.
     /// </summary>
     /// <param name="criteria">The filtering criteria</param>
     protected void AddCriteria(params Expression<Func<T, bool>>[] criteria)

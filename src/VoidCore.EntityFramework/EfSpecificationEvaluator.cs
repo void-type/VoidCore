@@ -15,17 +15,23 @@ public static class EfSpecificationEvaluator
     /// </summary>
     /// <param name="inputQuery">The input query</param>
     /// <param name="specification">The specification to evaluate</param>
+    /// <param name="countAll">Ignore pagination, include, and sort options for counting</param>
     /// <typeparam name="T">The type of entity to query</typeparam>
     /// <returns>The final query</returns>
-    public static IQueryable<T> ApplyEfSpecification<T>(this IQueryable<T> inputQuery, IQuerySpecification<T> specification) where T : class
+    public static IQueryable<T> ApplyEfSpecification<T>(this IQueryable<T> inputQuery, IQuerySpecification<T> specification, bool countAll = false) where T : class
     {
         var query = inputQuery;
+
+        query = specification.Criteria.Aggregate(query, (current, criteria) => current.Where(criteria));
+
+        if (countAll)
+        {
+            return query.GetPage(PaginationOptions.None);
+        }
 
         query = specification.Includes.Aggregate(query, (current, include) => current.Include(include));
 
         query = specification.IncludeStrings.Aggregate(query, (current, include) => current.Include(include));
-
-        query = specification.Criteria.Aggregate(query, (current, criteria) => current.Where(criteria));
 
         if (specification.Orderings.Count > 0)
         {
@@ -47,8 +53,6 @@ public static class EfSpecificationEvaluator
             query = orderedQuery;
         }
 
-        var paginationOptions = specification.PaginationOptions;
-
-        return query.GetPage(paginationOptions);
+        return query.GetPage(specification.PaginationOptions);
     }
 }

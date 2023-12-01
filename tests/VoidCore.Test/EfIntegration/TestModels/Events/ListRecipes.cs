@@ -27,26 +27,21 @@ public class ListRecipes
         {
             var paginationOptions = request.GetPaginationOptions();
 
-            var searchCriteria = GetSearchCriteria(request);
-
-            var allSearch = new RecipesSearchSpecification(searchCriteria);
-
-            var totalCount = await _data.Recipes.Count(allSearch, cancellationToken);
-
             var pagedSearch = new RecipesSearchSpecification(
-                criteria: searchCriteria,
+                criteria: GetSearchCriteria(request),
                 paginationOptions: paginationOptions,
                 sort: request.Sort,
                 sortDesc: request.SortDesc);
 
-            var recipes = await _data.Recipes.List(pagedSearch, cancellationToken);
+            var recipes = await _data.Recipes.ListPage(pagedSearch, cancellationToken);
 
             return recipes
+                .Items
                 .Select(recipe => new RecipeListItemDto(
                     id: recipe.Id,
                     name: recipe.Name,
                     categories: recipe.CategoryRecipe.Select(cr => cr.Category.Name)))
-                .ToItemSet(paginationOptions, totalCount)
+                .ToItemSet(paginationOptions, recipes.TotalCount)
                 .Map(Ok);
         }
 

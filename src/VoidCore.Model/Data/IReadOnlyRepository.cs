@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using VoidCore.Model.Functional;
+using VoidCore.Model.Responses.Collections;
 
 namespace VoidCore.Model.Data;
 
@@ -31,6 +32,13 @@ public interface IReadOnlyRepository<T> where T : class
     /// <param name="specification">The specification that describes entities to get</param>
     /// <param name="cancellationToken">The cancellation token to cancel the task</param>
     Task<IReadOnlyList<T>> List(IQuerySpecification<T> specification, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Get a page from the list of all entities that match a specification.
+    /// </summary>
+    /// <param name="specification">The specification that describes entities to get</param>
+    /// <param name="cancellationToken">The cancellation token to cancel the task</param>
+    Task<IItemSet<T>> ListPage(IQuerySpecification<T> specification, CancellationToken cancellationToken);
 
     /// <summary>
     /// List all entities in the repository.
