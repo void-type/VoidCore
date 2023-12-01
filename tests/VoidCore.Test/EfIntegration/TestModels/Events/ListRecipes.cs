@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using VoidCore.Model.Events;
 using VoidCore.Model.Functional;
 using VoidCore.Model.Responses.Collections;
+using VoidCore.Model.Text;
 using VoidCore.Test.EfIntegration.TestModels.Data;
 
 namespace VoidCore.Test.EfIntegration.TestModels.Events;
@@ -25,36 +26,31 @@ public class ListRecipes
 
         public override async Task<IResult<IItemSet<RecipeListItemDto>>> Handle(Request request, CancellationToken cancellationToken = default)
         {
-            var paginationOptions = request.GetPaginationOptions();
-
             var pagedSearch = new RecipesSearchSpecification(
                 criteria: GetSearchCriteria(request),
-                paginationOptions: paginationOptions,
+                paginationOptions: request.GetPaginationOptions(),
                 sort: request.Sort,
                 sortDesc: request.SortDesc);
 
-            var recipes = await _data.Recipes.ListPage(pagedSearch, cancellationToken);
-
-            return recipes
-                .Items
-                .Select(recipe => new RecipeListItemDto(
-                    id: recipe.Id,
-                    name: recipe.Name,
-                    categories: recipe.CategoryRecipe.Select(cr => cr.Category.Name)))
-                .ToItemSet(paginationOptions, recipes.TotalCount)
-                .Map(Ok);
+            return await _data.Recipes
+                 .ListPage(pagedSearch, cancellationToken)
+                 .SelectAsync(recipe => new RecipeListItemDto(
+                     id: recipe.Id,
+                     name: recipe.Name,
+                     categories: recipe.CategoryRecipe.Select(cr => cr.Category.Name)))
+                 .MapAsync(Ok);
         }
 
         private static Expression<Func<Recipe, bool>>[] GetSearchCriteria(Request request)
         {
             var searchCriteria = new List<Expression<Func<Recipe, bool>>>();
 
-            if (!string.IsNullOrWhiteSpace(request.NameSearch))
+            if (!request.NameSearch.IsNullOrWhiteSpace())
             {
                 searchCriteria.Add(recipe => recipe.Name.Contains(request.NameSearch, StringComparison.CurrentCultureIgnoreCase));
             }
 
-            if (!string.IsNullOrWhiteSpace(request.CategorySearch))
+            if (!request.CategorySearch.IsNullOrWhiteSpace())
             {
                 searchCriteria.Add(recipe => recipe.CategoryRecipe.Any(cr => cr.Category.Name.Contains(request.CategorySearch, StringComparison.CurrentCultureIgnoreCase)));
             }
