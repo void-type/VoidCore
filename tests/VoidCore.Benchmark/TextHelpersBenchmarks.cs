@@ -1,5 +1,4 @@
-using BenchmarkDotNet.Attributes;
-using System.Linq;
+﻿using BenchmarkDotNet.Attributes;
 using VoidCore.Model.Text;
 
 namespace VoidCore.Benchmark;
