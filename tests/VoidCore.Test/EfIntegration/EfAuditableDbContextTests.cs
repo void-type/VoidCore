@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using VoidCore.Model.Data;
 using VoidCore.Test.EfIntegration.TestModels;
 using VoidCore.Test.EfIntegration.TestModels.Data;
 using Xunit;
@@ -81,15 +82,17 @@ public class EfAuditableDbContextTests
 
         var r = context.Recipe.First();
 
-        context.CategoryRecipe.RemoveRange(context.CategoryRecipe.Where(x => x.Recipe == r).ToList());
-        context.Recipe.Remove(r);
+        var toDelete = context.CategoryRecipe.Where(x => x.Recipe == r).ToList();
+
+        r.SetSoftDeleted(Deps.DateTimeServiceLate.Moment, Deps.CurrentUserAccessor.User.Login);
+
         await context.SaveChangesAsync();
 
         Assert.Equal("Void", r.CreatedBy);
-        Assert.Equal("Void", r.ModifiedBy);
+        Assert.Equal(Deps.CurrentUserAccessor.User.Login, r.ModifiedBy);
 
         Assert.Equal(Deps.DateTimeServiceEarly.Moment, r.CreatedOn);
-        Assert.Equal(Deps.DateTimeServiceEarly.Moment, r.ModifiedOn);
+        Assert.Equal(Deps.DateTimeServiceLate.Moment, r.ModifiedOn);
 
         Assert.Equal(Deps.CurrentUserAccessor.User.Login, r.DeletedBy);
         Assert.Equal(Deps.DateTimeServiceLate.Moment, r.DeletedOn);
@@ -103,15 +106,15 @@ public class EfAuditableDbContextTests
 
         var c = context.Category.First();
 
-        context.CategoryRecipe.RemoveRange(context.CategoryRecipe.Where(x => x.Category == c).ToList());
-        context.Remove(c);
+        c.SetSoftDeleted(Deps.DateTimeServiceLate.MomentWithOffset, Deps.CurrentUserAccessor.User.Login);
+
         await context.SaveChangesAsync();
 
         Assert.Equal("Void", c.CreatedBy);
-        Assert.Equal("Void", c.ModifiedBy);
+        Assert.Equal(Deps.CurrentUserAccessor.User.Login, c.ModifiedBy);
 
         Assert.Equal(Deps.DateTimeServiceEarly.MomentWithOffset, c.CreatedOn);
-        Assert.Equal(Deps.DateTimeServiceEarly.MomentWithOffset, c.ModifiedOn);
+        Assert.Equal(Deps.DateTimeServiceLate.MomentWithOffset, c.ModifiedOn);
 
         Assert.Equal(Deps.CurrentUserAccessor.User.Login, c.DeletedBy);
         Assert.Equal(Deps.DateTimeServiceLate.MomentWithOffset, c.DeletedOn);
