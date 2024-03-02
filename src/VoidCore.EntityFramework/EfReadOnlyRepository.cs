@@ -98,9 +98,9 @@ public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
     private string GetTag(IQuerySpecification<T>? specification = null, [CallerMemberName] string methodName = "unknown")
     {
         var specName = specification != null ?
-            specification.GetType().GetFriendlyTypeName() :
+            $"({specification.GetType().GetFriendlyTypeName()})" :
             string.Empty;
 
-        return $"EF query called from: {_repoTypeName}.{methodName}({specName})";
+        return $"EF query called from: {_repoTypeName}.{methodName}{specName}";
     }
 }
