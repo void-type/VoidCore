@@ -69,7 +69,7 @@ try {
         '-reports:./artifacts/testResults/*/coverage.cobertura.xml' `
         '-targetdir:./artifacts/testCoverage' `
         '-reporttypes:HtmlInline_AzurePipelines' `
-        '-filefilters:-*RegexGenerator.g.cs'
+        '-filefilters:-*.g.cs'
       Stop-OnError
     }
   }
