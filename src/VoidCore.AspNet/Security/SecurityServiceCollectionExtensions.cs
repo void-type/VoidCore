@@ -21,7 +21,7 @@ public static class SecurityServiceCollectionExtensions
     {
         services.AddControllersWithViews(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
 
-        services.AddAntiforgery(options => options.HeaderName = "X-Csrf-Token");
+        services.AddAntiforgery(options => options.HeaderName = SecurityConstants.AntiforgeryTokenHeaderName);
 
         if (!environment.IsDevelopment())
         {

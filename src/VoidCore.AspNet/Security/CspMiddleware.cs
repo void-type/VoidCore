@@ -13,7 +13,6 @@ public sealed class CspMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly Action<CspOptionsBuilder> _configure;
-    private readonly NonceGenerator _nonceGenerator;
 
     /// <summary>
     /// Construct a new CspMiddleware.
@@ -24,7 +23,6 @@ public sealed class CspMiddleware
     {
         _next = next;
         _configure = configure;
-        _nonceGenerator = new NonceGenerator();
     }
 
     /// <summary>
@@ -35,9 +33,7 @@ public sealed class CspMiddleware
     {
         context.EnsureNotNull();
 
-        var nonce = _nonceGenerator.GetNonce();
-
-        context.SetNonce(nonce);
+        var nonce = context.GetNonce();
 
         var builder = new CspOptionsBuilder(nonce);
         _configure(builder);
