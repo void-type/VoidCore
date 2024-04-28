@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using VoidCore.Model.Auth;
 using VoidCore.Model.Guards;
@@ -9,7 +10,7 @@ namespace VoidCore.AspNet.Logging;
 /// <summary>
 /// Log the current user's authorization.
 /// </summary>
-public sealed class CurrentUserLoggingMiddleware
+public partial class CurrentUserLoggingMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly ICurrentUserAccessor _currentUserAccessor;
@@ -36,10 +37,11 @@ public sealed class CurrentUserLoggingMiddleware
     {
         context.EnsureNotNull();
 
-        _logger.LogInformation("User {UserName} is authorized as {AuthorizedAs}.",
-            _currentUserAccessor.User.Login,
-            _currentUserAccessor.User.AuthorizedAs);
+        LogUser(_currentUserAccessor.User.Login, _currentUserAccessor.User.AuthorizedAs);
 
         return _next(context);
     }
+
+    [LoggerMessage(0, LogLevel.Information, "User {Login} is authorized as {AuthorizedAs}.")]
+    private partial void LogUser(string login, IEnumerable<string> authorizedAs);
 }

@@ -12,7 +12,7 @@ public class FinanceBenchmarks
     [Benchmark]
     public void PresentValue()
     {
-        for (int i = 0; i <= Iterations; i++)
+        for (var i = 0; i <= Iterations; i++)
         {
             Financial.PresentValue(0.035m, 362, 0, 482_000);
         }
@@ -21,7 +21,7 @@ public class FinanceBenchmarks
     [Benchmark]
     public void AmortizeLoan()
     {
-        for (int i = 0; i <= Iterations; i++)
+        for (var i = 0; i <= Iterations; i++)
         {
             // Calculate a typical 30 year mortgage
             var request = new AmortizationRequest(340000, 360, 0.045m / 12);

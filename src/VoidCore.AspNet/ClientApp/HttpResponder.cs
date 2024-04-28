@@ -89,17 +89,17 @@ public static class HttpResponder
         return new FileContentResult(file.Content.AsBytes, contentType ?? "application/octet-stream");
     }
 
-    private static IActionResult Fail(IResult result)
+    private static ObjectResult Fail(IResult result)
     {
         return new ObjectResult(result.Failures.ToItemSet()) { StatusCode = 400 };
     }
 
-    private static IActionResult Ok()
+    private static ObjectResult Ok()
     {
         return new ObjectResult(null) { StatusCode = 200 };
     }
 
-    private static IActionResult Ok(object result)
+    private static ObjectResult Ok(object result)
     {
         return new ObjectResult(result) { StatusCode = 200 };
     }

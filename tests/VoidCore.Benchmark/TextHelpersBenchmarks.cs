@@ -8,7 +8,7 @@ namespace VoidCore.Benchmark;
 public class TextHelpersBenchmarks
 {
     [Benchmark]
-    public void FirstNotNullOrWhiteSpace_Bench()
+    public static void FirstNotNullOrWhiteSpace_Bench()
     {
         var values = new[]
         {
@@ -44,11 +44,11 @@ public class TextHelpersBenchmarks
 
     public static string FirstNotNullOrWhiteSpace3(params string?[] values)
     {
-        for (int i = 0; i < values.Length; i++)
+        for (var i = 0; i < values.Length; i++)
         {
             if (!string.IsNullOrWhiteSpace(values[i]))
             {
-                return values[i];
+                return values[i]!;
             }
         }
 
@@ -56,7 +56,7 @@ public class TextHelpersBenchmarks
     }
 
     [Benchmark]
-    public void FirstNotNullOrWhiteSpace3_Bench()
+    public static void FirstNotNullOrWhiteSpace3_Bench()
     {
         var values = new[]
         {
@@ -72,7 +72,7 @@ public class TextHelpersBenchmarks
 
     public static string FirstNotNullOrWhiteSpace4(params string?[] values)
     {
-        for (int i = 0; i < values.Length; i++)
+        for (var i = 0; i < values.Length; i++)
         {
             var value = values[i];
 
@@ -86,7 +86,7 @@ public class TextHelpersBenchmarks
     }
 
     [Benchmark]
-    public void FirstNotNullOrWhiteSpace4_Bench()
+    public static void FirstNotNullOrWhiteSpace4_Bench()
     {
         var values = new[]
         {
