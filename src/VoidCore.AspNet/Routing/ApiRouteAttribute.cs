@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace VoidCore.AspNet.Routing;
 
@@ -8,13 +10,21 @@ namespace VoidCore.AspNet.Routing;
 public class ApiRouteAttribute : RouteAttribute
 {
     /// <summary>
+    /// The base path to all API endpoints.
+    /// </summary>
+    public const string BasePath = "/api";
+
+    /// <summary>
     /// Construct a new ApiRoute.
     /// </summary>
-    /// <param name="path">The endpoint route to be appended to the basepath. Typically the name of the REST entity</param>
+    /// <param name="path">The endpoint route to be appended to the BasePath. Typically the name of the REST entity</param>
     public ApiRouteAttribute(string path) : base($"{BasePath}/{path}") { }
 
     /// <summary>
-    /// The base path to all API endpoints.
+    /// Check if the request path starts with BasePath.
     /// </summary>
-    public static string BasePath => "/api";
+    public static bool IsApiRequest(HttpContext context)
+    {
+        return context.Request.Path.StartsWithSegments(BasePath, StringComparison.OrdinalIgnoreCase);
+    }
 }

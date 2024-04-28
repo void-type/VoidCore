@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Threading.Tasks;
 
 namespace VoidCore.AspNet.Routing;
 
@@ -12,47 +10,38 @@ namespace VoidCore.AspNet.Routing;
 public static class RoutingApplicationBuilderExtensions
 {
     /// <summary>
-    /// Setup exception pages for MVC view endpoints. Exceptions will redirect to /error. Forbidden requests will
-    /// redirect to /forbidden. API endpoints will not redirect, they will return appropriate status codes. In
-    /// development, all exceptions will return a debugging page. For API requests, you can see this page in the
-    /// browser's developer console.
+    /// Setup exception pages for MVC view endpoints.
+    /// Exceptions in development will show the Developer Exception Page.
+    /// Exceptions in non-development will redirect to /error/500.
+    /// Non-success status codes will redirect to /error/{statusCode}.
+    /// Note that API endpoint exceptions are handled in the ApiRouteExceptionFilterAttribute. API status codes are returned verbatim, even if empty.
     /// </summary>
     /// <param name="app">This IApplicationBuilder</param>
     /// <param name="environment">The hosting environment</param>
     /// <returns>The ApplicationBuilder for chaining.</returns>
     public static IApplicationBuilder UseSpaExceptionPage(this IApplicationBuilder app, IHostEnvironment environment)
     {
+        // Handle uncaught page exceptions.
         if (environment.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
         }
         else
         {
-            app.UseExceptionHandler("/error");
+            app.UseExceptionHandler("/error/500");
         }
 
-        app.UseStatusCodePages(context =>
-        {
-            var response = context.HttpContext.Response;
-
-            var isForbidden = response.StatusCode == StatusCodes.Status403Forbidden;
-
-            var isApiRequest = context.HttpContext.Request.Path
-                .StartsWithSegments(ApiRouteAttribute.BasePath, StringComparison.OrdinalIgnoreCase);
-
-            if (isForbidden && !isApiRequest)
-            {
-                response.Redirect("/forbidden");
-            }
-
-            return Task.CompletedTask;
-        });
+        // Handle page non-success status codes with empty bodies. Ignore API requests.
+        app.UseWhen(
+            context => !ApiRouteAttribute.IsApiRequest(context),
+            (appBuilder) => appBuilder.UseStatusCodePagesWithReExecute("/error/{0}")
+        );
 
         return app;
     }
 
     /// <summary>
-    /// Map all SPA endpoint controllers and add a fallback route to "/" for unmatched requests.
+    /// Map all SPA endpoint controllers and add a fallback route to HomeController.Index for unmatched requests.
     /// </summary>
     /// <param name="app">This IApplicationBuilder</param>
     /// <returns>The ApplicationBuilder for chaining.</returns>

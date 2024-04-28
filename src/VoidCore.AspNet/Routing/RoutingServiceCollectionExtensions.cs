@@ -9,16 +9,14 @@ namespace VoidCore.AspNet.Routing;
 public static class RoutingServiceCollectionExtensions
 {
     /// <summary>
-    /// Add a global filter for handling uncaught API exceptions.
+    /// Registers <see cref="ApiRouteExceptionFilterAttribute"/> globally.
     /// </summary>
     /// <param name="services">The services collection</param>
     public static void AddApiExceptionFilter(this IServiceCollection services)
     {
-        static void Config(MvcOptions options)
+        services.AddControllers(options =>
         {
             options.Filters.Add(new TypeFilterAttribute(typeof(ApiRouteExceptionFilterAttribute)));
-        }
-
-        services.AddControllers(Config);
+        });
     }
 }
