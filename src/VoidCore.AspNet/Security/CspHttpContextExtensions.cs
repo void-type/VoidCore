@@ -13,7 +13,7 @@ public static class CspHttpContextExtensions
     private const string NonceKey = "VoidCore_CSP_Nonce";
 
     /// <summary>
-    /// Get the nonce from the HttpContext.
+    /// Get the nonce from the HttpContext. Sets the nonce if one hasn't been set yet.
     /// </summary>
     /// <param name="context">The context</param>
     public static string GetNonce(this HttpContext context)
@@ -29,7 +29,7 @@ public static class CspHttpContextExtensions
     }
 
     /// <summary>
-    /// Get a new Nonce
+    /// Utility method to generate a new random nonce.
     /// </summary>
     public static string GenerateNonce()
     {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
+using VoidCore.Model.Text;
 
 namespace VoidCore.AspNet.Routing;
 
@@ -58,11 +59,12 @@ public static class RoutingApplicationBuilderExtensions
     /// If AlwaysOn user agent is detected, we will return a simple response.
     /// </summary>
     /// <param name="app">The app for method chaining</param>
-    public static IApplicationBuilder UseAlwaysOnShortCircuit(this IApplicationBuilder app)
+    /// <param name="userAgent">The UserAgent name to short circuit requests from.</param>
+    public static IApplicationBuilder UseAlwaysOnShortCircuit(this IApplicationBuilder app, string userAgent = "AlwaysOn")
     {
         return app.Use(async (context, next) =>
         {
-            if (context.Request.Headers.UserAgent == "AlwaysOn")
+            if (context.Request.Headers.UserAgent.ToString().EqualsIgnoreCase(userAgent))
             {
                 await context.Response.WriteAsync("Awake");
                 return;
