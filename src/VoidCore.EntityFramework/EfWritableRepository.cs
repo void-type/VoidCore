@@ -20,7 +20,7 @@ public class EfWritableRepository<T> : EfReadOnlyRepository<T>, IWritableReposit
     /// <inheritdoc/>
     public virtual async Task<T> Add(T entity, CancellationToken cancellationToken)
     {
-        Context.Set<T>().Add(entity);
+        await Context.Set<T>().AddAsync(entity, cancellationToken);
 
         await Context.SaveChangesAsync(cancellationToken)
             .ConfigureAwait(false);
