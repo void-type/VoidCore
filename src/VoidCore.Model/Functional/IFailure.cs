@@ -16,4 +16,10 @@ public interface IFailure
     /// </summary>
     /// <value>The name of the field</value>
     string? UiHandle { get; }
+
+    /// <summary>
+    /// A A code name or identifier for the error for programmatic error discrimination.
+    /// </summary>
+    /// <value>The error code</value>
+    string? Code { get; }
 }

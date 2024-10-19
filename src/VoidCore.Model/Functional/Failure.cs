@@ -8,10 +8,12 @@ public class Failure : IFailure
     /// </summary>
     /// <param name="errorMessage">UI friendly error message</param>
     /// <param name="uiHandle">The entity property name that is in error. Can be mapped to a field on the view</param>
-    public Failure(string errorMessage, string? uiHandle = null)
+    /// <param name="code">A code name or identifier for the error. Can be used for discrimination.</param>
+    public Failure(string errorMessage, string? uiHandle = null, string? code = null)
     {
         Message = errorMessage;
         UiHandle = uiHandle;
+        Code = code;
     }
 
     /// <inheritdoc/>
@@ -19,4 +21,7 @@ public class Failure : IFailure
 
     /// <inheritdoc/>
     public string? UiHandle { get; }
+
+    /// <inheritdoc/>
+    public string? Code { get; }
 }
