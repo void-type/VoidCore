@@ -5,11 +5,11 @@ try {
   Set-Location -Path $projectRoot
   . ./build/buildSettings.ps1
 
-  ./build/updateTools.ps1
+  dotnet tool update --all
   dotnet outdated -u
 
   if ($LASTEXITCODE -ne 0) {
-    Write-Warning "You need to update the Directory.build.props files by hand to update the following packages."
+    Write-Warning 'You need to update the Directory.build.props files by hand to update the following packages.'
     dotnet outdated
   }
 
