@@ -31,7 +31,7 @@ public abstract class EventHandlerAbstract<TRequest, TResponse> : IDecoratableEv
     }
 
     /// <inheritdoc/>
-    public abstract Task<IResult<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default);
+    public abstract Task<IResult<TResponse>> HandleAsync(TRequest request, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new successful result for the event.

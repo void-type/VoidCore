@@ -27,68 +27,68 @@ public abstract class RepositoryDecoratorAbstract<T> : IWritableRepository<T> wh
     }
 
     /// <inheritdoc/>
-    public virtual Task<T> Add(T entity, CancellationToken cancellationToken)
+    public virtual async Task<T> AddAsync(T entity, CancellationToken cancellationToken)
     {
-        return InnerRepository.Add(entity, cancellationToken);
+        return await InnerRepository.AddAsync(entity, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public virtual Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+    public virtual async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken)
     {
-        return InnerRepository.AddRange(entities, cancellationToken);
+        await InnerRepository.AddRangeAsync(entities, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public virtual Task<int> Count(IQuerySpecification<T> specification, CancellationToken cancellationToken)
+    public virtual async Task<int> CountAsync(IQuerySpecification<T> specification, CancellationToken cancellationToken)
     {
-        return InnerRepository.Count(specification, cancellationToken);
+        return await InnerRepository.CountAsync(specification, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public virtual Task<Maybe<T>> Get(IQuerySpecification<T> specification, CancellationToken cancellationToken)
+    public virtual async Task<Maybe<T>> GetAsync(IQuerySpecification<T> specification, CancellationToken cancellationToken)
     {
-        return InnerRepository.Get(specification, cancellationToken);
+        return await InnerRepository.GetAsync(specification, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public virtual Task<IReadOnlyList<T>> List(IQuerySpecification<T> specification, CancellationToken cancellationToken)
+    public virtual async Task<IReadOnlyList<T>> ListAsync(IQuerySpecification<T> specification, CancellationToken cancellationToken)
     {
-        return InnerRepository.List(specification, cancellationToken);
+        return await InnerRepository.ListAsync(specification, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public virtual Task<IItemSet<T>> ListPage(IQuerySpecification<T> specification, CancellationToken cancellationToken)
+    public virtual async Task<IItemSet<T>> ListPageAsync(IQuerySpecification<T> specification, CancellationToken cancellationToken)
     {
-        return InnerRepository.ListPage(specification, cancellationToken);
+        return await InnerRepository.ListPageAsync(specification, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public virtual Task<IReadOnlyList<T>> ListAll(CancellationToken cancellationToken)
+    public virtual async Task<IReadOnlyList<T>> ListAllAsync(CancellationToken cancellationToken)
     {
-        return InnerRepository.ListAll(cancellationToken);
+        return await InnerRepository.ListAllAsync(cancellationToken);
     }
 
     /// <inheritdoc/>
-    public virtual Task Remove(T entity, CancellationToken cancellationToken)
+    public virtual async Task RemoveAsync(T entity, CancellationToken cancellationToken)
     {
-        return InnerRepository.Remove(entity, cancellationToken);
+        await InnerRepository.RemoveAsync(entity, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public virtual Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+    public virtual async Task RemoveRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken)
     {
-        return InnerRepository.RemoveRange(entities, cancellationToken);
+        await InnerRepository.RemoveRangeAsync(entities, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public virtual Task Update(T entity, CancellationToken cancellationToken)
+    public virtual async Task UpdateAsync(T entity, CancellationToken cancellationToken)
     {
-        return InnerRepository.Update(entity, cancellationToken);
+        await InnerRepository.UpdateAsync(entity, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public virtual Task UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+    public virtual async Task UpdateRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken)
     {
-        return InnerRepository.UpdateRange(entities, cancellationToken);
+        await InnerRepository.UpdateRangeAsync(entities, cancellationToken);
     }
 }

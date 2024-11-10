@@ -15,13 +15,13 @@ public class RepositoryDecoratorAbstractTests
         var entity = new TestEntity();
 
         var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
-        repoMock.Add(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.FromResult(entity));
+        repoMock.AddAsync(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.FromResult(entity));
 
         var decorator = new EmptyDecorator(repoMock);
 
-        await decorator.Add(entity, default);
+        await decorator.AddAsync(entity, default);
 
-        await repoMock.Received(1).Add(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>());
+        await repoMock.Received(1).AddAsync(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -30,13 +30,13 @@ public class RepositoryDecoratorAbstractTests
         var entities = new List<TestEntity>() { new() };
 
         var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
-        repoMock.AddRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.AddRangeAsync(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
 
         var decorator = new EmptyDecorator(repoMock);
 
-        await decorator.AddRange(entities, default);
+        await decorator.AddRangeAsync(entities, default);
 
-        await repoMock.Received(1).AddRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>());
+        await repoMock.Received(1).AddRangeAsync(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -45,13 +45,13 @@ public class RepositoryDecoratorAbstractTests
         var entity = new TestEntity();
 
         var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
-        repoMock.Update(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.UpdateAsync(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
 
         var decorator = new EmptyDecorator(repoMock);
 
-        await decorator.Update(entity, default);
+        await decorator.UpdateAsync(entity, default);
 
-        await repoMock.Received(1).Update(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>());
+        await repoMock.Received(1).UpdateAsync(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -60,13 +60,13 @@ public class RepositoryDecoratorAbstractTests
         var entities = new List<TestEntity>() { new() };
 
         var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
-        repoMock.UpdateRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.UpdateRangeAsync(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
 
         var decorator = new EmptyDecorator(repoMock);
 
-        await decorator.UpdateRange(entities, default);
+        await decorator.UpdateRangeAsync(entities, default);
 
-        await repoMock.Received(1).UpdateRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>());
+        await repoMock.Received(1).UpdateRangeAsync(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -75,13 +75,13 @@ public class RepositoryDecoratorAbstractTests
         var entity = new TestEntity();
 
         var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
-        repoMock.Remove(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.RemoveAsync(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
 
         var decorator = new EmptyDecorator(repoMock);
 
-        await decorator.Remove(entity, default);
+        await decorator.RemoveAsync(entity, default);
 
-        await repoMock.Received(1).Remove(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>());
+        await repoMock.Received(1).RemoveAsync(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -90,13 +90,13 @@ public class RepositoryDecoratorAbstractTests
         var entities = new List<TestEntity>() { new() };
 
         var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
-        repoMock.RemoveRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.RemoveRangeAsync(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
 
         var decorator = new EmptyDecorator(repoMock);
 
-        await decorator.RemoveRange(entities, default);
+        await decorator.RemoveRangeAsync(entities, default);
 
-        await repoMock.Received(1).RemoveRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>());
+        await repoMock.Received(1).RemoveRangeAsync(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>());
     }
 
     public class TestEntity { }

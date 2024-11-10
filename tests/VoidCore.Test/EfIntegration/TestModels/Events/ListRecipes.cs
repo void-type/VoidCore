@@ -24,7 +24,7 @@ public class ListRecipes
             _data = data;
         }
 
-        public override async Task<IResult<IItemSet<RecipeListItemDto>>> Handle(Request request, CancellationToken cancellationToken = default)
+        public override async Task<IResult<IItemSet<RecipeListItemDto>>> HandleAsync(Request request, CancellationToken cancellationToken = default)
         {
             var pagedSearch = new RecipesSearchSpecification(
                 criteria: GetSearchCriteria(request),
@@ -33,7 +33,7 @@ public class ListRecipes
                 sortDesc: request.SortDesc);
 
             return await _data.Recipes
-                 .ListPage(pagedSearch, cancellationToken)
+                 .ListPageAsync(pagedSearch, cancellationToken)
                  .SelectAsync(recipe => new RecipeListItemDto(
                      id: recipe.Id,
                      name: recipe.Name,

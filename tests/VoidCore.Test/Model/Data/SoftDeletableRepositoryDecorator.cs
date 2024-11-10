@@ -18,10 +18,10 @@ public class SoftDeletableRepositoryDecorator
         var entity = new TestEntity();
 
         var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
-        repoMock.Remove(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
-        repoMock.RemoveRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
-        repoMock.Update(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
-        repoMock.UpdateRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.RemoveAsync(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.RemoveRangeAsync(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.UpdateAsync(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.UpdateRangeAsync(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
 
         var date = new DateTime(2001, 2, 12);
         var dateTimeService = new DiscreteDateTimeService(date);
@@ -32,13 +32,13 @@ public class SoftDeletableRepositoryDecorator
 
         var decoratedRepo = repoMock.AddSoftDeletability(dateTimeService, currentUserAccessorMock);
 
-        await decoratedRepo.Remove(entity, default);
+        await decoratedRepo.RemoveAsync(entity, default);
 
         Assert.Equal("userName", entity.DeletedBy);
         Assert.Equal(date, entity.DeletedOn);
         Assert.True(entity.IsDeleted);
 
-        await repoMock.Received(1).Update(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>());
+        await repoMock.Received(1).UpdateAsync(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -47,10 +47,10 @@ public class SoftDeletableRepositoryDecorator
         var entities = new List<TestEntity>() { new() };
 
         var repoMock = Substitute.For<IWritableRepository<TestEntity>>();
-        repoMock.Remove(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
-        repoMock.RemoveRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
-        repoMock.Update(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
-        repoMock.UpdateRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.RemoveAsync(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.RemoveRangeAsync(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.UpdateAsync(Arg.Any<TestEntity>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        repoMock.UpdateRangeAsync(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
 
         var date = new DateTime(2001, 2, 12);
         var dateTimeService = new DiscreteDateTimeService(date);
@@ -61,13 +61,13 @@ public class SoftDeletableRepositoryDecorator
 
         var decoratedRepo = repoMock.AddSoftDeletability(dateTimeService, currentUserAccessorMock);
 
-        await decoratedRepo.RemoveRange(entities, default);
+        await decoratedRepo.RemoveRangeAsync(entities, default);
 
         Assert.Equal("userName", entities[0].DeletedBy);
         Assert.Equal(date, entities[0].DeletedOn);
         Assert.True(entities[0].IsDeleted);
 
-        await repoMock.Received(1).UpdateRange(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>());
+        await repoMock.Received(1).UpdateRangeAsync(Arg.Any<List<TestEntity>>(), Arg.Any<CancellationToken>());
     }
 
     public class TestEntity : ISoftDeletable

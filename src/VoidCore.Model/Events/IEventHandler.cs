@@ -18,5 +18,5 @@ public interface IEventHandler<TRequest, TResponse>
     /// <param name="request">The request contains all the parameters to handle the event.</param>
     /// <param name="cancellationToken">The cancellation token to cancel the task</param>
     /// <returns>A result of the response.</returns>
-    Task<IResult<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default);
+    Task<IResult<TResponse>> HandleAsync(TRequest request, CancellationToken cancellationToken = default);
 }

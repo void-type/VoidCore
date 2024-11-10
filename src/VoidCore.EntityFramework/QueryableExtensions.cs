@@ -18,7 +18,7 @@ public static class QueryableExtensions
     /// <param name="query">The base query. Filtered and sorted, but don't use skip or take yet.</param>
     /// <param name="paginationOptions">Options to control pagination</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    public static async Task<IItemSet<T>> ToItemSet<T>(this IQueryable<T> query, PaginationOptions paginationOptions, CancellationToken cancellationToken)
+    public static async Task<IItemSet<T>> ToItemSetAsync<T>(this IQueryable<T> query, PaginationOptions paginationOptions, CancellationToken cancellationToken)
     {
         var totalCount = await query.CountAsync(cancellationToken);
 

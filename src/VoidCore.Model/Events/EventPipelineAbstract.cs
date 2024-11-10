@@ -18,10 +18,10 @@ public abstract class EventPipelineAbstract<TRequest, TResponse> : IEventHandler
     protected IEventHandler<TRequest, TResponse>? InnerHandler;
 
     /// <inheritdoc/>
-    public Task<IResult<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default)
+    public async Task<IResult<TResponse>> HandleAsync(TRequest request, CancellationToken cancellationToken = default)
     {
-        return InnerHandler
+        return await InnerHandler
             .EnsureNotNull()
-            .Handle(request, cancellationToken);
+            .HandleAsync(request, cancellationToken);
     }
 }

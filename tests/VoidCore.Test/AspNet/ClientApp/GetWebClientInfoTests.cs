@@ -38,7 +38,7 @@ public class GetWebClientInfoTests
 
         var result = await new GetWebClientInfo.Handler(applicationSettings, contextAccessorMock, antiforgeryMock, currentUserAccessorMock)
             .AddPostProcessor(new GetWebClientInfo.ResponseLogger(loggerMock))
-            .Handle(new GetWebClientInfo.Request());
+            .HandleAsync(new GetWebClientInfo.Request());
 
         Assert.True(result.IsSuccess);
         Assert.NotNull(result.Value);

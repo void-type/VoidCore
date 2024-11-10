@@ -49,7 +49,7 @@ public class EventHandlerDecorator<TRequest, TResponse> : IDecoratableEventHandl
     }
 
     /// <inheritdoc/>
-    public async Task<IResult<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default)
+    public async Task<IResult<TResponse>> HandleAsync(TRequest request, CancellationToken cancellationToken = default)
     {
         foreach (var logger in _requestLoggers)
         {
@@ -59,7 +59,7 @@ public class EventHandlerDecorator<TRequest, TResponse> : IDecoratableEventHandl
         var result = await _requestValidators
             .Select(validator => validator.Validate(request))
             .Combine()
-            .ThenAsync(() => _innerEvent.Handle(request, cancellationToken))
+            .ThenAsync(() => _innerEvent.HandleAsync(request, cancellationToken))
             .ConfigureAwait(false);
 
         foreach (var postProcessor in _postProcessors)

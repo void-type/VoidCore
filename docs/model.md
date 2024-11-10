@@ -17,36 +17,36 @@ An opinionated core for building business applications.
 
 Make predictable data APIs.
 
-* Standardized failure objects with user message and optional UI handle for field highlighting.
-* User messages (with optional Entity ID for standard CRUD operations).
-* Paginated item sets.
-* Simple files.
+- Standardized failure objects with user message and optional UI handle for field highlighting.
+- User messages (with optional Entity ID for standard CRUD operations).
+- Paginated item sets.
+- Simple files.
 
 ### Data Persistence
 
 This service interface is designed to quickly implement a data layer with an expanded feature set.
 
-* Asynchronous repositories with read/write control and specification-based queries.
-* Specifications include the most common LINQ functions, except Select.
-* Soft delete on entities. Will mark them with a deleted date. Use a specification to ensure they aren't included in queries.
-* Auditable entities via Created and Modified names/dates.
-* Easy pagination of queried data sets.
+- Asynchronous repositories with read/write control and specification-based queries.
+- Specifications include the most common LINQ functions, except Select.
+- Soft delete on entities. Will mark them with a deleted date. Use a specification to ensure they aren't included in queries.
+- Auditable entities via Created and Modified names/dates.
+- Easy pagination of queried data sets.
 
 If you need more flexibility, it's recommended to create a service for one-off use-cases or just use DbContext directly.
 
 ### Emailing
 
-* Service interface for sending emails from the domain layer.
-* Template emails using the builder pattern. Templates can be realized with html or text formatting.
+- Service interface for sending emails from the domain layer.
+- Template emails using the builder pattern. Templates can be realized with html or text formatting.
 
 ### Common Service Interfaces and Utilities
 
 Interfaces for other common services that the domain can use.
 
-* IDateTimeService - inject time for better testability.
-* ICurrentUserAccessor - obtain the current user.
-* Guards - extension methods to guard against null, empty string and collections, or write your own custom predicate.
-* Configuration - scan assemblies for dependencies, validate connection strings, register settings by naming convention.
+- IDateTimeService - inject time for better testability.
+- ICurrentUserAccessor - obtain the current user.
+- Guards - extension methods to guard against null, empty string and collections, or write your own custom predicate.
+- Configuration - scan assemblies for dependencies, validate connection strings, register settings by naming convention.
 
 ### Functional Extensions
 
@@ -97,9 +97,9 @@ public override async Task<IResult<EntityMessage<int>>> Handle(DeleteRecipeReque
 And turn it into something more concise and with fewer intermediate variables:
 
 ```csharp
-public override Task<IResult<EntityMessage<int>>> Handle(DeleteRecipeRequest request, CancellationToken cancellationToken = default)
+public override async Task<IResult<EntityMessage<int>>> Handle(DeleteRecipeRequest request, CancellationToken cancellationToken = default)
 {
-    return _data.Recipes.Get(byId, cancellationToken)
+    return await _data.Recipes.Get(byId, cancellationToken)
         .ToResultAsync(new RecipeNotFoundFailure())
         .TeeOnSuccessAsync(r => RemoveImages(r, cancellationToken))
         .TeeOnSuccessAsync(r => _data.CategoryRecipes.RemoveRange(r.CategoryRecipes, cancellationToken))
@@ -489,15 +489,15 @@ createPersonRequest.Validate(validator =>
 
 Request loggers fire before validators and handlers. They log information about the request before the other parts of the pipeline have a chance to throw an exception.
 
-* Inherit from RequestLoggerAbstract to use the default MS ILogger.
-* Inherit from IRequestLogger to use any other logging implementation.
+- Inherit from RequestLoggerAbstract to use the default MS ILogger.
+- Inherit from IRequestLogger to use any other logging implementation.
 
 Post Processors fire after the handling of an event or after validation failure. Post Processors should not change the response of the event; however, they can fire off commands such as notifications and logging.
 
-* Inherit from one of the Response loggers to log standard information about the various built-in response types.
-* Inherit from FallibleEventLoggerAbstract to create a logger for a custom response type, such as a DTO.
-* Inherit from PostProcessorAbstract to define different processing for three channels of the IResult<Response>: Success, Fail, Both.
-* Inherit from IPostProcessor for a single channel always fires. This is good for completely custom logic.
+- Inherit from one of the Response loggers to log standard information about the various built-in response types.
+- Inherit from FallibleEventLoggerAbstract to create a logger for a custom response type, such as a DTO.
+- Inherit from PostProcessorAbstract to define different processing for three channels of the IResult<Response>: Success, Fail, Both.
+- Inherit from IPostProcessor for a single channel always fires. This is good for completely custom logic.
 
 There are default logging Post Processor implementations in the VoidCore.Model library. See above for an example.
 

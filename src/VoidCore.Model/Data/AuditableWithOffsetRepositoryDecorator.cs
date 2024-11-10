@@ -28,14 +28,14 @@ public class AuditableWithOffsetRepositoryDecorator<T> : RepositoryDecoratorAbst
     }
 
     /// <inheritdoc/>
-    public override Task<T> Add(T entity, CancellationToken cancellationToken)
+    public override async Task<T> AddAsync(T entity, CancellationToken cancellationToken)
     {
         SetCreated(entity);
-        return InnerRepository.Add(entity, cancellationToken);
+        await  InnerRepository.AddAsync(entity, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public override Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+    public override async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken)
     {
         var entitiesList = entities.ToList();
 
@@ -44,18 +44,18 @@ public class AuditableWithOffsetRepositoryDecorator<T> : RepositoryDecoratorAbst
             SetCreated(entity);
         }
 
-        return InnerRepository.AddRange(entitiesList, cancellationToken);
+        await  InnerRepository.AddRangeAsync(entitiesList, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public override Task Update(T entity, CancellationToken cancellationToken)
+    public override async Task UpdateAsync(T entity, CancellationToken cancellationToken)
     {
         SetModified(entity);
-        return InnerRepository.Update(entity, cancellationToken);
+        await  InnerRepository.UpdateAsync(entity, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public override Task UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+    public override async Task UpdateRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken)
     {
         var entitiesList = entities.ToList();
 
@@ -64,7 +64,7 @@ public class AuditableWithOffsetRepositoryDecorator<T> : RepositoryDecoratorAbst
             SetModified(entity);
         }
 
-        return InnerRepository.UpdateRange(entitiesList, cancellationToken);
+        await  InnerRepository.UpdateRangeAsync(entitiesList, cancellationToken);
     }
 
     private void SetCreated(IAuditableWithOffset entity)

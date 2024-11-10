@@ -47,9 +47,9 @@ public sealed class Result : ResultAbstract
     /// </summary>
     /// <param name="tasks">Task of IResult to combine</param>
     /// <returns>A new result</returns>
-    public static Task<IResult> CombineAsync(params Task<IResult>[] tasks)
+    public static async Task<IResult> CombineAsync(params Task<IResult>[] tasks)
     {
-        return CombineAsync(tasks.AsEnumerable());
+        return await CombineAsync(tasks.AsEnumerable());
     }
 
     /// <summary>

@@ -13,5 +13,5 @@ public interface IEmailSender
     /// </summary>
     /// <param name="email">The email to send</param>
     /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-    Task SendEmail(Email email, CancellationToken cancellationToken);
+    Task SendEmailAsync(Email email, CancellationToken cancellationToken);
 }

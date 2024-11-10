@@ -26,8 +26,8 @@ public static partial class ResultExtensions
     /// </summary>
     /// <param name="resultTasks">Asynchronous tasks representing the results to combine</param>
     /// <returns>A combined result</returns>
-    public static Task<IResult> CombineAsync(this IEnumerable<Task<IResult>> resultTasks)
+    public static async Task<IResult> CombineAsync(this IEnumerable<Task<IResult>> resultTasks)
     {
-        return Result.CombineAsync(resultTasks.ToArray());
+        return await Result.CombineAsync(resultTasks.ToArray());
     }
 }

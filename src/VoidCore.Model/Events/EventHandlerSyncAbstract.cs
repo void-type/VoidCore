@@ -12,9 +12,9 @@ namespace VoidCore.Model.Events;
 public abstract class EventHandlerSyncAbstract<TRequest, TResponse> : EventHandlerAbstract<TRequest, TResponse>
 {
     /// <inheritdoc/>
-    public override Task<IResult<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default)
+    public override async Task<IResult<TResponse>> HandleAsync(TRequest request, CancellationToken cancellationToken = default)
     {
-        return Task.FromResult(HandleSync(request));
+        return await Task.FromResult(HandleSync(request));
     }
 
     /// <summary>

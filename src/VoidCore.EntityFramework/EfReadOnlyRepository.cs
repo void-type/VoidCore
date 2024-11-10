@@ -36,7 +36,7 @@ public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
     }
 
     /// <inheritdoc/>
-    public virtual Task<int> Count(IQuerySpecification<T> specification, CancellationToken cancellationToken)
+    public virtual async Task<int> CountAsync(IQuerySpecification<T> specification, CancellationToken cancellationToken)
     {
         return GetBaseQuery()
             .TagWith(GetTag(specification))
@@ -45,7 +45,7 @@ public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
     }
 
     /// <inheritdoc/>
-    public virtual async Task<Maybe<T>> Get(IQuerySpecification<T> specification, CancellationToken cancellationToken)
+    public virtual async Task<Maybe<T>> GetAsync(IQuerySpecification<T> specification, CancellationToken cancellationToken)
     {
         return await GetBaseQuery()
             .TagWith(GetTag(specification))
@@ -55,7 +55,7 @@ public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
     }
 
     /// <inheritdoc/>
-    public virtual async Task<IReadOnlyList<T>> List(IQuerySpecification<T> specification, CancellationToken cancellationToken)
+    public virtual async Task<IReadOnlyList<T>> ListAsync(IQuerySpecification<T> specification, CancellationToken cancellationToken)
     {
         return await GetBaseQuery()
             .TagWith(GetTag(specification))
@@ -65,7 +65,7 @@ public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
     }
 
     /// <inheritdoc/>
-    public virtual async Task<IItemSet<T>> ListPage(IQuerySpecification<T> specification, CancellationToken cancellationToken)
+    public virtual async Task<IItemSet<T>> ListPageAsync(IQuerySpecification<T> specification, CancellationToken cancellationToken)
     {
         var totalCount = await GetBaseQuery()
             .TagWith(GetTag(specification))
@@ -82,7 +82,7 @@ public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
     }
 
     /// <inheritdoc/>
-    public virtual async Task<IReadOnlyList<T>> ListAll(CancellationToken cancellationToken)
+    public virtual async Task<IReadOnlyList<T>> ListAllAsync(CancellationToken cancellationToken)
     {
         return await GetBaseQuery()
             .TagWith(GetTag())

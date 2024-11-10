@@ -17,32 +17,32 @@ public interface IReadOnlyRepository<T> where T : class
     /// </summary>
     /// <param name="specification">The specification that describes entities to count</param>
     /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-    Task<int> Count(IQuerySpecification<T> specification, CancellationToken cancellationToken);
+    Task<int> CountAsync(IQuerySpecification<T> specification, CancellationToken cancellationToken);
 
     /// <summary>
     /// Get the first entity that matches a specification.
     /// </summary>
     /// <param name="specification">The specification that describes the entity to get</param>
     /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-    Task<Maybe<T>> Get(IQuerySpecification<T> specification, CancellationToken cancellationToken);
+    Task<Maybe<T>> GetAsync(IQuerySpecification<T> specification, CancellationToken cancellationToken);
 
     /// <summary>
     /// List all entities that match a specification.
     /// </summary>
     /// <param name="specification">The specification that describes entities to get</param>
     /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-    Task<IReadOnlyList<T>> List(IQuerySpecification<T> specification, CancellationToken cancellationToken);
+    Task<IReadOnlyList<T>> ListAsync(IQuerySpecification<T> specification, CancellationToken cancellationToken);
 
     /// <summary>
     /// Get a page from the list of all entities that match a specification.
     /// </summary>
     /// <param name="specification">The specification that describes entities to get</param>
     /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-    Task<IItemSet<T>> ListPage(IQuerySpecification<T> specification, CancellationToken cancellationToken);
+    Task<IItemSet<T>> ListPageAsync(IQuerySpecification<T> specification, CancellationToken cancellationToken);
 
     /// <summary>
     /// List all entities in the repository.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token to cancel the task</param>
-    Task<IReadOnlyList<T>> ListAll(CancellationToken cancellationToken);
+    Task<IReadOnlyList<T>> ListAllAsync(CancellationToken cancellationToken);
 }

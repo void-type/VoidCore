@@ -30,11 +30,11 @@ public static class FunctionalExtensions
     /// <param name="selectorTask">The asynchronous map function to transform input to output</param>
     /// <typeparam name="TIn">The input type</typeparam>
     /// <typeparam name="TOut">The output type</typeparam>
-    public static Task<TOut> MapAsync<TIn, TOut>(this TIn input, Func<TIn, Task<TOut>> selectorTask)
+    public static async Task<TOut> MapAsync<TIn, TOut>(this TIn input, Func<TIn, Task<TOut>> selectorTask)
     {
         selectorTask.EnsureNotNull();
 
-        return selectorTask(input);
+        return await selectorTask(input);
     }
 
     /// <summary>

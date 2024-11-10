@@ -18,7 +18,7 @@ public class EfWritableRepository<T> : EfReadOnlyRepository<T>, IWritableReposit
     public EfWritableRepository(DbContext context) : base(context) { }
 
     /// <inheritdoc/>
-    public virtual async Task<T> Add(T entity, CancellationToken cancellationToken)
+    public virtual async Task<T> AddAsync(T entity, CancellationToken cancellationToken)
     {
         await Context.Set<T>().AddAsync(entity, cancellationToken);
 
@@ -29,7 +29,7 @@ public class EfWritableRepository<T> : EfReadOnlyRepository<T>, IWritableReposit
     }
 
     /// <inheritdoc/>
-    public virtual Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+    public virtual async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken)
     {
         Context.Set<T>().AddRange(entities);
 
@@ -37,28 +37,28 @@ public class EfWritableRepository<T> : EfReadOnlyRepository<T>, IWritableReposit
     }
 
     /// <inheritdoc/>
-    public virtual Task Remove(T entity, CancellationToken cancellationToken)
+    public virtual async Task RemoveAsync(T entity, CancellationToken cancellationToken)
     {
         Context.Set<T>().Remove(entity);
         return Context.SaveChangesAsync(cancellationToken);
     }
 
     /// <inheritdoc/>
-    public Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+    public async Task RemoveRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken)
     {
         Context.Set<T>().RemoveRange(entities);
         return Context.SaveChangesAsync(cancellationToken);
     }
 
     /// <inheritdoc/>
-    public virtual Task Update(T entity, CancellationToken cancellationToken)
+    public virtual async Task UpdateAsync(T entity, CancellationToken cancellationToken)
     {
         Context.Entry(entity).State = EntityState.Modified;
         return Context.SaveChangesAsync(cancellationToken);
     }
 
     /// <inheritdoc/>
-    public virtual Task UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+    public virtual async Task UpdateRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken)
     {
         foreach (var entity in entities)
         {

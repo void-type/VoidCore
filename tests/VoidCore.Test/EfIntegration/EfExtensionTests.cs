@@ -19,7 +19,7 @@ public class EfExtensionTests
 
         var page = await context.Recipe
             .OrderBy(x => x.Name)
-            .ToItemSet(paginationOptions, CancellationToken.None);
+            .ToItemSetAsync(paginationOptions, CancellationToken.None);
 
         Assert.Equal(3, page.TotalCount);
         Assert.Equal("Recipe2", page.Items.Single().Name);
@@ -34,7 +34,7 @@ public class EfExtensionTests
 
         var page = await context.Recipe
             .OrderBy(x => x.Name)
-            .ToItemSet(paginationOptions, CancellationToken.None);
+            .ToItemSetAsync(paginationOptions, CancellationToken.None);
 
         Assert.Equal(3, page.TotalCount);
         Assert.Equal(3, page.Items.Count());

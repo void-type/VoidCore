@@ -33,7 +33,7 @@ public partial class CurrentUserLoggingMiddleware
     /// Invoke the middleware.
     /// </summary>
     /// <param name="context">The current HttpContext</param>
-    public Task Invoke(HttpContext context)
+    public async Task InvokeAsync(HttpContext context)
     {
         context.EnsureNotNull();
 

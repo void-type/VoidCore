@@ -15,7 +15,7 @@ public class EventTests
     public async Task Event_is_handled_with_no_validator_or_post_processors()
     {
         var result = await new TestEventOk()
-            .Handle(new TestRequest());
+            .HandleAsync(new TestRequest());
 
         Assert.True(result.IsSuccess);
         Assert.Equal("success", result.Value.Name);
@@ -28,7 +28,7 @@ public class EventTests
 
         var result = await new TestEventOk()
             .AddRequestValidator(validatorMock)
-            .Handle(new TestRequest());
+            .HandleAsync(new TestRequest());
 
         Assert.True(result.IsSuccess);
         Assert.Equal("success", result.Value.Name);
@@ -41,7 +41,7 @@ public class EventTests
 
         var result = await new TestEventOk()
             .AddPostProcessor(new WidgetProcessor(processorMock))
-            .Handle(new TestRequest());
+            .HandleAsync(new TestRequest());
 
         Assert.True(result.IsSuccess);
         Assert.Equal("success", result.Value.Name);
@@ -59,7 +59,7 @@ public class EventTests
         var result = await new TestEventOk()
             .AddRequestValidator(validatorMock)
             .AddPostProcessor(new WidgetProcessor(processorMock))
-            .Handle(new TestRequest());
+            .HandleAsync(new TestRequest());
 
         Assert.True(result.IsFailed);
         Assert.Equal("request invalid", result.Failures.Single().Message);
@@ -78,7 +78,7 @@ public class EventTests
             .AddRequestValidator(validatorMock)
             .AddPostProcessor(new WidgetProcessor(processorMock))
             .AddPostProcessor(new WidgetProcessor(processorMock))
-            .Handle(new TestRequest());
+            .HandleAsync(new TestRequest());
 
         Assert.True(result.IsSuccess);
         Assert.Equal("success", result.Value.Name);
@@ -94,7 +94,7 @@ public class EventTests
 
         var result = await new TestEventFail()
             .AddPostProcessor(new WidgetProcessor(processorMock))
-            .Handle(new TestRequest());
+            .HandleAsync(new TestRequest());
 
         Assert.True(result.IsFailed);
         Assert.Equal("event failed", result.Failures.Single().Message);
@@ -112,7 +112,7 @@ public class EventTests
         var result = await new TestEventOk()
             .AddRequestValidator(validatorMock)
             .AddPostProcessor(new WidgetProcessor(processorMock))
-            .Handle(new TestRequest());
+            .HandleAsync(new TestRequest());
 
         Assert.True(result.IsSuccess);
         Assert.Equal("success", result.Value.Name);
@@ -128,7 +128,7 @@ public class EventTests
 
         var result = await new TestEventFail()
             .AddPostProcessor(new WidgetProcessor(processorMock))
-            .Handle(new TestRequest());
+            .HandleAsync(new TestRequest());
 
         Assert.True(result.IsFailed);
         Assert.Equal("event failed", result.Failures.Single().Message);
@@ -146,7 +146,7 @@ public class EventTests
         var result = await new TestEventOk()
             .AddRequestValidator(validatorMock)
             .AddPostProcessor(new WidgetProcessor(processorMock))
-            .Handle(new TestRequest());
+            .HandleAsync(new TestRequest());
 
         Assert.True(result.IsFailed);
         Assert.Equal("request invalid", result.Failures.Single().Message);
@@ -164,7 +164,7 @@ public class EventTests
         var result = await new TestEventSyncOk()
             .AddRequestValidator(validatorMock)
             .AddPostProcessor(new WidgetProcessor(processorMock))
-            .Handle(new TestRequest());
+            .HandleAsync(new TestRequest());
 
         Assert.True(result.IsSuccess);
         Assert.Equal("success", result.Value.Name);
@@ -182,7 +182,7 @@ public class EventTests
         var result = await new TestEventSyncOk()
             .AddRequestValidator(validatorMock)
             .AddPostProcessor(new WidgetProcessor(processorMock))
-            .Handle(new TestRequest());
+            .HandleAsync(new TestRequest());
 
         Assert.True(result.IsFailed);
         Assert.Equal("request invalid", result.Failures.Single().Message);
@@ -200,7 +200,7 @@ public class EventTests
 
     private class TestEventFail : EventHandlerAbstract<TestRequest, TestResponse>
     {
-        public override async Task<IResult<TestResponse>> Handle(TestRequest validRequest, CancellationToken cancellationToken = default)
+        public override async Task<IResult<TestResponse>> HandleAsync(TestRequest validRequest, CancellationToken cancellationToken = default)
         {
             await Task.Delay(1, cancellationToken);
             return Fail(new Failure("event failed"));
@@ -209,7 +209,7 @@ public class EventTests
 
     private class TestEventOk : EventHandlerAbstract<TestRequest, TestResponse>
     {
-        public override async Task<IResult<TestResponse>> Handle(TestRequest validRequest, CancellationToken cancellationToken = default)
+        public override async Task<IResult<TestResponse>> HandleAsync(TestRequest validRequest, CancellationToken cancellationToken = default)
         {
             await Task.Delay(1, cancellationToken);
             return Ok(new TestResponse { Name = "success" });

@@ -16,12 +16,12 @@ public class EfRepositoryTests
         using var context = Deps.FoodStuffsContext();
         var data = context.Seed().FoodStuffsData();
 
-        var recipes = await data.Recipes.ListAll(default);
+        var recipes = await data.Recipes.ListAllAsync(default);
         var recipeToFind = recipes[0];
 
         var byId = new RecipesByIdWithCategoriesSpecification(recipeToFind.Id);
 
-        var recipe = await data.Recipes.Get(byId, default);
+        var recipe = await data.Recipes.GetAsync(byId, default);
 
         Assert.True(recipe.HasValue);
         Assert.Equal(recipeToFind.Id, recipe.Value.Id);
@@ -35,7 +35,7 @@ public class EfRepositoryTests
 
         var byId = new RecipesByIdWithCategoriesSpecification(-22);
 
-        var recipe = await data.Recipes.Get(byId, default);
+        var recipe = await data.Recipes.GetAsync(byId, default);
 
         Assert.True(recipe.HasNoValue);
     }
@@ -47,7 +47,7 @@ public class EfRepositoryTests
         var data = context.Seed().FoodStuffsData();
 
         var result = await new ListRecipes.Handler(data)
-            .Handle(new ListRecipes.Request(null, null, null, false, true, 2, 1));
+            .HandleAsync(new ListRecipes.Request(null, null, null, false, true, 2, 1));
 
         Assert.True(result.IsSuccess);
         Assert.Equal(1, result.Value.Count);
@@ -63,7 +63,7 @@ public class EfRepositoryTests
         var data = context.Seed().FoodStuffsData();
 
         var result = await new ListRecipes.Handler(data)
-            .Handle(new ListRecipes.Request(null, null, null, false, false, 0, 0));
+            .HandleAsync(new ListRecipes.Request(null, null, null, false, false, 0, 0));
 
         Assert.True(result.IsSuccess);
         Assert.Equal(3, result.Value.Count);
@@ -81,7 +81,7 @@ public class EfRepositoryTests
         var data = context.Seed().FoodStuffsData();
 
         var result = await new ListRecipes.Handler(data)
-            .Handle(new ListRecipes.Request(null, null, "name", true, true, 1, 1));
+            .HandleAsync(new ListRecipes.Request(null, null, "name", true, true, 1, 1));
 
         Assert.True(result.IsSuccess);
         Assert.Equal(1, result.Value.Count);
@@ -98,7 +98,7 @@ public class EfRepositoryTests
         var data = context.Seed().FoodStuffsData();
 
         var result = await new ListRecipes.Handler(data)
-            .Handle(new ListRecipes.Request(null, null, "name", false, true, 1, 1));
+            .HandleAsync(new ListRecipes.Request(null, null, "name", false, true, 1, 1));
 
         Assert.True(result.IsSuccess);
         Assert.Equal(1, result.Value.Count);
@@ -115,7 +115,7 @@ public class EfRepositoryTests
         var data = context.Seed().FoodStuffsData();
 
         var result = await new ListRecipes.Handler(data)
-            .Handle(new ListRecipes.Request("recipe2", null, null, false, true, 1, 2));
+            .HandleAsync(new ListRecipes.Request("recipe2", null, null, false, true, 1, 2));
 
         Assert.True(result.IsSuccess);
         Assert.Equal(1, result.Value.Count);
@@ -132,7 +132,7 @@ public class EfRepositoryTests
         var data = context.Seed().FoodStuffsData();
 
         var result = await new ListRecipes.Handler(data)
-            .Handle(new ListRecipes.Request(null, "cat", null, false, true, 1, 4));
+            .HandleAsync(new ListRecipes.Request(null, "cat", null, false, true, 1, 4));
 
         Assert.True(result.IsSuccess);
         Assert.Equal(2, result.Value.Count);
@@ -151,7 +151,7 @@ public class EfRepositoryTests
         var data = context.Seed().FoodStuffsData();
 
         var result = await new ListRecipes.Handler(data)
-            .Handle(new ListRecipes.Request("nothing matches", null, null, false, true, 1, 2));
+            .HandleAsync(new ListRecipes.Request("nothing matches", null, null, false, true, 1, 2));
 
         Assert.True(result.IsSuccess);
         Assert.Equal(0, result.Value.Count);
@@ -165,7 +165,7 @@ public class EfRepositoryTests
         var data = context.Seed().FoodStuffsData();
 
         var result = await new ListRecipes.Handler(data)
-            .Handle(new ListRecipes.Request(null, "nothing matches", null, false, true, 1, 2));
+            .HandleAsync(new ListRecipes.Request(null, "nothing matches", null, false, true, 1, 2));
 
         Assert.True(result.IsSuccess);
         Assert.Equal(0, result.Value.Count);
@@ -179,7 +179,7 @@ public class EfRepositoryTests
         var data = context.Seed().FoodStuffsData();
 
         var result = await new ListRecipes.Handler(data)
-            .Handle(new ListRecipes.Request("nothing matches", null, null, false, true, 1, 2));
+            .HandleAsync(new ListRecipes.Request("nothing matches", null, null, false, true, 1, 2));
 
         Assert.True(result.IsSuccess);
         Assert.Equal(0, result.Value.Count);
@@ -193,7 +193,7 @@ public class EfRepositoryTests
         var data = context.Seed().FoodStuffsData();
 
         var result = await new ListRecipes.Handler(data)
-            .Handle(new ListRecipes.Request(null, "nothing matches", null, false, true, 1, 2));
+            .HandleAsync(new ListRecipes.Request(null, "nothing matches", null, false, true, 1, 2));
 
         Assert.True(result.IsSuccess);
         Assert.Equal(0, result.Value.Count);
@@ -206,17 +206,17 @@ public class EfRepositoryTests
         using var context = Deps.FoodStuffsContext();
         var data = context.Seed().FoodStuffsData();
 
-        var recipes = await data.Recipes.ListAll(default);
+        var recipes = await data.Recipes.ListAllAsync(default);
         var recipeToDelete = recipes[0];
 
         var byId = new RecipesByIdWithCategoriesSpecification(recipeToDelete.Id);
 
-        var recipe = await data.Recipes.Get(byId, default).UnwrapAsync();
+        var recipe = await data.Recipes.GetAsync(byId, default).UnwrapAsync();
 
-        await data.CategoryRecipes.RemoveRange(recipe.CategoryRecipe.AsReadOnly(), default);
-        await data.Recipes.Remove(recipe, default);
+        await data.CategoryRecipes.RemoveRangeAsync(recipe.CategoryRecipe.AsReadOnly(), default);
+        await data.Recipes.RemoveAsync(recipe, default);
 
-        var recipeMaybe = await data.Recipes.Get(byId, default);
+        var recipeMaybe = await data.Recipes.GetAsync(byId, default);
 
         Assert.True(recipeMaybe.HasNoValue);
     }
@@ -228,12 +228,12 @@ public class EfRepositoryTests
         var data = context.Seed().FoodStuffsData();
 
         var result = await new SaveRecipe.Handler(data)
-            .Handle(new SaveRecipe.Request(0, "New", "New", "New", null, 20, ["Category2", "Category3", "Category4"]));
+            .HandleAsync(new SaveRecipe.Request(0, "New", "New", "New", null, 20, ["Category2", "Category3", "Category4"]));
 
         Assert.True(result.IsSuccess);
         Assert.True(result.Value.Id > 0);
 
-        var maybeRecipe = await data.Recipes.Get(new RecipesByIdWithCategoriesSpecification(result.Value.Id), default);
+        var maybeRecipe = await data.Recipes.GetAsync(new RecipesByIdWithCategoriesSpecification(result.Value.Id), default);
 
         Assert.True(maybeRecipe.HasValue);
         Assert.Equal(Deps.DateTimeServiceLate.Moment, maybeRecipe.Value.CreatedOn);
@@ -250,15 +250,15 @@ public class EfRepositoryTests
         using var context = Deps.FoodStuffsContext();
         var data = context.Seed().FoodStuffsData();
 
-        var existingRecipeId = (await data.Recipes.ListAll(default))[0].Id;
+        var existingRecipeId = (await data.Recipes.ListAllAsync(default))[0].Id;
 
         var result = await new SaveRecipe.Handler(data)
-            .Handle(new SaveRecipe.Request(existingRecipeId, "New", "New", "New", null, 20, ["Category2", "Category3", "Category4"]));
+            .HandleAsync(new SaveRecipe.Request(existingRecipeId, "New", "New", "New", null, 20, ["Category2", "Category3", "Category4"]));
 
         Assert.True(result.IsSuccess);
         Assert.Equal(existingRecipeId, result.Value.Id);
 
-        var updatedRecipe = await data.Recipes.Get(new RecipesByIdWithCategoriesSpecification(existingRecipeId), default);
+        var updatedRecipe = await data.Recipes.GetAsync(new RecipesByIdWithCategoriesSpecification(existingRecipeId), default);
         Assert.True(updatedRecipe.HasValue);
         Assert.Equal(Deps.DateTimeServiceEarly.Moment, updatedRecipe.Value.CreatedOn);
         Assert.Equal(Deps.DateTimeServiceLate.Moment, updatedRecipe.Value.ModifiedOn);
@@ -274,16 +274,16 @@ public class EfRepositoryTests
         using var context = Deps.FoodStuffsContext();
         var data = context.Seed().FoodStuffsData();
 
-        var recipes = await data.Recipes.ListAll(default);
+        var recipes = await data.Recipes.ListAllAsync(default);
 
         foreach (var recipe in recipes)
         {
             recipe.Name = "changeMe";
         }
 
-        await data.Recipes.UpdateRange(recipes, default);
+        await data.Recipes.UpdateRangeAsync(recipes, default);
 
-        var updatedRecipes = await data.Recipes.ListAll(default)
+        var updatedRecipes = await data.Recipes.ListAllAsync(default)
             .MapAsync(recs => recs.Where(r => r.Name == "changeMe").ToList());
 
         Assert.Equal(3, updatedRecipes.Count);
