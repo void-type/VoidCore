@@ -31,7 +31,7 @@ public class AuditableRepositoryDecorator<T> : RepositoryDecoratorAbstract<T> wh
     public override async Task<T> AddAsync(T entity, CancellationToken cancellationToken)
     {
         SetCreated(entity);
-        await  InnerRepository.AddAsync(entity, cancellationToken);
+        return await InnerRepository.AddAsync(entity, cancellationToken);
     }
 
     /// <inheritdoc/>
@@ -44,14 +44,14 @@ public class AuditableRepositoryDecorator<T> : RepositoryDecoratorAbstract<T> wh
             SetCreated(entity);
         }
 
-        await  InnerRepository.AddRangeAsync(entitiesList, cancellationToken);
+        await InnerRepository.AddRangeAsync(entitiesList, cancellationToken);
     }
 
     /// <inheritdoc/>
     public override async Task UpdateAsync(T entity, CancellationToken cancellationToken)
     {
         SetModified(entity);
-        await  InnerRepository.UpdateAsync(entity, cancellationToken);
+        await InnerRepository.UpdateAsync(entity, cancellationToken);
     }
 
     /// <inheritdoc/>
@@ -64,7 +64,7 @@ public class AuditableRepositoryDecorator<T> : RepositoryDecoratorAbstract<T> wh
             SetModified(entity);
         }
 
-        await  InnerRepository.UpdateRangeAsync(entitiesList, cancellationToken);
+        await InnerRepository.UpdateRangeAsync(entitiesList, cancellationToken);
     }
 
     private void SetCreated(IAuditable entity)
