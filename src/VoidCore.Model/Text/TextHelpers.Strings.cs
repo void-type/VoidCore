@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using VoidCore.Model.Guards;
 
 namespace VoidCore.Model.Text;
@@ -24,7 +25,7 @@ public static partial class TextHelpers
     /// </summary>
     /// <param name="str">The string to check</param>
     /// <returns>true if the value parameter is null or an empty string (""); otherwise, false.</returns>
-    public static bool IsNullOrEmpty(this string? str)
+    public static bool IsNullOrEmpty([NotNullWhen(false)] this string? str)
     {
         return string.IsNullOrEmpty(str);
     }
@@ -45,7 +46,7 @@ public static partial class TextHelpers
     /// </summary>
     /// <param name="str">The string to check</param>
     /// <returns>true if the value parameter is null or string.Empty, or if value consists exclusively of white-space characters.</returns>
-    public static bool IsNullOrWhiteSpace(this string? str)
+    public static bool IsNullOrWhiteSpace([NotNullWhen(false)] this string? str)
     {
         return string.IsNullOrWhiteSpace(str);
     }
