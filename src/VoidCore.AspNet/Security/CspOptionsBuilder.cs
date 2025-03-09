@@ -38,10 +38,17 @@ public sealed class CspOptionsBuilder
     public CspSourceDirectiveBuilder DefaultSources => Custom("default-src").ForSources(_nonce);
 
     /// <summary>
-    /// Set the policy for font sources.
+    /// Set the policy for connect sources. Controls which network locations a page can connect to
+    /// via fetch, WebSockets, EventSource, XMLHttpRequest, etc.
     /// </summary>
     /// <returns>The builder for chaining.</returns>
-    public CspSourceDirectiveBuilder FontSources => Custom("font-src").ForSources(_nonce);
+    public CspSourceDirectiveBuilder ConnectSources => Custom("connect-src").ForSources(_nonce);
+
+    /// <summary>
+    /// Set the policy for frame sources. Controls which URLs can be loaded using frame and iframe elements.
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspSourceDirectiveBuilder FrameSources => Custom("frame-src").ForSources(_nonce);
 
     /// <summary>
     /// Set the policy for frame-ancestors.
@@ -50,6 +57,52 @@ public sealed class CspOptionsBuilder
     /// </summary>
     /// <returns>The builder for chaining.</returns>
     public CspDirectiveBuilder FrameAncestors => Custom("frame-ancestors");
+
+    /// <summary>
+    /// Set the policy for script sources.
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspSourceDirectiveBuilder ScriptSources => Custom("script-src").ForSources(_nonce);
+
+    /// <summary>
+    /// Set the policy for script element sources. Controls which URLs can be loaded as JavaScript
+    /// using script elements. Falls back to script-src if not specified.
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspSourceDirectiveBuilder ScriptElementSources => Custom("script-src-elem").ForSources(_nonce);
+
+    /// <summary>
+    /// Set the policy for script attribute sources. Controls which inline event handlers can be executed
+    /// (like onclick, onload). Falls back to script-src if not specified.
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspSourceDirectiveBuilder ScriptAttributeSources => Custom("script-src-attr").ForSources(_nonce);
+
+    /// <summary>
+    /// Set the policy for style sources.
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspSourceDirectiveBuilder StyleSources => Custom("style-src").ForSources(_nonce);
+
+    /// <summary>
+    /// Set the policy for style element sources. Controls which URLs can be loaded as CSS
+    /// using style elements and link elements with rel="stylesheet". Falls back to style-src if not specified.
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspSourceDirectiveBuilder StyleElementSources => Custom("style-src-elem").ForSources(_nonce);
+
+    /// <summary>
+    /// Set the policy for style attribute sources. Controls which inline style attributes can be applied.
+    /// Falls back to style-src if not specified.
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspSourceDirectiveBuilder StyleAttributeSources => Custom("style-src-attr").ForSources(_nonce);
+
+    /// <summary>
+    /// Set the policy for font sources.
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspSourceDirectiveBuilder FontSources => Custom("font-src").ForSources(_nonce);
 
     /// <summary>
     /// Set the policy for img sources.
@@ -71,16 +124,76 @@ public sealed class CspOptionsBuilder
     public CspSourceDirectiveBuilder ObjectSources => Custom("object-src").ForSources(_nonce);
 
     /// <summary>
-    /// Set the policy for script sources.
+    /// Set the policy for manifest sources. Controls which manifest files can be applied to the resource.
     /// </summary>
     /// <returns>The builder for chaining.</returns>
-    public CspSourceDirectiveBuilder ScriptSources => Custom("script-src").ForSources(_nonce);
+    public CspSourceDirectiveBuilder ManifestSources => Custom("manifest-src").ForSources(_nonce);
 
     /// <summary>
-    /// Set the policy for stylesheet sources.
+    /// Set the policy for worker sources. Controls which URLs can be loaded as Worker, SharedWorker, or ServiceWorker.
     /// </summary>
     /// <returns>The builder for chaining.</returns>
-    public CspSourceDirectiveBuilder StyleSources => Custom("style-src").ForSources(_nonce);
+    public CspSourceDirectiveBuilder WorkerSources => Custom("worker-src").ForSources(_nonce);
+
+    /// <summary>
+    /// Set the policy for child sources. Controls which URLs can be loaded using frame and worker elements.
+    /// Note: This directive is somewhat deprecated in favor of frame-src and worker-src.
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspSourceDirectiveBuilder ChildSources => Custom("child-src").ForSources(_nonce);
+
+    /// <summary>
+    /// Set the policy for form actions. Restricts the URLs which can be used as targets of form submissions.
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspSourceDirectiveBuilder FormActions => Custom("form-action").ForSources(_nonce);
+
+    /// <summary>
+    /// Set the policy for navigation. Restricts the URLs to which a document can initiate navigation.
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspSourceDirectiveBuilder NavigateTo => Custom("navigate-to").ForSources(_nonce);
+
+    /// <summary>
+    /// Set the policy for prefetch sources. Controls which URLs can be prefetched or prerendered.
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspSourceDirectiveBuilder PrefetchSources => Custom("prefetch-src").ForSources(_nonce);
+
+    /// <summary>
+    /// Set the policy for require-trusted-types-for. Requires Trusted Types in specified contexts to prevent DOM-based XSS attacks.
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspDirectiveBuilder RequireTrustedTypesFor => Custom("require-trusted-types-for");
+
+    /// <summary>
+    /// Set the policy for trusted-types. Defines naming schema and behavior for Trusted Types policies.
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspDirectiveBuilder TrustedTypes => Custom("trusted-types");
+
+    /// <summary>
+    /// Enable upgrade-insecure-requests directive. Instructs browsers to treat all HTTP URLs as if they had been replaced with HTTPS.
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspOptionsBuilder EnableUpgradeInsecureRequests()
+    {
+        Custom("upgrade-insecure-requests");
+        return this;
+    }
+
+    /// <summary>
+    /// Set the sandbox directive. Restricts actions that the page can take (similar to iframe sandbox attribute).
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspDirectiveBuilder Sandbox => Custom("sandbox");
+
+    /// <summary>
+    /// Set the report-to directive. Modern replacement for report-uri that specifies a reporting group
+    /// to send reports to.
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspDirectiveBuilder ReportTo => Custom("report-to");
 
     private CspDirectiveBuilder ReportUri => Custom("report-uri");
 
@@ -93,14 +206,13 @@ public sealed class CspOptionsBuilder
     {
         directiveName.EnsureNotNull();
 
-        var maybeBuilder = Maybe.From(_directiveBuilders.Find(d => d.Name == directiveName));
-
-        return maybeBuilder.Unwrap(() =>
-        {
-            var newBuilder = new CspDirectiveBuilder(directiveName);
-            _directiveBuilders.Add(newBuilder);
-            return newBuilder;
-        });
+        return Maybe.From(_directiveBuilders.Find(d => d.Name == directiveName))
+            .Unwrap(() =>
+            {
+                var newBuilder = new CspDirectiveBuilder(directiveName);
+                _directiveBuilders.Add(newBuilder);
+                return newBuilder;
+            });
     }
 
     // Remove obsolete code in next major version
