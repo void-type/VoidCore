@@ -21,6 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Disabled for now -->
+    <!-- <ProjectReference Include="..\..\analyzers\VoidCore.Analyzers\VoidCore.Analyzers.csproj" PrivateAssets="all" OutputItemType="Analyzer" ReferenceOutputAssembly="false" /> -->
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
     <None Include="..\..\docs\*.md" Pack="true" PackagePath="\docs" />

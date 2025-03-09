@@ -7,6 +7,7 @@ namespace VoidCore.AspNet.Routing;
 /// <summary>
 /// Prepend the API route base of "/api" to the route path.
 /// </summary>
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
 public class ApiRouteAttribute : RouteAttribute
 {
     /// <summary>

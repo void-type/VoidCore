@@ -13,6 +13,7 @@ namespace VoidCore.AspNet.Routing;
 /// The exception is always logged.
 /// API status codes are ignored and returned verbatim, even if empty.
 /// </summary>
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
 public partial class ApiRouteExceptionFilterAttribute : ExceptionFilterAttribute
 {
     private const string Message = "There was a problem processing your request.";

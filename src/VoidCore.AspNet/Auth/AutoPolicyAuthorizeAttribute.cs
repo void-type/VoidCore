@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using System;
 using VoidCore.Model.Text;
 
 namespace VoidCore.AspNet.Auth;
@@ -7,6 +8,7 @@ namespace VoidCore.AspNet.Auth;
 /// Derivatives of this class will have their policies set by convention from the name of the class.
 /// Ex: UserOnly will authorize the policy of "User"
 /// </summary>
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
 public class AutoPolicyAuthorizeAttribute : AuthorizeAttribute
 {
     /// <summary>
