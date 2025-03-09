@@ -178,6 +178,14 @@ csharp_space_between_square_brackets = false
 csharp_preserve_single_line_statements = true
 csharp_preserve_single_line_blocks = true
 
+# Analyzers
+# Remove unused usings
+dotnet_diagnostic.IDE0005.severity = warning
+dotnet_diagnostic.IDE0060.severity = warning
+
+# We prefer the opposite, to enforce the use of the async keyword
+dotnet_diagnostic.AsyncFixer01.severity = none
+
 ## Naming conventions
 [*.{cs,vb}]
 
