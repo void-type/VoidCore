@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System.Threading;
+using System.Threading.Tasks;
 using VoidCore.AspNet.Configuration;
 using VoidCore.Model.Auth;
 using VoidCore.Model.Events;
@@ -19,7 +21,7 @@ namespace VoidCore.AspNet.ClientApp;
 public static class GetWebClientInfo
 {
     /// <inheritdoc/>
-    public class Handler : EventHandlerSyncAbstract<Request, WebClientInfo>
+    public class Handler : EventHandlerAbstract<Request, WebClientInfo>
     {
         private readonly IAntiforgery _antiForgery;
         private readonly ICurrentUserAccessor _currentUserAccessor;
@@ -42,15 +44,19 @@ public static class GetWebClientInfo
         }
 
         /// <inheritdoc/>
-        protected override IResult<WebClientInfo> HandleSync(Request request)
+        public override async Task<IResult<WebClientInfo>> Handle(Request request, CancellationToken cancellationToken = default)
         {
             var context = _httpContextAccessor.HttpContext.EnsureNotNull();
 
+            var user = await _currentUserAccessor.GetUser();
+
+            var tokens = _antiForgery.GetAndStoreTokens(context);
+
             var clientInfo = new WebClientInfo(
                 _applicationSettings.Name,
-                _antiForgery.GetAndStoreTokens(context).RequestToken.EnsureNotNull(),
-                _antiForgery.GetAndStoreTokens(context).HeaderName.EnsureNotNull(),
-                _currentUserAccessor);
+                tokens.RequestToken.EnsureNotNull(),
+                tokens.HeaderName.EnsureNotNull(),
+                user);
 
             return Ok(clientInfo);
         }
@@ -68,12 +74,12 @@ public static class GetWebClientInfo
     /// </summary>
     public class WebClientInfo
     {
-        internal WebClientInfo(string applicationName, string antiforgeryToken, string antiforgeryTokenHeaderName, ICurrentUserAccessor currentUserAccessor)
+        internal WebClientInfo(string applicationName, string antiforgeryToken, string antiforgeryTokenHeaderName, DomainUser user)
         {
             ApplicationName = applicationName;
             AntiforgeryToken = antiforgeryToken;
             AntiforgeryTokenHeaderName = antiforgeryTokenHeaderName;
-            User = currentUserAccessor.User;
+            User = user;
         }
 
         /// <summary>

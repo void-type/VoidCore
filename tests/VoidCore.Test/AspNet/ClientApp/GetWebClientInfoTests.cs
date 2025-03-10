@@ -21,7 +21,7 @@ public class GetWebClientInfoTests
         };
 
         var currentUserAccessorMock = Substitute.For<ICurrentUserAccessor>();
-        currentUserAccessorMock.User
+        currentUserAccessorMock.GetUser()
             .Returns(new DomainUser("UserName", ["policy1", "policy2"]));
 
         var contextMock = Substitute.For<HttpContext>();

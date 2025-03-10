@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using VoidCore.Model.Auth;
 
 namespace VoidCore.AspNet.Auth;
@@ -32,24 +33,30 @@ public class WebCurrentUserAccessor : ICurrentUserAccessor
     }
 
     /// <inheritdoc/>
-    public DomainUser User
+    public async Task<DomainUser> GetUser()
     {
-        get
+        if (_httpContextAccessor.HttpContext is null)
         {
-            if (_httpContextAccessor.HttpContext is null)
-            {
-                return new DomainUser(_userNameFormatter.Format(null), Array.Empty<string>());
-            }
-
-            var currentUser = _httpContextAccessor.HttpContext.User;
-
-            var authorizedAs = _authorizationSettings.Policies
-                .Where(policy => _authorizationService.AuthorizeAsync(currentUser, null, policy.Key).GetAwaiter().GetResult().Succeeded)
-                .Select(policy => policy.Key);
-
-            var name = _userNameFormatter.Format(currentUser.Identity?.Name);
-
-            return new DomainUser(name, authorizedAs);
+            return new DomainUser(_userNameFormatter.Format(null), []);
         }
+
+        var currentUser = _httpContextAccessor.HttpContext.User;
+        var policies = _authorizationSettings.Policies;
+
+        var authorizedAs = new List<string>();
+
+        foreach (var policy in policies.Select(p => p.Key))
+        {
+            var result = await _authorizationService.AuthorizeAsync(currentUser, null, policy);
+
+            if (result.Succeeded)
+            {
+                authorizedAs.Add(policy);
+            }
+        }
+
+        var name = _userNameFormatter.Format(currentUser.Identity?.Name);
+
+        return new DomainUser(name, authorizedAs);
     }
 }

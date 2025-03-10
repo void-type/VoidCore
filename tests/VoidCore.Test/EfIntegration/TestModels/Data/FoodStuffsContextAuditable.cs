@@ -78,13 +78,15 @@ public class FoodStuffsContextAuditable : DbContext
     // In practice, the following should be in a partial class to survive EF Database Scaffolding.
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
     {
-        ChangeTracker.Entries().SetAuditableProperties(_dateTimeService, _currentUserAccessor.User.Login);
+        var user = _currentUserAccessor.GetUser().GetAwaiter().GetResult();
+
+        ChangeTracker.Entries().SetAuditableProperties(_dateTimeService, user.Login);
         return base.SaveChanges(acceptAllChangesOnSuccess);
     }
 
-    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
     {
-        ChangeTracker.Entries().SetAuditableProperties(_dateTimeService, _currentUserAccessor.User.Login);
-        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        ChangeTracker.Entries().SetAuditableProperties(_dateTimeService, (await _currentUserAccessor.GetUser()).Login);
+        return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
     }
 }

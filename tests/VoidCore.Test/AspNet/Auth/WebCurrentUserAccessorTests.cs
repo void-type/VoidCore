@@ -14,7 +14,7 @@ namespace VoidCore.Test.AspNet.Auth;
 public class WebCurrentUserAccessorTests
 {
     [Fact]
-    public void WebCurrentUserAccessor_returns_user_with_correct_auth()
+    public async Task WebCurrentUserAccessor_returns_user_with_correct_auth()
     {
         var authSettings = new AuthorizationSettings
         {
@@ -53,14 +53,14 @@ public class WebCurrentUserAccessorTests
 
         var accessor = new WebCurrentUserAccessor(httpContextAccessorMock, new EmailUserNameFormatStrategy(), authServiceMock, authSettings);
 
-        var user = accessor.User;
+        var user = await accessor.GetUser();
         Assert.Equal("Name", user.Login);
         Assert.Contains("User", user.AuthorizedAs);
         Assert.DoesNotContain("Admin", user.AuthorizedAs);
     }
 
     [Fact]
-    public void WebCurrentUserAccessor_returns_user_with_no_permissions_if_context_is_null()
+    public async Task WebCurrentUserAccessor_returns_user_with_no_permissions_if_context_is_null()
     {
         var httpContextAccessorMock = Substitute.For<IHttpContextAccessor>();
         httpContextAccessorMock.HttpContext
@@ -68,7 +68,7 @@ public class WebCurrentUserAccessorTests
 
         var accessor = new WebCurrentUserAccessor(httpContextAccessorMock, new EmailUserNameFormatStrategy(), null, null);
 
-        var user = accessor.User;
+        var user = await accessor.GetUser();
 
         Assert.Empty(user.AuthorizedAs);
     }

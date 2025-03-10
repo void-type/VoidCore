@@ -33,13 +33,15 @@ public partial class CurrentUserLoggingMiddleware
     /// Invoke the middleware.
     /// </summary>
     /// <param name="context">The current HttpContext</param>
-    public Task Invoke(HttpContext context)
+    public async Task Invoke(HttpContext context)
     {
         context.EnsureNotNull();
 
-        LogUser(_currentUserAccessor.User.Login, _currentUserAccessor.User.AuthorizedAs);
+        var user = await _currentUserAccessor.GetUser();
 
-        return _next(context);
+        LogUser(user.Login, user.AuthorizedAs);
+
+        await _next(context);
     }
 
     [LoggerMessage(0, LogLevel.Information, "User {Login} is authorized as {AuthorizedAs}.")]

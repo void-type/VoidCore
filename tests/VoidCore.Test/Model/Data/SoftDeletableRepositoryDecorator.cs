@@ -27,7 +27,7 @@ public class SoftDeletableRepositoryDecorator
         var dateTimeService = new DiscreteDateTimeService(date);
 
         var currentUserAccessorMock = Substitute.For<ICurrentUserAccessor>();
-        currentUserAccessorMock.User
+        currentUserAccessorMock.GetUser()
             .Returns(new DomainUser("userName", Array.Empty<string>()));
 
         var decoratedRepo = repoMock.AddSoftDeletability(dateTimeService, currentUserAccessorMock);
@@ -56,7 +56,7 @@ public class SoftDeletableRepositoryDecorator
         var dateTimeService = new DiscreteDateTimeService(date);
 
         var currentUserAccessorMock = Substitute.For<ICurrentUserAccessor>();
-        currentUserAccessorMock.User
+        currentUserAccessorMock.GetUser()
             .Returns(new DomainUser("userName", Array.Empty<string>()));
 
         var decoratedRepo = repoMock.AddSoftDeletability(dateTimeService, currentUserAccessorMock);

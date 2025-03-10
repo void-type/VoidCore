@@ -15,7 +15,7 @@ public static class Deps
     static Deps()
     {
         var userAccessorMock = Substitute.For<ICurrentUserAccessor>();
-        userAccessorMock.User.Returns(new DomainUser("SingleUser", Array.Empty<string>()));
+        userAccessorMock.GetUser().Returns(new DomainUser("SingleUser", Array.Empty<string>()));
         CurrentUserAccessor = userAccessorMock;
 
         var early = new DateTime(2001, 1, 1, 11, 11, 11, DateTimeKind.Utc);

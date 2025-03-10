@@ -28,52 +28,52 @@ public class AuditableRepositoryDecorator<T> : RepositoryDecoratorAbstract<T> wh
     }
 
     /// <inheritdoc/>
-    public override Task<T> Add(T entity, CancellationToken cancellationToken)
+    public override async Task<T> Add(T entity, CancellationToken cancellationToken)
     {
-        SetCreated(entity);
-        return InnerRepository.Add(entity, cancellationToken);
+        await SetCreated(entity);
+        return await InnerRepository.Add(entity, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public override Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+    public override async Task AddRange(IEnumerable<T> entities, CancellationToken cancellationToken)
     {
         var entitiesList = entities.ToList();
 
         foreach (var entity in entitiesList)
         {
-            SetCreated(entity);
+            await SetCreated(entity);
         }
 
-        return InnerRepository.AddRange(entitiesList, cancellationToken);
+        await InnerRepository.AddRange(entitiesList, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public override Task Update(T entity, CancellationToken cancellationToken)
+    public override async Task Update(T entity, CancellationToken cancellationToken)
     {
-        SetModified(entity);
-        return InnerRepository.Update(entity, cancellationToken);
+        await SetModified(entity);
+        await InnerRepository.Update(entity, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public override Task UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+    public override async Task UpdateRange(IEnumerable<T> entities, CancellationToken cancellationToken)
     {
         var entitiesList = entities.ToList();
 
         foreach (var entity in entitiesList)
         {
-            SetModified(entity);
+            await SetModified(entity);
         }
 
-        return InnerRepository.UpdateRange(entitiesList, cancellationToken);
+        await InnerRepository.UpdateRange(entitiesList, cancellationToken);
     }
 
-    private void SetCreated(IAuditable entity)
+    private async Task SetCreated(IAuditable entity)
     {
-        entity.SetAuditCreated(_now.Moment, _currentUserAccessor.User.Login);
+        entity.SetAuditCreated(_now.Moment, (await _currentUserAccessor.GetUser()).Login);
     }
 
-    private void SetModified(IAuditable entity)
+    private async Task SetModified(IAuditable entity)
     {
-        entity.SetAuditModified(_now.Moment, _currentUserAccessor.User.Login);
+        entity.SetAuditModified(_now.Moment, (await _currentUserAccessor.GetUser()).Login);
     }
 }

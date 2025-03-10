@@ -1,4 +1,6 @@
-﻿namespace VoidCore.Model.Auth;
+﻿using System.Threading.Tasks;
+
+namespace VoidCore.Model.Auth;
 
 /// <summary>
 /// A singleton to access the current user.
@@ -8,5 +10,5 @@ public interface ICurrentUserAccessor
     /// <summary>
     /// Get the current domain user.
     /// </summary>
-    DomainUser User { get; }
+    Task<DomainUser> GetUser();
 }

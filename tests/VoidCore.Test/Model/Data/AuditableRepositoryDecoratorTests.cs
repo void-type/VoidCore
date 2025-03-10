@@ -24,7 +24,7 @@ public class AuditableRepositoryDecoratorTests
         var dateTimeService = new DiscreteDateTimeService(date);
 
         var currentUserAccessorMock = Substitute.For<ICurrentUserAccessor>();
-        currentUserAccessorMock.User
+        currentUserAccessorMock.GetUser()
             .Returns(new DomainUser("userName", Array.Empty<string>()));
 
         var decorator = repoMock.AddAuditability(dateTimeService, currentUserAccessorMock);
@@ -51,7 +51,7 @@ public class AuditableRepositoryDecoratorTests
         var dateTimeService = new DiscreteDateTimeService(date);
 
         var currentUserAccessorMock = Substitute.For<ICurrentUserAccessor>();
-        currentUserAccessorMock.User
+        currentUserAccessorMock.GetUser()
             .Returns(new DomainUser("userName", Array.Empty<string>()));
 
         var decoratedRepo = repoMock.AddAuditability(dateTimeService, currentUserAccessorMock);
@@ -78,7 +78,7 @@ public class AuditableRepositoryDecoratorTests
         var dateTimeService = new DiscreteDateTimeService(date);
 
         var currentUserAccessorMock = Substitute.For<ICurrentUserAccessor>();
-        currentUserAccessorMock.User
+        currentUserAccessorMock.GetUser()
             .Returns(new DomainUser("userName", Array.Empty<string>()));
 
         var decoratedRepo = repoMock.AddAuditability(dateTimeService, currentUserAccessorMock);
@@ -105,7 +105,7 @@ public class AuditableRepositoryDecoratorTests
         var dateTimeService = new DiscreteDateTimeService(date);
 
         var currentUserAccessorMock = Substitute.For<ICurrentUserAccessor>();
-        currentUserAccessorMock.User
+        currentUserAccessorMock.GetUser()
             .Returns(new DomainUser("userName", Array.Empty<string>()));
 
         var decoratedRepo = repoMock.AddAuditability(dateTimeService, currentUserAccessorMock);

@@ -28,27 +28,27 @@ public class SoftDeletableWithOffsetRepositoryDecorator<T> : RepositoryDecorator
     }
 
     /// <inheritdoc/>
-    public override Task Remove(T entity, CancellationToken cancellationToken)
+    public override async Task Remove(T entity, CancellationToken cancellationToken)
     {
-        SetDeleted(entity);
-        return InnerRepository.Update(entity, cancellationToken);
+        await SetDeleted(entity);
+        await InnerRepository.Update(entity, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public override Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+    public override async Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken)
     {
         var entitiesList = entities.ToList();
 
         foreach (var entity in entitiesList)
         {
-            SetDeleted(entity);
+            await SetDeleted(entity);
         }
 
-        return InnerRepository.UpdateRange(entitiesList, cancellationToken);
+        await InnerRepository.UpdateRange(entitiesList, cancellationToken);
     }
 
-    private void SetDeleted(ISoftDeletableWithOffset entity)
+    private async Task SetDeleted(ISoftDeletableWithOffset entity)
     {
-        entity.SetSoftDeleted(_now.MomentWithOffset, _currentUserAccessor.User.Login);
+        entity.SetSoftDeleted(_now.MomentWithOffset, (await _currentUserAccessor.GetUser()).Login);
     }
 }
