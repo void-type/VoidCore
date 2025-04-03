@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using VoidCore.Model.Data;
+﻿using VoidCore.Model.Data;
 using VoidCore.Test.EfIntegration.TestModels;
 using VoidCore.Test.EfIntegration.TestModels.Data;
 using Xunit;
@@ -30,7 +28,13 @@ public class EfAuditableDbContextTests
     {
         using var context = Deps.FoodStuffsContextAuditable().Seed();
 
-        var c = new Category() { Name = "new category" };
+        var c = new Category()
+        {
+            Name = "new category",
+            CreatedBy = "11",
+            DeletedBy = "",
+            ModifiedBy = "33",
+        };
         context.Category.Add(c);
         await context.SaveChangesAsync();
 

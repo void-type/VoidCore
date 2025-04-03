@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using VoidCore.Model.Text;
 using Xunit;
 
@@ -61,12 +60,12 @@ public class TextHelpersTests
     public void String_extensions()
     {
         Assert.True("".IsNullOrEmpty());
-        Assert.True(((string)null).IsNullOrEmpty());
+        Assert.True(((string)null!).IsNullOrEmpty());
         Assert.False("\t ".IsNullOrEmpty());
         Assert.False("t".IsNullOrEmpty());
 
         Assert.True("".IsNullOrWhiteSpace());
-        Assert.True(((string)null).IsNullOrWhiteSpace());
+        Assert.True(((string)null!).IsNullOrWhiteSpace());
         Assert.True("\t ".IsNullOrWhiteSpace());
         Assert.False("t".IsNullOrWhiteSpace());
 
@@ -79,12 +78,12 @@ public class TextHelpersTests
     public void String_default_extensions()
     {
         Assert.Equal("default", "".DefaultIfNullOrEmpty("default"));
-        Assert.Equal("default", ((string)null).DefaultIfNullOrEmpty("default"));
+        Assert.Equal("default", ((string)null!).DefaultIfNullOrEmpty("default"));
         Assert.Equal("\t ", "\t ".DefaultIfNullOrEmpty("default"));
         Assert.Equal("t", "t".DefaultIfNullOrEmpty("default"));
 
         Assert.Equal("default", "".DefaultIfNullOrWhiteSpace("default"));
-        Assert.Equal("default", ((string)null).DefaultIfNullOrWhiteSpace("default"));
+        Assert.Equal("default", ((string)null!).DefaultIfNullOrWhiteSpace("default"));
         Assert.Equal("default", "\t ".DefaultIfNullOrWhiteSpace("default"));
         Assert.Equal("t", "t".DefaultIfNullOrWhiteSpace("default"));
     }
@@ -103,7 +102,7 @@ public class TextHelpersTests
     [InlineData(null)]
     [InlineData("")]
     [InlineData("    ")]
-    public void Slugify_returns_empty_string_when_input_null_or_whitespace(string input)
+    public void Slugify_returns_empty_string_when_input_null_or_whitespace(string? input)
     {
         var actual = input.Slugify();
 

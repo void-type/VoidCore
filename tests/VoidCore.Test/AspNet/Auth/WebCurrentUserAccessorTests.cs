@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using NSubstitute;
-using System.Collections.Generic;
 using System.Security.Claims;
 using System.Security.Principal;
-using System.Threading.Tasks;
 using VoidCore.AspNet.Auth;
 using VoidCore.Model.Auth;
 using Xunit;
@@ -64,9 +62,9 @@ public class WebCurrentUserAccessorTests
     {
         var httpContextAccessorMock = Substitute.For<IHttpContextAccessor>();
         httpContextAccessorMock.HttpContext
-            .Returns((HttpContext)null);
+            .Returns((HttpContext)null!);
 
-        var accessor = new WebCurrentUserAccessor(httpContextAccessorMock, new EmailUserNameFormatStrategy(), null, null);
+        var accessor = new WebCurrentUserAccessor(httpContextAccessorMock, new EmailUserNameFormatStrategy(), null!, null!);
 
         var user = await accessor.GetUser();
 

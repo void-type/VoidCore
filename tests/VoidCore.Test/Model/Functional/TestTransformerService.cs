@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using VoidCore.Model.Functional;
+﻿using VoidCore.Model.Functional;
 
 namespace VoidCore.Test.Model.Functional;
 

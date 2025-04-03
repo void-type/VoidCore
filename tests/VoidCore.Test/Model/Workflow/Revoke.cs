@@ -3,5 +3,5 @@
 public class Revoke
 {
     public int Id { get; set; }
-    public string Revoker { get; set; }
+    public string? Revoker { get; set; }
 }

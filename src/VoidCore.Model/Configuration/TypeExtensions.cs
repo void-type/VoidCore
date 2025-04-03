@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace VoidCore.Model.Configuration;
+﻿namespace VoidCore.Model.Configuration;
 
 /// <summary>
 /// Settings configuration extension methods for types.

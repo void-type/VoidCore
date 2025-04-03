@@ -1,6 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 using System.Text;
 using VoidCore.Model.Functional;
 
@@ -17,7 +15,7 @@ public static partial class TextHelpers
     /// <param name="phrase">The original string</param>
     /// <param name="maxLength">Max number of characters for the final slug</param>
     /// <param name="splitOnWord">When true, partial words after truncation will be removed</param>
-    public static string Slugify(this string phrase, int? maxLength = null, bool splitOnWord = false)
+    public static string Slugify(this string? phrase, int? maxLength = null, bool splitOnWord = false)
     {
         if (string.IsNullOrWhiteSpace(phrase))
         {

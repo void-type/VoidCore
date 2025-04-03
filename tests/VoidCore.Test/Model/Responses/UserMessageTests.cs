@@ -1,5 +1,4 @@
-﻿using System;
-using VoidCore.Model.Responses.Messages;
+﻿using VoidCore.Model.Responses.Messages;
 using Xunit;
 
 namespace VoidCore.Test.Model.Responses;

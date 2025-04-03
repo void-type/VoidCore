@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace VoidCore.Test.Model.Functional;
+﻿namespace VoidCore.Test.Model.Functional;
 
 /// <summary>
 /// This class gives something for our functional extensions to act on.

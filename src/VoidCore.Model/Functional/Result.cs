@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace VoidCore.Model.Functional;
+﻿namespace VoidCore.Model.Functional;
 
 /// <summary>
 /// The result of a fallible operation that does not return a value on success. Generally used with CQRS Commands or

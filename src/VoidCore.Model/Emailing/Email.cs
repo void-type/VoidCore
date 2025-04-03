@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using VoidCore.Model.Guards;
+﻿using VoidCore.Model.Guards;
 
 namespace VoidCore.Model.Emailing;
 

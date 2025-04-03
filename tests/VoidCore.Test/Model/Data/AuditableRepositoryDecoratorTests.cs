@@ -1,8 +1,4 @@
 ﻿using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using VoidCore.Model.Auth;
 using VoidCore.Model.Data;
 using VoidCore.Model.Time;
@@ -122,9 +118,9 @@ public class AuditableRepositoryDecoratorTests
 
     public class TestEntity : IAuditable
     {
-        public string CreatedBy { get; set; } = null;
+        public string CreatedBy { get; set; } = null!;
         public DateTime CreatedOn { get; set; }
-        public string ModifiedBy { get; set; }
+        public string ModifiedBy { get; set; } = string.Empty;
         public DateTime ModifiedOn { get; set; }
     }
 }

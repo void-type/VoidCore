@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using VoidCore.Model.Functional;
+﻿using VoidCore.Model.Functional;
 using Xunit;
 
 namespace VoidCore.Test.Model.Functional;

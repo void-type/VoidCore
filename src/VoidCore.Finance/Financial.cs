@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VoidCore.Finance;
+﻿namespace VoidCore.Finance;
 
 /// <summary>
 /// Functions for calculating the time value of money.

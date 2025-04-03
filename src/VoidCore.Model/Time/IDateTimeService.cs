@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VoidCore.Model.Time;
+﻿namespace VoidCore.Model.Time;
 
 /// <summary>
 /// An interface for injecting time.

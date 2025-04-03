@@ -15,8 +15,8 @@ public class HttpResponderTests
     {
         var response = HttpResponder.Respond(EntityMessage.Create("success", 2));
         Assert.Equal(200, ((ObjectResult)response).StatusCode);
-        Assert.Equal("success", ((EntityMessage<int>)((ObjectResult)response).Value).Message);
-        Assert.Equal(2, ((EntityMessage<int>)((ObjectResult)response).Value).Id);
+        Assert.Equal("success", ((EntityMessage<int>)((ObjectResult)response).Value!).Message);
+        Assert.Equal(2, ((EntityMessage<int>)((ObjectResult)response).Value!).Id);
     }
 
     [Fact]
@@ -25,7 +25,7 @@ public class HttpResponderTests
         var result = Result.Fail(new Failure("some fail", "some fail"));
         var response = HttpResponder.Respond(result);
         Assert.Equal(400, ((ObjectResult)response).StatusCode);
-        Assert.Equal(1, ((ItemSet<IFailure>)((ObjectResult)response).Value).Count);
+        Assert.Equal(1, ((ItemSet<IFailure>)((ObjectResult)response).Value!).Count);
     }
 
     [Fact]
@@ -34,7 +34,7 @@ public class HttpResponderTests
         var result = Result.Fail<SimpleFile>(new Failure("some fail", "some fail"), new Failure("some fail", "some fail"));
         var response = HttpResponder.RespondWithFile(result);
         Assert.Equal(400, ((ObjectResult)response).StatusCode);
-        Assert.Equal(2, ((ItemSet<IFailure>)((ObjectResult)response).Value).Count);
+        Assert.Equal(2, ((ItemSet<IFailure>)((ObjectResult)response).Value!).Count);
     }
 
     [Fact]
@@ -63,7 +63,7 @@ public class HttpResponderTests
         var result = Result.Fail<string>(new Failure("some fail", "some fail"));
         var response = HttpResponder.Respond(result);
         Assert.Equal(400, ((ObjectResult)response).StatusCode);
-        Assert.Equal(1, ((ItemSet<IFailure>)((ObjectResult)response).Value).Count);
+        Assert.Equal(1, ((ItemSet<IFailure>)((ObjectResult)response).Value!).Count);
     }
 
     [Fact]

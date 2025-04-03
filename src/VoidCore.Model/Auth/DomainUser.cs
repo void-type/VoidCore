@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace VoidCore.Model.Auth;
+﻿namespace VoidCore.Model.Auth;
 
 /// <summary>
 /// A user for use in the domain layer and model services.

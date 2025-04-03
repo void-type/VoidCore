@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace VoidCore.AspNet.Auth;
+﻿namespace VoidCore.AspNet.Auth;
 
 /// <summary>
 /// Application authorization settings that are pulled from configuration.

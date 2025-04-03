@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using VoidCore.Model.Guards;
+﻿using VoidCore.Model.Guards;
 using Xunit;
 
 namespace VoidCore.Test.Model;
@@ -10,7 +8,7 @@ public class GuardTests
     [Fact]
     public void EnsureNotNull_throws_ArgumentNullException_when_value_is_null()
     {
-        string myString = null;
+        string myString = null!;
 
         // Test that we can still pass argument name
         var ex1 = Assert.Throws<ArgumentNullException>(nameof(myString), () => myString.EnsureNotNull(argumentName: nameof(myString)));
@@ -30,11 +28,11 @@ public class GuardTests
     [Fact]
     public void EnsureNotNullOrEmpty_throws_ArgumentNullException_when_value_is_null()
     {
-        string myString = null;
+        string myString = null!;
         var ex1 = Assert.Throws<ArgumentNullException>(nameof(myString), () => myString.EnsureNotNullOrEmpty());
         Assert.Contains("Argument cannot be null.", ex1.Message);
 
-        List<string> myList = null;
+        List<string> myList = null!;
         var ex2 = Assert.Throws<ArgumentNullException>(nameof(myList), () => myList.EnsureNotNullOrEmpty());
         Assert.Contains("Argument cannot be null.", ex2.Message);
     }

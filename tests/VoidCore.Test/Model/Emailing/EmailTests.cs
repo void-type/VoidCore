@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using VoidCore.Model.Emailing;
+﻿using VoidCore.Model.Emailing;
 using Xunit;
 
 namespace VoidCore.Test.Model.Emailing;
@@ -33,18 +30,18 @@ public class EmailTests
     [Fact]
     public void Email_creation_with_null_subject_throws_ArgumentNullException()
     {
-        Assert.Throws<ArgumentNullException>(() => new Email(null, "Please test.", new List<string> { "vt@example.com", "vt2@example.com" }));
+        Assert.Throws<ArgumentNullException>(() => new Email(null!, "Please test.", new List<string> { "vt@example.com", "vt2@example.com" }));
     }
 
     [Fact]
     public void Email_creation_with_null_message_throws_ArgumentNullException()
     {
-        Assert.Throws<ArgumentNullException>(() => new Email("RE: Testing", null, new List<string> { "vt@example.com", "vt2@example.com" }));
+        Assert.Throws<ArgumentNullException>(() => new Email("RE: Testing", null!, new List<string> { "vt@example.com", "vt2@example.com" }));
     }
 
     [Fact]
     public void Email_creation_with_null_recipients_throws_ArgumentNullException()
     {
-        Assert.Throws<ArgumentNullException>(() => new Email("RE: Testing", "Please test.", null));
+        Assert.Throws<ArgumentNullException>(() => new Email("RE: Testing", "Please test.", null!));
     }
 }

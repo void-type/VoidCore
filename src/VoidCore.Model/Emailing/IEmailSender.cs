@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-namespace VoidCore.Model.Emailing;
+﻿namespace VoidCore.Model.Emailing;
 
 /// <summary>
 /// A service for sending emails.

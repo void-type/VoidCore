@@ -1,8 +1,4 @@
 ﻿using NSubstitute;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using VoidCore.Model.Events;
 using VoidCore.Model.Functional;
 using Xunit;
@@ -195,7 +191,7 @@ public class EventTests
 
     public class TestResponse
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 
     private class TestEventFail : EventHandlerAbstract<TestRequest, TestResponse>

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace VoidCore.Model.Responses.Collections;
+﻿namespace VoidCore.Model.Responses.Collections;
 
 /// <summary>
 /// A set of items. Can optionally by a page of a full set.

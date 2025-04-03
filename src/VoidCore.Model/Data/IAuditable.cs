@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VoidCore.Model.Data;
+﻿namespace VoidCore.Model.Data;
 
 /// <summary>
 /// An entity that keeps track of created and modified information.

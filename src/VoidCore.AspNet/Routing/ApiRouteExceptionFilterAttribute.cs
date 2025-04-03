@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
 using VoidCore.Model.Responses.Messages;
 
 namespace VoidCore.AspNet.Routing;

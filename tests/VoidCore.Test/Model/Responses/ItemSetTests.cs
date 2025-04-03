@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using VoidCore.Model.Responses.Collections;
+﻿using VoidCore.Model.Responses.Collections;
 using Xunit;
 
 namespace VoidCore.Test.Model.Responses;
@@ -68,9 +65,9 @@ public class ItemSetTests
     [Fact]
     public void Null_items_throws_ArgumentNullException()
     {
-        Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null));
-        Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null, new PaginationOptions(1, 1)));
-        Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null, new PaginationOptions(1, 1), 1));
+        Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null!));
+        Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null!, new PaginationOptions(1, 1)));
+        Assert.Throws<ArgumentNullException>(() => new ItemSet<string>(null!, new PaginationOptions(1, 1), 1));
     }
 
     [Theory]

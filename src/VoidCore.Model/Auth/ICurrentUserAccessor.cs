@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace VoidCore.Model.Auth;
+﻿namespace VoidCore.Model.Auth;
 
 /// <summary>
 /// A singleton to access the current user.

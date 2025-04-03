@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace VoidCore.Model.Workflow;
+﻿namespace VoidCore.Model.Workflow;
 
 /// <summary>
 /// A fluent builder for configuring allowed workflow transitions.

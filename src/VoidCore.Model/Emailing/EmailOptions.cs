@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace VoidCore.Model.Emailing;
+﻿namespace VoidCore.Model.Emailing;
 
 /// <summary>
 /// Options for building an email.

@@ -1,8 +1,4 @@
 ﻿using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using VoidCore.Model.Auth;
 using VoidCore.Model.Data;
 using VoidCore.Model.Time;
@@ -72,8 +68,8 @@ public class SoftDeletableRepositoryDecorator
 
     public class TestEntity : ISoftDeletable
     {
-        public string DeletedBy { get; set; }
-        public DateTime? DeletedOn { get; set; } = null;
+        public string DeletedBy { get; set; } = string.Empty;
+        public DateTime? DeletedOn { get; set; }
         public bool IsDeleted { get; set; }
     }
 }

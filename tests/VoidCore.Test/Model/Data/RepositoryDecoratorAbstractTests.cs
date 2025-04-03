@@ -1,7 +1,4 @@
 ﻿using NSubstitute;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using VoidCore.Model.Data;
 using Xunit;
 

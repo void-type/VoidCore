@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace VoidCore.Finance;
+﻿namespace VoidCore.Finance;
 
 /// <summary>
 /// The response of the calculation. Includes the request.

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using VoidCore.Model.Functional;
+﻿using VoidCore.Model.Functional;
 using VoidCore.Model.Guards;
 
 namespace VoidCore.Model.Responses.Files;

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using VoidCore.Finance;
+﻿using VoidCore.Finance;
 using Xunit;
 
 namespace VoidCore.Test.Finance;

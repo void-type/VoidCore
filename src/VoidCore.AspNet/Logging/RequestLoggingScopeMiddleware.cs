@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 using VoidCore.Model.Guards;
 
 namespace VoidCore.AspNet.Logging;

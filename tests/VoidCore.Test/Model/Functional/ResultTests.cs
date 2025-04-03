@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using VoidCore.Model.Functional;
+﻿using VoidCore.Model.Functional;
 using Xunit;
 
 namespace VoidCore.Test.Model.Functional;
@@ -12,13 +8,13 @@ public class ResultTests
     [Fact]
     public void Creating_Result_with_null_failures_throws_ArgumentNullException()
     {
-        Assert.Throws<ArgumentNullException>(() => Result.Fail(null));
+        Assert.Throws<ArgumentNullException>(() => Result.Fail(null!));
     }
 
     [Fact]
     public void Creating_typed_Result_with_null_failures_throws_ArgumentNullException()
     {
-        Assert.Throws<ArgumentNullException>(() => Result.Fail<string>(null));
+        Assert.Throws<ArgumentNullException>(() => Result.Fail<string>(null!));
     }
 
     [Fact]
@@ -36,7 +32,7 @@ public class ResultTests
     [Fact]
     public void Creating_typed_Result_with_empty_success_throws_ArgumentNullException()
     {
-        Assert.Throws<ArgumentNullException>(() => Result.Ok((string)null));
+        Assert.Throws<ArgumentNullException>(() => Result.Ok((string)null!));
     }
 
     [Fact]

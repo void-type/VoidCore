@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VoidCore.Model.Data;
+﻿namespace VoidCore.Model.Data;
 
 /// <summary>
 /// Extensions to set audit properties.

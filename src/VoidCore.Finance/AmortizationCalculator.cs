@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace VoidCore.Finance;
+﻿namespace VoidCore.Finance;
 
 /// <summary>
 /// Calculates an amortization schedule with information about the loan.

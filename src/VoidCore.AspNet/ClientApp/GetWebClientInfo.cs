@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System.Threading;
-using System.Threading.Tasks;
 using VoidCore.AspNet.Configuration;
 using VoidCore.Model.Auth;
 using VoidCore.Model.Events;

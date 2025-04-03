@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using VoidCore.Model.Emailing;
+﻿using VoidCore.Model.Emailing;
 using Xunit;
 
 namespace VoidCore.Test.Model.Emailing;
@@ -113,13 +110,13 @@ public class EmailFactoryTests
         Assert.Throws<ArgumentNullException>(() =>
            emailFactory.Create(email =>
            {
-               email.SetSubject(null);
+               email.SetSubject(null!);
            }));
 
         Assert.Throws<ArgumentNullException>(() =>
            emailFactory.Create(email =>
            {
-               email.AddRecipient(null);
+               email.AddRecipient(null!);
            }));
     }
 
@@ -132,7 +129,7 @@ public class EmailFactoryTests
         {
             builder.AddLine(string.Empty);
             builder.AddLine();
-            builder.AddLine(null);
+            builder.AddLine(null!);
             builder.AddLine("line 4");
         });
 

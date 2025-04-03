@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VoidCore.Model.Data;
+﻿namespace VoidCore.Model.Data;
 
 /// <summary>
 /// An entity that can be "soft-deleted." The entity is marked as deleted rather than fully deleted from the

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VoidCore.Model.Emailing;
+﻿namespace VoidCore.Model.Emailing;
 
 /// <summary>
 /// Builds emails via an action to configure options.

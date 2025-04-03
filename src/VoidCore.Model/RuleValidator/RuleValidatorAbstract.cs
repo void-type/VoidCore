@@ -1,5 +1,4 @@
-﻿using System;
-using VoidCore.Model.Events;
+﻿using VoidCore.Model.Events;
 using VoidCore.Model.Functional;
 
 namespace VoidCore.Model.RuleValidator;

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using VoidCore.Model.Functional;
+﻿using VoidCore.Model.Functional;
 using VoidCore.Model.RuleValidator;
 using VoidCore.Model.Text;
 using Xunit;
@@ -129,7 +127,7 @@ public class RuleValidatorTests
         Assert.False(result.IsSuccess);
         Assert.True(result.Failures.Any());
 
-        result = new Entity(null)
+        result = new Entity(null!)
             .Validate(validator =>
             {
                 validator.CreateRule("StringProperty can't be empty", nameof(Entity.StringProperty))
@@ -173,7 +171,7 @@ public class RuleValidatorTests
         Assert.False(result.IsSuccess);
         Assert.True(result.Failures.Any());
 
-        result = new Entity(null)
+        result = new Entity(null!)
             .Validate(validator =>
             {
                 validator.CreateRule("StringProperty can't be empty", nameof(Entity.StringProperty))
@@ -215,7 +213,7 @@ public class RuleValidatorTests
 
         result = new Entity(string.Empty)
         {
-            CollectionProperty = null
+            CollectionProperty = null!
         }
             .Validate(validator =>
             {
@@ -245,7 +243,7 @@ public class RuleValidatorTests
 
         result = new Entity(string.Empty)
         {
-            CollectionProperty = null
+            CollectionProperty = null!
         }
             .Validate(validator =>
             {
@@ -265,7 +263,7 @@ public class RuleValidatorTests
         }
 
         public string StringProperty { get; }
-        public List<string> CollectionProperty { get; set; }
+        public List<string> CollectionProperty { get; set; } = [];
     }
 
     private class DerivedEntity : Entity

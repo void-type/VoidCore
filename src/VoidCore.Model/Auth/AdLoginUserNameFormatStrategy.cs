@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace VoidCore.Model.Auth;
+﻿namespace VoidCore.Model.Auth;
 
 /// <summary>
 /// Get the samAccountName from a fully-qualified Active Directory login.

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using VoidCore.Model.Functional;
+﻿using VoidCore.Model.Functional;
 using Xunit;
 
 namespace VoidCore.Test.Model.Functional;
@@ -18,8 +17,8 @@ public class ValueObjectTests
     [Fact]
     public void Null_is_equal_to_null()
     {
-        Assert.True((Address)null == null);
-        Assert.True(null == (Address)null);
+        Assert.True((Address)null! == null);
+        Assert.True(null == (Address)null!);
     }
 
     [Fact]

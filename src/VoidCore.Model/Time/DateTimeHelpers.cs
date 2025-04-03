@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace VoidCore.Model.Time;
+﻿namespace VoidCore.Model.Time;
 
 /// <summary>
 /// Helper functions for DateTime.

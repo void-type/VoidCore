@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace VoidCore.Model.Functional;
+﻿namespace VoidCore.Model.Functional;
 
 /// <summary>
 /// Extensions for the Maybe class. Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions

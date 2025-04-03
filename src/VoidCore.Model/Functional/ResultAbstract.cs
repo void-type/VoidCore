@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace VoidCore.Model.Functional;
+﻿namespace VoidCore.Model.Functional;
 
 /// <summary>
 /// Base class for Result classes. Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions

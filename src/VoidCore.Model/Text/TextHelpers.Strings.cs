@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using VoidCore.Model.Guards;
 
 namespace VoidCore.Model.Text;

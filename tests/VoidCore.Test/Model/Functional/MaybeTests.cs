@@ -1,5 +1,4 @@
-﻿using System;
-using VoidCore.Model.Functional;
+﻿using VoidCore.Model.Functional;
 using Xunit;
 
 namespace VoidCore.Test.Model.Functional;
@@ -149,9 +148,9 @@ public class MaybeTests
     {
         var maybe = Maybe.From("some value");
         Assert.False(maybe is null);
-        Assert.False(null == maybe);
-        Assert.True(maybe != null);
-        Assert.True(null != maybe);
+        Assert.False(null! == maybe);
+        Assert.True(maybe != null!);
+        Assert.True(null! != maybe);
         Assert.False(maybe.Equals(null));
     }
 
@@ -187,22 +186,22 @@ public class MaybeTests
     {
         var maybe = Maybe.None<string>();
         Assert.False(maybe is null);
-        Assert.False(null == maybe);
-        Assert.True(maybe != null);
-        Assert.True(null != maybe);
+        Assert.False(null! == maybe);
+        Assert.True(maybe != null!);
+        Assert.True(null! != maybe);
         Assert.False(maybe.Equals(null));
     }
 
     [Fact]
     public void Null_maybe_is_equal_to_null()
     {
-        Maybe<string> nullMaybe = null;
+        Maybe<string> nullMaybe = null!;
 
         Assert.True(nullMaybe is null);
-        Assert.True(null == nullMaybe);
+        Assert.True(null! == nullMaybe!);
         Assert.True(nullMaybe is null);
 
-        Assert.False(nullMaybe == "some value");
+        Assert.False(nullMaybe! == "some value");
     }
 
     [Fact]

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using VoidCore.Model.Text;
+﻿using VoidCore.Model.Text;
 using Xunit;
 
 namespace VoidCore.Test.Model.Text;

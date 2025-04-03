@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VoidCore.Model.Time;
+﻿namespace VoidCore.Model.Time;
 
 /// <summary>
 /// A service for getting the current local time.

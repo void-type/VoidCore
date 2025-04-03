@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace VoidCore.Model.Functional;
+﻿namespace VoidCore.Model.Functional;
 
 /// <summary>
 /// Extensions for the Result class. Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VoidCore.Finance;
+﻿namespace VoidCore.Finance;
 
 /// <summary>
 /// A request to calculate.true Contains the information needed to initiate the loan.

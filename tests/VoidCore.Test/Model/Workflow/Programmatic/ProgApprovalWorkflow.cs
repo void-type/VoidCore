@@ -1,5 +1,4 @@
-﻿using System;
-using VoidCore.Model.Workflow.Programmatic;
+﻿using VoidCore.Model.Workflow.Programmatic;
 
 namespace VoidCore.Test.Model.Workflow.Programmatic;
 

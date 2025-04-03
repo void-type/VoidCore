@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using VoidCore.Model.Responses.Files;
 using Xunit;
 
@@ -59,13 +58,13 @@ public class SimpleFileTests
     [Fact]
     public void Creating_file_with_null_content_throws_ArgumentNullException()
     {
-        Assert.Throws<ArgumentNullException>(() => new SimpleFile((byte[])null, "some.txt"));
+        Assert.Throws<ArgumentNullException>(() => new SimpleFile((byte[])null!, "some.txt"));
     }
 
     [Fact]
     public void Creating_file_with_null_name_throws_ArgumentNullException()
     {
-        Assert.Throws<ArgumentNullException>(() => new SimpleFile(string.Empty, null));
+        Assert.Throws<ArgumentNullException>(() => new SimpleFile(string.Empty, null!));
     }
 
     [Fact]

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace VoidCore.Model.Functional;
+﻿namespace VoidCore.Model.Functional;
 
 /// <summary>
 /// Common interface for results of operations that can fail or succeed.

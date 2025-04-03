@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NSubstitute;
-using System;
 using VoidCore.Model.Auth;
 using VoidCore.Model.Time;
 using VoidCore.Test.EfIntegration.TestModels.Data;
@@ -29,7 +28,7 @@ public static class Deps
     public static readonly IDateTimeService DateTimeServiceLate;
     public static readonly ICurrentUserAccessor CurrentUserAccessor;
 
-    public static FoodStuffsContext FoodStuffsContext(string dbName = null)
+    public static FoodStuffsContext FoodStuffsContext(string? dbName = null)
     {
         return new FoodStuffsContext(
             new DbContextOptionsBuilder<FoodStuffsContext>()
@@ -38,7 +37,7 @@ public static class Deps
         );
     }
 
-    public static FoodStuffsContextAuditable FoodStuffsContextAuditable(string dbName = null)
+    public static FoodStuffsContextAuditable FoodStuffsContextAuditable(string? dbName = null)
     {
         return new FoodStuffsContextAuditable(
             new DbContextOptionsBuilder<FoodStuffsContextAuditable>()
@@ -58,17 +57,26 @@ public static class Deps
     {
         var category1 = data.Category.Add(new Category
         {
-            Name = "Category1"
+            Name = "Category1",
+            CreatedBy = "11",
+            DeletedBy = "",
+            ModifiedBy = "33",
         }).Entity.Id;
 
         var category2 = data.Category.Add(new Category
         {
-            Name = "Category2"
+            Name = "Category2",
+            CreatedBy = "11",
+            DeletedBy = "",
+            ModifiedBy = "33",
         }).Entity.Id;
 
         var category3 = data.Category.Add(new Category
         {
-            Name = "Category3"
+            Name = "Category3",
+            CreatedBy = "11",
+            DeletedBy = "",
+            ModifiedBy = "33",
         }).Entity.Id;
 
         var recipe1 = data.Recipe.Add(new Recipe
@@ -81,7 +89,8 @@ public static class Deps
             CreatedOn = DateTimeServiceEarly.Moment,
             ModifiedOn = DateTimeServiceLate.Moment,
             CreatedBy = "11",
-            ModifiedBy = "12"
+            ModifiedBy = "12",
+            DeletedBy = "",
         }).Entity.Id;
 
         var recipe2 = data.Recipe.Add(new Recipe
@@ -94,7 +103,8 @@ public static class Deps
             CreatedOn = DateTimeServiceEarly.Moment,
             ModifiedOn = DateTimeServiceLate.Moment,
             CreatedBy = "11",
-            ModifiedBy = "11"
+            ModifiedBy = "11",
+            DeletedBy = "",
         }).Entity.Id;
 
         data.Recipe.Add(new Recipe
@@ -107,13 +117,14 @@ public static class Deps
             CreatedOn = DateTimeServiceEarly.Moment,
             ModifiedOn = DateTimeServiceLate.Moment,
             CreatedBy = "11",
-            ModifiedBy = "11"
+            ModifiedBy = "11",
+            DeletedBy = "",
         });
 
         data.CategoryRecipe.Add(new CategoryRecipe
         {
             RecipeId = recipe1,
-            CategoryId = category1
+            CategoryId = category1,
         });
 
         data.CategoryRecipe.Add(new CategoryRecipe

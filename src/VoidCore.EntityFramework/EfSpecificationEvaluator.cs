@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using VoidCore.Model.Data;
 using VoidCore.Model.Responses.Collections;
 

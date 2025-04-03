@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using VoidCore.Model.Time;
+﻿using VoidCore.Model.Time;
 using Xunit;
 
 namespace VoidCore.Test.Model.Time;

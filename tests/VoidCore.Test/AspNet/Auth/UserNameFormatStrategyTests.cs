@@ -9,7 +9,7 @@ public class UserNameFormatStrategyTests
     [InlineData("Domain1\\Name", "Name")]
     [InlineData("Name", "Name")]
     [InlineData(null, "Unknown")]
-    public void Format_name_from_login(string input, string expected)
+    public void Format_name_from_login(string? input, string expected)
     {
         var formatter = new AdLoginUserNameFormatStrategy();
         var userName = formatter.Format(input);
@@ -20,7 +20,7 @@ public class UserNameFormatStrategyTests
     [InlineData("Name@contoso.com", "Name")]
     [InlineData("Name", "Name")]
     [InlineData(null, "Unknown")]
-    public void Format_name_from_email(string input, string expected)
+    public void Format_name_from_email(string? input, string expected)
     {
         var formatter = new EmailUserNameFormatStrategy();
         var userName = formatter.Format(input);

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace VoidCore.AspNet.Security;
+﻿namespace VoidCore.AspNet.Security;
 
 /// <summary>
 /// Builds CSP header directives.

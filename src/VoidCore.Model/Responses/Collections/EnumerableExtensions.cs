@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace VoidCore.Model.Responses.Collections;
+﻿namespace VoidCore.Model.Responses.Collections;
 
 /// <summary>
 /// Extensions to make ItemSets from enumerable collections.

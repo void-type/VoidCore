@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace VoidCore.Model.RuleValidator;
+﻿namespace VoidCore.Model.RuleValidator;
 
 /// <summary>
 /// Interface for building new validator rules.

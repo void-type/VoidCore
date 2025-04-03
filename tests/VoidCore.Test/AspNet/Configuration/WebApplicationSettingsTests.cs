@@ -1,5 +1,4 @@
-﻿using System;
-using VoidCore.AspNet.Configuration;
+﻿using VoidCore.AspNet.Configuration;
 using Xunit;
 
 namespace VoidCore.Test.AspNet.Configuration;
