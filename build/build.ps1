@@ -39,9 +39,21 @@ try {
 
   # Build solution
   if (-not $SkipFormat) {
-    # Don't stop build for TODOS
-    dotnet format --verify-no-changes --exclude-diagnostics S1135
-    Stop-OnError 'Please run formatter: dotnet format.'
+    # Don't stop build for TODOS or Obsolete S1135 S1133
+    $formatOutput = dotnet format --verify-no-changes
+    Write-Host $formatOutput
+
+    if ($LASTEXITCODE -ne 0) {
+      # Don't stop for obsolete warnings
+      $formatOutput = $formatOutput -replace '.*S1133.*', ''
+      # Don't stop for  TODO warnings
+      $formatOutput = $formatOutput -replace '.*S1135.*', ''
+
+      if (-not [string]::IsNullOrWhiteSpace($formatOutput)) {
+        Write-Host "Formatting errors found. Please run 'dotnet format' to fix them."
+        exit 1
+      }
+    }
   }
 
   dotnet restore
