@@ -19,6 +19,13 @@ steps:
     version: '8.0.x'
     includePreviewVersions: false
 
+- task: UseDotNet@2
+  displayName: 'Use .NET SDK 9.0'
+  inputs:
+    packageType: 'sdk'
+    version: '9.0.x'
+    includePreviewVersions: false
+
 - task: 'PowerShell@2'
   displayName: 'Build, Test, and Pack'
   inputs:
@@ -27,10 +34,9 @@ steps:
     arguments: '-SkipTestReport'
     workingDirectory: 'build'
 
-- task: PublishCodeCoverageResults@1
+- task: PublishCodeCoverageResults@2
   displayName: 'Publish Code Coverage'
   inputs:
-    codeCoverageTool: 'cobertura'
     summaryFileLocation: 'artifacts/testResults/*/coverage.cobertura.xml'
 
 - task: PublishTestResults@2
