@@ -39,7 +39,6 @@ try {
 
   # Build solution
   if (-not $SkipFormat) {
-    # Don't stop build for TODOS or Obsolete S1135 S1133
     $formatOutput = dotnet format --verify-no-changes
     Write-Host $formatOutput
 
