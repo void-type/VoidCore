@@ -24,6 +24,27 @@ public static class AmortizationCalculator
 
         var schedule = new AmortizationPeriod[numberOfPeriods];
 
+        if (!request.PaymentModifications.Any())
+        {
+            CalculateStandardSchedule(schedule, ratePerPeriod, numberOfPeriods, totalPrincipal);
+        }
+        else
+        {
+            CalculateScheduleWithModifications(schedule, request);
+        }
+
+        var paymentPerPeriod = Financial.Payment(ratePerPeriod, numberOfPeriods, -totalPrincipal);
+        var totalInterestPaid = schedule.Sum(p => p.InterestPayment);
+        var totalPaid = totalPrincipal + totalInterestPaid;
+
+        return new AmortizationResponse(paymentPerPeriod, totalInterestPaid, totalPaid, schedule, request);
+    }
+
+    /// <summary>
+    /// Calculates the standard amortization schedule using parallel processing.
+    /// </summary>
+    private static void CalculateStandardSchedule(AmortizationPeriod[] schedule, decimal ratePerPeriod, int numberOfPeriods, decimal totalPrincipal)
+    {
         Parallel.For(1, numberOfPeriods + 1, periodNumber =>
         {
             var principalPayment = Financial.PrincipalPayment(ratePerPeriod, periodNumber, numberOfPeriods, -totalPrincipal);
@@ -36,11 +57,49 @@ public static class AmortizationCalculator
 
             schedule[periodNumber - 1] = new AmortizationPeriod(periodNumber, interestPayment, principalPayment, balanceLeft);
         });
+    }
 
-        var paymentPerPeriod = Financial.Payment(ratePerPeriod, numberOfPeriods, -totalPrincipal);
-        var totalInterestPaid = schedule.Sum(p => p.InterestPayment);
-        var totalPaid = totalPrincipal + totalInterestPaid;
+    /// <summary>
+    /// Calculates the amortization schedule with payment modifications by splitting into parallelizable chunks.
+    /// </summary>
+    private static void CalculateScheduleWithModifications(AmortizationPeriod[] schedule, AmortizationRequest request)
+    {
+        var ratePerPeriod = request.RatePerPeriod;
+        var numberOfPeriods = request.NumberOfPeriods;
+        var totalPrincipal = request.TotalPrincipal;
+        var modificationPeriods = request.PaymentModifications;
 
-        return new AmortizationResponse(paymentPerPeriod, totalInterestPaid, totalPaid, schedule, request);
+        var standardPayment = Financial.Payment(ratePerPeriod, numberOfPeriods, -totalPrincipal);
+
+        var currentBalance = totalPrincipal;
+        var currentPeriod = 1;
+
+        while (currentPeriod <= numberOfPeriods && currentBalance > 0)
+        {
+            var modificationAmount = modificationPeriods
+                .Where(p => p.PeriodNumber == currentPeriod)
+                .Sum(x => x.ModificationAmount);
+
+            // Ensure payment is not negative
+            var actualPayment = Math.Max(0, standardPayment + modificationAmount);
+
+            var interestPayment = currentBalance * ratePerPeriod;
+
+            // Ensure principal payment is not negative and doesn't exceed balance left
+            var principalPayment = Math.Min(Math.Max(0, actualPayment - interestPayment), currentBalance);
+
+            var newBalance = Math.Max(0, currentBalance - principalPayment);
+
+            schedule[currentPeriod - 1] = new AmortizationPeriod(currentPeriod, interestPayment, principalPayment, newBalance);
+
+            currentBalance = newBalance;
+            currentPeriod++;
+        }
+
+        // Fill any remaining periods with zero values if balance is zero
+        for (var zeroPeriod = currentPeriod; zeroPeriod <= numberOfPeriods; zeroPeriod++)
+        {
+            schedule[zeroPeriod - 1] = new AmortizationPeriod(zeroPeriod, 0, 0, 0);
+        }
     }
 }

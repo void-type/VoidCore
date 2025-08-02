@@ -1,7 +1,7 @@
 ﻿namespace VoidCore.Finance;
 
 /// <summary>
-/// A request to calculate.true Contains the information needed to initiate the loan.
+/// A request to calculate. Contains the information needed to initiate the loan.
 /// </summary>
 public sealed class AmortizationRequest
 {
@@ -11,8 +11,10 @@ public sealed class AmortizationRequest
     /// <param name="totalPrincipal">The total principal amount of the loan.</param>
     /// <param name="numberOfPeriods">The number of payment periods in the loan.</param>
     /// <param name="ratePerPeriod">The interest rate per period of the loan.</param>
+    /// <param name="paymentModifications">Optional payment modifications for specific periods.</param>
     /// <exception cref="ArgumentException">Throws when number of periods is less than 1.</exception>
-    public AmortizationRequest(decimal totalPrincipal, int numberOfPeriods, decimal ratePerPeriod)
+    public AmortizationRequest(decimal totalPrincipal, int numberOfPeriods, decimal ratePerPeriod,
+        IEnumerable<AmortizationPaymentModification>? paymentModifications = null)
     {
         if (numberOfPeriods < 1)
         {
@@ -22,6 +24,7 @@ public sealed class AmortizationRequest
         TotalPrincipal = totalPrincipal;
         NumberOfPeriods = numberOfPeriods;
         RatePerPeriod = ratePerPeriod;
+        PaymentModifications = paymentModifications?.ToList().AsReadOnly() ?? new List<AmortizationPaymentModification>().AsReadOnly();
     }
 
     /// <summary>
@@ -36,6 +39,11 @@ public sealed class AmortizationRequest
 
     /// <summary>
     /// The interest rate per period of the loan.
-    /// /// </summary>
+    /// </summary>
     public decimal RatePerPeriod { get; }
+
+    /// <summary>
+    /// Optional payment modifications for specific periods.
+    /// </summary>
+    public IReadOnlyList<AmortizationPaymentModification> PaymentModifications { get; }
 }

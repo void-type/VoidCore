@@ -29,6 +29,18 @@ public class FinanceBenchmarks
         }
     }
 
+    [Benchmark]
+    public void AmortizeLoanWithModification()
+    {
+        for (var i = 0; i <= Iterations; i++)
+        {
+            // Calculate a typical 30 year mortgage with modification
+            var request = new AmortizationRequest(340000, 360, 0.045m / 12,
+                new[] { new AmortizationPaymentModification(6, 2000m) });
+            AmortizationCalculator.Calculate(request);
+        }
+    }
+
     // [Benchmark]
     // public void PerformanceTest()
     // {
