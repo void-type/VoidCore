@@ -16,6 +16,11 @@ public sealed class AmortizationRequest
     public AmortizationRequest(decimal totalPrincipal, int numberOfPeriods, decimal ratePerPeriod,
         IEnumerable<AmortizationPaymentModification>? paymentModifications = null)
     {
+        if (totalPrincipal < 0)
+        {
+            throw new ArgumentException("Cannot be less than 0.", nameof(totalPrincipal));
+        }
+
         if (numberOfPeriods < 1)
         {
             throw new ArgumentException("Cannot be less than 1.", nameof(numberOfPeriods));
@@ -24,7 +29,8 @@ public sealed class AmortizationRequest
         TotalPrincipal = totalPrincipal;
         NumberOfPeriods = numberOfPeriods;
         RatePerPeriod = ratePerPeriod;
-        PaymentModifications = paymentModifications?.ToList().AsReadOnly() ?? new List<AmortizationPaymentModification>().AsReadOnly();
+        PaymentModifications = paymentModifications?.ToList().AsReadOnly()
+            ?? new List<AmortizationPaymentModification>().AsReadOnly();
     }
 
     /// <summary>

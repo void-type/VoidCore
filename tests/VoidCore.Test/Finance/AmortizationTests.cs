@@ -6,6 +6,18 @@ namespace VoidCore.Test.Finance;
 public class AmortizationTests
 {
     [Fact]
+    public void NegativePrincipalMortgageRequestThrows()
+    {
+        Assert.Throws<ArgumentException>(() => new AmortizationRequest(-340000, 360, 0.045m / 12));
+    }
+
+    [Fact]
+    public void NegativePeriodCountMortgageRequestThrows()
+    {
+        Assert.Throws<ArgumentException>(() => new AmortizationRequest(340000, -360, 0.045m / 12));
+    }
+
+    [Fact]
     public void MediumMortgage()
     {
         var request = new AmortizationRequest(340000, 360, 0.045m / 12);
@@ -15,18 +27,6 @@ public class AmortizationTests
         CheckLoan(1722.73m, 280182.82m, 620182.82m, 30 * 12, response);
         CheckPeriod(452.79m, 1269.94m, 338198.98m, response.Schedule[3]);
         CheckPeriod(1716.29m, 6.44m, 0.00m, response.Schedule[request.NumberOfPeriods - 1]);
-    }
-
-    [Fact]
-    public void MediumNegativePrincipalMortgage()
-    {
-        var request = new AmortizationRequest(-340000, 360, 0.045m / 12);
-
-        var response = AmortizationCalculator.Calculate(request);
-
-        CheckLoan(-1722.73m, -280182.82m, -620182.82m, 30 * 12, response);
-        CheckPeriod(-452.79m, -1269.94m, -338198.98m, response.Schedule[3]);
-        CheckPeriod(-1716.29m, -6.44m, 0.00m, response.Schedule[request.NumberOfPeriods - 1]);
     }
 
     [Fact]
@@ -102,7 +102,7 @@ public class AmortizationTests
     }
 
     [Fact]
-    public void NoLoan()
+    public void NoPrincipalLoan()
     {
         var request = new AmortizationRequest(0, 480, 0.20m / 12);
 
@@ -132,7 +132,7 @@ public class AmortizationTests
         var request = new AmortizationRequest(1000, 12, 0.05m / 12);
         var standardPayment = Financial.Payment(0.05m / 12, 12, -1000);
         var requestWithModification = new AmortizationRequest(1000, 12, 0.05m / 12,
-            new[] { new AmortizationPaymentModification(6, standardPayment) });
+            [new AmortizationPaymentModification(6, standardPayment)]);
 
         var response = AmortizationCalculator.Calculate(requestWithModification);
 
@@ -141,14 +141,15 @@ public class AmortizationTests
 
         // Period 6 should have double payment
         var period6 = response.Schedule[5]; // 0-indexed
-        var expectedTotalPayment = standardPayment * 2;
-        var actualTotalPayment = period6.InterestPayment + period6.PrincipalPayment;
-        Assert.Equal(decimal.Round(expectedTotalPayment, 2), decimal.Round(actualTotalPayment, 2));
+        Assert.Equal(decimal.Round(2.46m, 2), decimal.Round(period6.InterestPayment, 2));
+        Assert.Equal(decimal.Round(168.76m, 2), decimal.Round(period6.PrincipalPayment, 2));
 
         // The loan should have less total interest due to the extra payment
         var standardResponse = AmortizationCalculator.Calculate(request);
         Assert.True(response.TotalInterestPaid < standardResponse.TotalInterestPaid,
             "Total interest should be less with extra payment");
+
+        Assert.Equal(25.14m, decimal.Round(response.TotalInterestPaid, 2));
     }
 
     [Fact]
@@ -158,24 +159,25 @@ public class AmortizationTests
         var request = new AmortizationRequest(1000, 12, 0.05m / 12);
         var standardPayment = Financial.Payment(0.05m / 12, 12, -1000);
         var requestWithModification = new AmortizationRequest(1000, 12, 0.05m / 12,
-            new[] { new AmortizationPaymentModification(3, -standardPayment) });
+            [new AmortizationPaymentModification(3, -standardPayment)]);
 
         var response = AmortizationCalculator.Calculate(requestWithModification);
 
         // Period 3 should have zero principal payment (missed payment)
         var period3 = response.Schedule[2];
         Assert.Equal(0m, decimal.Round(period3.PrincipalPayment, 2));
-        Assert.True(period3.InterestPayment > 0, "Period 3 should still accrue interest");
+        Assert.Equal(3.49m, decimal.Round(period3.InterestPayment, 2));
 
         // Balance should not decrease in period 3
-        var period2Balance = response.Schedule[1].BalanceLeft;
-        var period3Balance = response.Schedule[2].BalanceLeft;
-        Assert.True(period3Balance >= period2Balance, "Balance should not decrease when payment is missed");
+        Assert.Equal(836.78m, decimal.Round(response.Schedule[1].BalanceLeft, 2));
+        Assert.Equal(836.78m, decimal.Round(response.Schedule[2].BalanceLeft, 2));
 
         // The loan should have more total interest due to the missed payment
         var standardResponse = AmortizationCalculator.Calculate(request);
         Assert.True(response.TotalInterestPaid > standardResponse.TotalInterestPaid,
             "Total interest should be more with missed payment");
+
+        Assert.Equal(30.42m, decimal.Round(response.TotalInterestPaid, 2));
     }
 
     [Fact]
@@ -217,7 +219,7 @@ public class AmortizationTests
             Assert.True(period.BalanceLeft >= 0);
         }
 
-        Assert.Equal(request.TotalPrincipal, response.Schedule.Sum(p => p.PrincipalPayment));
+        Assert.Equal(10000, response.Schedule.Sum(p => p.PrincipalPayment));
     }
 
     [Fact]
@@ -225,7 +227,7 @@ public class AmortizationTests
     {
         // Small loan with large extra payment that pays off the loan early
         var request = new AmortizationRequest(1000, 12, 0.05m / 12,
-            new[] { new AmortizationPaymentModification(3, 800m) });
+            [new AmortizationPaymentModification(3, 800m)]);
 
         var response = AmortizationCalculator.Calculate(request);
 
@@ -253,7 +255,7 @@ public class AmortizationTests
             Assert.Equal(0m, period.InterestPayment);
         }
 
-        Assert.Equal(request.TotalPrincipal, response.Schedule.Sum(p => p.PrincipalPayment));
+        Assert.Equal(1000, response.Schedule.Sum(p => p.PrincipalPayment));
     }
 
     [Fact]
@@ -261,7 +263,7 @@ public class AmortizationTests
     {
         // Test payment modifications on a no-interest loan
         var request = new AmortizationRequest(1200, 12, 0,
-            new[] { new AmortizationPaymentModification(6, 200m) });
+            [new AmortizationPaymentModification(6, 200m)]);
 
         var response = AmortizationCalculator.Calculate(request);
 
@@ -285,7 +287,7 @@ public class AmortizationTests
     {
         // Test modifications in the first few periods
         var request = new AmortizationRequest(5000, 60, 0.04m / 12,
-            new[] { new AmortizationPaymentModification(1, 1000m) });
+            [new AmortizationPaymentModification(1, 1000m)]);
 
         var response = AmortizationCalculator.Calculate(request);
 
@@ -297,7 +299,7 @@ public class AmortizationTests
         Assert.Equal(decimal.Round(expectedTotalPayment, 2), decimal.Round(actualTotalPayment, 2));
 
         // Subsequent periods should be calculated correctly based on the reduced balance
-        Assert.True(period1.BalanceLeft < 5000 - standardPayment, "Balance should be significantly reduced");
+        Assert.Equal(3924.58m, decimal.Round(period1.BalanceLeft, 2));
         Assert.All(response.Schedule, period => Assert.True(period.BalanceLeft >= 0));
     }
 
@@ -330,6 +332,7 @@ public class AmortizationTests
             decimal.Round(period7.InterestPayment + period7.PrincipalPayment, 2));
 
         // All periods should have valid, non-negative balances
+        Assert.Equal(1103.12m, decimal.Round(period7.BalanceLeft, 2));
         Assert.All(response.Schedule, period => Assert.True(period.BalanceLeft >= 0));
     }
 

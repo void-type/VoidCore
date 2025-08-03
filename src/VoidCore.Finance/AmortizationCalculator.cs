@@ -24,39 +24,13 @@ public static class AmortizationCalculator
 
         var schedule = new AmortizationPeriod[numberOfPeriods];
 
-        if (!request.PaymentModifications.Any())
-        {
-            CalculateStandardSchedule(schedule, ratePerPeriod, numberOfPeriods, totalPrincipal);
-        }
-        else
-        {
-            CalculateScheduleWithModifications(schedule, request);
-        }
+        CalculateScheduleWithModifications(schedule, request);
 
         var paymentPerPeriod = Financial.Payment(ratePerPeriod, numberOfPeriods, -totalPrincipal);
         var totalInterestPaid = schedule.Sum(p => p.InterestPayment);
         var totalPaid = totalPrincipal + totalInterestPaid;
 
         return new AmortizationResponse(paymentPerPeriod, totalInterestPaid, totalPaid, schedule, request);
-    }
-
-    /// <summary>
-    /// Calculates the standard amortization schedule using parallel processing.
-    /// </summary>
-    private static void CalculateStandardSchedule(AmortizationPeriod[] schedule, decimal ratePerPeriod, int numberOfPeriods, decimal totalPrincipal)
-    {
-        Parallel.For(1, numberOfPeriods + 1, periodNumber =>
-        {
-            var principalPayment = Financial.PrincipalPayment(ratePerPeriod, periodNumber, numberOfPeriods, -totalPrincipal);
-
-            var interestPayment = Financial.InterestPayment(ratePerPeriod, periodNumber, numberOfPeriods, -totalPrincipal);
-
-            var balanceLeft = ratePerPeriod == 0 ?
-                totalPrincipal - (principalPayment * periodNumber) :
-                Financial.InterestPayment(ratePerPeriod, periodNumber + 1, numberOfPeriods, -totalPrincipal) / ratePerPeriod;
-
-            schedule[periodNumber - 1] = new AmortizationPeriod(periodNumber, interestPayment, principalPayment, balanceLeft);
-        });
     }
 
     /// <summary>

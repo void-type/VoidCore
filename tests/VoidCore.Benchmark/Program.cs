@@ -2,5 +2,5 @@
 using VoidCore.Benchmark;
 
 BenchmarkRunner.Run<FinanceBenchmarks>();
-BenchmarkRunner.Run<TextHelpersBenchmarks>();
-// BenchmarkRunner.Run<LookupBenchmarks>();
+BenchmarkRunner.Run<FinanceLongBenchmarks>();
+BenchmarkRunner.Run<LookupBenchmarks>();
