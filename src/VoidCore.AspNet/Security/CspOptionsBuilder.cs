@@ -56,6 +56,13 @@ public sealed class CspOptionsBuilder
     public CspDirectiveBuilder FrameAncestors => Custom("frame-ancestors");
 
     /// <summary>
+    /// Set the policy for fenced frame sources. Controls which URLs can be loaded using fencedframe elements.
+    /// Part of the Privacy Sandbox initiative for private advertising and measurement.
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspSourceDirectiveBuilder FencedFrameSources => Custom("fenced-frame-src").ForSources(_nonce);
+
+    /// <summary>
     /// Set the policy for script sources.
     /// </summary>
     /// <returns>The builder for chaining.</returns>
@@ -185,14 +192,7 @@ public sealed class CspOptionsBuilder
     /// <returns>The builder for chaining.</returns>
     public CspDirectiveBuilder Sandbox => Custom("sandbox");
 
-    /// <summary>
-    /// Set the report-to directive. Modern replacement for report-uri that specifies a reporting group
-    /// to send reports to.
-    /// </summary>
-    /// <returns>The builder for chaining.</returns>
-    public CspDirectiveBuilder ReportTo => Custom("report-to");
-
-    private CspDirectiveBuilder ReportUri => Custom("report-uri");
+    private CspDirectiveBuilder ReportTo => Custom("report-to");
 
     /// <summary>
     /// Set a custom directive that is not listed as a property of this builder.
@@ -212,48 +212,29 @@ public sealed class CspOptionsBuilder
             });
     }
 
-    // Remove obsolete code in next major version
-#if NET8_0
-#pragma warning disable S1133
-#endif
-
     /// <summary>
-    /// Set the header to report-only. Content will not be blocked.
-    /// Report-uri is deprecated, but the report-to directive is not yet supported in most browsers.
+    /// Set the report-to directive. Modern replacement for report-uri that specifies a reporting group
+    /// to send reports to. Use with app.UseReportingEndpoints to configure your endpoint URLs.
     /// </summary>
-    /// <param name="reportUri">The optional URI to send JSON reports to of content that would be normally blocked.</param>
+    /// <param name="groupName">The name of the reporting group.</param>
     /// <returns>The builder for chaining.</returns>
-    [Obsolete("Report-uri is deprecated, but the report-to directive is not yet supported in most browsers. See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/report-uri")]
-    public CspOptionsBuilder ReportOnly(string? reportUri = null)
+    public CspOptionsBuilder SetReportTo(string groupName)
     {
-        _isReportOnly = true;
-
-        return string.IsNullOrWhiteSpace(reportUri) ? this : SetReportUri(reportUri);
-    }
-
-    /// <summary>
-    /// Set a URI to send blocked content JSON reports to. These reports can be collected to track violations on
-    /// client pages.
-    /// Report-uri is deprecated, but the report-to directive is not yet supported in most browsers.
-    /// </summary>
-    /// <param name="reportUri">The URI that collects CSP violation reports.</param>
-    /// <returns>The builder for chaining.</returns>
-    /// <exception cref="InvalidOperationException">Throws if report-uri already set.</exception>
-    [Obsolete("Report-uri is deprecated, but the report-to directive is not yet supported in most browsers. See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/report-uri")]
-    public CspOptionsBuilder SetReportUri(string reportUri)
-    {
-        if (ReportUri.Sources.Count > 0)
-        {
-            throw new InvalidOperationException("Cannot set more than one report-uri directive value.");
-        }
-
-        ReportUri.Allow(reportUri);
+        groupName.EnsureNotNull();
+        ReportTo.Allow(groupName);
         return this;
     }
 
-#if NET8_0
-#pragma warning restore S1133
-#endif
+    /// <summary>
+    /// Set the header to report-only. Content will not be blocked.
+    /// Use the ReportTo directive to configure violation reporting.
+    /// </summary>
+    /// <returns>The builder for chaining.</returns>
+    public CspOptionsBuilder ReportOnly()
+    {
+        _isReportOnly = true;
+        return this;
+    }
 
     /// <summary>
     /// Build the CspOptions as configured by this builder.

@@ -46,19 +46,22 @@ public static class SecurityApplicationBuilderExtensions
     /// <summary>
     /// Sets the Reporting-Endpoints header on the HTTP response with multiple endpoints.
     /// This header defines a set of named reporting endpoints that reports can be sent to.
+    /// Each endpoint name can have multiple URLs for redundancy and failover support.
     /// See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Reporting-Endpoints for more information.
     /// </summary>
     /// <param name="app">This IApplicationBuilder</param>
-    /// <param name="endpoints">Dictionary of endpoint names and their corresponding URLs</param>
+    /// <param name="endpoints">Dictionary mapping endpoint group names to lists of endpoint URLs.
+    /// Example: { "csp-endpoint": ["https://example.com/csp1", "https://example.com/csp2"] }</param>
     /// <returns>The ApplicationBuilder for chaining.</returns>
-    public static IApplicationBuilder UseReportingEndpoints(this IApplicationBuilder app, Dictionary<string, string> endpoints)
+    public static IApplicationBuilder UseReportingEndpoints(this IApplicationBuilder app, Dictionary<string, List<string>> endpoints)
     {
         endpoints.EnsureNotNull();
 
         return app.Use((context, next) =>
         {
             var reportingEndpoints = string.Join(", ",
-                endpoints.Select(ep => $"\"{ep.Key}\"=\"{ep.Value}\""));
+                endpoints.SelectMany(group =>
+                    group.Value.Select(url => $"\"{group.Key}\"=\"{url}\"")));
 
             context.Response.Headers.Append("Reporting-Endpoints", reportingEndpoints);
             return next();

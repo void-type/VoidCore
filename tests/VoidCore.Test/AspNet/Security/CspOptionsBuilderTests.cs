@@ -45,9 +45,7 @@ public class CspOptionsBuilderTests
             .AllowHash("sha256", "hash2")
             .AllowNonce();
 
-#pragma warning disable CS0618
-        builder.SetReportUri("https://some.uri");
-#pragma warning restore CS0618
+        builder.SetReportTo("my-reporting-endpoint");
 
         var header = new CspHeader(builder.Build());
 
@@ -63,11 +61,9 @@ public class CspOptionsBuilderTests
         Assert.Contains("media-src 'none';", header.Value);
         Assert.Contains("script-src 'unsafe-eval';", header.Value);
         Assert.Contains("style-src 'unsafe-inline' data:;", header.Value);
-        Assert.Contains("report-uri https://some.uri;", header.Value);
+        Assert.Contains("report-to my-reporting-endpoint;", header.Value);
 
-#pragma warning disable CS0618
         builder.ReportOnly();
-#pragma warning restore CS0618
 
         header = new CspHeader(builder.Build());
 
@@ -85,45 +81,10 @@ public class CspOptionsBuilderTests
 
         Assert.Empty(header.Value);
 
-#pragma warning disable CS0618
         builder.ReportOnly();
-#pragma warning restore CS0618
 
         header = new CspHeader(builder.Build());
 
         Assert.Equal("Content-Security-Policy-Report-Only", header.Key);
-    }
-
-    [Fact]
-    public void ReportOnly_with_uri_options_builds_correct_header()
-    {
-        var builder = new CspOptionsBuilder("myNonce=");
-
-#pragma warning disable CS0618
-        builder.ReportOnly("https://some.uri");
-#pragma warning restore CS0618
-
-        builder.ScriptSources
-            .AllowUnsafeEval();
-
-        var header = new CspHeader(builder.Build());
-
-        Assert.Equal("Content-Security-Policy-Report-Only", header.Key);
-        Assert.Contains("script-src 'unsafe-eval';", header.Value);
-        Assert.Contains("report-uri https://some.uri;", header.Value);
-    }
-
-    [Fact]
-    public void Setting_more_than_one_uri_throws_InvalidOperationException()
-    {
-        var builder = new CspOptionsBuilder("my7nonce");
-
-#pragma warning disable CS0618
-        builder.ReportOnly("https://some.uri");
-#pragma warning restore CS0618
-
-#pragma warning disable CS0618
-        Assert.Throws<InvalidOperationException>(() => builder.SetReportUri("https://some.uri"));
-#pragma warning restore CS0618
     }
 }
