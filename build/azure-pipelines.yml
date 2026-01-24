@@ -1,45 +1,45 @@
 trigger:
   branches:
     include:
-      - "main"
+      - 'main'
 
 pr:
   branches:
     include:
-      - "main"
+      - 'main'
 
 pool:
-  vmImage: "ubuntu-latest"
+  vmImage: 'ubuntu-latest'
 
 steps:
   - task: UseDotNet@2
-    displayName: "Use .NET SDK 10.0"
+    displayName: 'Use .NET SDK 10.0'
     inputs:
-      packageType: "sdk"
-      version: "10.0.x"
+      packageType: 'sdk'
+      version: '10.0.x'
       includePreviewVersions: false
 
   - task: PowerShell@2
-    displayName: "Build, Test, and Pack"
+    displayName: 'Build, Test, and Pack'
     inputs:
-      targetType: "filePath"
-      filePath: "build/build.ps1"
-      arguments: "-SkipTestReport"
-      workingDirectory: "build"
+      targetType: 'filePath'
+      filePath: 'build/build.ps1'
+      arguments: '-SkipTestReport'
+      workingDirectory: 'build'
 
   - task: PublishCodeCoverageResults@2
-    displayName: "Publish Code Coverage"
+    displayName: 'Publish Code Coverage'
     inputs:
-      summaryFileLocation: "artifacts/testResults/*/coverage.cobertura.xml"
+      summaryFileLocation: 'artifacts/testResults/*/coverage.cobertura.xml'
 
   - task: PublishTestResults@2
-    displayName: "Publish Test Results"
+    displayName: 'Publish Test Results'
     inputs:
-      testResultsFormat: "VSTest"
-      testResultsFiles: "artifacts/testResults/*.trx"
+      testResultsFormat: 'VSTest'
+      testResultsFiles: 'artifacts/testResults/*.trx'
 
   - task: PublishBuildArtifacts@1
-    displayName: "Publish Artifacts"
+    displayName: 'Publish Artifacts'
     inputs:
-      pathtoPublish: "artifacts/dist"
-      artifactName: "dist"
+      pathtoPublish: 'artifacts/dist'
+      artifactName: 'dist'
