@@ -79,14 +79,8 @@ public static partial class TextHelpers
     /// <returns>A string from the series, or string.Empty if none match.</returns>
     public static string FirstNotNullOrWhiteSpace(params string?[] values)
     {
-        foreach (var value in values)
-        {
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                return value;
-            }
-        }
-
-        return string.Empty;
+        return values
+            .FirstOrDefault(value => !string.IsNullOrWhiteSpace(value))
+            ?? string.Empty;
     }
 }
