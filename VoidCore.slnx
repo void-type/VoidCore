@@ -1,0 +1,20 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/analyzers/">
+    <Project Path="analyzers/VoidCore.Analyzers/VoidCore.Analyzers.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/VoidCore.AspNet/VoidCore.AspNet.csproj" />
+    <Project Path="src/VoidCore.EntityFramework/VoidCore.EntityFramework.csproj" />
+    <Project Path="src/VoidCore.Finance/VoidCore.Finance.csproj" />
+    <Project Path="src/VoidCore.Model/VoidCore.Model.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/VoidCore.Benchmark/VoidCore.Benchmark.csproj" />
+    <Project Path="tests/VoidCore.Test/VoidCore.Test.csproj" />
+  </Folder>
+</Solution>
