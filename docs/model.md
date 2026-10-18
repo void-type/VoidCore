@@ -1,7 +1,6 @@
 # VoidCore.Model
 
 [![NuGet package](https://img.shields.io/nuget/v/VoidCore.Model.svg)](https://www.nuget.org/packages/VoidCore.Model/)
-[![MyGet package](https://img.shields.io/myget/voidcoredev/vpre/VoidCore.Model.svg?label=myget)](https://www.myget.org/feed/voidcoredev/package/nuget/VoidCore.Model)
 
 ## Installation
 
