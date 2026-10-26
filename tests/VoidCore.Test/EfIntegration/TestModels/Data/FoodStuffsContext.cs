@@ -42,13 +42,9 @@ public class FoodStuffsContext : DbContext
         {
             entity.ToTable("Recipe", "dbo");
 
-            entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
             entity.Property(e => e.Directions).IsRequired();
 
             entity.Property(e => e.Ingredients).IsRequired();
-
-            entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
 
             entity.Property(e => e.Name).IsRequired();
         });

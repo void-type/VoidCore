@@ -1,5 +1,4 @@
 ﻿using VoidCore.Model.Auth;
-using VoidCore.Model.Time;
 
 namespace VoidCore.Model.Data;
 
@@ -9,17 +8,17 @@ namespace VoidCore.Model.Data;
 public class AuditableRepositoryDecorator<T> : RepositoryDecoratorAbstract<T> where T : class, IAuditable
 {
     private readonly ICurrentUserAccessor _currentUserAccessor;
-    private readonly IDateTimeService _now;
+    private readonly TimeProvider _timeProvider;
 
     /// <summary>
     /// Create a new repo decorator.
     /// </summary>
     /// <param name="innerRepository">The repository to be decorated</param>
-    /// <param name="now">A datetime service that provides the time the entity was updated</param>
+    /// <param name="timeProvider">A time provider that supplies the time the entity was updated</param>
     /// <param name="currentUserAccessor">An accessor for the current user's properties</param>
-    internal AuditableRepositoryDecorator(IWritableRepository<T> innerRepository, IDateTimeService now, ICurrentUserAccessor currentUserAccessor) : base(innerRepository)
+    internal AuditableRepositoryDecorator(IWritableRepository<T> innerRepository, TimeProvider timeProvider, ICurrentUserAccessor currentUserAccessor) : base(innerRepository)
     {
-        _now = now;
+        _timeProvider = timeProvider;
         _currentUserAccessor = currentUserAccessor;
     }
 
@@ -65,11 +64,11 @@ public class AuditableRepositoryDecorator<T> : RepositoryDecoratorAbstract<T> wh
 
     private async Task SetCreated(IAuditable entity)
     {
-        entity.SetAuditCreated(_now.Moment, (await _currentUserAccessor.GetUser()).Login);
+        entity.SetAuditCreated(_timeProvider.GetUtcNow(), (await _currentUserAccessor.GetUser()).Login);
     }
 
     private async Task SetModified(IAuditable entity)
     {
-        entity.SetAuditModified(_now.Moment, (await _currentUserAccessor.GetUser()).Login);
+        entity.SetAuditModified(_timeProvider.GetUtcNow(), (await _currentUserAccessor.GetUser()).Login);
     }
 }

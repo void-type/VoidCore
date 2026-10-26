@@ -1,5 +1,4 @@
 ﻿using VoidCore.Model.Auth;
-using VoidCore.Model.Time;
 
 namespace VoidCore.Model.Data;
 
@@ -8,18 +7,18 @@ namespace VoidCore.Model.Data;
 /// </summary>
 public class SoftDeletableRepositoryDecorator<T> : RepositoryDecoratorAbstract<T> where T : class, ISoftDeletable
 {
-    private readonly IDateTimeService _now;
+    private readonly TimeProvider _timeProvider;
     private readonly ICurrentUserAccessor _currentUserAccessor;
 
     /// <summary>
     /// Create a new repo decorator.
     /// </summary>
     /// <param name="innerRepository">The repository to be decorated</param>
-    /// <param name="now">A datetime service that provides the time the entity was updated</param>
+    /// <param name="timeProvider">A time provider that supplies the time the entity was deleted</param>
     /// <param name="currentUserAccessor">An accessor for the current user's properties</param>
-    internal SoftDeletableRepositoryDecorator(IWritableRepository<T> innerRepository, IDateTimeService now, ICurrentUserAccessor currentUserAccessor) : base(innerRepository)
+    internal SoftDeletableRepositoryDecorator(IWritableRepository<T> innerRepository, TimeProvider timeProvider, ICurrentUserAccessor currentUserAccessor) : base(innerRepository)
     {
-        _now = now;
+        _timeProvider = timeProvider;
         _currentUserAccessor = currentUserAccessor;
     }
 
@@ -45,6 +44,6 @@ public class SoftDeletableRepositoryDecorator<T> : RepositoryDecoratorAbstract<T
 
     private async Task SetDeleted(ISoftDeletable entity)
     {
-        entity.SetSoftDeleted(_now.Moment, (await _currentUserAccessor.GetUser()).Login);
+        entity.SetSoftDeleted(_timeProvider.GetUtcNow(), (await _currentUserAccessor.GetUser()).Login);
     }
 }

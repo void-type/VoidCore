@@ -13,11 +13,11 @@ public class Recipe : IAuditable, ISoftDeletable
     public int? PrepTimeMinutes { get; set; }
 
     public string CreatedBy { get; set; } = string.Empty;
-    public DateTime CreatedOn { get; set; }
+    public DateTimeOffset CreatedOn { get; set; }
     public string ModifiedBy { get; set; } = string.Empty;
-    public DateTime ModifiedOn { get; set; }
+    public DateTimeOffset ModifiedOn { get; set; }
 
     public bool IsDeleted { get; set; }
     public string DeletedBy { get; set; } = string.Empty;
-    public DateTime? DeletedOn { get; set; }
+    public DateTimeOffset? DeletedOn { get; set; }
 }

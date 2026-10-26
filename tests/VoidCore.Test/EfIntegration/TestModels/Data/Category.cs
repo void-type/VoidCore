@@ -2,7 +2,7 @@
 
 namespace VoidCore.Test.EfIntegration.TestModels.Data;
 
-public class Category : IAuditableWithOffset, ISoftDeletableWithOffset
+public class Category : IAuditable, ISoftDeletable
 {
     public List<CategoryRecipe> CategoryRecipe { get; set; } = [];
     public int Id { get; set; }

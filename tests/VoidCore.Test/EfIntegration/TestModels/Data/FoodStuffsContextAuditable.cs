@@ -1,20 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using VoidCore.EntityFramework;
-using VoidCore.Model.Auth;
-using VoidCore.Model.Time;
 
 namespace VoidCore.Test.EfIntegration.TestModels.Data;
 
 public class FoodStuffsContextAuditable : DbContext
 {
-    private readonly IDateTimeService _dateTimeService;
-    private readonly ICurrentUserAccessor _currentUserAccessor;
-
-    public FoodStuffsContextAuditable(DbContextOptions<FoodStuffsContextAuditable> options, IDateTimeService dateTimeService, ICurrentUserAccessor currentUserAccessor) : base(options)
+    public FoodStuffsContextAuditable(DbContextOptions<FoodStuffsContextAuditable> options) : base(options)
     {
-        _dateTimeService = dateTimeService;
-        _currentUserAccessor = currentUserAccessor;
     }
 
     public virtual DbSet<Category> Category { get; set; }
@@ -53,38 +45,13 @@ public class FoodStuffsContextAuditable : DbContext
         {
             entity.ToTable("Recipe", "dbo");
 
-            entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
             entity.Property(e => e.Directions).IsRequired();
 
             entity.Property(e => e.Ingredients).IsRequired();
 
-            entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
-
             entity.Property(e => e.Name).IsRequired();
         });
-    }
 
-    /// <summary>
-    /// Only needed during unit test seeding to prevent tampering with audit properties.
-    /// </summary>
-    public int SaveSeeding()
-    {
-        return base.SaveChanges(true);
-    }
-
-    // In practice, the following should be in a partial class to survive EF Database Scaffolding.
-    public override int SaveChanges(bool acceptAllChangesOnSuccess)
-    {
-        var user = _currentUserAccessor.GetUser().GetAwaiter().GetResult();
-
-        ChangeTracker.Entries().SetAuditableProperties(_dateTimeService, user.Login);
-        return base.SaveChanges(acceptAllChangesOnSuccess);
-    }
-
-    public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-    {
-        ChangeTracker.Entries().SetAuditableProperties(_dateTimeService, (await _currentUserAccessor.GetUser()).Login);
-        return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        modelBuilder.ApplySoftDeleteQueryFilter();
     }
 }

@@ -70,4 +70,37 @@ public class WebCurrentUserAccessorTests
 
         Assert.Empty(user.AuthorizedAs);
     }
+
+    [Fact]
+    public void WebCurrentUserAccessor_returns_formatted_user_name_without_evaluating_policies()
+    {
+        var identityMock = Substitute.For<IIdentity>();
+        identityMock.Name.Returns("Name@contoso.com");
+
+        var principalMock = Substitute.For<ClaimsPrincipal>();
+        principalMock.Identity.Returns(identityMock);
+
+        var httpContextMock = Substitute.For<HttpContext>();
+        httpContextMock.User.Returns(principalMock);
+
+        var httpContextAccessorMock = Substitute.For<IHttpContextAccessor>();
+        httpContextAccessorMock.HttpContext.Returns(httpContextMock);
+
+        // No authorization service or settings are needed to get the name.
+        var accessor = new WebCurrentUserAccessor(httpContextAccessorMock, new EmailUserNameFormatStrategy(), null!, null!);
+
+        Assert.Equal("Name", accessor.GetUserName());
+    }
+
+    [Fact]
+    public void WebCurrentUserAccessor_returns_formatted_user_name_if_context_is_null()
+    {
+        var httpContextAccessorMock = Substitute.For<IHttpContextAccessor>();
+        httpContextAccessorMock.HttpContext
+            .Returns((HttpContext)null!);
+
+        var accessor = new WebCurrentUserAccessor(httpContextAccessorMock, new EmailUserNameFormatStrategy(), null!, null!);
+
+        Assert.Equal(new EmailUserNameFormatStrategy().Format(null), accessor.GetUserName());
+    }
 }

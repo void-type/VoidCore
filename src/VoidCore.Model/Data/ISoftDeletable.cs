@@ -19,7 +19,7 @@ public interface ISoftDeletable
     string DeletedBy { get; set; }
 
     /// <summary>
-    /// The date and time the entity was deleted. Can be used for uniqueness in the event the entity is recreated.
+    /// The UTC date and time the entity was deleted. Can be used for uniqueness in the event the entity is recreated.
     /// </summary>
-    DateTime? DeletedOn { get; set; }
+    DateTimeOffset? DeletedOn { get; set; }
 }

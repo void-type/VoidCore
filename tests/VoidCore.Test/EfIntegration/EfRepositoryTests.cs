@@ -236,8 +236,8 @@ public class EfRepositoryTests
         var maybeRecipe = await data.Recipes.Get(new RecipesByIdWithCategoriesSpecification(result.Value.Id), default);
 
         Assert.True(maybeRecipe.HasValue);
-        Assert.Equal(Deps.DateTimeServiceLate.Moment, maybeRecipe.Value.CreatedOn);
-        Assert.Equal(Deps.DateTimeServiceLate.Moment, maybeRecipe.Value.ModifiedOn);
+        Assert.Equal(Deps.Late, maybeRecipe.Value.CreatedOn);
+        Assert.Equal(Deps.Late, maybeRecipe.Value.ModifiedOn);
         Assert.DoesNotContain("Category1", maybeRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
         Assert.Contains("Category2", maybeRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
         Assert.Contains("Category3", maybeRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
@@ -260,8 +260,8 @@ public class EfRepositoryTests
 
         var updatedRecipe = await data.Recipes.Get(new RecipesByIdWithCategoriesSpecification(existingRecipeId), default);
         Assert.True(updatedRecipe.HasValue);
-        Assert.Equal(Deps.DateTimeServiceEarly.Moment, updatedRecipe.Value.CreatedOn);
-        Assert.Equal(Deps.DateTimeServiceLate.Moment, updatedRecipe.Value.ModifiedOn);
+        Assert.Equal(Deps.Early, updatedRecipe.Value.CreatedOn);
+        Assert.Equal(Deps.Late, updatedRecipe.Value.ModifiedOn);
         Assert.DoesNotContain("Category1", updatedRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
         Assert.Contains("Category2", updatedRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));
         Assert.Contains("Category3", updatedRecipe.Value.CategoryRecipe.Select(cr => cr.Category.Name));

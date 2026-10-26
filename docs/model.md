@@ -28,7 +28,7 @@ This service interface is designed to quickly implement a data layer with an exp
 * Asynchronous repositories with read/write control and specification-based queries.
 * Specifications include the most common LINQ functions, except Select.
 * Soft delete on entities. Will mark them with a deleted date. Use a specification to ensure they aren't included in queries.
-* Auditable entities via Created and Modified names/dates.
+* Auditable entities via Created and Modified names/dates. All dates are recorded in UTC as DateTimeOffset, using the registered TimeProvider.
 * Easy pagination of queried data sets.
 
 If you need more flexibility, it's recommended to create a service for one-off use-cases or just use DbContext directly.
@@ -40,10 +40,9 @@ If you need more flexibility, it's recommended to create a service for one-off u
 
 ### Common Service Interfaces and Utilities
 
-Interfaces for other common services that the domain can use.
+Interfaces for other common services that the domain can use. VoidCore relies on .NET's built-in `TimeProvider` for the current time rather than defining its own clock. Register `TimeProvider.System` in production and use `FakeTimeProvider` in tests.
 
-* IDateTimeService - inject time for better testability.
-* ICurrentUserAccessor - obtain the current user.
+* ICurrentUserAccessor - obtain the current user, either by name only (synchronous) or with the policies they are authorized for (asynchronous).
 * Guards - extension methods to guard against null, empty string and collections, or write your own custom predicate.
 * Configuration - scan assemblies for dependencies, validate connection strings, register settings by naming convention.
 

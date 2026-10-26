@@ -30,11 +30,17 @@ public class WebCurrentUserAccessor : ICurrentUserAccessor
     }
 
     /// <inheritdoc/>
+    public string GetUserName()
+    {
+        return _userNameFormatter.Format(_httpContextAccessor.HttpContext?.User.Identity?.Name);
+    }
+
+    /// <inheritdoc/>
     public async Task<DomainUser> GetUser()
     {
         if (_httpContextAccessor.HttpContext is null)
         {
-            return new DomainUser(_userNameFormatter.Format(null), []);
+            return new DomainUser(GetUserName(), []);
         }
 
         var currentUser = _httpContextAccessor.HttpContext.User;
@@ -52,8 +58,6 @@ public class WebCurrentUserAccessor : ICurrentUserAccessor
             }
         }
 
-        var name = _userNameFormatter.Format(currentUser.Identity?.Name);
-
-        return new DomainUser(name, authorizedAs);
+        return new DomainUser(GetUserName(), authorizedAs);
     }
 }

@@ -11,9 +11,9 @@ public interface IAuditable
     string CreatedBy { get; set; }
 
     /// <summary>
-    /// The date and time the entity was created
+    /// The UTC date and time the entity was created
     /// </summary>
-    DateTime CreatedOn { get; set; }
+    DateTimeOffset CreatedOn { get; set; }
 
     /// <summary>
     /// A string representing the last modifier of the entity
@@ -21,7 +21,7 @@ public interface IAuditable
     string ModifiedBy { get; set; }
 
     /// <summary>
-    /// The date and time the entity was last modified
+    /// The UTC date and time the entity was last modified
     /// </summary>
-    DateTime ModifiedOn { get; set; }
+    DateTimeOffset ModifiedOn { get; set; }
 }
