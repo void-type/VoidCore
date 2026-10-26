@@ -20,4 +20,5 @@ VoidCore.AspNet is an ASP.NET implementation of VoidCore.Model. It includes help
   * API endpoints return a JSON {message: ""} object for the client.
   * MVC will redirect to secure error or forbidden pages in non-development.
 * Routing for SPA and Web API.
+* A health check endpoint (`MapHealthEndpoint`) that returns 200 or 503 with each check's description and exception message in a JSON body.
 * HttpResponder for converting Domain Event responses to IActionResult with appropriate status codes.
