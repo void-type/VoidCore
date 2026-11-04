@@ -195,6 +195,13 @@ dotnet_diagnostic.VSTHRD200.severity = none
 # VSTHRD003: Avoid awaiting foreign Tasks (only relevant for VS Extensions)
 dotnet_diagnostic.VSTHRD003.severity = none
 
+# Code metrics and dead-code analysis
+dotnet_diagnostic.CA1501.severity = warning
+dotnet_diagnostic.CA1502.severity = warning
+dotnet_diagnostic.CA1505.severity = warning
+dotnet_diagnostic.CA1506.severity = warning
+dotnet_diagnostic.CA1508.severity = warning
+
 [*.{cs,vb}]
 
 ## Naming styles

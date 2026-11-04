@@ -16,7 +16,7 @@ public class WebApplicationSettingsTests
 
         appSettings.Validate();
 
-        Assert.True(appSettings is not null);
+        Assert.NotNull(appSettings);
     }
 
     [Fact]

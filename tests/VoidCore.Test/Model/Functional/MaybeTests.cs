@@ -197,11 +197,14 @@ public class MaybeTests
     {
         Maybe<string> nullMaybe = null!;
 
+        // These tests intentionally exercise the null-handling of the comparison operators.
+#pragma warning disable CA1508
         Assert.True(nullMaybe is null);
         Assert.True(null! == nullMaybe!);
         Assert.True(nullMaybe is null);
 
         Assert.False(nullMaybe! == "some value");
+#pragma warning restore CA1508
     }
 
     [Fact]

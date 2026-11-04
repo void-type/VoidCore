@@ -26,9 +26,12 @@ public class ValueObjectTests
     {
         var temp1 = new Address("a", "b");
 
+        // These tests intentionally exercise the null-handling of the comparison operators.
+#pragma warning disable CA1508
         Assert.False(temp1.Equals(null));
         Assert.False(temp1 is null);
         Assert.False(null == temp1);
+#pragma warning restore CA1508
     }
 
     [Fact]
