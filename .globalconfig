@@ -1,0 +1,35 @@
+# Analyzer and code-quality rule severities for all projects.
+# Formatting and code style preferences live in .editorconfig.
+# AnalysisLevel and the analyzer packages are configured in src/Directory.Build.props.
+is_global = true
+
+# Code style rules enforced at build
+# IDE0005: Remove unnecessary usings
+dotnet_diagnostic.IDE0005.severity = warning
+# IDE0060: Remove unused parameter
+dotnet_diagnostic.IDE0060.severity = warning
+
+# Async
+# MA0004: Use ConfigureAwait(false) in library code. Disabled for VoidCore.AspNet in its csproj, since ASP.NET Core has no synchronization context.
+dotnet_diagnostic.MA0004.severity = warning
+# RCS1229: Use async/await when necessary (returning a Task from inside using/try is a bug)
+dotnet_diagnostic.RCS1229.severity = warning
+# CA2016: Forward the 'CancellationToken' parameter to methods
+dotnet_diagnostic.CA2016.severity = warning
+
+# Code metrics and dead-code analysis
+dotnet_diagnostic.CA1501.severity = warning
+dotnet_diagnostic.CA1502.severity = warning
+dotnet_diagnostic.CA1505.severity = warning
+dotnet_diagnostic.CA1506.severity = warning
+dotnet_diagnostic.CA1508.severity = warning
+
+# Rules we intentionally don't follow
+# CA1716: Identifiers should not match keywords (no VB consumers)
+dotnet_diagnostic.CA1716.severity = none
+# MA0006: Use string.Equals (== on strings is already ordinal)
+dotnet_diagnostic.MA0006.severity = none
+# MA0016: Prefer collection abstractions (would change public API)
+dotnet_diagnostic.MA0016.severity = none
+# MA0096: IComparable<T> should implement IEquatable<T> (Sonar S4035 advises against it on unsealed ValueObject)
+dotnet_diagnostic.MA0096.severity = none

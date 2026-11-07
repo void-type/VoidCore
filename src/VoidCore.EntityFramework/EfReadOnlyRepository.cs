@@ -66,7 +66,8 @@ public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
         var totalCount = await GetBaseQuery()
             .TagWith(GetTag(specification))
             .ApplyEfSpecification(specification, true)
-            .CountAsync(cancellationToken);
+            .CountAsync(cancellationToken)
+            .ConfigureAwait(false);
 
         var items = await GetBaseQuery()
             .TagWith(GetTag(specification))

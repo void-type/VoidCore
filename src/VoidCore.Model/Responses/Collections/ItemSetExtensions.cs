@@ -35,7 +35,7 @@ public static class ItemSetExtensions
     /// <returns>The new ItemSet</returns>
     public static async Task<IItemSet<TOut>> SelectAsync<TIn, TOut>(this Task<IItemSet<TIn>> itemSetTask, Func<TIn, TOut> selector)
     {
-        var itemSet = await itemSetTask;
+        var itemSet = await itemSetTask.ConfigureAwait(false);
 
         return itemSet.Select(selector);
     }

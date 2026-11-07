@@ -35,10 +35,12 @@ public abstract class FallibleEventLoggerAbstract<TRequest, TResponse> : PostPro
     {
         var failuresList = failures.ToList();
 
-        Logger.LogWarning("Count: {Count} Failures: {FailureMessages}",
-            failuresList.Count,
-            string.Join(" ", failuresList.Select(failure => failure.Message))
-        );
+        if (Logger.IsEnabled(LogLevel.Warning))
+        {
+            ResponseLogMessages.Failures(Logger,
+                failuresList.Count,
+                string.Join(" ", failuresList.Select(failure => failure.Message)));
+        }
 
         base.OnFailure(request, failures);
     }

@@ -6,7 +6,7 @@ namespace VoidCore.Model.RuleValidator;
 /// A rule for validating a request.
 /// </summary>
 /// <typeparam name="T">The type of request to validate.</typeparam>
-internal class Rule<T>
+internal sealed class Rule<T>
 {
     private readonly Func<T, IFailure> _failureBuilder;
     private readonly IReadOnlyList<Func<T, bool>> _invalidConditions;

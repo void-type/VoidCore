@@ -6,7 +6,7 @@ namespace VoidCore.Model.Workflow.Programmatic;
 /// <summary>
 /// A pairing of the current workflow state and a command.
 /// </summary>
-internal class ProgrammaticWorkflowTransition<TState, TCommand> : ValueObject
+internal sealed class ProgrammaticWorkflowTransition<TState, TCommand> : ValueObject
 {
     internal ProgrammaticWorkflowTransition(TState currentState, TCommand command, TState nextState)
     {

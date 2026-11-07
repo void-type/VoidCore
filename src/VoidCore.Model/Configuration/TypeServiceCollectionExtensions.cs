@@ -37,7 +37,7 @@ public static class TypeServiceCollectionExtensions
     /// <param name="lifetime">The ServiceLifetime to register the services for.</param>
     /// <param name="baseTypes">An array of base types or interfaces to register concrete implementations of</param>
     /// <param name="assembliesToScan">An array of assemblies to scan for implementations in</param>
-    /// <exception cref="NotImplementedException">If an unsupported service lifetime is given</exception>
+    /// <exception cref="NotSupportedException">If an unsupported service lifetime is given</exception>
     public static void AddServicesFromAssemblies(this IServiceCollection services, ServiceLifetime lifetime, Type[] baseTypes, params Assembly[] assembliesToScan)
     {
         assembliesToScan.EnsureNotNullOrEmpty();
@@ -58,7 +58,7 @@ public static class TypeServiceCollectionExtensions
                         services.AddTransient(implementation);
                         break;
                     default:
-                        throw new NotImplementedException($"Service lifetime of {lifetime} not supported.");
+                        throw new NotSupportedException($"Service lifetime of {lifetime} not supported.");
                 }
             }
         }
@@ -71,7 +71,7 @@ public static class TypeServiceCollectionExtensions
     /// <param name="lifetime">The ServiceLifetime to register the services for.</param>
     /// <param name="baseTypes">An array of base types or interfaces to register concrete implementations of</param>
     /// <param name="assembliesToScan">An array of assemblies to scan for implementations in</param>
-    /// <exception cref="NotImplementedException">If an unsupported service lifetime is given</exception>
+    /// <exception cref="NotSupportedException">If an unsupported service lifetime is given</exception>
     public static void AddServicesFromAssembliesAsBaseType(this IServiceCollection services, ServiceLifetime lifetime, Type[] baseTypes, params Assembly[] assembliesToScan)
     {
         assembliesToScan.EnsureNotNullOrEmpty();
@@ -93,7 +93,7 @@ public static class TypeServiceCollectionExtensions
                         services.AddTransient(baseType, implementation);
                         break;
                     default:
-                        throw new NotImplementedException($"Service lifetime of {lifetime} not supported.");
+                        throw new NotSupportedException($"Service lifetime of {lifetime} not supported.");
                 }
             }
         }

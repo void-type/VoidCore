@@ -17,7 +17,7 @@ public static class QueryableExtensions
     /// <param name="cancellationToken">Cancellation token</param>
     public static async Task<IItemSet<T>> ToItemSet<T>(this IQueryable<T> query, PaginationOptions paginationOptions, CancellationToken cancellationToken)
     {
-        var totalCount = await query.CountAsync(cancellationToken);
+        var totalCount = await query.CountAsync(cancellationToken).ConfigureAwait(false);
 
         var items = await query
             .GetPage(paginationOptions)

@@ -7,7 +7,6 @@ namespace VoidCore.Model.Functional;
 /// comparable components. All implementations of this class should have immutable equality components.
 /// These work best with immutable properties. Adapted from https://github.com/vkhorikov/CSharpFunctionalExtensions
 /// </summary>
-#pragma warning disable S1210
 public abstract class ValueObject : IComparable, IComparable<ValueObject>
 {
     /// <summary>
@@ -82,6 +81,11 @@ public abstract class ValueObject : IComparable, IComparable<ValueObject>
     /// <inheritdoc/>
     public int CompareTo(object obj)
     {
+        if (obj is null)
+        {
+            return 1;
+        }
+
         var thisType = GetUnproxiedType(this);
         var otherType = GetUnproxiedType(obj);
 
@@ -139,6 +143,50 @@ public abstract class ValueObject : IComparable, IComparable<ValueObject>
         return !(a == b);
     }
 
+    /// <summary>
+    /// Compares whether one ValueObject is less than another. A null is less than any non-null value.
+    /// </summary>
+    /// <param name="a">This valueObject</param>
+    /// <param name="b">The valueObject to compare to</param>
+    /// <returns>True if a is less than b</returns>
+    public static bool operator <(ValueObject a, ValueObject b)
+    {
+        return a is null ? b is not null : a.CompareTo(b) < 0;
+    }
+
+    /// <summary>
+    /// Compares whether one ValueObject is less than or equal to another. A null is less than any non-null value.
+    /// </summary>
+    /// <param name="a">This valueObject</param>
+    /// <param name="b">The valueObject to compare to</param>
+    /// <returns>True if a is less than or equal to b</returns>
+    public static bool operator <=(ValueObject a, ValueObject b)
+    {
+        return a is null || a.CompareTo(b) <= 0;
+    }
+
+    /// <summary>
+    /// Compares whether one ValueObject is greater than another. A null is less than any non-null value.
+    /// </summary>
+    /// <param name="a">This valueObject</param>
+    /// <param name="b">The valueObject to compare to</param>
+    /// <returns>True if a is greater than b</returns>
+    public static bool operator >(ValueObject a, ValueObject b)
+    {
+        return a is not null && a.CompareTo(b) > 0;
+    }
+
+    /// <summary>
+    /// Compares whether one ValueObject is greater than or equal to another. A null is less than any non-null value.
+    /// </summary>
+    /// <param name="a">This valueObject</param>
+    /// <param name="b">The valueObject to compare to</param>
+    /// <returns>True if a is greater than or equal to b</returns>
+    public static bool operator >=(ValueObject a, ValueObject b)
+    {
+        return a is null ? b is null : a.CompareTo(b) >= 0;
+    }
+
     internal static Type GetUnproxiedType(object obj)
     {
         const string efCoreProxyPrefix = "Castle.Proxies.";
@@ -147,7 +195,7 @@ public abstract class ValueObject : IComparable, IComparable<ValueObject>
         var type = obj.GetType();
         var typeString = type.ToString();
 
-        if (typeString.Contains(efCoreProxyPrefix) || typeString.EndsWith(nHibernateProxyPostfix))
+        if (typeString.Contains(efCoreProxyPrefix) || typeString.EndsWith(nHibernateProxyPostfix, StringComparison.Ordinal))
         {
             return type.BaseType;
         }

@@ -14,9 +14,7 @@ public class SimpleFileEventLogger<TRequest> : FallibleEventLoggerAbstract<TRequ
     /// <inheritdoc/>
     protected override void OnSuccess(TRequest request, SimpleFile response)
     {
-        Logger.LogInformation("Responded with SimpleFile. FileName: {FileName} FileSizeBytes: {FileSizeBytes} bytes",
-            response.Name,
-            response.Content.AsBytes.Length);
+        ResponseLogMessages.RespondedWithSimpleFile(Logger, response.Name, response.Content.AsBytes.Length);
 
         base.OnSuccess(request, response);
     }

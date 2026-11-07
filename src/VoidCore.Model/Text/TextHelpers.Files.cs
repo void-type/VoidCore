@@ -27,15 +27,17 @@ public static partial class TextHelpers
             .Replace("..", replacement);
     }
 
-    [GeneratedRegex("[^A-Za-z0-9\\s-]")]
+    private const int RegexTimeoutMilliseconds = 1000;
+
+    [GeneratedRegex("[^A-Za-z0-9\\s-]", RegexOptions.None, RegexTimeoutMilliseconds)]
     private static partial Regex NotAlphaNumericSpaceHyphen();
 
-    [GeneratedRegex("\\s+")]
+    [GeneratedRegex("\\s+", RegexOptions.None, RegexTimeoutMilliseconds)]
     private static partial Regex MultipleSpaces();
 
-    [GeneratedRegex("\\s")]
+    [GeneratedRegex("\\s", RegexOptions.None, RegexTimeoutMilliseconds)]
     private static partial Regex SingleSpace();
 
-    [GeneratedRegex("-+")]
+    [GeneratedRegex("-+", RegexOptions.None, RegexTimeoutMilliseconds)]
     private static partial Regex MultipleHyphens();
 }

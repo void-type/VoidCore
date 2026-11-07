@@ -13,7 +13,7 @@ public abstract class EventPipelineAbstract<TRequest, TResponse> : IEventHandler
     /// <summary>
     /// Construct and store the InnerHandler as a complete event pipeline.
     /// </summary>
-    protected IEventHandler<TRequest, TResponse>? InnerHandler;
+    protected IEventHandler<TRequest, TResponse>? InnerHandler { get; set; }
 
     /// <inheritdoc/>
     public Task<IResult<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default)

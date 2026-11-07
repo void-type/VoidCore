@@ -1,4 +1,5 @@
-﻿using VoidCore.Model.Functional;
+﻿using System.Diagnostics.CodeAnalysis;
+using VoidCore.Model.Functional;
 using Xunit;
 
 namespace VoidCore.Test.Model.Functional;
@@ -193,18 +194,16 @@ public class MaybeTests
     }
 
     [Fact]
+    [SuppressMessage("Maintainability", "CA1508:Avoid dead conditional code", Justification = "Intentionally exercises the null-handling of the comparison operators.")]
     public void Null_maybe_is_equal_to_null()
     {
         Maybe<string> nullMaybe = null!;
 
-        // These tests intentionally exercise the null-handling of the comparison operators.
-#pragma warning disable CA1508
         Assert.True(nullMaybe is null);
         Assert.True(null! == nullMaybe!);
         Assert.True(nullMaybe is null);
 
         Assert.False(nullMaybe! == "some value");
-#pragma warning restore CA1508
     }
 
     [Fact]

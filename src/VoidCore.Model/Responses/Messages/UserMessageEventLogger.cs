@@ -14,8 +14,7 @@ public class UserMessageEventLogger<TRequest> : FallibleEventLoggerAbstract<TReq
     /// <inheritdoc/>
     protected override void OnSuccess(TRequest request, UserMessage response)
     {
-        Logger.LogInformation("Responded with UserMessage. Message: {Message}",
-            response.Message);
+        ResponseLogMessages.RespondedWithUserMessage(Logger, response.Message);
 
         base.OnSuccess(request, response);
     }

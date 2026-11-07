@@ -1,4 +1,5 @@
-﻿using VoidCore.Model.Functional;
+﻿using System.Diagnostics.CodeAnalysis;
+using VoidCore.Model.Functional;
 using Xunit;
 
 namespace VoidCore.Test.Model.Functional;
@@ -22,16 +23,14 @@ public class ValueObjectTests
     }
 
     [Fact]
+    [SuppressMessage("Maintainability", "CA1508:Avoid dead conditional code", Justification = "Intentionally exercises the null-handling of the comparison operators.")]
     public void ValueObject_is_not_equal_to_null()
     {
         var temp1 = new Address("a", "b");
 
-        // These tests intentionally exercise the null-handling of the comparison operators.
-#pragma warning disable CA1508
         Assert.False(temp1.Equals(null));
         Assert.False(temp1 is null);
         Assert.False(null == temp1);
-#pragma warning restore CA1508
     }
 
     [Fact]
@@ -56,6 +55,52 @@ public class ValueObjectTests
         Assert.False(temp1 != temp2);
         Assert.Equal(temp1, temp2);
         Assert.Equal(temp1.GetHashCode(), temp2.GetHashCode());
+    }
+
+    [Fact]
+    public void ValueObjects_can_be_ordered_with_comparison_operators()
+    {
+        var low = new Address("a", "b");
+        var same = new Address("a", "b");
+        var high = new Address("a", "c");
+
+        Assert.True(low < high);
+        Assert.True(low <= high);
+        Assert.True(low <= same);
+        Assert.True(high > low);
+        Assert.True(high >= low);
+        Assert.True(low >= same);
+        Assert.False(high < low);
+        Assert.False(low < same);
+        Assert.False(low > same);
+    }
+
+    [Fact]
+    public void Null_sorts_before_any_ValueObject_in_comparison_operators()
+    {
+        var temp1 = new Address("a", "b");
+        var nullAddress = (Address)null!;
+        var otherNull = (Address)null!;
+
+        Assert.True(nullAddress < temp1);
+        Assert.True(nullAddress <= temp1);
+        Assert.False(nullAddress > temp1);
+        Assert.False(nullAddress >= temp1);
+        Assert.True(temp1 > nullAddress);
+        Assert.True(temp1 >= nullAddress);
+        Assert.False(temp1 < nullAddress);
+        Assert.False(temp1 <= nullAddress);
+        Assert.True(nullAddress >= otherNull);
+        Assert.True(nullAddress <= otherNull);
+    }
+
+    [Fact]
+    public void CompareTo_null_returns_positive()
+    {
+        var temp1 = new Address("a", "b");
+
+        Assert.Equal(1, temp1.CompareTo((object?)null));
+        Assert.Equal(1, temp1.CompareTo((ValueObject?)null));
     }
 
     private class Address : ValueObject

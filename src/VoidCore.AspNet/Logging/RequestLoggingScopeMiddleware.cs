@@ -34,10 +34,7 @@ public sealed class RequestLoggingScopeMiddleware
         var traceId = context.TraceIdentifier;
         var request = context.Request;
 
-        using var _ = _logger.BeginScope("{TraceId}:{RequestMethod}:{RequestPath}",
-            traceId,
-            request.Method,
-            request.Path.Value);
+        using var _ = AspNetLogMessages.BeginRequestScope(_logger, traceId, request.Method, request.Path.Value);
 
         await _next(context);
     }

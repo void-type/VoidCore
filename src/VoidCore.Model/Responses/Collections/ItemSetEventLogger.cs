@@ -15,13 +15,12 @@ public class ItemSetEventLogger<TRequest, TEntity> : FallibleEventLoggerAbstract
     /// <inheritdoc/>
     protected override void OnSuccess(TRequest request, IItemSet<TEntity> response)
     {
-        Logger.LogInformation("Responded with ItemSet. Count: {Count} IsPagingEnabled: {IsPagingEnabled} Page: {Page} Take: {Take} TotalCount: {TotalCount}",
+        ResponseLogMessages.RespondedWithItemSet(Logger,
             response.Count,
             response.IsPagingEnabled,
             response.Page,
             response.Take,
-            response.TotalCount
-        );
+            response.TotalCount);
 
         base.OnSuccess(request, response);
     }

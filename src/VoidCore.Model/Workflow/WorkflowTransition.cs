@@ -5,7 +5,7 @@ namespace VoidCore.Model.Workflow;
 /// <summary>
 /// A pairing of the current workflow state and a command.
 /// </summary>
-internal class WorkflowTransition<TState, TCommand> : ValueObject
+internal sealed class WorkflowTransition<TState, TCommand> : ValueObject
         where TState : Enum
         where TCommand : Enum
 {

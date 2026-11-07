@@ -1,4 +1,6 @@
-﻿namespace VoidCore.Model.Events;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace VoidCore.Model.Events;
 
 /// <summary>
 /// An event in the domain that asynchronously takes a request and returns a response.
@@ -8,6 +10,7 @@
 /// </summary>
 /// <typeparam name="TRequest">The type of the event request</typeparam>
 /// <typeparam name="TResponse">The type of the event response</typeparam>
+[SuppressMessage("Naming", "CA1711:Identifiers should not have incorrect suffix", Justification = "Existing public name; keep the rule on for new types.")]
 public interface IDecoratableEventHandler<TRequest, TResponse> : IEventHandler<TRequest, TResponse>
 {
     /// <summary>

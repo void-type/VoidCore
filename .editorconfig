@@ -1,6 +1,7 @@
 # Schema: http://EditorConfig.org
-# Docs: https://docs.microsoft.com/en-us/visualstudio/ide/editorconfig-code-style-settings-reference
-# Adapted from: https://github.com/dotnet/efcore/blob/master/.editorconfig
+# Docs: https://learn.microsoft.com/dotnet/fundamentals/code-analysis/code-style-rule-options
+# Analyzer rule severities live in .globalconfig
+# Adapted from: https://github.com/dotnet/efcore/blob/main/.editorconfig
 
 # top-most EditorConfig file
 root = true
@@ -177,30 +178,6 @@ csharp_space_between_square_brackets = false
 # Wrap options
 csharp_preserve_single_line_statements = true
 csharp_preserve_single_line_blocks = true
-
-# Analyzers
-# Remove unused usings
-dotnet_diagnostic.IDE0005.severity = warning
-dotnet_diagnostic.IDE0060.severity = warning
-
-# We prefer the opposite, to enforce the use of the async keyword
-dotnet_diagnostic.AsyncFixer01.severity = none
-
-# CA2016: Forward the 'CancellationToken' parameter to methods
-dotnet_diagnostic.CA2016.severity = warning
-
-# VSTHRD200: Use "Async" suffix for async methods
-dotnet_diagnostic.VSTHRD200.severity = none
-
-# VSTHRD003: Avoid awaiting foreign Tasks (only relevant for VS Extensions)
-dotnet_diagnostic.VSTHRD003.severity = none
-
-# Code metrics and dead-code analysis
-dotnet_diagnostic.CA1501.severity = warning
-dotnet_diagnostic.CA1502.severity = warning
-dotnet_diagnostic.CA1505.severity = warning
-dotnet_diagnostic.CA1506.severity = warning
-dotnet_diagnostic.CA1508.severity = warning
 
 [*.{cs,vb}]
 

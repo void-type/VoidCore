@@ -4,6 +4,8 @@
     <Title>VoidCore.AspNet</Title>
     <Description>Configure an ASP.NET web applications based on VoidCore.Model. Includes single-page front end support.</Description>
     <PackageTags>authorization;logging;security;headers;routing;configuration;opinionated;spa;single-page;asp.net;aspnet;aspnetcore;netcore;</PackageTags>
+    <!-- ASP.NET Core has no synchronization context, so ConfigureAwait(false) isn't needed here. -->
+    <NoWarn>$(NoWarn);MA0004</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

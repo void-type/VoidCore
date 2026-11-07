@@ -1,4 +1,5 @@
-﻿using VoidCore.Model.Functional;
+﻿using System.Diagnostics.CodeAnalysis;
+using VoidCore.Model.Functional;
 
 namespace VoidCore.Model.Events;
 
@@ -8,6 +9,7 @@ namespace VoidCore.Model.Events;
 /// </summary>
 /// <typeparam name="TRequest">The type of the event request</typeparam>
 /// <typeparam name="TResponse">The type of the event response</typeparam>
+[SuppressMessage("Naming", "CA1711:Identifiers should not have incorrect suffix", Justification = "Existing public name; keep the rule on for new types.")]
 public interface IEventHandler<TRequest, TResponse>
 {
     /// <summary>

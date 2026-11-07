@@ -15,9 +15,7 @@ public class EntityMessageEventLogger<TRequest, TId> : FallibleEventLoggerAbstra
     /// <inheritdoc/>
     protected override void OnSuccess(TRequest request, EntityMessage<TId> response)
     {
-        Logger.LogInformation("Responded with EntityMessage. Message: {Message} EntityId: {EntityId}",
-            response.Message,
-            response.Id);
+        ResponseLogMessages.RespondedWithEntityMessage(Logger, response.Message, response.Id);
 
         base.OnSuccess(request, response);
     }

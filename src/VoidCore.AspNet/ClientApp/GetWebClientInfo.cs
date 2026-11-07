@@ -1,21 +1,21 @@
 ﻿using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
 using VoidCore.AspNet.Configuration;
+using VoidCore.AspNet.Logging;
 using VoidCore.Model.Auth;
 using VoidCore.Model.Events;
 using VoidCore.Model.Functional;
 using VoidCore.Model.Guards;
 using VoidCore.Model.Responses;
 
-// Allow single file events
-#pragma warning disable CA1034
-
 namespace VoidCore.AspNet.ClientApp;
 
 /// <summary>
 /// A domain event group for getting information to bootstrap a web SPA client.
 /// </summary>
+[SuppressMessage("Design", "CA1034:Nested types should not be visible", Justification = "Allow single file events.")]
 public static class GetWebClientInfo
 {
     /// <inheritdoc/>
@@ -60,12 +60,11 @@ public static class GetWebClientInfo
         }
     }
 
-#pragma warning disable S2094
     /// <summary>
     /// Request for GetWebClientInfo handler
     /// </summary>
+    [SuppressMessage("Major Code Smell", "S2094:Classes should not be empty", Justification = "Request type for an event with no parameters.")]
     public class Request { }
-#pragma warning restore S2094
 
     /// <summary>
     /// Information for bootstrapping a web client.
@@ -112,11 +111,16 @@ public static class GetWebClientInfo
         /// <inheritdoc/>
         protected override void OnSuccess(Request request, WebClientInfo response)
         {
-            Logger.LogInformation("Responded with {ResponseType}. AppName: {ApplicationName} UserName: {UserName} UserAuthorizedAs: {AuthorizedAs}",
-                nameof(WebClientInfo),
-                response.ApplicationName,
-                response.User.Login,
-                string.Join(", ", response.User.AuthorizedAs));
+            if (Logger.IsEnabled(LogLevel.Information))
+            {
+                var authorizedAs = string.Join(", ", response.User.AuthorizedAs);
+
+                AspNetLogMessages.RespondedWithWebClientInfo(Logger,
+                    nameof(WebClientInfo),
+                    response.ApplicationName,
+                    response.User.Login,
+                    authorizedAs);
+            }
 
             base.OnSuccess(request, response);
         }

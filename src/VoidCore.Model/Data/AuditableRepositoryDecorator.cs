@@ -25,8 +25,8 @@ public class AuditableRepositoryDecorator<T> : RepositoryDecoratorAbstract<T> wh
     /// <inheritdoc/>
     public override async Task<T> Add(T entity, CancellationToken cancellationToken)
     {
-        await SetCreated(entity);
-        return await InnerRepository.Add(entity, cancellationToken);
+        await SetCreated(entity).ConfigureAwait(false);
+        return await InnerRepository.Add(entity, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
@@ -36,17 +36,17 @@ public class AuditableRepositoryDecorator<T> : RepositoryDecoratorAbstract<T> wh
 
         foreach (var entity in entitiesList)
         {
-            await SetCreated(entity);
+            await SetCreated(entity).ConfigureAwait(false);
         }
 
-        await InnerRepository.AddRange(entitiesList, cancellationToken);
+        await InnerRepository.AddRange(entitiesList, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
     public override async Task Update(T entity, CancellationToken cancellationToken)
     {
-        await SetModified(entity);
-        await InnerRepository.Update(entity, cancellationToken);
+        await SetModified(entity).ConfigureAwait(false);
+        await InnerRepository.Update(entity, cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
@@ -56,19 +56,21 @@ public class AuditableRepositoryDecorator<T> : RepositoryDecoratorAbstract<T> wh
 
         foreach (var entity in entitiesList)
         {
-            await SetModified(entity);
+            await SetModified(entity).ConfigureAwait(false);
         }
 
-        await InnerRepository.UpdateRange(entitiesList, cancellationToken);
+        await InnerRepository.UpdateRange(entitiesList, cancellationToken).ConfigureAwait(false);
     }
 
     private async Task SetCreated(IAuditable entity)
     {
-        entity.SetAuditCreated(_timeProvider.GetUtcNow(), (await _currentUserAccessor.GetUser()).Login);
+        var user = await _currentUserAccessor.GetUser().ConfigureAwait(false);
+        entity.SetAuditCreated(_timeProvider.GetUtcNow(), user.Login);
     }
 
     private async Task SetModified(IAuditable entity)
     {
-        entity.SetAuditModified(_timeProvider.GetUtcNow(), (await _currentUserAccessor.GetUser()).Login);
+        var user = await _currentUserAccessor.GetUser().ConfigureAwait(false);
+        entity.SetAuditModified(_timeProvider.GetUtcNow(), user.Login);
     }
 }

@@ -8,7 +8,7 @@ public abstract class RequestLoggerAbstract<T> : IRequestLogger<T>
     /// <summary>
     /// A logging service.
     /// </summary>
-    protected readonly ILogger Logger;
+    protected ILogger Logger { get; }
 
     /// <summary>
     /// Construct a new RequestLoggerAbstract
