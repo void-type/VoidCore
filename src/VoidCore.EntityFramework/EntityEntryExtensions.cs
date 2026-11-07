@@ -33,8 +33,20 @@ public static class EntityEntryExtensions
                     break;
                 case EntityState.Modified:
                     auditableEntity.SetAuditModified(now, user);
+
+                    // Updating a detached entity marks every property modified. Never overwrite who created it, and when.
+                    UnmodifyIfMapped(entry, nameof(IAuditable.CreatedBy));
+                    UnmodifyIfMapped(entry, nameof(IAuditable.CreatedOn));
                     break;
             }
+        }
+    }
+
+    private static void UnmodifyIfMapped(EntityEntry entry, string propertyName)
+    {
+        if (entry.Metadata.FindProperty(propertyName) is not null)
+        {
+            entry.Property(propertyName).IsModified = false;
         }
     }
 

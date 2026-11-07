@@ -49,6 +49,25 @@ public class EfAuditableDbContextTests
     }
 
     [Fact]
+    public async Task Updating_a_detached_entity_does_not_overwrite_creation_properties()
+    {
+        using var context = Deps.FoodStuffsContextAuditable();
+
+        var id = context.Recipe.AsNoTracking().First().Id;
+
+        var detached = new Recipe { Id = id, Name = "from a dto", Directions = "", Ingredients = "" };
+        context.Entry(detached).State = EntityState.Modified;
+        await context.SaveChangesAsync();
+
+        var stored = await context.Recipe.AsNoTracking().SingleAsync(r => r.Id == id);
+
+        Assert.Equal("from a dto", stored.Name);
+        Assert.Equal("Void", stored.CreatedBy);
+        Assert.Equal(Deps.Early, stored.CreatedOn);
+        Assert.Equal(Deps.Late, stored.ModifiedOn);
+    }
+
+    [Fact]
     public async Task Modify_sets_modification_properties()
     {
         using var context = Deps.FoodStuffsContextAuditable();

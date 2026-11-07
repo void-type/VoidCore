@@ -54,7 +54,7 @@ public static class EnumerableExtensions
         }
 
         return set
-            .Skip((paginationOptions.Page - 1) * paginationOptions.Take)
+            .Skip(paginationOptions.Skip)
             .Take(paginationOptions.Take);
     }
 
@@ -70,7 +70,7 @@ public static class EnumerableExtensions
         }
 
         return set
-            .Skip((paginationOptions.Page - 1) * paginationOptions.Take)
+            .Skip(paginationOptions.Skip)
             .Take(paginationOptions.Take);
     }
 }

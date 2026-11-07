@@ -1,4 +1,6 @@
-﻿using VoidCore.Model.Functional;
+﻿using VoidCore.Model.Data;
+using VoidCore.Model.Functional;
+using VoidCore.Model.Responses.Collections;
 using VoidCore.Test.EfIntegration.TestModels;
 using VoidCore.Test.EfIntegration.TestModels.Data;
 using VoidCore.Test.EfIntegration.TestModels.Events;
@@ -8,6 +10,43 @@ namespace VoidCore.Test.EfIntegration;
 
 public class EfRepositoryTests
 {
+    [Fact]
+    public async Task Count_ignores_pagination_and_counts_all_matching_entities()
+    {
+        using var context = Deps.FoodStuffsContext();
+        var data = context.Seed().FoodStuffsData();
+
+        var specification = new RecipesSearchSpecification([], new PaginationOptions(2, 1));
+
+        Assert.Equal(3, await data.Recipes.Count(specification, default));
+    }
+
+    [Fact]
+    public async Task Paging_without_ordering_throws_because_pages_would_not_be_deterministic()
+    {
+        using var context = Deps.FoodStuffsContext();
+        var data = context.Seed().FoodStuffsData();
+
+        await Assert.ThrowsAsync<InvalidOperationException>(() => data.Recipes.List(new UnorderedPagedSpecification(), default));
+    }
+
+    [Fact]
+    public async Task Unordered_specification_can_still_be_counted()
+    {
+        using var context = Deps.FoodStuffsContext();
+        var data = context.Seed().FoodStuffsData();
+
+        Assert.Equal(3, await data.Recipes.Count(new UnorderedPagedSpecification(), default));
+    }
+
+    private sealed class UnorderedPagedSpecification : QuerySpecificationAbstract<Recipe>
+    {
+        public UnorderedPagedSpecification()
+        {
+            ApplyPaging(new PaginationOptions(1, 2));
+        }
+    }
+
     [Fact]
     public async Task Get_recipe_returns_recipe_by_id_when_found()
     {

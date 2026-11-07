@@ -71,16 +71,17 @@ public class ItemSetTests
     }
 
     [Theory]
-    [InlineData(0, 1, 1, 0)]
-    [InlineData(100, 1, 10, 10)]
-    [InlineData(100, 10, 10, 10)]
-    [InlineData(100, 11, 10, 0)]
-    [InlineData(105, 11, 10, 5)]
-    [InlineData(15, 0, 5, 5)]
-    [InlineData(15, -1, 5, 5)]
-    [InlineData(15, 2, 0, 0)]
-    [InlineData(15, 2, -1, 0)]
-    public void Paged_ItemSet_property_checks(int totalCount, int page, int take, int expectedCount)
+    [InlineData(0, 1, 1, 0, 1, 1)]
+    [InlineData(100, 1, 10, 10, 1, 10)]
+    [InlineData(100, 10, 10, 10, 10, 10)]
+    [InlineData(100, 11, 10, 0, 11, 10)]
+    [InlineData(105, 11, 10, 5, 11, 10)]
+    [InlineData(15, 0, 5, 5, 1, 5)]
+    [InlineData(15, -1, 5, 5, 1, 5)]
+    [InlineData(15, 2, 0, 1, 2, 1)]
+    [InlineData(15, 2, -1, 1, 2, 1)]
+    [InlineData(15, 1, 5000, 15, 1, PaginationOptions.MaxTake)]
+    public void Paged_ItemSet_property_checks(int totalCount, int page, int take, int expectedCount, int expectedPage, int expectedTake)
     {
         var set = new List<string>();
 
@@ -93,8 +94,8 @@ public class ItemSetTests
 
         Assert.Equal(expectedCount, itemSetPage.Count);
         Assert.Equal(expectedCount, itemSetPage.Items.Count());
-        Assert.Equal(page, itemSetPage.Page);
-        Assert.Equal(take, itemSetPage.Take);
+        Assert.Equal(expectedPage, itemSetPage.Page);
+        Assert.Equal(expectedTake, itemSetPage.Take);
         Assert.Equal(totalCount, itemSetPage.TotalCount);
     }
 

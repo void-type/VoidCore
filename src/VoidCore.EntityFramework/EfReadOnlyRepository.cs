@@ -36,7 +36,7 @@ public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
     {
         return GetBaseQuery()
             .TagWith(GetTag(specification))
-            .ApplyEfSpecification(specification)
+            .ApplyEfSpecification(specification, true)
             .CountAsync(cancellationToken);
     }
 

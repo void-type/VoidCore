@@ -17,6 +17,7 @@ public static class EfSpecificationEvaluator
     /// <param name="countAll">Ignore pagination, include, and sort options for counting</param>
     /// <typeparam name="T">The type of entity to query</typeparam>
     /// <returns>The final query</returns>
+    /// <exception cref="InvalidOperationException">Pagination is enabled but the specification has no ordering. Pages of an unordered query can repeat or skip rows.</exception>
     public static IQueryable<T> ApplyEfSpecification<T>(this IQueryable<T> inputQuery, IQuerySpecification<T> specification, bool countAll = false) where T : class
     {
         var query = inputQuery;
@@ -26,6 +27,12 @@ public static class EfSpecificationEvaluator
         if (countAll)
         {
             return query.GetPage(PaginationOptions.None);
+        }
+
+        if (specification.PaginationOptions.IsPagingEnabled && specification.Orderings.Count == 0)
+        {
+            throw new InvalidOperationException(
+                $"{specification.GetType().Name} enables pagination without ordering. Add an ordering, ending with a unique property, so pages are deterministic.");
         }
 
         query = specification.Includes.Aggregate(query, (current, include) => current.Include(include));
