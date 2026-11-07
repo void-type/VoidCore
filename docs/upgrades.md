@@ -16,6 +16,7 @@ Mostly small breaking changes that came out of enabling stricter analyzers. Reco
 * `Slugify` now uses regular expressions with a one-second timeout and throws `RegexMatchTimeoutException` instead of running indefinitely.
 * Response loggers (`ItemSetEventLogger`, `UserMessageEventLogger`, `EntityMessageEventLogger`, `SimpleFileEventLogger`, `FallibleEventLoggerAbstract`, `GetWebClientInfo.ResponseLogger`) and `RequestLoggingScopeMiddleware` now use source-generated logging. Message templates are unchanged, but the log entries now have event IDs and names.
 * `VoidCore.Model` and `VoidCore.EntityFramework` now use `ConfigureAwait(false)` consistently. Code that depended on resuming on a captured synchronization context after calling these libraries must marshal back to it explicitly. `VoidCore.AspNet` is unaffected because ASP.NET Core has no synchronization context.
+* `AddSpaSecurityServices` now wraps `IAntiforgery` so antiforgery (CSRF) validation failures are logged at Warning level with the request method, path and reason. ASP.NET Core only logs them at Information, which production log levels usually filter out, leaving rejected requests (HTTP 400) unexplained. If you register your own `IAntiforgery` after calling `AddSpaSecurityServices`, it replaces this wrapper.
 
 ## Upgrading to 17.0
 

@@ -14,4 +14,7 @@ internal static partial class AspNetLogMessages
 
     [LoggerMessage(Level = LogLevel.Information, Message = "Responded with {ResponseType}. AppName: {ApplicationName} UserName: {UserName} UserAuthorizedAs: {AuthorizedAs}")]
     public static partial void RespondedWithWebClientInfo(ILogger logger, string responseType, string applicationName, string userName, string authorizedAs);
+
+    [LoggerMessage(Level = LogLevel.Warning, Message = "Antiforgery validation failed for {RequestMethod} {RequestPath}: {Reason}")]
+    public static partial void AntiforgeryValidationFailed(ILogger logger, string requestMethod, string? requestPath, string reason);
 }
