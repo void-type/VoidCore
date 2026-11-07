@@ -55,13 +55,12 @@ try {
     }
   }
 
+  # Known vulnerabilities (including transitive) fail dotnet restore through NuGet Audit, configured in the Directory.Build.props files.
   dotnet restore
   Stop-OnError
 
   if (-not $SkipOutdated) {
     dotnet outdated
-    dotnet list package --vulnerable --include-transitive
-    Stop-OnError
   }
 
   dotnet build --configuration "$Configuration" --no-restore
