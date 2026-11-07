@@ -20,6 +20,8 @@ Mostly small breaking changes that came out of enabling stricter analyzers. Reco
 * `EfReadOnlyRepository.Count` now counts all entities matching the specification and ignores its pagination. Previously a paged specification returned the size of the page.
 * `ApplyEfSpecification` (and so every EF repository query) throws `InvalidOperationException` if a specification enables pagination without an ordering, because unordered pages can repeat or skip rows. Add an ordering that ends with a unique property. Counting is unaffected.
 * Saving a modified entity that implements `IAuditable` no longer overwrites `CreatedOn` and `CreatedBy`. Previously updating a detached entity (for example `Update` with an object mapped from a DTO) replaced them with the DTO's default values.
+* `SplitDateRangeIntoIntervals` now validates its arguments immediately: it throws `ArgumentOutOfRangeException` for an interval of less than 1 day (previously 0 days looped forever and negative values misbehaved) and for an undefined `OverlapMitigation` (previously only thrown once enumerated). It no longer throws near `DateTime.MaxValue`.
+* `DateTimeRange.StartDate` and `EndDate` are get-only instead of `init`. `with` expressions and object initializers that set them no longer compile, because they could produce a range that starts after it ends.
 * `AddSpaSecurityServices` now wraps `IAntiforgery` so antiforgery (CSRF) validation failures are logged at Warning level with the request method, path and reason. ASP.NET Core only logs them at Information, which production log levels usually filter out, leaving rejected requests (HTTP 400) unexplained. If you register your own `IAntiforgery` after calling `AddSpaSecurityServices`, it replaces this wrapper.
 
 ## Upgrading to 17.0

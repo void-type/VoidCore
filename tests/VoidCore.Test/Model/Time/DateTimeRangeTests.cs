@@ -137,12 +137,42 @@ public class DateTimeRangeTests
     }
 
     [Fact]
-    public void DateTimeRange_split_throws_on_invalid_overlap_mitigation()
+    public void DateTimeRange_split_throws_on_invalid_overlap_mitigation_without_enumerating()
     {
-        Assert.Throws<ArgumentException>(() =>
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
         {
-            DateTimeHelpers.SplitDateRangeIntoIntervals(new DateTime(2000, 1, 1), new DateTime(2000, 1, 16), 7, (OverlapMitigation)22).ToList();
+            DateTimeHelpers.SplitDateRangeIntoIntervals(new DateTime(2000, 1, 1), new DateTime(2000, 1, 16), 7, (OverlapMitigation)22);
         });
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-7)]
+    public void DateTimeRange_split_throws_on_interval_less_than_one_day_instead_of_looping_forever(int intervalSizeDays)
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+        {
+            DateTimeHelpers.SplitDateRangeIntoIntervals(new DateTime(2000, 1, 1), new DateTime(2000, 1, 16), intervalSizeDays);
+        });
+    }
+
+    [Fact]
+    public void DateTimeRange_split_handles_ranges_that_end_at_the_maximum_date()
+    {
+        var ranges = DateTimeHelpers.SplitDateRangeIntoIntervals(DateTime.MaxValue.AddDays(-10), DateTime.MaxValue, 7).ToList();
+
+        Assert.Equal(2, ranges.Count);
+        Assert.Equal(DateTime.MaxValue, ranges[^1].EndDate);
+    }
+
+    [Fact]
+    public void DateTimeRange_split_handles_huge_interval_sizes()
+    {
+        var ranges = DateTimeHelpers.SplitDateRangeIntoIntervals(DateTime.MinValue, DateTime.MaxValue, int.MaxValue).ToList();
+
+        Assert.Single(ranges);
+        Assert.Equal(DateTime.MinValue, ranges[0].StartDate);
+        Assert.Equal(DateTime.MaxValue, ranges[0].EndDate);
     }
 
     [Fact]

@@ -22,10 +22,10 @@ public record DateTimeRange
     /// <summary>
     /// The start date
     /// </summary>
-    public DateTime StartDate { get; init; }
+    public DateTime StartDate { get; }
 
     /// <summary>
     /// The end date
     /// </summary>
-    public DateTime EndDate { get; init; }
+    public DateTime EndDate { get; }
 }
