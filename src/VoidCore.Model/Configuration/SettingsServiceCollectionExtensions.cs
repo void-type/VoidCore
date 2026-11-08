@@ -25,7 +25,7 @@ public static class SettingsServiceCollectionExtensions
     where TSettings : class, new()
     {
         var settings = GetSettings<TSettings>(configuration, root)
-            .EnsureNotNull();
+            .EnsureNotNull(NotFoundMessage<TSettings>(root));
         services.AddSingleton(settings);
         return settings;
     }
@@ -47,9 +47,15 @@ public static class SettingsServiceCollectionExtensions
     where TSettings : class, TSettingsInterface, new()
     {
         var settings = GetSettings<TSettings>(configuration, root)
-            .EnsureNotNull();
+            .EnsureNotNull(NotFoundMessage<TSettings>(root));
         services.AddSingleton<TSettingsInterface>(_ => settings);
         return settings;
+    }
+
+    private static string NotFoundMessage<TSettings>(bool root)
+    {
+        var location = root ? "the root of the configuration" : $"the '{typeof(TSettings).GetTypeNameWithoutEnding("settings")}' section";
+        return $"{typeof(TSettings).Name} wasn't found in application configuration. Add {location}.";
     }
 
     private static TSettings? GetSettings<TSettings>(IConfiguration configuration, bool root)

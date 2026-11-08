@@ -54,6 +54,28 @@ public class AntiforgeryLoggingTests
         Assert.Empty(logs.Entries);
     }
 
+    [Fact]
+    public async Task Registering_security_services_twice_logs_each_failure_once()
+    {
+        var logs = new CapturingLoggerProvider();
+        var environment = Substitute.For<IHostEnvironment>();
+        environment.EnvironmentName.Returns(Environments.Production);
+
+        var services = new ServiceCollection();
+        services.AddLogging(builder => builder.AddProvider(logs));
+        services.AddSpaSecurityServices(environment);
+        services.AddSpaSecurityServices(environment);
+
+        var antiforgery = services.BuildServiceProvider().GetRequiredService<IAntiforgery>();
+
+        var context = new DefaultHttpContext();
+        context.Request.Method = HttpMethods.Post;
+
+        await Assert.ThrowsAsync<AntiforgeryValidationException>(() => antiforgery.ValidateRequestAsync(context));
+
+        Assert.Single(logs.Entries);
+    }
+
     private static (IAntiforgery Antiforgery, CapturingLoggerProvider Logs) CreateAntiforgery()
     {
         var logs = new CapturingLoggerProvider();

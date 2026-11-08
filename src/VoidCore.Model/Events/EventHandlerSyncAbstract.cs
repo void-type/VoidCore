@@ -12,7 +12,15 @@ public abstract class EventHandlerSyncAbstract<TRequest, TResponse> : EventHandl
     /// <inheritdoc/>
     public override Task<IResult<TResponse>> Handle(TRequest request, CancellationToken cancellationToken = default)
     {
-        return Task.FromResult(HandleSync(request));
+        try
+        {
+            return Task.FromResult(HandleSync(request));
+        }
+        catch (Exception ex)
+        {
+            // Like an async handler, report exceptions through the task instead of throwing before the caller can await it.
+            return Task.FromException<IResult<TResponse>>(ex);
+        }
     }
 
     /// <summary>

@@ -36,11 +36,19 @@ public static partial class TextHelpers
     /// </summary>
     /// <param name="obj">The object to print</param>
     /// <param name="dateFormat">The date format. ISO 8601 by default</param>
+    /// <exception cref="ArgumentNullException">The object is null</exception>
     public static IEnumerable<string> PrintObject(object obj, string dateFormat = DefaultDateFormat)
     {
-        var properties = obj
-            .EnsureNotNull()
-            .GetType().GetTypeInfo().GetProperties();
+        obj.EnsureNotNull();
+
+        return PrintProperties(obj, dateFormat);
+    }
+
+    private static IEnumerable<string> PrintProperties(object obj, string dateFormat)
+    {
+        // Indexers need arguments, so they can't be printed.
+        var properties = obj.GetType().GetTypeInfo().GetProperties()
+            .Where(property => property.GetIndexParameters().Length == 0);
 
         foreach (var property in properties)
         {
@@ -54,6 +62,10 @@ public static partial class TextHelpers
 
                 case DateTime dateTime:
                     yield return $"{property.Name}: {Print(dateTime, dateFormat)}";
+                    break;
+
+                case DateTimeOffset dateTimeOffset:
+                    yield return $"{property.Name}: {dateTimeOffset.ToString(dateFormat, CultureInfo.InvariantCulture)}";
                     break;
 
                 case IEnumerable<DateTime> dateTimes:
@@ -71,7 +83,7 @@ public static partial class TextHelpers
                     break;
 
                 default:
-                    yield return $"{property.Name}: {value}";
+                    yield return $"{property.Name}: {Convert.ToString(value, CultureInfo.InvariantCulture)}";
                     break;
             }
         }

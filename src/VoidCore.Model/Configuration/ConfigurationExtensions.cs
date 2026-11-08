@@ -29,10 +29,8 @@ public static class ConfigurationExtensions
     /// <param name="connectionStringName">The name of the connection string</param>
     public static string GetRequiredConnectionString(this IConfiguration configuration, string connectionStringName)
     {
-        const string message = "Connection string not found in application configuration.";
-
         return configuration
             .GetConnectionString(connectionStringName)
-            .EnsureNotNullOrEmpty(message);
+            .EnsureNotNullOrEmpty($"Connection string '{connectionStringName}' not found in application configuration.");
     }
 }

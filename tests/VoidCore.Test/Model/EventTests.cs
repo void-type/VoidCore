@@ -187,6 +187,15 @@ public class EventTests
         processorMock.DidNotReceive().OnSuccess(Arg.Any<TestRequest>(), Arg.Any<TestResponse>());
     }
 
+    [Fact]
+    public async Task Synchronous_event_reports_exceptions_through_the_returned_task()
+    {
+        var task = new TestEventSyncThrows().Handle(new TestRequest());
+
+        Assert.True(task.IsFaulted);
+        await Assert.ThrowsAsync<InvalidOperationException>(() => task);
+    }
+
     public class TestRequest { }
 
     public class TestResponse
@@ -209,6 +218,14 @@ public class EventTests
         {
             await Task.Delay(1, cancellationToken);
             return Ok(new TestResponse { Name = "success" });
+        }
+    }
+
+    private class TestEventSyncThrows : EventHandlerSyncAbstract<TestRequest, TestResponse>
+    {
+        protected override IResult<TestResponse> HandleSync(TestRequest request)
+        {
+            throw new InvalidOperationException("boom");
         }
     }
 

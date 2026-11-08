@@ -35,9 +35,19 @@ public static class SecurityServiceCollectionExtensions
         }
     }
 
+    private const string AntiforgeryFailureLoggingMarker = "VoidCore.AntiforgeryFailureLogging";
+
     // The default IAntiforgery is internal, so wrap whatever is registered.
     private static void AddAntiforgeryFailureLogging(this IServiceCollection services)
     {
+        // Wrapping twice would log every failure twice.
+        if (services.Any(d => d.IsKeyedService && Equals(d.ServiceKey, AntiforgeryFailureLoggingMarker)))
+        {
+            return;
+        }
+
+        services.AddKeyedSingleton<object>(AntiforgeryFailureLoggingMarker, new object());
+
         var descriptor = services.Last(d => d.ServiceType == typeof(IAntiforgery));
         services.Remove(descriptor);
 

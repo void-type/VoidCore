@@ -105,7 +105,11 @@ public static class Guard
     public static T Ensure<T>(this T argumentValue, Func<T, bool> conditionExpression, Func<T, string> messageBuilder, [CallerArgumentExpression(nameof(argumentValue))] string argumentName = "argumentValue")
     {
         messageBuilder.EnsureNotNull();
+        conditionExpression.EnsureNotNull();
 
-        return argumentValue.Ensure(conditionExpression, messageBuilder(argumentValue), argumentName);
+        // Only build the message when the condition fails.
+        return conditionExpression(argumentValue) ?
+            argumentValue :
+            throw new ArgumentException(messageBuilder(argumentValue), argumentName);
     }
 }

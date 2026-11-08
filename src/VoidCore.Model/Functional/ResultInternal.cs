@@ -11,8 +11,11 @@ internal sealed class ResultInternal
 {
     internal ResultInternal(IEnumerable<IFailure> failures)
     {
-        failures.EnsureNotNullOrEmpty();
-        Failures = failures as IFailure[] ?? failures.ToArray();
+        // Copy once: enumerating a lazy sequence twice would run it twice, and the result must not change if the caller's array does.
+        var failuresArray = failures.EnsureNotNull().ToArray();
+        failuresArray.EnsureNotNullOrEmpty();
+
+        Failures = failuresArray;
         IsFailed = true;
     }
 

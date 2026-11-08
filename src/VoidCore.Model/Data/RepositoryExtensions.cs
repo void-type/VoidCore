@@ -22,7 +22,9 @@ public static class RepositoryExtensions
     }
 
     /// <summary>
-    /// Decorate the repository's Remove methods with logic to mark the entity as deleted.
+    /// Decorate the repository's Remove methods with logic to mark the entity as deleted. The soft-delete decorator saves through the repository it wraps,
+    /// so to also record who modified a soft-deleted entity, the soft-delete decorator must be the outer one: <c>repository.AddAuditability(...).AddSoftDeletability(...)</c>.
+    /// This doesn't apply when using the EF save-changes interceptors, which handle both.
     /// </summary>
     /// <param name="innerRepository">The repository to decorate.</param>
     /// <param name="timeProvider">A provider of the current time. Deletion times are recorded in UTC.</param>

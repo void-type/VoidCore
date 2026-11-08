@@ -148,7 +148,7 @@ IResult singleResult = results.Combine();
 
 // There are async versions of all extensions.
 // Note, asynchronous tasks of IResult can be run in parallel if not awaited.
-IResult result = await Result.CombineAsync(await DoSomeFallibleTaskAsync(), await CheckSomethingAsync());
+IResult result = await Result.CombineAsync(DoSomeFallibleTaskAsync(), CheckSomethingAsync());
 
 var newResult = singleResult
     // Transform your result into a typed one, or transform typed results to other types.

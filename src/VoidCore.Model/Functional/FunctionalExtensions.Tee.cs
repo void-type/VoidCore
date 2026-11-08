@@ -31,6 +31,7 @@ public static partial class FunctionalExtensions
     /// <typeparam name="T">The type of input.</typeparam>
     public static T Tee<T>(this T input, Action action)
     {
+        action.EnsureNotNull();
         action();
 
         return input;
@@ -78,7 +79,8 @@ public static partial class FunctionalExtensions
     /// <typeparam name="T">The type of input.</typeparam>
     public static async Task<T> TeeAsync<T>(this Task<T> inputTask, Func<T, Task> actionTask)
     {
-        var input = await inputTask.ConfigureAwait(false);
+        actionTask.EnsureNotNull();
+        var input = await inputTask.EnsureNotNull().ConfigureAwait(false);
         await actionTask(input).ConfigureAwait(false);
 
         return input;
@@ -92,6 +94,7 @@ public static partial class FunctionalExtensions
     /// <typeparam name="T">The type of input.</typeparam>
     public static async Task<T> TeeAsync<T>(this T input, Func<Task> action)
     {
+        action.EnsureNotNull();
         await action().ConfigureAwait(false);
 
         return input;
@@ -105,7 +108,8 @@ public static partial class FunctionalExtensions
     /// <typeparam name="T">The type of input.</typeparam>
     public static async Task<T> TeeAsync<T>(this Task<T> inputTask, Action action)
     {
-        var input = await inputTask.ConfigureAwait(false);
+        action.EnsureNotNull();
+        var input = await inputTask.EnsureNotNull().ConfigureAwait(false);
         action();
 
         return input;
@@ -119,7 +123,8 @@ public static partial class FunctionalExtensions
     /// <typeparam name="T">The type of input.</typeparam>
     public static async Task<T> TeeAsync<T>(this Task<T> inputTask, Func<Task> actionTask)
     {
-        var input = await inputTask.ConfigureAwait(false);
+        actionTask.EnsureNotNull();
+        var input = await inputTask.EnsureNotNull().ConfigureAwait(false);
         await actionTask().ConfigureAwait(false);
 
         return input;

@@ -63,16 +63,22 @@ public class EfReadOnlyRepository<T> : IReadOnlyRepository<T> where T : class
     /// <inheritdoc/>
     public virtual async Task<IItemSet<T>> ListPage(IQuerySpecification<T> specification, CancellationToken cancellationToken)
     {
-        var totalCount = await GetBaseQuery()
-            .TagWith(GetTag(specification))
-            .ApplyEfSpecification(specification, true)
-            .CountAsync(cancellationToken)
-            .ConfigureAwait(false);
-
         var items = await GetBaseQuery()
             .TagWith(GetTag(specification))
             .ApplyEfSpecification(specification)
             .ToListAsync(cancellationToken)
+            .ConfigureAwait(false);
+
+        // Without paging the items are the whole set, so there's no need to ask the database for a count.
+        if (!specification.PaginationOptions.IsPagingEnabled)
+        {
+            return items.ToItemSet(specification.PaginationOptions, items.Count);
+        }
+
+        var totalCount = await GetBaseQuery()
+            .TagWith(GetTag(specification))
+            .ApplyEfSpecification(specification, true)
+            .CountAsync(cancellationToken)
             .ConfigureAwait(false);
 
         return items.ToItemSet(specification.PaginationOptions, totalCount);

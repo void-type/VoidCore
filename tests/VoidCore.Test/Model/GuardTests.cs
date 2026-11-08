@@ -6,6 +6,28 @@ namespace VoidCore.Test.Model;
 public class GuardTests
 {
     [Fact]
+    public void Ensure_with_message_builder_only_builds_the_message_when_the_condition_fails()
+    {
+        var builds = 0;
+
+        4.Ensure(i => i == 4, i =>
+        {
+            builds++;
+            return "unexpected";
+        });
+
+        Assert.Equal(0, builds);
+
+        Assert.Throws<ArgumentException>(() => 5.Ensure(i => i == 4, i =>
+        {
+            builds++;
+            return "expected";
+        }));
+
+        Assert.Equal(1, builds);
+    }
+
+    [Fact]
     public void EnsureNotNull_throws_ArgumentNullException_when_value_is_null()
     {
         string myString = null!;

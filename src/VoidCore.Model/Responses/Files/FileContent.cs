@@ -42,6 +42,6 @@ public class FileContent : ValueObject
     /// <inheritdoc/>
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        yield return string.Concat(AsBytes.Select(b => $"{b:X2}"));
+        yield return Convert.ToHexString(AsBytes);
     }
 }

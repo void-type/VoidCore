@@ -40,7 +40,7 @@ public class EfWritableRepository<T> : EfReadOnlyRepository<T>, IWritableReposit
     }
 
     /// <inheritdoc/>
-    public Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken)
+    public virtual Task RemoveRange(IEnumerable<T> entities, CancellationToken cancellationToken)
     {
         Context.Set<T>().RemoveRange(entities);
         return Context.SaveChangesAsync(cancellationToken);

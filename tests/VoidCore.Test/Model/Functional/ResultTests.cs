@@ -24,6 +24,34 @@ public class ResultTests
     }
 
     [Fact]
+    public void Creating_Result_enumerates_a_lazy_failure_sequence_only_once()
+    {
+        var enumerations = 0;
+
+        IEnumerable<IFailure> Failures()
+        {
+            enumerations++;
+            yield return new Failure("one", "one");
+        }
+
+        var result = Result.Fail(Failures());
+
+        Assert.Equal(1, enumerations);
+        Assert.Single(result.Failures);
+    }
+
+    [Fact]
+    public void Result_failures_do_not_change_when_the_callers_array_changes()
+    {
+        var failures = new IFailure[] { new Failure("one", "one") };
+
+        var result = Result.Fail(failures);
+        failures[0] = new Failure("changed", "changed");
+
+        Assert.Equal("one", result.Failures.Single().Message);
+    }
+
+    [Fact]
     public void Creating_typed_Result_with_empty_failures_throws_ArgumentException()
     {
         Assert.Throws<ArgumentException>(() => Result.Fail<string>());

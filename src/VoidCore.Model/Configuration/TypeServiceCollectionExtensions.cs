@@ -78,25 +78,61 @@ public static class TypeServiceCollectionExtensions
 
         foreach (var baseType in baseTypes)
         {
-            // DI can register concrete types using any base class, including open generics.
             foreach (var implementation in ScanAssembliesForTypes(assembliesToScan, baseType))
             {
-                switch (lifetime)
+                foreach (var serviceType in GetServiceTypes(implementation, baseType))
                 {
-                    case ServiceLifetime.Singleton:
-                        services.AddSingleton(baseType, implementation);
-                        break;
-                    case ServiceLifetime.Scoped:
-                        services.AddScoped(baseType, implementation);
-                        break;
-                    case ServiceLifetime.Transient:
-                        services.AddTransient(baseType, implementation);
-                        break;
-                    default:
-                        throw new NotSupportedException($"Service lifetime of {lifetime} not supported.");
+                    switch (lifetime)
+                    {
+                        case ServiceLifetime.Singleton:
+                            services.AddSingleton(serviceType, implementation);
+                            break;
+                        case ServiceLifetime.Scoped:
+                            services.AddScoped(serviceType, implementation);
+                            break;
+                        case ServiceLifetime.Transient:
+                            services.AddTransient(serviceType, implementation);
+                            break;
+                        default:
+                            throw new NotSupportedException($"Service lifetime of {lifetime} not supported.");
+                    }
                 }
             }
         }
+    }
+
+    // A closed implementation can only be registered against the closed form of an open generic base type, for example MyHandler against IHandler<A, B> and not IHandler<,>.
+    private static IEnumerable<Type> GetServiceTypes(TypeInfo implementation, Type baseType)
+    {
+        // An open generic implementation can only be registered against an open generic service type.
+        if (implementation.IsGenericTypeDefinition)
+        {
+            return baseType.IsGenericTypeDefinition ? [baseType] : [];
+        }
+
+        if (!baseType.IsGenericTypeDefinition)
+        {
+            return [baseType];
+        }
+
+        if (baseType.IsInterface)
+        {
+            return implementation
+                .GetInterfaces()
+                .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == baseType);
+        }
+
+        var closedBaseTypes = new List<Type>();
+
+        for (var type = implementation.BaseType; type is not null; type = type.BaseType)
+        {
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == baseType)
+            {
+                closedBaseTypes.Add(type);
+            }
+        }
+
+        return closedBaseTypes;
     }
 
     private static IEnumerable<TypeInfo> ScanAssembliesForTypes(Assembly[] assembliesToScan, Type baseType)
