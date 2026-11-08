@@ -1,4 +1,6 @@
-﻿using VoidCore.Model.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using VoidCore.EntityFramework;
+using VoidCore.Model.Data;
 using VoidCore.Model.Functional;
 using VoidCore.Model.Responses.Collections;
 using VoidCore.Test.EfIntegration.TestModels;
@@ -10,6 +12,42 @@ namespace VoidCore.Test.EfIntegration;
 
 public class EfRepositoryTests
 {
+    [Fact]
+    public async Task ListPage_without_paging_does_not_run_a_count_query()
+    {
+        using var context = Deps.FoodStuffsContext();
+        var repository = new QueryCountingRepository(context.Seed());
+
+        var all = await repository.ListPage(new RecipesSearchSpecification([]), default);
+
+        Assert.Equal(3, all.TotalCount);
+        Assert.Equal(1, repository.QueriesBuilt);
+    }
+
+    [Fact]
+    public async Task ListPage_with_paging_counts_the_whole_set_separately()
+    {
+        using var context = Deps.FoodStuffsContext();
+        var repository = new QueryCountingRepository(context.Seed());
+
+        var page = await repository.ListPage(new RecipesSearchSpecification([], new PaginationOptions(1, 2)), default);
+
+        Assert.Equal(3, page.TotalCount);
+        Assert.Equal(2, page.Count);
+        Assert.Equal(2, repository.QueriesBuilt);
+    }
+
+    private sealed class QueryCountingRepository(DbContext context) : EfReadOnlyRepository<Recipe>(context)
+    {
+        public int QueriesBuilt { get; private set; }
+
+        protected override IQueryable<Recipe> GetBaseQuery()
+        {
+            QueriesBuilt++;
+            return base.GetBaseQuery();
+        }
+    }
+
     [Fact]
     public async Task Count_ignores_pagination_and_counts_all_matching_entities()
     {

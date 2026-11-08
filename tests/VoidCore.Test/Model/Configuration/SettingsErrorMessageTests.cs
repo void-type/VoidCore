@@ -47,6 +47,9 @@ public class SettingsErrorMessageTests
         Assert.Throws<ArgumentNullException>(() => 1.TeeAsync((Func<Task>)null!).GetAwaiter().GetResult());
         Assert.Throws<ArgumentNullException>(() => Task.FromResult(1).TeeAsync((Func<Task>)null!).GetAwaiter().GetResult());
         Assert.Throws<ArgumentNullException>(() => Task.FromResult(1).TeeAsync((Func<int, Task>)null!).GetAwaiter().GetResult());
+        Assert.Throws<ArgumentNullException>(() => ((Task<int>)null!).TeeAsync((Action)(() => { })).GetAwaiter().GetResult());
+        Assert.Throws<ArgumentNullException>(() => ((Task<int>)null!).TeeAsync((Func<Task>)(() => Task.CompletedTask)).GetAwaiter().GetResult());
+        Assert.Throws<ArgumentNullException>(() => ((Task<int>)null!).TeeAsync((Func<int, Task>)(_ => Task.CompletedTask)).GetAwaiter().GetResult());
     }
 
     private sealed class DemoSettings { }

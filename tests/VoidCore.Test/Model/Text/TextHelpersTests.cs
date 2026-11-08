@@ -256,6 +256,14 @@ public class TextHelpersTests
         Assert.Equal(expected, actual);
     }
 
+    [Theory]
+    [InlineData("..")]
+    [InlineData("a\0")]
+    public void GetSafeFilePath_rejects_replacements_that_could_make_it_unsafe(string replacement)
+    {
+        Assert.Throws<ArgumentException>(() => "folder/file.txt".GetSafeFilePath(replacement));
+    }
+
     [Fact]
     public void GetSafeFilePath_leaves_no_dot_dot_after_replacing_with_a_dot()
     {
