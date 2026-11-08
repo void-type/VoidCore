@@ -163,21 +163,23 @@ public class AmortizationTests
 
         var response = AmortizationCalculator.Calculate(requestWithModification);
 
-        // Period 3 should have zero principal payment (missed payment)
+        // Period 3 pays nothing, so nothing goes to principal or interest and the interest due is added to the balance
         var period3 = response.Schedule[2];
         Assert.Equal(0m, decimal.Round(period3.PrincipalPayment, 2));
-        Assert.Equal(3.49m, decimal.Round(period3.InterestPayment, 2));
+        Assert.Equal(0m, decimal.Round(period3.InterestPayment, 2));
+        Assert.Equal(3.49m, decimal.Round(period3.InterestCapitalized, 2));
 
-        // Balance should not decrease in period 3
+        // The balance grows by the unpaid interest
         Assert.Equal(836.78m, decimal.Round(response.Schedule[1].BalanceLeft, 2));
-        Assert.Equal(836.78m, decimal.Round(response.Schedule[2].BalanceLeft, 2));
+        Assert.Equal(840.27m, decimal.Round(response.Schedule[2].BalanceLeft, 2));
 
-        // The loan should have more total interest due to the missed payment
-        var standardResponse = AmortizationCalculator.Calculate(request);
-        Assert.True(response.TotalInterestPaid > standardResponse.TotalInterestPaid,
-            "Total interest should be more with missed payment");
+        // The missed payment is never made up, so there is a balance left at the end of the schedule
+        Assert.Equal(88.87m, decimal.Round(response.Schedule[11].BalanceLeft, 2));
 
-        Assert.Equal(30.42m, decimal.Round(response.TotalInterestPaid, 2));
+        // Totals are what was actually paid
+        Assert.Equal(27.07m, decimal.Round(response.TotalInterestPaid, 2));
+        Assert.Equal(941.68m, decimal.Round(response.TotalPaid, 2));
+        Assert.Equal(response.PaymentPerPeriod * 11, response.TotalPaid, 6);
     }
 
     [Fact]
@@ -206,6 +208,7 @@ public class AmortizationTests
         // Verify period 12 has missed payment
         var period12 = response.Schedule[11];
         Assert.Equal(0m, decimal.Round(period12.PrincipalPayment, 2));
+        Assert.Equal(26.80m, decimal.Round(period12.InterestCapitalized, 2));
 
         // Verify period 18 has extra payment
         var period18 = response.Schedule[17];
@@ -219,7 +222,35 @@ public class AmortizationTests
             Assert.True(period.BalanceLeft >= 0);
         }
 
-        Assert.Equal(10000, response.Schedule.Sum(p => p.PrincipalPayment));
+        // The loan is paid off, including the interest that was added to the balance
+        Assert.Equal(0m, response.Schedule[^1].BalanceLeft);
+        Assert.Equal(10000m + response.Schedule.Sum(p => p.InterestCapitalized), response.Schedule.Sum(p => p.PrincipalPayment), 6);
+        Assert.Equal(response.Schedule.Sum(p => p.InterestPayment + p.PrincipalPayment), response.TotalPaid);
+    }
+
+    [Fact]
+    public void StandardLoanPaysOffExactlyWithNoRoundingResidue()
+    {
+        var response = AmortizationCalculator.Calculate(new AmortizationRequest(200000, 360, 0.04m / 12));
+
+        Assert.Equal(0m, response.Schedule[^1].BalanceLeft);
+        Assert.Equal(200000m, response.Schedule.Sum(p => p.PrincipalPayment), 6);
+        Assert.Equal(200000m, response.TotalPaid - response.TotalInterestPaid, 6);
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(-2.5)]
+    public void RateOfNegativeOneHundredPercentOrLessThrows(double rate)
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => new AmortizationRequest(1000, 12, (decimal)rate));
+    }
+
+    [Fact]
+    public void TooManyPeriodsThrowsInsteadOfAllocatingHugeSchedules()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => new AmortizationRequest(1000, int.MaxValue, 0.01m));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new AmortizationRequest(1000, Financial.MaxSchedulePeriods + 1, 0.01m));
     }
 
     [Fact]

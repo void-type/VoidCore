@@ -13,6 +13,7 @@ public sealed class InvestmentRequest
     /// <param name="numberOfPeriods">The number of investment periods.</param>
     /// <param name="ratePerPeriod">The expected return rate per period.</param>
     /// <exception cref="ArgumentException">Throws when number of periods is less than 1.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Throws when number of periods is more than <see cref="Financial.MaxSchedulePeriods"/> or the rate is -100% or lower.</exception>
     public InvestmentRequest(decimal initialInvestment, decimal periodicContribution, int numberOfPeriods, decimal ratePerPeriod)
     {
         if (numberOfPeriods < 1)
@@ -20,6 +21,8 @@ public sealed class InvestmentRequest
             throw new ArgumentException("Cannot be less than 1.", nameof(numberOfPeriods));
         }
 
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(numberOfPeriods, Financial.MaxSchedulePeriods);
+        Financial.EnsureValidRate(ratePerPeriod, nameof(ratePerPeriod));
         InitialInvestment = initialInvestment;
         PeriodicContribution = periodicContribution;
         NumberOfPeriods = numberOfPeriods;

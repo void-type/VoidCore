@@ -13,6 +13,7 @@ public sealed class AmortizationRequest
     /// <param name="ratePerPeriod">The interest rate per period of the loan.</param>
     /// <param name="paymentModifications">Optional payment modifications for specific periods.</param>
     /// <exception cref="ArgumentException">Throws when number of periods is less than 1.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Throws when number of periods is more than <see cref="Financial.MaxSchedulePeriods"/> or the rate is -100% or lower.</exception>
     public AmortizationRequest(decimal totalPrincipal, int numberOfPeriods, decimal ratePerPeriod,
         IEnumerable<AmortizationPaymentModification>? paymentModifications = null)
     {
@@ -26,6 +27,8 @@ public sealed class AmortizationRequest
             throw new ArgumentException("Cannot be less than 1.", nameof(numberOfPeriods));
         }
 
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(numberOfPeriods, Financial.MaxSchedulePeriods);
+        Financial.EnsureValidRate(ratePerPeriod, nameof(ratePerPeriod));
         TotalPrincipal = totalPrincipal;
         NumberOfPeriods = numberOfPeriods;
         RatePerPeriod = ratePerPeriod;

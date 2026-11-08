@@ -86,6 +86,57 @@ public class FinancialTests
     }
 
     [Fact]
+    public void InterestPaymentAtBeginningOfFirstPeriodIsZero()
+    {
+        Assert.Equal(0m, Financial.InterestPayment(.05m, 1, 60, -35, 4, true));
+        Assert.Equal(
+            Financial.Payment(.05m, 60, -35, 4, true),
+            Financial.PrincipalPayment(.05m, 1, 60, -35, 4, true));
+    }
+
+    [Fact]
+    public void PaymentWithRateTooSmallToMatterActsLikeNoInterest()
+    {
+        var answer = Financial.Payment(0.0000000000000001m, 12, -1200);
+
+        Assert.Equal(100m, decimal.Round(answer, 2));
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(-3)]
+    public void RatesOfNegativeOneHundredPercentOrLessThrow(double rate)
+    {
+        var r = (decimal)rate;
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => Financial.Payment(r, 12, -1000));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Financial.FutureValue(r, 12, -100));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Financial.PresentValue(r, 12, -100));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Financial.NetPresentValue(r, 100, 200));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Financial.NumberOfPeriods(r, 100, -1000));
+    }
+
+    [Fact]
+    public void GrowthThatCantBeRepresentedThrowsInsteadOfOverflowing()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => Financial.Payment(1m, 100, -1000));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Financial.FutureValue(1m, 100, -1000));
+    }
+
+    [Fact]
+    public void NumberOfPeriodsWithNoInterestAndNoPaymentThrows()
+    {
+        Assert.Throws<ArgumentException>(() => Financial.NumberOfPeriods(0m, 0m, -1000));
+    }
+
+    [Fact]
+    public void NumberOfPeriodsThrowsWhenPaymentCantPayOffTheBalance()
+    {
+        // The payment is less than the interest, so the balance only grows.
+        Assert.Throws<ArgumentException>(() => Financial.NumberOfPeriods(.05m, 10, -1000));
+    }
+
+    [Fact]
     public void PrincipalPaymentNoFvAtEnd()
     {
         var answer = Financial.PrincipalPayment(.05m, 2, 60, -35);

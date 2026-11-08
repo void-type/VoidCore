@@ -6,6 +6,34 @@
 public static class Financial
 {
     /// <summary>
+    /// The most periods a schedule calculator will build. It bounds memory use for requests that come from untrusted input.
+    /// </summary>
+    public const int MaxSchedulePeriods = 10_000_000;
+
+    // (1 + rate) ^ periods as a decimal. Throws a clear error instead of an overflow or divide by zero when it can't be represented.
+    private static decimal GrowthFactor(decimal interestRatePerPeriod, int numberOfPeriods)
+    {
+        EnsureValidRate(interestRatePerPeriod);
+
+        var growth = Math.Pow(1 + (double)interestRatePerPeriod, numberOfPeriods);
+
+        if (!double.IsFinite(growth) || growth >= (double)decimal.MaxValue || (growth <= 0 && numberOfPeriods != 0))
+        {
+            throw new ArgumentOutOfRangeException(nameof(numberOfPeriods), "The interest rate and number of periods are too large or small to calculate.");
+        }
+
+        return (decimal)growth;
+    }
+
+    internal static void EnsureValidRate(decimal interestRatePerPeriod, string parameterName = "interestRatePerPeriod")
+    {
+        if (interestRatePerPeriod <= -1)
+        {
+            throw new ArgumentOutOfRangeException(parameterName, interestRatePerPeriod, "The interest rate per period must be greater than -1 (-100%).");
+        }
+    }
+
+    /// <summary>
     /// Finds the future value of an annuity of periodic fixed payments and fixed interest rate.
     /// </summary>
     /// <param name="interestRatePerPeriod">The interest rate per period. Note: use APR divided by number of periods in a year. Use decimal form: 4% should be passed as .04.</param>
@@ -15,6 +43,8 @@ public static class Financial
     /// <param name="paymentDueAtBeginningOfPeriod">True implies that the payments are due at the beginning of each period. Default is false.</param>
     public static decimal FutureValue(decimal interestRatePerPeriod, int numberOfPeriods, decimal payment, decimal presentValue = 0, bool paymentDueAtBeginningOfPeriod = false)
     {
+        EnsureValidRate(interestRatePerPeriod);
+
         if (paymentDueAtBeginningOfPeriod)
         {
             payment *= 1 + interestRatePerPeriod;
@@ -30,7 +60,7 @@ public static class Financial
         }
         else
         {
-            var pow = (decimal)Math.Pow(1 + (double)interestRatePerPeriod, numberOfPeriods);
+            var pow = GrowthFactor(interestRatePerPeriod, numberOfPeriods);
             return -((payment * (pow - 1) / interestRatePerPeriod) + (presentValue * pow));
         }
     }
@@ -47,14 +77,7 @@ public static class Financial
     public static decimal InterestPayment(decimal interestRatePerPeriod, int periodNumber, int numberOfPeriods, decimal presentValue, decimal futureValue = 0, bool paymentDueAtBeginningOfPeriod = false)
     {
         var payment = Payment(interestRatePerPeriod, numberOfPeriods, presentValue, futureValue, paymentDueAtBeginningOfPeriod);
-        var interestPayment = FutureValue(interestRatePerPeriod, periodNumber - 1, payment, presentValue, paymentDueAtBeginningOfPeriod) * interestRatePerPeriod;
-
-        if (paymentDueAtBeginningOfPeriod)
-        {
-            interestPayment /= 1 + interestRatePerPeriod;
-        }
-
-        return interestPayment;
+        return InterestPortion(interestRatePerPeriod, periodNumber, payment, presentValue, paymentDueAtBeginningOfPeriod);
     }
 
     /// <summary>
@@ -64,11 +87,13 @@ public static class Financial
     /// <param name="cashFlows">An array of cashflows in the order they are transacted.</param>
     public static decimal NetPresentValue(decimal interestRatePerPeriod, params decimal[] cashFlows)
     {
+        EnsureValidRate(interestRatePerPeriod);
+
         var netPresentValue = 0.0m;
 
         for (var i = 0; i < cashFlows.Length; i++)
         {
-            netPresentValue += cashFlows[i] / (decimal)Math.Pow(1 + (double)interestRatePerPeriod, i + 1);
+            netPresentValue += cashFlows[i] / GrowthFactor(interestRatePerPeriod, i + 1);
         }
 
         return netPresentValue;
@@ -86,6 +111,8 @@ public static class Financial
     {
         decimal payment;
 
+        EnsureValidRate(interestRatePerPeriod);
+
         if (numberOfPeriods == 0)
         {
             payment = 0;
@@ -96,8 +123,12 @@ public static class Financial
         }
         else
         {
-            var pow = (decimal)Math.Pow(1 + (double)interestRatePerPeriod, numberOfPeriods);
-            payment = interestRatePerPeriod / (pow - 1) * -((presentValue * pow) + futureValue);
+            var pow = GrowthFactor(interestRatePerPeriod, numberOfPeriods);
+
+            // A rate too small to move 1 at decimal precision behaves like no interest, and would divide by zero below.
+            payment = pow == 1
+                ? (futureValue - presentValue) / numberOfPeriods
+                : interestRatePerPeriod / (pow - 1) * -((presentValue * pow) + futureValue);
         }
 
         if (paymentDueAtBeginningOfPeriod)
@@ -118,14 +149,15 @@ public static class Financial
     /// <param name="paymentDueAtBeginningOfPeriod">True implies that the payments are due at the beginning of each period. Default is false.</param>
     public static decimal PresentValue(decimal interestRatePerPeriod, int numberOfPeriods, decimal payment, decimal futureValue = 0, bool paymentDueAtBeginningOfPeriod = false)
     {
-        var num = 1.0m;
-        var pow = (decimal)Math.Pow(1 + (double)interestRatePerPeriod, numberOfPeriods);
+        EnsureValidRate(interestRatePerPeriod);
 
         if (interestRatePerPeriod == 0)
         {
             return -futureValue - (payment * numberOfPeriods);
         }
 
+        var num = 1.0m;
+        var pow = GrowthFactor(interestRatePerPeriod, numberOfPeriods);
         if (paymentDueAtBeginningOfPeriod)
         {
             num = 1 + interestRatePerPeriod;
@@ -145,14 +177,7 @@ public static class Financial
     public static decimal PrincipalPayment(decimal interestRatePerPeriod, int periodNumber, int numberOfPeriods, decimal presentValue, decimal futureValue = 0, bool paymentDueAtBeginningOfPeriod = false)
     {
         var payment = Payment(interestRatePerPeriod, numberOfPeriods, presentValue, futureValue, paymentDueAtBeginningOfPeriod);
-        var interestPayment = FutureValue(interestRatePerPeriod, periodNumber - 1, payment, presentValue, paymentDueAtBeginningOfPeriod) * interestRatePerPeriod;
-
-        if (paymentDueAtBeginningOfPeriod)
-        {
-            interestPayment /= 1 + interestRatePerPeriod;
-        }
-
-        return payment - interestPayment;
+        return payment - InterestPortion(interestRatePerPeriod, periodNumber, payment, presentValue, paymentDueAtBeginningOfPeriod);
     }
 
     /// <summary>
@@ -170,8 +195,15 @@ public static class Financial
             return 0;
         }
 
+        EnsureValidRate(interestRatePerPeriod);
+
         if (interestRatePerPeriod == 0)
         {
+            if (payment == 0)
+            {
+                throw new ArgumentException("The payment can't be zero when there is no interest.", nameof(payment));
+            }
+
             return -(presentValue + futureValue) / payment;
         }
 
@@ -181,6 +213,31 @@ public static class Financial
         var b = (double)((interestRatePerPeriod * presentValue) + adjustedPayment);
         var c = (double)(1 + interestRatePerPeriod);
 
-        return (decimal)(Math.Log(a / b) / Math.Log(c));
+        var periods = Math.Log(a / b) / Math.Log(c);
+
+        if (!double.IsFinite(periods) || Math.Abs(periods) >= (double)decimal.MaxValue)
+        {
+            throw new ArgumentException("The payment can never pay off the balance at this interest rate.", nameof(payment));
+        }
+
+        return (decimal)periods;
+    }
+
+    private static decimal InterestPortion(decimal interestRatePerPeriod, int periodNumber, decimal payment, decimal presentValue, bool paymentDueAtBeginningOfPeriod)
+    {
+        // A payment at the beginning of the first period is made before any interest has accrued.
+        if (paymentDueAtBeginningOfPeriod && periodNumber == 1)
+        {
+            return 0;
+        }
+
+        var interestPayment = FutureValue(interestRatePerPeriod, periodNumber - 1, payment, presentValue, paymentDueAtBeginningOfPeriod) * interestRatePerPeriod;
+
+        if (paymentDueAtBeginningOfPeriod)
+        {
+            interestPayment /= 1 + interestRatePerPeriod;
+        }
+
+        return interestPayment;
     }
 }

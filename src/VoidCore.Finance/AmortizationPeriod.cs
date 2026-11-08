@@ -5,12 +5,13 @@
 /// </summary>
 public sealed class AmortizationPeriod
 {
-    internal AmortizationPeriod(int periodNumber, decimal interestPayment, decimal principalPayment, decimal balanceLeft)
+    internal AmortizationPeriod(int periodNumber, decimal interestPayment, decimal principalPayment, decimal balanceLeft, decimal interestCapitalized = 0)
     {
         PeriodNumber = periodNumber;
         InterestPayment = interestPayment;
         PrincipalPayment = principalPayment;
         BalanceLeft = balanceLeft;
+        InterestCapitalized = interestCapitalized;
     }
 
     /// <summary>
@@ -32,4 +33,9 @@ public sealed class AmortizationPeriod
     /// The balance remaining after this period.
     /// </summary>
     public decimal BalanceLeft { get; }
+
+    /// <summary>
+    /// The interest due this period that the payment didn't cover. It was added to the balance, so the balance grows.
+    /// </summary>
+    public decimal InterestCapitalized { get; }
 }
