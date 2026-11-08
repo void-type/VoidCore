@@ -18,9 +18,9 @@ public class PaginationOptionsTests
     [InlineData(0, 1)]
     [InlineData(-1, 1)]
     [InlineData(25, 25)]
-    [InlineData(PaginationOptions.MaxTake + 1, PaginationOptions.MaxTake)]
-    [InlineData(int.MaxValue, PaginationOptions.MaxTake)]
-    public void Take_is_bounded(int take, int expected)
+    [InlineData(100_000, 100_000)]
+    [InlineData(int.MaxValue, int.MaxValue)]
+    public void Take_is_at_least_one_and_otherwise_unlimited(int take, int expected)
     {
         Assert.Equal(expected, new PaginationOptions(1, take).Take);
     }
@@ -28,7 +28,7 @@ public class PaginationOptionsTests
     [Fact]
     public void Skip_does_not_overflow_for_huge_page_numbers()
     {
-        var options = new PaginationOptions(int.MaxValue, PaginationOptions.MaxTake);
+        var options = new PaginationOptions(int.MaxValue, 1000);
 
         Assert.Equal(int.MaxValue, options.Skip);
     }

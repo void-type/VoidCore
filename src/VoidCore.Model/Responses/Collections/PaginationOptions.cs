@@ -5,16 +5,11 @@
 /// </summary>
 public class PaginationOptions
 {
-    /// <summary>
-    /// The largest page size allowed. Larger requested sizes are reduced to this. Disable pagination to get an entire set.
-    /// </summary>
-    public const int MaxTake = 1000;
-
     private PaginationOptions() { }
 
     /// <summary>
-    /// Create a new pagination options. Out-of-range values are corrected: the page is at least 1 and the take is
-    /// between 1 and <see cref="MaxTake"/>, so unvalidated request input can't produce invalid or unbounded queries.
+    /// Create a new pagination options. Out-of-range values are corrected: the page and the take are at least 1, so invalid
+    /// request input can't produce a negative offset. There is no upper limit on the take, so validate it if it comes from untrusted input.
     /// </summary>
     /// <param name="page">What page number to take from the set</param>
     /// <param name="take">How many items to include in each page</param>
@@ -22,7 +17,7 @@ public class PaginationOptions
     public PaginationOptions(int page, int take, bool isPagingEnabled = true)
     {
         Page = Math.Max(1, page);
-        Take = Math.Clamp(take, 1, MaxTake);
+        Take = Math.Max(1, take);
         IsPagingEnabled = isPagingEnabled;
     }
 
