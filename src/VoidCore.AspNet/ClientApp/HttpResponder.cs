@@ -94,9 +94,10 @@ public static class HttpResponder
         return new ObjectResult(result.Failures.ToItemSet()) { StatusCode = 400 };
     }
 
-    private static ObjectResult Ok()
+    // ObjectResult with a null value is turned into a 204 by ASP.NET, so use a real empty 200.
+    private static OkResult Ok()
     {
-        return new ObjectResult(null) { StatusCode = 200 };
+        return new OkResult();
     }
 
     private static ObjectResult Ok(object result)

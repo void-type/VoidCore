@@ -53,8 +53,7 @@ public class HttpResponderTests
     {
         var result = Result.Ok();
         var response = HttpResponder.Respond(result);
-        Assert.Equal(200, ((ObjectResult)response).StatusCode);
-        Assert.Null(((ObjectResult)response).Value);
+        Assert.IsType<OkResult>(response);
     }
 
     [Fact]

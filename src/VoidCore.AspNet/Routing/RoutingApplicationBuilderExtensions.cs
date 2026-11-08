@@ -42,7 +42,8 @@ public static class RoutingApplicationBuilderExtensions
     }
 
     /// <summary>
-    /// Map all SPA endpoint controllers and add a fallback route to HomeController.Index for unmatched requests.
+    /// Map all SPA endpoint controllers. Unmatched requests under /api return a 404 instead of the SPA, and other unmatched requests
+    /// fall back to HomeController.Index so client-side routes work.
     /// </summary>
     /// <param name="app">This IApplicationBuilder</param>
     /// <returns>The ApplicationBuilder for chaining.</returns>
@@ -51,6 +52,13 @@ public static class RoutingApplicationBuilderExtensions
         return app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
+
+            endpoints.Map($"{ApiRouteAttribute.BasePath}/{{**path}}", context =>
+            {
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
+                return Task.CompletedTask;
+            }).WithDisplayName("Unmatched API route");
+
             endpoints.MapFallbackToController("Index", "Home");
         });
     }

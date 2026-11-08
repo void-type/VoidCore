@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
+using System.Text.RegularExpressions;
 using VoidCore.Model.Guards;
 
 namespace VoidCore.AspNet.Security;
@@ -8,7 +8,7 @@ namespace VoidCore.AspNet.Security;
 /// <summary>
 /// Configuration for security.
 /// </summary>
-public static class SecurityApplicationBuilderExtensions
+public static partial class SecurityApplicationBuilderExtensions
 {
     /// <summary>
     /// Setup secure transport using HTTPS and HSTS. HSTS is disabled in development environments or when running on
@@ -44,29 +44,44 @@ public static class SecurityApplicationBuilderExtensions
     }
 
     /// <summary>
-    /// Sets the Reporting-Endpoints header on the HTTP response with multiple endpoints.
-    /// This header defines a set of named reporting endpoints that reports can be sent to.
-    /// Each endpoint name can have multiple URLs for redundancy and failover support.
+    /// Sets the Reporting-Endpoints header on the HTTP response with named endpoints that reports can be sent to.
+    /// Reference an endpoint name from other headers, for example the report-to directive of a Content Security Policy.
     /// See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Reporting-Endpoints for more information.
     /// </summary>
     /// <param name="app">This IApplicationBuilder</param>
-    /// <param name="endpoints">Dictionary mapping endpoint group names to lists of endpoint URLs.
-    /// Example: { "csp-endpoint": ["https://example.com/csp1", "https://example.com/csp2"] }</param>
+    /// <param name="endpoints">Dictionary mapping endpoint names to the absolute URL reports are sent to. A name can have only one URL.
+    /// Names use lowercase letters, digits, and _ - . *
+    /// Example: { "csp-endpoint": "https://example.com/csp-reports" }</param>
     /// <returns>The ApplicationBuilder for chaining.</returns>
-    public static IApplicationBuilder UseReportingEndpoints(this IApplicationBuilder app, Dictionary<string, List<string>> endpoints)
+    /// <exception cref="ArgumentException">An endpoint name or URL is invalid</exception>
+    public static IApplicationBuilder UseReportingEndpoints(this IApplicationBuilder app, IReadOnlyDictionary<string, string> endpoints)
     {
         endpoints.EnsureNotNull();
 
+        foreach (var (name, url) in endpoints)
+        {
+            if (!ReportingEndpointNameRegex().IsMatch(name))
+            {
+                throw new ArgumentException($"'{name}' is not a valid reporting endpoint name. Use lowercase letters, digits, and _ - . *", nameof(endpoints));
+            }
+
+            if (!Uri.TryCreate(url, UriKind.Absolute, out _) || url.Contains('"', StringComparison.Ordinal) || url.Contains('\\', StringComparison.Ordinal))
+            {
+                throw new ArgumentException($"The URL for reporting endpoint '{name}' must be an absolute URL without quotes or backslashes.", nameof(endpoints));
+            }
+        }
+
+        var reportingEndpoints = string.Join(", ", endpoints.Select(endpoint => $"{endpoint.Key}=\"{endpoint.Value}\""));
+
         return app.Use((context, next) =>
         {
-            var reportingEndpoints = string.Join(", ",
-                endpoints.SelectMany(group =>
-                    group.Value.Select(url => $"\"{group.Key}\"=\"{url}\"")));
-
-            context.Response.Headers.Append("Reporting-Endpoints", reportingEndpoints);
+            context.Response.Headers["Reporting-Endpoints"] = reportingEndpoints;
             return next();
         });
     }
+
+    [GeneratedRegex("^[a-z*][a-z0-9_.*-]*$", RegexOptions.None, 1000)]
+    private static partial Regex ReportingEndpointNameRegex();
 
     /// <summary>
     /// Set an X-Content-Type-Options header to nosniff on the HTTP response. Prevents browsers from sniffing MIME types and trying execute
@@ -78,7 +93,7 @@ public static class SecurityApplicationBuilderExtensions
     {
         return app.Use((context, next) =>
         {
-            context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+            context.Response.Headers["X-Content-Type-Options"] = "nosniff";
             return next();
         });
     }
@@ -95,7 +110,7 @@ public static class SecurityApplicationBuilderExtensions
 
         return app.Use((context, next) =>
         {
-            context.Response.Headers.Append("X-Frame-Options", option);
+            context.Response.Headers["X-Frame-Options"] = option;
             return next();
         });
     }
@@ -112,7 +127,7 @@ public static class SecurityApplicationBuilderExtensions
 
         return app.Use((context, next) =>
         {
-            context.Response.Headers.Append("Permissions-Policy", policy);
+            context.Response.Headers["Permissions-Policy"] = policy;
             return next();
         });
     }
@@ -129,7 +144,7 @@ public static class SecurityApplicationBuilderExtensions
 
         return app.Use((context, next) =>
         {
-            context.Response.Headers.Append("Referrer-Policy", policy);
+            context.Response.Headers["Referrer-Policy"] = policy;
             return next();
         });
     }
@@ -147,7 +162,7 @@ public static class SecurityApplicationBuilderExtensions
 
         return app.Use((context, next) =>
         {
-            context.Response.Headers.Append("Cross-Origin-Embedder-Policy", policy);
+            context.Response.Headers["Cross-Origin-Embedder-Policy"] = policy;
             return next();
         });
     }
@@ -164,7 +179,7 @@ public static class SecurityApplicationBuilderExtensions
 
         return app.Use((context, next) =>
         {
-            context.Response.Headers.Append("Cross-Origin-Opener-Policy", policy);
+            context.Response.Headers["Cross-Origin-Opener-Policy"] = policy;
             return next();
         });
     }
@@ -181,7 +196,7 @@ public static class SecurityApplicationBuilderExtensions
 
         return app.Use((context, next) =>
         {
-            context.Response.Headers.Append("Cross-Origin-Resource-Policy", policy);
+            context.Response.Headers["Cross-Origin-Resource-Policy"] = policy;
             return next();
         });
     }

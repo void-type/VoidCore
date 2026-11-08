@@ -38,7 +38,7 @@ public sealed class CspMiddleware
         var options = builder.Build();
 
         var header = new CspHeader(options);
-        context.Response.Headers.Append(header.Key, header.Value);
+        context.Response.Headers[header.Key] = header.Value;
         return _next(context);
     }
 }
