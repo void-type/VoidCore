@@ -59,16 +59,13 @@ public static class HttpResponder
             return Fail(result);
         }
 
-        var file = result.Value;
-
-        return new FileContentResult(file.Content.AsBytes, "application/force-download")
-        {
-            FileDownloadName = file.Name
-        };
+        return Download(result.Value);
     }
 
     /// <summary>
-    /// Create an inline FileContentResult. This file will not force download.
+    /// Create an inline FileContentResult. This file will not force download. Only content types that can't run script in your site's
+    /// origin are shown inline (images other than SVG, audio, video, PDF, and plain text). Anything else, such as HTML or SVG, is sent as
+    /// a download so a user-supplied file can't execute as part of your site.
     /// </summary>
     /// <param name="result">The domain result</param>
     /// <returns>An IActionResult</returns>
@@ -83,10 +80,30 @@ public static class HttpResponder
 
         var file = result.Value;
 
-        new FileExtensionContentTypeProvider()
-            .TryGetContentType(file.Name, out var contentType);
+        if (!s_contentTypeProvider.TryGetContentType(file.Name, out var contentType) || !IsSafeToDisplayInline(contentType))
+        {
+            return Download(file);
+        }
 
-        return new FileContentResult(file.Content.AsBytes, contentType ?? "application/octet-stream");
+        return new FileContentResult(file.Content.AsBytes, contentType);
+    }
+
+    private static readonly FileExtensionContentTypeProvider s_contentTypeProvider = new();
+
+    private static bool IsSafeToDisplayInline(string contentType)
+    {
+        return contentType is "application/pdf" or "text/plain"
+            || (contentType.StartsWith("image/", StringComparison.Ordinal) && contentType != "image/svg+xml")
+            || contentType.StartsWith("audio/", StringComparison.Ordinal)
+            || contentType.StartsWith("video/", StringComparison.Ordinal);
+    }
+
+    private static FileContentResult Download(SimpleFile file)
+    {
+        return new FileContentResult(file.Content.AsBytes, "application/octet-stream")
+        {
+            FileDownloadName = file.Name
+        };
     }
 
     private static ObjectResult Fail(IResult result)

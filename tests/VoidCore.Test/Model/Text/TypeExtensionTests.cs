@@ -44,6 +44,12 @@ public class TypeExtensionTests
     }
 
     [Fact]
+    public void Strip_type_name_ending_never_returns_an_empty_name()
+    {
+        Assert.Equal("Settings", typeof(Settings).GetTypeNameWithoutEnding("Settings"));
+    }
+
+    [Fact]
     public void Friendly_type_name_returns_correct_name()
     {
         var typeName = typeof(string).GetFriendlyTypeName();
@@ -79,3 +85,4 @@ internal class MyBaseSettingsAttribute { }
 internal class Lowercasesettings { }
 
 internal class Other { }
+internal class Settings { }

@@ -120,6 +120,40 @@ public class EmailFactoryTests
            }));
     }
 
+    [Theory]
+    [InlineData("subject\r\nBcc: attacker@example.com")]
+    [InlineData("subject\ninjected")]
+    public void Subject_with_line_breaks_is_rejected_to_prevent_header_injection(string subject)
+    {
+        var factory = new TextEmailFactory();
+
+        Assert.Throws<ArgumentException>(() => factory.Create(builder => builder.SetSubject(subject)));
+        Assert.Throws<ArgumentException>(() => new Email(subject, "message", "a@example.com"));
+    }
+
+    [Theory]
+    [InlineData("a@example.com\r\nBcc: attacker@example.com")]
+    [InlineData("a@example.com\ninjected")]
+    [InlineData("   ")]
+    public void Invalid_recipients_are_rejected(string recipient)
+    {
+        var factory = new TextEmailFactory();
+
+        Assert.Throws<ArgumentException>(() => factory.Create(builder => builder.AddRecipient(recipient)));
+        Assert.Throws<ArgumentException>(() => new Email("subject", "message", recipient));
+    }
+
+    [Fact]
+    public void Email_copies_the_recipients()
+    {
+        var recipients = new List<string> { "a@example.com" };
+
+        var email = new Email("subject", "message", recipients);
+        recipients.Add("b@example.com");
+
+        Assert.Equal(["a@example.com"], email.Recipients);
+    }
+
     [Fact]
     public void EmailOptionsBuilder_accepts_null_or_empty_body_lines_as_extra_line_breaks()
     {

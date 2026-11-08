@@ -19,7 +19,7 @@ public sealed class EmailOptionsBuilder
     /// <param name="subject">The email subject</param>
     public void SetSubject(string subject)
     {
-        _subject = subject.EnsureNotNullOrEmpty();
+        _subject = Email.EnsureSingleLine(subject.EnsureNotNullOrEmpty(), nameof(subject));
     }
 
     /// <summary>
@@ -56,7 +56,13 @@ public sealed class EmailOptionsBuilder
     public void AddRecipient(string recipient)
     {
         recipient.EnsureNotNullOrEmpty();
-        _recipients.Add(recipient);
+
+        if (string.IsNullOrWhiteSpace(recipient))
+        {
+            throw new ArgumentException("The recipient can't be blank.", nameof(recipient));
+        }
+
+        _recipients.Add(Email.EnsureSingleLine(recipient, nameof(recipient)));
     }
 
     /// <summary>
@@ -87,6 +93,6 @@ public sealed class EmailOptionsBuilder
 
     internal EmailOptions Build()
     {
-        return new EmailOptions(_subject, _messageLines, _recipients);
+        return new EmailOptions(_subject, [.. _messageLines], [.. _recipients]);
     }
 }

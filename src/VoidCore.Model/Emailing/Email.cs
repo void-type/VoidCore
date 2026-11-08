@@ -15,9 +15,13 @@ public class Email
     /// <param name="recipients">The recipients of the email.</param>
     public Email(string subject, string message, IEnumerable<string> recipients)
     {
-        Subject = subject.EnsureNotNull();
+        Subject = EnsureSingleLine(subject.EnsureNotNull(), nameof(subject));
         Message = message.EnsureNotNull();
-        Recipients = recipients.EnsureNotNull();
+
+        // Copy so later changes to the caller's collection can't change who gets the email.
+        Recipients = recipients.EnsureNotNull()
+            .Select(recipient => EnsureRecipient(recipient, nameof(recipients)))
+            .ToArray();
     }
 
     /// <summary>
@@ -42,4 +46,25 @@ public class Email
     /// The subject line of the email.
     /// </summary>
     public string Subject { get; }
+
+    internal static string EnsureRecipient(string? recipient, string parameterName)
+    {
+        if (string.IsNullOrWhiteSpace(recipient))
+        {
+            throw new ArgumentException("The recipient can't be blank.", parameterName);
+        }
+
+        return EnsureSingleLine(recipient, parameterName);
+    }
+
+    // A line break in a header value, like the subject or an address, can inject extra headers into the message.
+    internal static string EnsureSingleLine(string value, string parameterName)
+    {
+        if (value.AsSpan().ContainsAny('\r', '\n'))
+        {
+            throw new ArgumentException("The value can't contain line breaks.", parameterName);
+        }
+
+        return value;
+    }
 }

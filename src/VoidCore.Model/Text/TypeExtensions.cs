@@ -12,6 +12,7 @@ public static class TypeExtensions
     /// Ex: (AuthorizationSettings, "settings") becomes "Authorization"
     /// Ex: (Authorization, "settings") becomes "Authorization"
     /// Ex: (AuthorizationSettings, null) becomes "AuthorizationSettings"
+    /// Ex: (Settings, "settings") stays "Settings", because the name is never stripped to nothing
     /// </summary>
     /// <param name="type">The type to get the name from</param>
     /// <param name="ending">The ending to remove from the class type name</param>
@@ -26,7 +27,8 @@ public static class TypeExtensions
 
         var lastIndexOfEnding = rawName.LastIndexOf(ending, StringComparison.OrdinalIgnoreCase);
 
-        if (lastIndexOfEnding < 0)
+        // No match, or the whole name is the ending, which would leave nothing.
+        if (lastIndexOfEnding <= 0)
         {
             return rawName;
         }

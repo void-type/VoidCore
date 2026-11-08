@@ -43,7 +43,7 @@ public class HttpResponderTests
         var file = new SimpleFile("fileContent", "fileName");
         var result = Result.Ok(file);
         var response = HttpResponder.RespondWithFile(result);
-        Assert.Equal("application/force-download", ((FileContentResult)response).ContentType);
+        Assert.Equal("application/octet-stream", ((FileContentResult)response).ContentType);
         Assert.Equal(file.Name, ((FileContentResult)response).FileDownloadName);
         Assert.Equal(file.Content.AsBytes, ((FileContentResult)response).FileContents);
     }
@@ -63,6 +63,44 @@ public class HttpResponderTests
         var response = HttpResponder.Respond(result);
         Assert.Equal(400, ((ObjectResult)response).StatusCode);
         Assert.Equal(1, ((ItemSet<IFailure>)((ObjectResult)response).Value!).Count);
+    }
+
+    [Fact]
+    public void Respond_with_inline_file_shows_safe_types_inline()
+    {
+        var file = new SimpleFile("png bytes", "photo.png");
+
+        var response = HttpResponder.RespondWithInlineFile(Result.Ok(file));
+
+        var fileResult = Assert.IsType<FileContentResult>(response);
+        Assert.Equal("image/png", fileResult.ContentType);
+        Assert.True(string.IsNullOrEmpty(fileResult.FileDownloadName));
+    }
+
+    [Theory]
+    [InlineData("page.html")]
+    [InlineData("image.svg")]
+    [InlineData("script.js")]
+    [InlineData("data.xml")]
+    [InlineData("unknown.zzzz")]
+    [InlineData("no-extension")]
+    public void Respond_with_inline_file_downloads_types_that_could_run_script_on_the_site(string name)
+    {
+        var file = new SimpleFile("<script>alert(1)</script>", name);
+
+        var response = HttpResponder.RespondWithInlineFile(Result.Ok(file));
+
+        var fileResult = Assert.IsType<FileContentResult>(response);
+        Assert.Equal("application/octet-stream", fileResult.ContentType);
+        Assert.Equal(name, fileResult.FileDownloadName);
+    }
+
+    [Fact]
+    public void Respond_with_inline_file_failure()
+    {
+        var response = HttpResponder.RespondWithInlineFile(Result.Fail<SimpleFile>(new Failure("some fail", "some fail")));
+
+        Assert.Equal(400, ((ObjectResult)response).StatusCode);
     }
 
     [Fact]

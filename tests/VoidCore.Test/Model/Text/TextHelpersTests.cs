@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using VoidCore.Model.Text;
+﻿using VoidCore.Model.Text;
 using Xunit;
 
 namespace VoidCore.Test.Model.Text;
@@ -46,6 +45,38 @@ public class TextHelpersTests
         var link = TextHelpers.Link("Click me", "https://www.contoso.com", "recipes", "1");
 
         Assert.Equal("<a href=\"https://www.contoso.com/recipes/1\">Click me</a>", link);
+    }
+
+    [Fact]
+    public void Link_encodes_the_caption_and_url()
+    {
+        var link = TextHelpers.Link("<script>alert(1)</script>", "https://www.contoso.com/a\"onclick=\"x", "b&c");
+
+        Assert.Equal(
+            "<a href=\"https://www.contoso.com/a&quot;onclick=&quot;x/b&amp;c\">&lt;script&gt;alert(1)&lt;/script&gt;</a>",
+            link);
+    }
+
+    [Theory]
+    [InlineData("javascript:alert(1)")]
+    [InlineData("JavaScript:alert(1)")]
+    [InlineData("java\tscript:alert(1)")]
+    [InlineData("  javascript:alert(1)")]
+    [InlineData("data:text/html,<script>alert(1)</script>")]
+    public void Link_rejects_unsafe_schemes(string url)
+    {
+        Assert.Throws<ArgumentException>(() => TextHelpers.Link("x", url));
+    }
+
+    [Theory]
+    [InlineData("https://www.contoso.com", "https://www.contoso.com")]
+    [InlineData("mailto:me@contoso.com", "mailto:me@contoso.com")]
+    [InlineData("/recipes/1", "/recipes/1")]
+    [InlineData("recipes/1:2", "recipes/1:2")]
+    [InlineData("/search?q=a:b", "/search?q=a:b")]
+    public void Link_allows_safe_and_relative_urls(string url, string expectedHref)
+    {
+        Assert.Equal($"<a href=\"{expectedHref}\">x</a>", TextHelpers.Link("x", url));
     }
 
     [Fact]
@@ -176,14 +207,44 @@ public class TextHelpersTests
     public void GetSafeFileName_strips_illegal_chars()
     {
         var actual = @"C:\../..\my-file.txt".GetSafeFileName();
-        var expected = "C______my-file.txt";
 
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            expected = "C:_____my-file.txt";
-        }
+        Assert.Equal("C______my-file.txt", actual);
+    }
 
-        Assert.Equal(expected, actual);
+    [Theory]
+    [InlineData("report.pdf", "report.pdf")]
+    [InlineData("a:b*c?.txt", "a_b_c_.txt")]
+    [InlineData("name.", "name")]
+    [InlineData("name . ", "name")]
+    [InlineData("a....b", "a__b")]
+    [InlineData("", "_")]
+    [InlineData(".", "_")]
+    [InlineData("..", "_")]
+    [InlineData("   ", "_")]
+    [InlineData("CON", "_CON")]
+    [InlineData("nul.txt", "_nul.txt")]
+    [InlineData("Com1.log", "_Com1.log")]
+    [InlineData("console.txt", "console.txt")]
+    [InlineData("a\r\nb", "a__b")]
+    public void GetSafeFileName_makes_names_safe_on_every_platform(string input, string expected)
+    {
+        Assert.Equal(expected, input.GetSafeFileName());
+    }
+
+    [Fact]
+    public void GetSafeFileName_leaves_no_dot_dot_after_replacing_with_a_dot()
+    {
+        Assert.DoesNotContain("..", "...".GetSafeFileName("."), StringComparison.Ordinal);
+        Assert.DoesNotContain("..", "a.....b".GetSafeFileName("."), StringComparison.Ordinal);
+    }
+
+    [Theory]
+    [InlineData("..")]
+    [InlineData("/")]
+    [InlineData("a:")]
+    public void GetSafeFileName_rejects_replacements_that_could_make_it_unsafe(string replacement)
+    {
+        Assert.Throws<ArgumentException>(() => "file.txt".GetSafeFileName(replacement));
     }
 
     [Fact]
@@ -193,6 +254,12 @@ public class TextHelpersTests
         var expected = @"C:\_/_\my-file.txt";
 
         Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void GetSafeFilePath_leaves_no_dot_dot_after_replacing_with_a_dot()
+    {
+        Assert.DoesNotContain("..", "a/...../b".GetSafeFilePath("."), StringComparison.Ordinal);
     }
 
     [Fact]
