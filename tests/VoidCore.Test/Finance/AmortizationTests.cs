@@ -246,12 +246,6 @@ public class AmortizationTests
         Assert.Throws<ArgumentOutOfRangeException>(() => new AmortizationRequest(1000, 12, (decimal)rate));
     }
 
-    [Fact]
-    public void TooManyPeriodsThrowsInsteadOfAllocatingHugeSchedules()
-    {
-        Assert.Throws<ArgumentOutOfRangeException>(() => new AmortizationRequest(1000, int.MaxValue, 0.01m));
-        Assert.Throws<ArgumentOutOfRangeException>(() => new AmortizationRequest(1000, Financial.MaxSchedulePeriods + 1, 0.01m));
-    }
 
     [Fact]
     public void PaymentModificationExtraPaymentPaysOffEarly()

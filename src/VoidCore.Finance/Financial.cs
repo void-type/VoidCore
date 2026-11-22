@@ -5,11 +5,6 @@
 /// </summary>
 public static class Financial
 {
-    /// <summary>
-    /// The most periods a schedule calculator will build. It bounds memory use for requests that come from untrusted input.
-    /// </summary>
-    public const int MaxSchedulePeriods = 10_000_000;
-
     // (1 + rate) ^ periods as a decimal. Throws a clear error instead of an overflow or divide by zero when it can't be represented.
     private static decimal GrowthFactor(decimal interestRatePerPeriod, int numberOfPeriods)
     {

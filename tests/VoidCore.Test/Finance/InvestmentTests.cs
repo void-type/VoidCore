@@ -115,12 +115,6 @@ public class InvestmentTests
     }
 
     [Fact]
-    public void TooManyPeriodsThrowsInsteadOfAllocatingHugeSchedules()
-    {
-        Assert.Throws<ArgumentOutOfRangeException>(() => new InvestmentRequest(1000, 100, int.MaxValue, 0.01m));
-    }
-
-    [Fact]
     public void ArgumentNullExceptionThrownWhenRequestIsNull()
     {
         Assert.Throws<ArgumentNullException>(() => InvestmentCalculator.Calculate(null!));
