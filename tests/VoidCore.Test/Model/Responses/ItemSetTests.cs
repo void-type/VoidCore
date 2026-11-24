@@ -78,8 +78,8 @@ public class ItemSetTests
     [InlineData(105, 11, 10, 5, 11, 10)]
     [InlineData(15, 0, 5, 5, 1, 5)]
     [InlineData(15, -1, 5, 5, 1, 5)]
-    [InlineData(15, 2, 0, 1, 2, 1)]
-    [InlineData(15, 2, -1, 1, 2, 1)]
+    [InlineData(15, 2, 0, 0, 2, 0)]
+    [InlineData(15, 2, -1, 0, 2, 0)]
     [InlineData(15, 1, 5000, 15, 1, 5000)]
     public void Paged_ItemSet_property_checks(int totalCount, int page, int take, int expectedCount, int expectedPage, int expectedTake)
     {

@@ -8,8 +8,9 @@ public class PaginationOptions
     private PaginationOptions() { }
 
     /// <summary>
-    /// Create a new pagination options. Out-of-range values are corrected: the page and the take are at least 1, so invalid
-    /// request input can't produce a negative offset. There is no upper limit on the take, so validate it if it comes from untrusted input.
+    /// Create a new pagination options. Out-of-range values are corrected: the page is at least 1 and the take is at least 0, so invalid
+    /// request input can't produce a negative offset. A take of 0 is allowed and queries an empty page. There is no upper limit on the take,
+    /// so validate it if it comes from untrusted input.
     /// </summary>
     /// <param name="page">What page number to take from the set</param>
     /// <param name="take">How many items to include in each page</param>
@@ -17,7 +18,7 @@ public class PaginationOptions
     public PaginationOptions(int page, int take, bool isPagingEnabled = true)
     {
         Page = Math.Max(1, page);
-        Take = Math.Max(1, take);
+        Take = Math.Max(0, take);
         IsPagingEnabled = isPagingEnabled;
     }
 
@@ -44,5 +45,5 @@ public class PaginationOptions
     /// <summary>
     /// How many items to skip to reach the start of the page. Doesn't overflow for very large page numbers.
     /// </summary>
-    public int Skip => (int)Math.Min((long)(Math.Max(1, Page) - 1) * Take, int.MaxValue);
+    public int Skip => (int)Math.Min((long)(Page - 1) * Take, int.MaxValue);
 }

@@ -6,22 +6,17 @@ Decision on breaking changes: not a major concern for 18.0, but weigh each one a
 
 ## Ready to apply
 
-### 1. `PaginationOptions` regression (introduced this round)
+### 1. `PaginationOptions` regression (introduced this round) — DONE
 
 File: `src/VoidCore.Model/Responses/Collections/PaginationOptions.cs`
 
-* The constructor clamps `Take = Math.Max(1, take)`. `Take = 0` is intentionally allowed to query an empty page, so this is a regression. Change to `Math.Max(0, take)`. `GetPage` then yields an empty page (`Skip(n).Take(0)`).
-* `Skip` repeats `Math.Max(1, Page)`, which the constructor already guarantees. Remove the duplicate.
-* `Skip` is public API only used by `GetPage` in `EnumerableExtensions.cs`. Consider making it `internal`.
-* Update the doc comment ("page and the take are at least 1"), the `docs/upgrades.md` entry, and `PaginationOptionsTests` to cover `Take = 0`.
+* Fixed: `Take = Math.Max(0, take)` so `Take = 0` still queries an empty page. The duplicate `Math.Max(1, Page)` in `Skip` was removed. `Skip` stays public on purpose in case a consumer uses it. Docs, upgrade note and tests updated.
 
-### 2. `MaxSchedulePeriods` comment and docs overclaim
+### 2. `MaxSchedulePeriods` comment and docs overclaim — DONE
 
-Files: `src/VoidCore.Finance/Financial.cs`, `AmortizationRequest.cs`, `InvestmentRequest.cs`, `docs/upgrades.md` (and `docs/finance.md` if mentioned)
+Resolved by removing the cap entirely (commit `7c45b0b`). Requests should be validated in the domain application.
 
-* `MaxSchedulePeriods = 10_000_000` is about 1 GB of `AmortizationPeriod` objects (roughly 90 bytes each), and is still reachable with a rate of 0. It does not protect against untrusted input.
-* Reword the comment, `<exception>` docs and upgrade note to call it a sanity ceiling only. Requests should be validated in the domain application.
-* Optionally lower the cap, but the wording is the required fix.
+Follow-up in PaymentCalculator — DONE (uncommitted in `D:\code\PaymentCalculator`, verified against a local VoidCore 18 pack, 41 tests pass): both handlers now also catch `ArgumentOutOfRangeException` and return the overflow failure, `CalculateLoan.RequestValidator` rejects an annual rate of -100% or less, and `CalculateInvestment.CreateRequest` returns a failure for the same. Its `Directory.Packages.props` still pins VoidCore 17.0.2 (tests were only run against a local 18 pack); bump to 18.x once published.
 
 ### 3. `GetSafeFileName` whitespace replacement
 

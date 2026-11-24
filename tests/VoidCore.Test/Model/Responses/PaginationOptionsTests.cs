@@ -15,12 +15,12 @@ public class PaginationOptionsTests
     }
 
     [Theory]
-    [InlineData(0, 1)]
-    [InlineData(-1, 1)]
+    [InlineData(0, 0)]
+    [InlineData(-1, 0)]
     [InlineData(25, 25)]
     [InlineData(100_000, 100_000)]
     [InlineData(int.MaxValue, int.MaxValue)]
-    public void Take_is_at_least_one_and_otherwise_unlimited(int take, int expected)
+    public void Take_is_at_least_zero_and_otherwise_unlimited(int take, int expected)
     {
         Assert.Equal(expected, new PaginationOptions(1, take).Take);
     }
