@@ -17,8 +17,8 @@ VoidCore.AspNet is an ASP.NET implementation of VoidCore.Model. It includes help
 * Fluent CSP and X-Frame options header configuration.
 * Antiforgery for SPAs.
 * Exception handling (SPA and MVC) with logging.
-  * API endpoints return a JSON {message: ""} object for the client.
+  * API endpoint exceptions return a 500 `ProblemDetails` (`application/problem+json`) with a generic title and a trace id. In development the detail includes the exception.
   * MVC will redirect to secure error or forbidden pages in non-development.
-* Routing for SPA and Web API.
-* A health check endpoint (`MapHealthEndpoint`) that returns 200 or 503 with each check's status in a JSON body. Pass `includeDetails: true` to also include each check's description and exception message for trusted monitors.
+* Routing for SPA and Web API. Unmatched `/api` requests return 404 instead of the SPA.
+* A health check endpoint (`MapHealthEndpoint`) that returns 200 or 503 with each check's status in a JSON body. Pass `includeDetails: true`, or a `Func<HttpContext, bool>` to decide per request (for example only for authenticated users), to also include each check's description and exception message for trusted monitors.
 * HttpResponder for converting Domain Event responses to IActionResult with appropriate status codes.

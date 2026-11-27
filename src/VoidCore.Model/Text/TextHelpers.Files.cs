@@ -21,7 +21,7 @@ public static partial class TextHelpers
     /// Makes a string safe to use as a single file name on Windows and Linux. Replaces characters that are invalid in a file name
     /// (including path separators and ':'), "..", and trailing dots and spaces. Names that Windows reserves for devices (CON, NUL,
     /// COM1, and so on, with or without an extension) are prefixed with the replacement. A name that would otherwise be empty
-    /// becomes the replacement. This doesn't make a path safe: use it on the file name only, then combine it with a trusted folder.
+    /// becomes the replacement (or "_" when the replacement is blank or only dots and spaces), so the result is never blank. This doesn't make a path safe: use it on the file name only, then combine it with a trusted folder.
     /// </summary>
     /// <param name="fileName">File name</param>
     /// <param name="replacement">Replacement for illegal characters. Can't contain illegal characters or "..".</param>
@@ -40,7 +40,13 @@ public static partial class TextHelpers
             .Trim()
             .TrimEnd('.', ' ');
 
-        var fallback = replacement.Length > 0 ? replacement : "_";
+        // A blank or dots-only replacement would make an empty, whitespace, or "." name, so those fall back to an underscore.
+        var fallback = replacement.Trim().TrimEnd('.', ' ');
+
+        if (fallback.Length == 0)
+        {
+            fallback = "_";
+        }
 
         if (safeName.Length == 0)
         {

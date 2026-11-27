@@ -13,8 +13,24 @@ internal static partial class ResponseLogMessages
     [LoggerMessage(Level = LogLevel.Information, Message = "Responded with UserMessage. Message: {Message}")]
     public static partial void RespondedWithUserMessage(ILogger logger, string message);
 
-    [LoggerMessage(Level = LogLevel.Information, Message = "Responded with EntityMessage. Message: {Message} EntityId: {EntityId}")]
-    public static partial void RespondedWithEntityMessage(ILogger logger, string message, object? entityId);
+    // The source generator can't make generic log methods, so this mirrors the generated code with a delegate cached per id type.
+    // That avoids boxing value-type ids. The event ID is the one the generator used for this message.
+    public static void RespondedWithEntityMessage<TId>(ILogger logger, string message, TId entityId)
+    {
+        if (logger.IsEnabled(LogLevel.Information))
+        {
+            EntityMessageLog<TId>.Responded(logger, message, entityId, null);
+        }
+    }
+
+    private static class EntityMessageLog<TId>
+    {
+        public static readonly Action<ILogger, string, TId, Exception?> Responded = LoggerMessage.Define<string, TId>(
+            LogLevel.Information,
+            new EventId(421252945, nameof(RespondedWithEntityMessage)),
+            "Responded with EntityMessage. Message: {Message} EntityId: {EntityId}",
+            new LogDefineOptions { SkipEnabledCheck = true });
+    }
 
     [LoggerMessage(Level = LogLevel.Information, Message = "Responded with SimpleFile. FileName: {FileName} FileSizeBytes: {FileSizeBytes} bytes")]
     public static partial void RespondedWithSimpleFile(ILogger logger, string fileName, int fileSizeBytes);

@@ -239,6 +239,17 @@ public class TextHelpersTests
     }
 
     [Theory]
+    [InlineData(" ", "...", "_")]
+    [InlineData("", "...", "_")]
+    [InlineData(".", "...", "_")]
+    [InlineData(" ", "CON", "_CON")]
+    [InlineData("-", "...", "-")]
+    public void GetSafeFileName_never_returns_a_blank_or_dot_name(string replacement, string input, string expected)
+    {
+        Assert.Equal(expected, input.GetSafeFileName(replacement));
+    }
+
+    [Theory]
     [InlineData("..")]
     [InlineData("/")]
     [InlineData("a:")]
